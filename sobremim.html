@@ -6,27 +6,155 @@
     <title>Sobre Mim - Gladiston Santana</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        /* Regra 1: Estilo e Identidade - Layout Full Width */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #333; line-height: 1.6; width: 100%; }
-        header { width: 100%; background: #e67e22; color: #fff; padding: 4rem 5%; }
-        nav { width: 100%; background: #2c3e50; position: sticky; top: 0; z-index: 100; }
-        nav ul { display: flex; list-style: none; padding: 0 5%; }
-        nav ul li a { display: block; padding: 1.2rem 1.5rem; color: #fff; text-decoration: none; }
-        nav ul li a:hover { background: #e67e22; }
-        main { width: 100%; padding: 4rem 5%; }
-        h2 { color: #222; border-left: 5px solid #e67e22; padding-left: 1.5rem; margin-bottom: 1.5rem; }
-        .topics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2.5rem; }
-        .topic-card { padding: 2.5rem; border: 1px solid #eee; border-radius: 12px; background: #fdfdfd; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            width: 100%;
+        }
+
+        code, pre, .mono {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Regra 1: Cabeçalho Laranja (#e67e22) */
+        header {
+            width: 100%;
+            background: #e67e22;
+            color: white;
+            padding: 4rem 5%;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+        }
+
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        /* Regra 2: Estrutura de Navegação Superior */
+        nav {
+            width: 100%;
+            background: #2c3e50;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            padding: 0 5%;
+            flex-wrap: wrap;
+        }
+
+        nav ul li a {
+            display: block;
+            padding: 1.2rem 1.5rem;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        nav ul li a:hover {
+            background: #e67e22;
+        }
+
+        /* Conteúdo Principal */
+        main {
+            width: 100%;
+            padding: 4rem 5%;
+        }
+
+        h2 {
+            color: #222;
+            border-left: 5px solid #e67e22;
+            padding-left: 15px;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        p { margin-bottom: 1.2rem; font-size: 1.15rem; color: #444; text-align: justify; }
+
+        .highlight-text {
+            background: #fff8f0;
+            padding: 2.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #e67e22;
+            margin: 2.5rem 0;
+        }
+
+        /* Tópicos de Trajetória */
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 3rem;
+        }
+
+        .topic-card {
+            padding: 2rem;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            background: #fdfdfd;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-5px);
+            border-color: #e67e22;
+        }
+
         .topic-card h3 { color: #e67e22; margin-bottom: 1rem; }
-        .cta-linkedin { display: inline-block; margin-top: 1.5rem; padding: 1.2rem 2.5rem; background-color: #e67e22; color: white !important; border-radius: 8px; text-decoration: none; font-weight: 600; }
-        footer { width: 100%; padding: 3rem 5%; background: #2c3e50; color: #ecf0f1; text-align: center; }
+
+        .topic-card a {
+            margin-top: 1.5rem;
+            text-decoration: none;
+            color: #e67e22;
+            font-weight: 600;
+        }
+
+        /* Botão LinkedIn */
+        .cta-linkedin {
+            display: inline-block;
+            background: #0077b5;
+            color: white !important;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none !important;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* Regra 5: Rodapé */
+        footer {
+            width: 100%;
+            padding: 3rem 5%;
+            background: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            margin-top: 4rem;
+        }
     </style>
 </head>
 <body>
+
     <header>
-        <h1>Minha Trajetória Profissional</h1>
-        <p>Gladiston Santana - Um site para chamar de meu</p>
+        <h1>Sobre Mim</h1>
+        <p>Trajetória técnica, engenharia reversa e a ciência por trás do código.</p>
     </header>
+
     <nav>
         <ul>
             <li><a href="index.html">Início</a></li>
@@ -35,43 +163,67 @@
             <li><a href="bash.html">Bash</a></li>
             <li><a href="linux.html">Linux</a></li>
             <li><a href="sobremim.html">Sobre mim</a></li>
-            <li><a href="sobremim.html">Contato</a></li>
         </ul>
     </nav>
+
     <main>
-        <section>
-            <h2>Experiência e Visão Técnica</h2>
-            <p>Iniciei minha jornada na programação escovando bits em sistemas de 8 bits (MSX, CP-400). Essa base sólida permite-me gerir desde infraestruturas críticas de rede até o desenvolvimento de arquiteturas modernas.</p>
-            <p>Baseado em São Paulo, atuo com foco em automação, portabilidade de código e robustez de dados. Garanto que os sistemas permaneçam produtivos e seguros a longo prazo.</p>
-        </section>
-        <section class="topics-grid">
+        <h2>Raízes na Escovação de Bits</h2>
+        <p>Sou Gladiston Santana, um profissional que acredita que para construir grandes sistemas é preciso entender como a engrenagem funciona no seu nível mais íntimo. Minha jornada na tecnologia começou no coração dos sistemas de 8 bits.</p>
+
+        <div class="highlight-text">
+            <p><strong>Do BASIC ao Assembly:</strong> No mundo 8 bits, máquinas como o <strong>Apple ][</strong> e o MSX foram meus primeiros laboratórios. Enquanto muitos se limitavam à linguagem BASIC, eu mergulhei no <strong>Assembly</strong> desses processadores para extrair cada ciclo de performance necessário para criar jogos e manipular sprites.</p>
+
+            <p style="margin-top: 1rem;"><strong>Engenharia Reversa e Lógica de Baixo Nível:</strong> Foi com o Assembly que aprendi a arte de analisar binários. Descobri como desbloquear programas e modificar comportamentos de softwares fechados usando desvios estratégicos (o famoso <em>"GOTO"</em> de baixo nível). Entender que a troca de um salto condicional por um salto incondicional podia mudar o destino de uma rotina inteira deu-me uma perspectiva única sobre segurança e arquitetura.</p>
+
+            <p style="margin-top: 1rem; font-style: italic;">Compreendi também a diferença técnica crucial entre <code>i = i + 1</code> e a instrução atômica de incremento (INC). Essa percepção de economia de ciclos de CPU guia minha busca por eficiência até hoje.</p>
+        </div>
+
+        <p>Essa base "raiz" moldou minha filosofia atual: seja gerenciando uma infraestrutura crítica em Linux ou desenvolvendo sistemas cliente/servidor modernos, busco sempre a solução mais eficiente e resiliente.</p>
+
+        <div class="topic-grid">
             <div class="topic-card">
-                <h3>Eu e a Programação</h3>
-                <p>Do BASIC às arquiteturas Multitier e Microsserviços. Experiência em Delphi, Python e linguagens modernas.</p>
-                <a href="eu_programador.html">Ver trajetória &rarr;</a>
+                <div>
+                    <h3>Eu e a Programação</h3>
+                    <p>Evolução constante: da escovação de bits em 8 bits até microsserviços modernos com Lazarus e linguagens de script.</p>
+                </div>
+                <a href="pascal.html">Ver trajetória &rarr;</a>
             </div>
+
             <div class="topic-card">
-                <h3>Eu e o Banco de Dados</h3>
-                <p>Especialista em SQL ANSI-2002. Gestão de MSSQL Server, PostgreSQL, Firebird e bases legadas xBase.</p>
+                <div>
+                    <h3>Eu e o Banco de Dados</h3>
+                    <p>Especialista em SQL ANSI-2002. Gestão de MSSQL Server, PostgreSQL, Firebird e bases legadas xBase.</p>
+                </div>
                 <a href="eu_sgbd.html">Ver detalhes técnicos &rarr;</a>
             </div>
+
             <div class="topic-card">
-                <h3>Eu e o Linux</h3>
-                <p>Proficiência em administração "raiz", compilação de kernels, segurança com IPTables e serviços de rede.</p>
-                <a href="eu_linux.html">Ver experiência Linux &rarr;</a>
+                <div>
+                    <h3>Eu e o Linux</h3>
+                    <p>Proficiência em administração "raiz", segurança com IPTables, serviços de rede e virtualização KVM.</p>
+                </div>
+                <a href="linux.html">Ver experiência Linux &rarr;</a>
             </div>
+
             <div class="topic-card">
-                <h3>Eu e o Windows</h3>
-                <p>Administração de Windows Server e Hypervisor. Foco em segurança, GPOs e ambientes de Terminal Service.</p>
+                <div>
+                    <h3>Eu e o Windows</h3>
+                    <p>Administração de Windows Server e Hypervisor. Foco em segurança, GPOs e automação via PowerShell/CMD.</p>
+                </div>
                 <a href="eu_windows.html">Ver experiência Windows &rarr;</a>
             </div>
-        </section>
-        <section style="text-align: center; margin-top: 4rem;">
-            <h3>LinkedIn & Networking</h3>
-            <p>Conecte-se comigo para discutir projetos e ver meu histórico corporativo completo.</p>
-            <a href="https://www.linkedin.com/in/gladiston-santana-25b9007/" class="cta-linkedin">Veja o meu LinkedIn</a>
+        </div>
+
+        <section style="margin-top: 5rem; text-align: center;">
+            <h2>Profissionalismo e Networking</h2>
+            <p>Se você deseja discutir arquitetura de sistemas ou ver meu histórico profissional completo, visite meu perfil.</p>
+            <a href="https://www.linkedin.com/in/gladiston-santana-25b9007/" class="cta-linkedin" target="_blank">LinkedIn de Gladiston Santana</a>
         </section>
     </main>
-    <footer><p>&copy; 2026 Gladiston Santana. Todos os direitos reservados. Site estático.</p></footer>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. Página estática via GitHub Pages.</p>
+    </footer>
+
 </body>
 </html>
