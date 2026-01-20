@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando como instalador o fpcupdeluxe (nível médio) - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fff;
+            color: #333;
+            line-height: 1.6;
+            width: 100%;
+        }
+
+        header {
+            width: 100%;
+            background: #e67e22;
+            color: #fff;
+            padding: 3rem 5%;
+            border-bottom: 5px solid #d35400;
+        }
+        nav {
+            width: 100%;
+            background: #fff;
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            border-bottom: 1px solid #eee;
+            z-index: 100;
+        }
+
+        main {
+            width: 100%;
+            padding: 4rem 5%;
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 1rem; }
+        h2 { color: #d35400; margin: 2.5rem 0 1rem; border-bottom: 1px solid #fed; padding-bottom: 0.5rem; }
+        p { margin-bottom: 1.2rem; font-size: 1.1rem; }
+
+        ul { margin-bottom: 1.2rem; margin-left: 2rem; }
+        li { margin-bottom: 0.5rem; font-size: 1.1rem; }
+
+        pre {
+            background: #1e1e1e;
+            color: #dcdcdc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        .img-placeholder {
+            margin: 2rem auto;
+            text-align: center;
+        }
+        .img-placeholder img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .todo-box {
+            background: #fdf2f2;
+            border: 1px dashed #d9534f;
+            color: #d9534f;
+            padding: 10px;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .back-link { display: inline-block; margin-top: 2rem; text-decoration: none; color: #e67e22; font-weight: 600; }
+        footer { width: 100%; padding: 2.5rem 5%; background: #f8f9fa; text-align: center; border-top: 1px solid #eee; margin-top: 4rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Usando como instalador o fpcupdeluxe (nível médio)</h1>
+        <p>Gladiston Santana - Um site para chamar de meu</p>
+    </header>
+
+    <nav>
+        <ul style="display: flex; justify-content: center; list-style: none; gap: 20px;">
+            <li><a href="index.html" style="text-decoration: none; color: #555;">Início</a></li>
+            <li><a href="lazarus_guia.html" style="text-decoration: none; color: #e67e22; font-weight: 600;">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <p>Embora uma instalação manual seja simples, o uso do <strong>fpcupdeluxe</strong> traz vantagens significativas. Este método permite uma <strong>instalação homeuser</strong>, o que significa que não precisamos de permissões de administrador para instalar, configurar ou usar o ambiente. Além disso, o programa baixa e compila o FreePascal (FPC) e o Lazarus otimizados para o seu processador específico.</p>
+
+            <p>Visite a página de releases no GitHub:</p>
+            <p><a href="https://github.com/LongDirtyAnimAlf/fpcupdeluxe/releases" target="_blank">https://github.com/LongDirtyAnimAlf/fpcupdeluxe/releases</a></p>
+
+            <div class="img-placeholder">
+                <img src="assets/img/instalacao_windows_fpcupdeluge1.png" alt="Releases fpcupdeluxe">
+                <br>
+                <span class="todo-box">todo: gravar imagem de http://gladiston.net.br/wp-content/uploads/2022/01/instalacao_windows_fpcupdeluge1.png para assets/img/instalacao_windows_fpcupdeluge1.png</span>
+            </div>
+
+            <p><strong>Dica de Arquitetura:</strong> A versão 64-bits pode compilar para 32-bits (cross-compile). No Windows, manter o suporte a 32-bits ainda é vital para aplicações comerciais devido à compatibilidade com sistemas legados e DLLs específicas.</p>
+
+            <div class="img-placeholder">
+
+                <figcaption>Comparação entre arquiteturas de 32 bits (x86) e 64 bits (x64) em sistemas operacionais.</figcaption>
+            </div>
+
+            <h2>Passo a Passo da Instalação</h2>
+
+            <p><strong>Passo #1:</strong> Execute o <code>fpcupdeluxe.exe</code>. Caso surja o aviso de telemetria, responda "Yes" se desejar ajudar os desenvolvedores com dados anônimos.</p>
+
+            <div class="img-placeholder">
+                <img src="assets/img/instalacao_windows_fpcupdeluge2.png" alt="Aviso Telemetria">
+                <br>
+                <span class="todo-box">todo: gravar imagem de http://gladiston.net.br/wp-content/uploads/2022/01/instalacao_windows_fpcupdeluge2.png para assets/img/instalacao_windows_fpcupdeluge2.png</span>
+            </div>
+
+            <p><strong>Passo #2:</strong> Selecione a opção <strong>fixes</strong> para FPC e Lazarus. Clique em <strong>Install/update FPC+Laz</strong>. O instalador gerenciará o processo automaticamente.</p>
+
+            <div class="img-placeholder">
+                <img src="assets/img/instalacao_windows_fpcupdeluge3.png" alt="Configuração de Versões">
+                <br>
+                <span class="todo-box">todo: gravar imagem de http://gladiston.net.br/wp-content/uploads/2022/01/instalacao_windows_fpcupdeluge3.png para assets/img/instalacao_windows_fpcupdeluge3.png</span>
+            </div>
+
+            <p><strong>Passo #3 (Opcional):</strong> No botão <strong>Setup+</strong>, você pode definir critérios avançados, como o alvo (target) das suas compilações.</p>
+
+            <div class="img-placeholder">
+                <img src="assets/img/instalacao_windows_fpcupdeluge4.png" alt="Opções Setup+">
+                <br>
+                <span class="todo-box">todo: gravar imagem de http://gladiston.net.br/wp-content/uploads/2022/01/instalacao_windows_fpcupdeluge4.png para assets/img/instalacao_windows_fpcupdeluge4.png</span>
+            </div>
+
+            <p><strong>Passo #4:</strong> Inicie a instalação. Prepare-se, pois o processo de compilação é demorado.</p>
+
+            <h2>Configuração Importante</h2>
+            <p>Ao final, use sempre o atalho <strong>Lazarus_fpcupdeluxe</strong>. Ele contém o parâmetro essencial <code>--pcp</code>, que direciona as configurações para a pasta local:</p>
+            <pre>--pcp=C:\pasta\de\instalacao\do\lazarus\configs</pre>
+
+            <h2>Vantagens da IDE 64-bits</h2>
+            <p>Uma IDE 64-bits quebra o limite de 4GB de RAM, permitindo performance superior e o gerenciamento de projetos complexos. Contudo, lembre-se que componentes que usam DLLs em tempo de design (como o Zeos) exigirão que as respectivas DLLs também sejam de 64-bits.</p>
+        </article>
+
+        <a href="lazarus_guia.html" class="back-link">&larr; Voltar para o Guia de Sobrevivência</a>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>

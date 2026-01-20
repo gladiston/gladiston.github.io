@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrando o editor de código com ajuda on line (Help) - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fff;
+            color: #333;
+            line-height: 1.6;
+            width: 100%;
+        }
+
+        header {
+            width: 100%;
+            background: #e67e22;
+            color: #fff;
+            padding: 3rem 5%;
+            border-bottom: 5px solid #d35400;
+        }
+        nav {
+            width: 100%;
+            background: #fff;
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            border-bottom: 1px solid #eee;
+            z-index: 100;
+        }
+
+        main {
+            width: 100%;
+            padding: 4rem 5%;
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 1rem; }
+        h2 { color: #d35400; margin: 2.5rem 0 1rem; border-bottom: 1px solid #fed; padding-bottom: 0.5rem; }
+        p { margin-bottom: 1.2rem; font-size: 1.1rem; }
+
+        blockquote {
+            background: #fdfdfd;
+            border-left: 4px solid #e67e22;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+        }
+
+        .img-placeholder {
+            margin: 2rem auto;
+            text-align: center;
+        }
+        .img-placeholder img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .todo-box {
+            background: #fdf2f2;
+            border: 1px dashed #d9534f;
+            color: #d9534f;
+            padding: 10px;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .back-link { display: inline-block; margin-top: 2rem; text-decoration: none; color: #e67e22; font-weight: 600; }
+        footer { width: 100%; padding: 2.5rem 5%; background: #f8f9fa; text-align: center; border-top: 1px solid #eee; margin-top: 4rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Integrando o editor de código com ajuda on line (Help)</h1>
+        <p>Gladiston Santana - Um site para chamar de meu</p>
+    </header>
+
+    <nav>
+        <ul style="display: flex; justify-content: center; list-style: none; gap: 20px;">
+            <li><a href="index.html" style="text-decoration: none; color: #555;">Início</a></li>
+            <li><a href="lazarus_guia.html" style="text-decoration: none; color: #e67e22; font-weight: 600;">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <p><em>(Este subtópico pode estar incompleto, talvez você possa ajudar enviando instruções que estejam faltando aqui)</em></p>
+
+            <p>Quando usado o instalador oficial do Lazarus o editor de código é integrado a ajuda online, ou seja, se você der um F1 quando uma função ou método estiver em foco então uma janela abre-se com uma explicação sobre o mesmo. Infelizmente isso não funciona quando você faz a instalação via GIT, essa integração você precisa fazer manualmente. Vamos ao procedimento.</p>
+
+            <p>Vá até a pasta:</p>
+            <blockquote>$(LazarusDir)\components\chmhelp\lhelp</blockquote>
+
+            <p>Lá você encontrará um arquivo intitulado <strong>lhelp</strong> (Linux, FreeBSD, macOS) ou <strong>lhelp.exe</strong> se for Windows. Se você não encontrá-lo é porque você não instalou o pacote ‘chmhelppkg.lpk’, o que é bem estranho, já que o mesmo vem pré-instalado logo depois da compilação pronta.</p>
+
+            <p>Agora vá para a pasta:</p>
+            <blockquote>$(LazarusDir)\docs\chm</blockquote>
+
+            <p>E lá você deve encontrar por uma série de arquivos com a extensão *.chm, no meu caso, eles não existem, então aponte seu navegador de internet para o seguinte endereço:</p>
+            <blockquote><a href="http://sourceforge.net/projects/lazarus/files/Lazarus%20Documentation/" target="_blank">http://sourceforge.net/projects/lazarus/files/Lazarus Documentation/</a></blockquote>
+
+            <p>É uma página assim:</p>
+            <div class="img-placeholder">
+                <img src="assets/img/sourceforge_docs_list.png" alt="Download Docs">
+                <br>
+                <span class="todo-box">todo: gravar imagem de https://gladiston.net.br/wp-content/uploads/2023/08/image.png para assets/img/sourceforge_docs_list.png</span>
+            </div>
+
+            <p>Entre no link correspondente a versão mais recente e faça o Download dum arquivo .zip que internamente tem os arquivos de ajuda (.chm):</p>
+            <div class="img-placeholder">
+                <img src="assets/img/sourceforge_zip_download.png" alt="Download Zip">
+                <br>
+                <span class="todo-box">todo: gravar imagem de https://gladiston.net.br/wp-content/uploads/2023/08/image-2.png para assets/img/sourceforge_zip_download.png</span>
+            </div>
+
+            <p>Descompacte os arquivos na pasta:</p>
+            <blockquote>$(LazarusDir)\docs\chm</blockquote>
+
+            <p>Ficando assim:</p>
+            <div class="img-placeholder">
+                <img src="assets/img/chm_folder_content.png" alt="Arquivos CHM">
+                <br>
+                <span class="todo-box">todo: gravar imagem de https://gladiston.net.br/wp-content/uploads/2023/08/image-4.png para assets/img/chm_folder_content.png</span>
+            </div>
+
+            <p>A documentação e a ajuda online é altamente requerida. Neste ponto a IDE do Lazarus já é esperta o suficiente para quando você apertar F1 chamar a ajuda online.</p>
+
+            <p>Caso a ajuda online não funcione, vá em <strong>Tools | Options | Help</strong>, daí em <strong>CHM Help Viewer</strong>:</p>
+            <div class="img-placeholder">
+                <img src="assets/img/lazarus_help_options.png" alt="Opções de Ajuda">
+                <br>
+                <span class="todo-box">todo: gravar imagem de https://gladiston.net.br/wp-content/uploads/2023/08/image-5.png para assets/img/lazarus_help_options.png</span>
+            </div>
+
+            <h2>Parâmetros de Configuração</h2>
+            <p><strong>HelpExe</strong>: Deve apontar para o utilitário lhelp. Se você deixar em branco, a IDE o procurará em: <code>$(LazarusDir)\components\chmhelp\lhelp\lhelp.exe</code>. No Windows, você pode escolher o utilitário “hh.exe”.</p>
+
+            <p><strong>HelpEXEParams</strong>: Normalmente ficará vazio a menos que você precise de opções de linha de comando específicas. Se usar o “hh.exe”, use <code>"%s::%s"</code> (com aspas).</p>
+
+            <p><strong>HelpFilesPath</strong>: Pasta dos arquivos *.chm. Se vazio, a IDE procura em <code>$(LazarusDir)\docs\html</code> e <code>$(LazarusDir)\docs\chm</code>.</p>
+
+            <h2>Conclusão</h2>
+            <p>Faz muito sentido confirmar se a documentação está presente em seu sistema e seguir os procedimentos acima caso não esteja.</p>
+        </article>
+
+        <a href="lazarus_guia.html" class="back-link">&larr; Voltar para o Guia de Sobrevivência</a>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>

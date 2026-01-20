@@ -1,81 +1,209 @@
 <!DOCTYPE html>
-<html lang="pt_BR">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gladiston Santana - Desenvolvedor & Sysadmin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        /* Reset e Configurações Globais */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-size: 20px;
-        }
-        .nome{
-            border: 5px;
-            padding: 5px;
-            background-color: antiquewhite;
-            color: black;
-            text-align: center; 
-            border-style: inset;           
-        }
-        .contato{
-            text-align: center;            
-        }
-        h2 {
-            border: 5px none;
-            background-color: antiquewhite;
-            padding: 5px;
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            width: 100%;
         }
 
+        /* Layout de Largura Total */
+        header {
+            width: 100%;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            padding: 3rem 5%;
+        }
+        nav {
+            width: 100%;
+            background: #fff;
+            padding: 1.2rem 5%;
+            position: sticky;
+            top: 0;
+            border-bottom: 1px solid #eee;
+            z-index: 100;
+        }
+        main {
+            width: 100%;
+            padding: 4rem 5%;
+        }
+        footer {
+            width: 100%;
+            padding: 2.5rem 5%;
+            background: #f8f9fa;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+
+        /* Tipografia e Links */
+        h1, h2, h3 { color: #222; font-weight: 600; }
+        a { color: #007bff; text-decoration: none; transition: 0.3s; }
+        a:hover { text-decoration: underline; }
+
+        /* Navegação */
+        nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            justify-content: center;
+            gap: 25px;
+        }
+        nav a {
+            color: #555;
+            font-weight: 500;
+        }
+        nav a:hover {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        /* Hero Section */
+        .hero h1 { font-size: 2.8rem; margin-bottom: 0.8rem; }
+        .hero p { font-size: 1.25rem; color: #666; max-width: 900px; }
+
+        /* Grade de Destaques */
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 2.5rem;
+        }
+        .card {
+            padding: 2rem;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #007bff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .card h3 { margin-bottom: 1rem; color: #007bff; font-size: 1.4rem; }
+
+        /* Seção de Contato */
+        .contato-container {
+            margin-top: 4rem;
+            background: #f8f9fa;
+            padding: 3.5rem;
+            border-radius: 12px;
+            border: 1px solid #eee;
+        }
+        .contato-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 2rem auto 0;
+        }
+        .contato-item { margin-bottom: 15px; font-size: 1.1rem; }
+        .contato-item strong { color: #444; width: 100px; display: inline-block; }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            nav ul { gap: 15px; }
+            .contato-container { padding: 2rem; }
+        }
     </style>
-    <title>Gladiston dos Santos Santana - Curriculum</title>
 </head>
 <body>
-    <div class="nome">
-        <h1>Gladiston dos Santos Santana</h1>
-    </div>
-    <div class="contato">
-        <p><a href="https://web.whatsapp.com/send?1=pt_BR&phone=+5511951448188">
-            &phone; +55 11 95144-8188</a><br>
-        <a href="mailto:gladiston.santana@gmail.com">
-            &#128231; gladiston.santana@gmail.com</a><br>
-        <a href="https://github.com/gladiston/">&#128104; GitHub: github.com/gladiston</a><br>
-        <a href="https://goo.gl/maps/2ZvkpDqob9pgMJzB8">&#128681; Itapecerica da Serra, SP</a><br></p>
-    </div>
-    <hr>
-    <h2>Objetivo</h2>
-    <p>Onde posso colaborar com minha experiência em desenvolvimento de sistemas cliente/servidor com aplicações desktops e Sysadmin. Também procurando novos desafios.</p>
-    <h2>Formação</h2>
-    <p>Gradação não concluída na universidade Anhembi  Morumbi em Ciência da Computação.</p>
-    <h2>Experiência</h2>
-    <p>Coordenação técnica de equipe de programadores analisando metas e prazos. Administrando sistemas de redes como Sysadmin em ambiente heterogêneos com Linux e Windows. Criação de Interface para automatizar tarefas com serviços web, postfix, xen, squid e outros em auxilio à colaboradores menos técnicos e estagiários.
-    Desenvolvimento de diversos tipos de programas e sistemas, por exemplo:</p> 
-    <ul>
-        <li>Módulo paa sistema hospitalar que permitiu médicos e pacientes executarem upload/download de documentos via web. Foi criado em forma de plugin para um CMS popular, foi compartilhado entre os vários hospitais da rede;</li>
-        <li>Desenvolvimento do zero de váriados sistemas de custos, por exemplo, sistema de custos para linha de produção não seriada, seriada com ou sem metodologia just'n time;</li>
-        <li>Sistemas de folha de pagamento e rh;</li>
-        <li>CRM Proprietário criado do zero para atuar desde a parte comercial, financeira, almoxarife/suprimentos e fábrica;</li>
-        <li>Criação de programas auxiliares para dar suporte aos procedimentos de TI, por exemplo, desenvolvi muitos scripts em bash destinados a tornar a interface de servidores atraentes a profissionais que fossem operá-los sem precisarem de conhecimentos avançados para administrar serviços de proxy, firewall, web intranet,  etc... economizando tempo e recursos para a equipe e a empresa;</li>
-        <li>Também criei programas para interagir com outros programas, por exemplo, importar lista de entidades de um desenho de AutoCAD para dentro de um sistema de orçamentos, isso permitiu reduzir o prazo de entrega de orçamentos e economizar tempo nas etapas seguintes caso o orçamento fosse aprovado.</li>        
-    </ul>
-    <p>Foram muitos os programas que desenvolvi e em diferentes linguagens de programação, uma boa parte delas iniciando do zero. Muitos deles em funcionamento há mais de 20 anos. Meus desenvolvimentos tiveram mais enfase em arquitetura cliente/servidor com aplicações desktops e sistemas internos para manutenção de servidores.</p>
-    <h2>Habilidades</h2>
-    <p>Proficiente nos seguintes cenários:</p>
-    <ul>
-        <li>Linguagem Delphi, incluindo variações como Lazarus e Turbo Pascal. Programação Multitier (datasnap) e microserviços (web).</li>
-        <li>Linguagem Python como backend para automatizar servidores e processos.</li>
-        <li>Linguagem JavaScript(ecmascript) em frontend e com menos enfase em backend(node.js).</li>
-        <li>Sistema operacional Linux e Windows, incluindo ambiente multiterminal e servidores.</li>
-        <li>Ambiente virtualizado Xen, VirtualBox e Microsoft Hypervisor e terminal(ssh).</li>
-        <li>Linguagem Bash, programação de scripts e também modo interativo.</li>
-        <li>Linguagem PHP, contudo com mais enfase em programação procedural do que orientação a objetos.</li>
-        <li>Documentos web formatados e programados em HTML5, CSS3 e JavaScript(ecmascript).</li>
-        <li>Linguagem SQL ANSI-2002</li>
-        <li>Bancos de Dados MSSQL Server (administração e desenvolvimento), Oracle(desenvolvimento), PostgreSQL (desenvolvimento) e FirebirdSQL (administração e desenvolvimento), MySQL(desenvolvimento) e flat-tables como xbase, paradox e msaccess.</li>
-    </ul>
-    <p>Conhecimentos intermediário e básico nos seguintes cenários:</p>
-    <ul>
-        <li>Git, o necessário para versionamento e branchs</li>
-        <li>Linguagens como c/c++, golang(go) e javalang(java). O suficiente para corrigir falhas de compilação devido a mudanças de versão do compilador, dependências ou reprogramar diretivas de compilação</li>
-        <li>Estou procurando me especializar em node.js e vue.js para aplicações web backend e frontend.</li>
-    </ul>
-    <p>Pode ser que não tenha todas as habilidades que estejam exigindo, mas não desistam, tenham paciência porque aprendo rápido.</p>    
+
+    <header>
+        <div class="hero">
+            <h1>Gladiston dos Santos Santana</h1>
+            <p>Especialista em desenvolvimento de sistemas cliente/servidor, automação e administração de ambientes críticos (Sysadmin).</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="pascal.html">Pascal</a></li>
+            <li><a href="python.html">Python</a></li>
+            <li><a href="bash.html">Bash</a></li>
+            <li><a href="linux.html">Linux</a></li>
+            <li><a href="sobremim.html">Sobre mim</a></li>
+            <li><a href="#contato">Contato</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="destaques">
+            <h2>Destaques Técnicos</h2>
+            <div class="highlights">
+                <div class="card">
+                    <h3>Desenvolvimento Desktop & Web</h3>
+                    <p>Mais de 20 anos de experiência com Delphi e Lazarus. Especialista em arquiteturas multitier (DataSnap) e microsserviços modernos.</p>
+                </div>
+                <div class="card">
+                    <h3>Infraestrutura & Sysadmin</h3>
+                    <p>Gestão de redes em ambientes heterogêneos (Linux/Windows). Proficiente em virtualização com Xen, QEMU/KVM e Hypervisor.</p>
+                </div>
+                <div class="card">
+                    <h3>Automação & Dados</h3>
+                    <p>Criação de scripts robustos em Bash e Python para automação de servidores. Expertise em SQL ANSI e diversos SGBDs (PostgreSQL, Firebird, MSSQL).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sobre" style="margin-top: 5rem; max-width: 900px;">
+            <h2>Sobre Mim</h2>
+            <p style="font-size: 1.15rem; color: #444; margin-top: 1.5rem;">
+                Atuo na coordenação técnica e desenvolvimento de sistemas que permanecem em produção há décadas. Tenho foco em criar interfaces que simplificam tarefas complexas para usuários e equipes técnicas, otimizando recursos e tempo.
+            </p>
+            <p style="margin-top: 1rem;">
+                Baseado em <strong>São Paulo</strong>, mantenho uma forte conexão com a comunidade open-source, especialmente em projetos voltados para Debian e Lazarus.
+            </p>
+            <p style="margin-top: 1.5rem;">
+                <a href="sobremim.html" style="font-weight: 600; color: #007bff;">Conheça minha trajetória completa &rarr;</a>
+            </p>
+        </section>
+
+        <section id="contato" class="contato-container">
+            <h2 style="text-align: center;">Conecte-se Comigo</h2>
+            <div class="contato-grid">
+                <div>
+                    <div class="contato-item"><strong>E-mail:</strong> <span id="email-ofuscado"><em>Carregando...</em></span></div>
+                    <div class="contato-item"><strong>Telegram:</strong> <a href="https://t.me/gladistonsantana" target="_blank">@gladistonsantana</a></div>
+                    <div class="contato-item"><strong>Local:</strong> São Paulo, Brasil</div>
+                </div>
+
+                <div>
+                    <div class="contato-item"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/gladiston-santana-25b9007/" target="_blank">Gladiston Santana</a></div>
+                    <div class="contato-item"><strong>YouTube:</strong> <a href="https://www.youtube.com/channel/UCwta2liAMpld7O_YdAgpfdA" target="_blank">Canal de Tecnologia</a></div>
+                    <div class="contato-item"><strong>X/Twitter:</strong> <a href="https://twitter.com/glasantana" target="_blank">@glasantana</a></div>
+                    <div class="contato-item"><strong>Instagram:</strong> <a href="https://www.instagram.com/gladiston.santana/" target="_blank">@gladiston.santana</a></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. Página estática via GitHub Pages.</p>
+    </footer>
+
+    <script>
+        // Sistema de Proteção contra Spam (Ofuscação de E-mail)
+        (function() {
+            var u = "gladiston.santana";
+            var d = "gmail.com";
+            var target = document.getElementById("email-ofuscado");
+            var full = u + "@" + d;
+            target.innerHTML = '<a href="mailto:' + full + '">' + full + '</a>';
+        })();
+    </script>
+
 </body>
 </html>

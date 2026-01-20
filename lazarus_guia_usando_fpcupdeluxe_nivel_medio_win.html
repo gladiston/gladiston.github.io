@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando como instalador o fpcupdeluge (nível médio) - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fff;
+            color: #333;
+            line-height: 1.6;
+            width: 100%;
+        }
+
+        header {
+            width: 100%;
+            background: #e67e22;
+            color: #fff;
+            padding: 3rem 5%;
+            border-bottom: 5px solid #d35400;
+        }
+        nav {
+            width: 100%;
+            background: #fff;
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            border-bottom: 1px solid #eee;
+            z-index: 100;
+        }
+
+        main {
+            width: 100%;
+            padding: 4rem 5%;
+        }
+
+        h2 { color: #d35400; margin: 2.5rem 0 1rem; border-bottom: 1px solid #fed; padding-bottom: 0.5rem; }
+        p { margin-bottom: 1.2rem; font-size: 1.1rem; }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 2rem auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .wp-element-caption {
+            display: block;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: -1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .note { background: #fff9f0; border-left: 5px solid #e67e22; padding: 1.5rem; margin: 2rem 0; border-radius: 4px; }
+
+        .todo-box {
+            background: #f8f9fa;
+            border: 2px dashed #ccc;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .todo-text { color: #d9534f; font-weight: bold; font-size: 0.85rem; display: block; margin-top: 10px; }
+
+        .code-container {
+            position: relative;
+            background: #1e1e1e;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border: 1px solid #333;
+        }
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #2d2d2d;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+        .copy-button {
+            background: #444;
+            color: #fff;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+        pre {
+            padding: 1.5rem;
+            color: #dcdcdc;
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            overflow-x: auto;
+        }
+
+        .back-link { display: inline-block; margin-top: 2rem; text-decoration: none; color: #e67e22; font-weight: 600; }
+        footer { width: 100%; padding: 2.5rem 5%; background: #f8f9fa; text-align: center; border-top: 1px solid #eee; margin-top: 4rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Usando como instalador o fpcupdeluge (nível médio)</h1>
+        <p>Gladiston Santana - Um site para chamar de meu</p>
+    </header>
+
+    <nav>
+        <ul style="display: flex; justify-content: center; list-style: none; gap: 20px;">
+            <li><a href="index.html" style="text-decoration: none; color: #555;">Início</a></li>
+            <li><a href="lazarus_guia.html" style="text-decoration: none; color: #e67e22; font-weight: 600;">Lazarus IDE – Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <p>Se você seguiu a instalação via instalador padrão e algo deu errado, ou quer algo mais moderno e automatizado, essa é a segunda via para o Windows. O fpcupdeluge (Free Pascal Compiler Updated Deluxe) é uma ferramenta gráfica que automatiza o download e compilação do FPC e do Lazarus.</p>
+
+            <h2>1. Vantagens do fpcupdeluge</h2>
+            <p>Diferente do instalador oficial, o fpcupdeluge permite que você tenha várias versões do Lazarus instaladas simultaneamente em pastas diferentes (instalações portáteis). Isso é excelente para manter um projeto antigo em uma versão estável e testar novos recursos na versão de desenvolvimento (Trunk).</p>
+
+            <h2>2. Download da ferramenta</h2>
+            <p>Baixe o executável para a sua plataforma (Windows i386 ou x86_64) no repositório oficial:</p>
+            <p><a href="https://github.com/LongDirtyAnimall/fpcupdeluxe/releases" target="_blank">https://github.com/LongDirtyAnimall/fpcupdeluxe/releases</a></p>
+
+            <div class="todo-box">
+                <img src="assets/img/fpcupdeluge_download.png" alt="Download do fpcupdeluxe no GitHub">
+                <span class="todo-text">todo: gravar imagem assets/img/fpcupdeluge_download.png</span>
+            </div>
+
+            <h2>3. Preparando o ambiente</h2>
+            <p>Antes de iniciar, crie uma pasta onde o Lazarus será instalado. Recomendo algo simples como <code>C:\Lazarus_Stable</code> ou <code>C:\Lazarus_Trunk</code>. <strong>Nunca instale em pastas com espaços no nome</strong>, como "Program Files", para evitar erros de compilação.</p>
+
+            <h2>4. Configuração e Instalação</h2>
+            <p>Ao abrir o programa, ele apresentará diversas opções. Siga estes passos para uma instalação padrão estável:</p>
+            <ul>
+                <li>No campo <strong>Install directory</strong>, selecione a pasta que você criou no passo anterior.</li>
+                <li>Certifique-se que o <strong>FPC version</strong> e <strong>Lazarus version</strong> estão marcados como "Stable" (ou selecione a versão específica que deseja).</li>
+                <li>Clique no botão <strong>Install/Update FPC + Lazarus</strong>.</li>
+            </ul>
+
+            <div class="todo-box">
+                <img src="assets/img/fpcupdeluge_interface.png" alt="Interface do fpcupdeluge configurada">
+                <span class="todo-text">todo: gravar imagem assets/img/fpcupdeluge_interface.png</span>
+            </div>
+
+            <p>O processo pode demorar, pois ele fará o download de todo o código fonte e compilará os binários em sua máquina. Acompanhe o log na janela preta (terminal) que o programa abre.</p>
+
+            <h2>5. Criando o atalho</h2>
+            <p>Ao final da instalação, o programa perguntará se deseja criar um atalho na área de trabalho. Aceite para facilitar o acesso àquela instância específica do Lazarus.</p>
+
+            <div class="note">
+                <strong>Dica:</strong> Se você precisar de cross-compiling (compilar para Linux ou Android a partir do Windows), o fpcupdeluge facilita muito a instalação dos "Cross-Compilers" através da aba <strong>Setup Cross</strong>.
+            </div>
+
+            <h2>CONCLUSÃO</h2>
+            <p>O fpcupdeluge é uma ferramenta poderosa que retira o peso da configuração manual de caminhos, sendo ideal para quem precisa de flexibilidade e quer gerenciar múltiplas versões da IDE sem conflitos no registro do Windows.</p>
+        </article>
+
+        <a href="lazarus_guia.html" class="back-link">&larr; Voltar para o Guia de Sobrevivência</a>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+    <script>
+        function copyCode(button) {
+            const container = button.closest('.code-container');
+            const code = container.querySelector('pre code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.innerText;
+                button.innerText = 'Copiado!';
+                setTimeout(() => { button.innerText = originalText; }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lazarus IDE – Guia de Sobrevivência - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            width: 100%;
+        }
+
+        header {
+            width: 100%;
+            background: #e67e22;
+            color: #fff;
+            padding: 3rem 5%;
+            border-bottom: 5px solid #d35400;
+        }
+        header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        header p { font-size: 1.2rem; opacity: 0.9; }
+
+        nav {
+            width: 100%;
+            background: #fff;
+            padding: 1.2rem 5%;
+            position: sticky;
+            top: 0;
+            border-bottom: 1px solid #eee;
+            z-index: 100;
+            display: flex;
+            gap: 2rem;
+        }
+        nav a {
+            text-decoration: none;
+            color: #e67e22;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        nav a:hover { color: #d35400; }
+
+        main {
+            width: 100%;
+            padding: 4rem 5%;
+        }
+        .intro-text {
+            max-width: 1000px;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+        .guia-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2rem;
+        }
+        .guia-card {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            padding: 2rem;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+        .guia-card:hover {
+            transform: translateY(-5px);
+            border-color: #e67e22;
+        }
+        .guia-card h2 {
+            color: #e67e22;
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #f39c12;
+            padding-bottom: 0.5rem;
+        }
+
+        .guia-card ul { list-style: none; }
+        .guia-card li { margin-bottom: 0.8rem; position: relative; padding-left: 1.2rem; }
+        .guia-card li::before {
+            content: "•";
+            color: #e67e22;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        .guia-card a {
+            text-decoration: none;
+            color: #444;
+            transition: color 0.2s;
+        }
+        .guia-card a:hover { color: #e67e22; text-decoration: underline; }
+
+        footer {
+            width: 100%;
+            padding: 2rem 5%;
+            background: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Lazarus IDE – Guia de Sobrevivência</h1>
+        <p>Gladiston Santana - Um site para chamar de meu</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Início</a>
+        <a href="lazarus_guia.html">Guia de Sobrevivência</a>
+    </nav>
+
+    <main>
+        <div class="intro-text">
+            <p>O objetivo desta página é ajudar iniciantes e programadores avançados que estejam interessados em aprender Pascal usando a IDE de programação do Lazarus. Os artigos estão dispostos para um <strong>aprendizado progressivo</strong>.</p>
+        </div>
+
+        <div class="guia-grid">
+
+            <div class="guia-card">
+                <h2>1. Instalação no Windows</h2>
+                <ul>
+                    <li><a href="lazarus_guia_instalador_oficial_win.html">Usando Instalador padrão (nível fácil)</a></li>
+                    <li><a href="lazarus_guia_usando_fpcupdeluxe_win.html">Usando como instalador o fpcupdeluxe (nível médio)</a></li>
+                    <li><a href="lazarus_guia_integrando_ajuda_online_win.html">Integrando o editor de código com ajuda on-line (Help)</a></li>
+                </ul>
+            </div>
+
+            <div class="guia-card">
+                <h2>2. Instalação no Linux</h2>
+                <ul>
+                    <li><a href="lazarus_guia_usando_fpcupdeluxe_linux.html">Usando fpcupdeluxe (nível médio)</a></li>
+                    <li><a href="lazarus_guia_fppkg_configuration.html">Lidando com a configuração do Fppkg</a></li>
+                    <li><a href="lazarus_guia_integrando_ajuda_online_linux.html">Integrando o editor de código com ajuda on-line (Help)</a></li>
+                </ul>
+            </div>
+
+            <div class="guia-card">
+                <h2>3. Essencial, mas não básico</h2>
+                <ul>
+                    <li><a href="lazarus_guia_intro_ide.html">Introdução ao IDE Lazarus</a></li>
+                    <li><a href="lazarus_guia_prova_de_balas.html">A prova de balas</a></li>
+                    <li><a href="lazarus_guia_escolhendo_idioma.html">Escolhendo um idioma</a></li>
+                    <li><a href="lazarus_guia_project_manager.html">Gerenciador de projetos (Project Manager)</a></li>
+                    <li><a href="lazarus_guia_opm_gpo.html">Online Package Manager (OPM/GPO)</a></li>
+                </ul>
+            </div>
+
+            <div class="guia-card">
+                <h2>4. Personalizando a IDE</h2>
+                <ul>
+                    <li><a href="lazarus_guia_desktop_ferramenta.html">Ferramenta “Desktop” – O que é e como usar</a></li>
+                    <li><a href="lazarus_guia_docagem_basica.html">Docagem básica e do editor de formulário</a></li>
+                    <li><a href="lazarus_guia_janelas_perdidas.html">Em busca das janelas perdidas</a></li>
+                    <li><a href="lazarus_guia_project_inspector.html">Usando o inspetor de projeto (Project inspector)</a></li>
+                    <li><a href="lazarus_guia_atalho_ctrl_h.html">Atalho Ctrl+H para componentes não visuais</a></li>
+                </ul>
+            </div>
+
+            <div class="guia-card">
+                <h2>5. Depuração de erros (debug)</h2>
+                <ul>
+                    <li><a href="lazarus_guia_fpdebug_intro.html">Dê olá ao FpDebug</a></li>
+                    <li><a href="lazarus_guia_trocando_para_gdb.html">Trocando o FpDebug para o conhecido gdb</a></li>
+                    <li><a href="lazarus_guia_controle_qualidade.html">Controle de qualidade básica ao projeto</a></li>
+                </ul>
+            </div>
+
+            <div class="guia-card">
+                <h2>6. Instalação de pacotes</h2>
+                <ul>
+                    <li><a href="lazarus_guia_pacotes_zeos_dcpcrypt.html">ZeosLib e DCPcrypt</a></li>
+                    <li><a href="lazarus_guia_pacotes_spreadsheet_htmlviewer.html">FPSpreadsheet e HtmlViewer</a></li>
+                    <li><a href="lazarus_guia_pacotes_usercontrol_acbr.html">UserControl e ACBr</a></li>
+                </ul>
+            </div>
+
+            <div class="guia-card">
+                <h2>7. Gerador de relatórios</h2>
+                <ul>
+                    <li><a href="lazarus_guia_relatorios_fortes.html">Relatórios com Fortes Report</a></li>
+                    <li><a href="lazarus_guia_relatorios_lazreport.html">Relatórios com LazReport</a></li>
+                    <li><a href="lazarus_guia_relatorios_fpreport.html">Relatórios com o fpReport</a></li>
+                </ul>
+            </div>
+
+            <div class="guia-card">
+                <h2>8. Produtividade</h2>
+                <ul>
+                    <li><a href="lazarus_guia_atalhos_uteis.html">Atalhos úteis</a></li>
+                    <li><a href="lazarus_guia_salvando_config_ide.html">Salvando configuração da IDE</a></li>
+                    <li><a href="lazarus_guia_usando_git.html">Usando GIT em projetos FPC/Lazarus</a></li>
+                    <li><a href="lazarus_guia_build_modes.html">Criando Build Modes</a></li>
+                    <li><a href="lazarus_guia_refatoracao.html">Refatoração de código usando a IDE</a></li>
+                </ul>
+            </div>
+
+            <div class="guia-card">
+                <h2>9. Componentes rotineiros</h2>
+                <ul>
+                    <li><a href="eu_sgbd.html">Usando Zeos – Conexão com base de dados</a></li>
+                    <li><a href="lazarus_guia_combobox_complexo.html">ComboBox para valores complexos</a></li>
+                    <li><a href="lazarus_guia_taskdialog.html">Tchau ShowMessage, Olá TaskDialog</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
