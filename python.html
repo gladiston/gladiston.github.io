@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eu e o Linux - Gladiston Santana</title>
+    <title>Python: Backoffice & Conectividade - Gladiston Santana</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* Regra 1: Estilo e Identidade - Layout Full Width */
@@ -85,8 +85,8 @@
 
         p { margin-bottom: 1.2rem; font-size: 1.15rem; color: #444; }
 
-        /* Estilização dos itens de serviço como cards */
-        .service-list {
+        /* Grade de Habilidades */
+        .skill-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 25px;
@@ -94,7 +94,7 @@
             margin-bottom: 3rem;
         }
 
-        .service-item {
+        .skill-card {
             padding: 2rem;
             border: 1px solid #eee;
             border-radius: 12px;
@@ -102,12 +102,23 @@
             transition: transform 0.3s ease;
         }
 
-        .service-item:hover {
+        .skill-card:hover {
             transform: translateY(-5px);
             border-color: #e67e22;
         }
 
-        .service-item h3 { color: #e67e22; margin-bottom: 1rem; font-size: 1.4rem; }
+        .skill-card h3 { color: #e67e22; margin-bottom: 1rem; font-size: 1.4rem; }
+
+        /* Estilização de código */
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+        }
 
         /* Regra 5: Rodapé Padrão 2026 */
         footer {
@@ -116,6 +127,7 @@
             background: #2c3e50;
             color: #ecf0f1;
             text-align: center;
+            margin-top: 4rem;
         }
 
         .back-link {
@@ -125,14 +137,13 @@
             color: #e67e22;
             text-decoration: none;
         }
-        .back-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Eu e o Linux (Unices-like)</h1>
-        <p>Proficiência em sistemas abertos desde a era Conectiva Linux.</p>
+        <h1>Python para Engenharia de Sistemas</h1>
+        <p>Desenvolvimento focado em automação de backoffice e integração de dados.</p>
     </header>
 
     <nav>
@@ -148,28 +159,41 @@
     </nav>
 
     <main>
-        <p>Minha jornada com o Linux começou nos anos 90. Sou de uma época em que não existia "nuvem" e tudo era resolvido compilando fontes, aplicando patches e configurando serviços manualmente.</p>
+        <h2>Backoffice & Servidores</h2>
+        <p>Utilizo o Python como uma ferramenta poderosa para estender as capacidades do sistema operacional, criando ferramentas de backoffice que automatizam processos críticos que antes dependiam de intervenção manual.</p>
 
-        <div class="service-list">
-            <div class="service-item">
-                <h3>Infraestrutura de Rede</h3>
-                <p>Implementação de serviços críticos: SAMBA (com deduplicação), Postfix, DNS (BIND), Proxy SQUID (autenticado LDAP/AD) e Firewalls robustos com IPTables.</p>
-            </div>
-            <div class="service-item">
-                <h3>Segurança & Diagnóstico</h3>
-                <p>Análise de vulnerabilidades com Nmap e Sniffers. Uso extensivo de editores hexadecimais para identificar códigos maliciosos camuflados em arquivos binários.</p>
-            </div>
-            <div class="service-item">
+        <div class="skill-grid">
+            <div class="skill-card">
                 <h3>Automação de Servidores</h3>
-                <p>Scripts avançados em Bash e Python. Exemplo: Sistemas de backup automático para VMs Xen com gestão inteligente de espaço em disco.</p>
+                <p>Desenvolvimento de serviços de background (daemons) para monitoramento de recursos, gestão de logs e automação de tarefas de infraestrutura em ambientes heterogêneos.</p>
             </div>
-            <div class="service-item">
-                <h3>Virtualização</h3>
-                <p>Experiência em ambientes <strong>KVM (o virtualizador padrão do Linux)</strong>, Xen, VirtualBox e gestão via SSH (Screen/Tmux) para garantir estabilidade em sessões remotas.</p>
+            <div class="skill-card">
+                <h3>Conectividade com SGBDs</h3>
+                <p>Expertise na criação de ETLs e middlewares de integração utilizando bibliotecas como SQLAlchemy e Psycopg2 para PostgreSQL, Firebird e SQL Server.</p>
+            </div>
+            <div class="skill-card">
+                <h3>APIs de Integração</h3>
+                <p>Construção de interfaces REST rápidas e seguras para servir de ponte entre bases de dados legadas e aplicações modernas, garantindo a integridade dos dados.</p>
             </div>
         </div>
 
-        <p><strong>Por que Linux?</strong> Pela flexibilidade e transparência. É um sistema que permanece exatamente como você o configurou, pronto para o trabalho pesado.</p>
+        <p>Abaixo, um exemplo de como estruturo conexões robustas para automação de processos de banco de dados:</p>
+
+        <pre><code>
+import psycopg2
+
+def connect_to_db():
+    try:
+        # Conexão com foco em performance e segurança
+        conn = psycopg2.connect(host="servidor_producao", database="backoffice", user="admin")
+        print("Conectado ao backoffice com sucesso.")
+        return conn
+    except Exception as e:
+        print(f"Erro na conectividade: {e}")
+
+if __name__ == "__main__":
+    connect_to_db()
+        </code></pre>
 
         <a href="sobremim.html" class="back-link">&larr; Voltar para Sobre Mim</a>
     </main>

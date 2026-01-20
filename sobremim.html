@@ -4,134 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Mim - Gladiston Santana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        /* Reset e Configurações Globais */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: #333;
-            line-height: 1.6;
-            width: 100%;
-        }
-
-        header {
-            width: 100%;
-            background: #f8f9fa;
-            border-bottom: 1px solid #eee;
-            padding: 3rem 5%;
-        }
-        nav {
-            width: 100%;
-            background: #fff;
-            padding: 1.2rem 5%;
-            position: sticky;
-            top: 0;
-            border-bottom: 1px solid #eee;
-            z-index: 100;
-        }
-        main {
-            width: 100%;
-            padding: 4rem 5%;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        footer {
-            width: 100%;
-            padding: 2.5rem 5%;
-            background: #f8f9fa;
-            text-align: center;
-            font-size: 0.9rem;
-            border-top: 1px solid #eee;
-        }
-
-        h1, h2, h3 { color: #222; font-weight: 600; margin-bottom: 1.5rem; }
-        p { margin-bottom: 1.2rem; font-size: 1.1rem; color: #444; }
-
-        /* Navegação */
-        nav ul {
-            display: flex;
-            flex-wrap: wrap;
-            list-style: none;
-            justify-content: center;
-            gap: 25px;
-        }
-        nav a {
-            color: #555;
-            font-weight: 500;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        nav a:hover { color: #007bff; }
-
-        /* Grade de Tópicos Detalhados (Cards) */
-        .topics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 25px;
-            margin: 3rem 0;
-        }
-        .topic-card {
-            padding: 2rem;
-            border: 1px solid #eee;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            background: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-        .topic-card:hover {
-            border-color: #007bff;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transform: translateY(-5px);
-        }
-        .topic-card h3 { color: #007bff; font-size: 1.25rem; margin-bottom: 1rem; border-bottom: none; }
-        .topic-card p { font-size: 0.95rem; color: #666; flex-grow: 1; }
-        .topic-card a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        /* Call to Action LinkedIn */
-        .cta-container {
-            margin-top: 4rem;
-            text-align: center;
-            border-top: 1px solid #eee;
-            padding-top: 3rem;
-        }
-        .cta-linkedin {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: 1rem 2rem;
-            background-color: #0077b5;
-            color: white !important;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-        .cta-linkedin:hover { background-color: #005a87; }
-
-        @media (max-width: 768px) {
-            header { padding: 2rem 5%; }
-            nav ul { gap: 15px; font-size: 0.9rem; }
-            .topics-grid { grid-template-columns: 1fr; }
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #333; line-height: 1.6; width: 100%; }
+        header { width: 100%; background: #e67e22; color: #fff; padding: 4rem 5%; }
+        nav { width: 100%; background: #2c3e50; position: sticky; top: 0; z-index: 100; }
+        nav ul { display: flex; list-style: none; padding: 0 5%; }
+        nav ul li a { display: block; padding: 1.2rem 1.5rem; color: #fff; text-decoration: none; }
+        nav ul li a:hover { background: #e67e22; }
+        main { width: 100%; padding: 4rem 5%; }
+        h2 { color: #222; border-left: 5px solid #e67e22; padding-left: 1.5rem; margin-bottom: 1.5rem; }
+        .topics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2.5rem; }
+        .topic-card { padding: 2.5rem; border: 1px solid #eee; border-radius: 12px; background: #fdfdfd; }
+        .topic-card h3 { color: #e67e22; margin-bottom: 1rem; }
+        .cta-linkedin { display: inline-block; margin-top: 1.5rem; padding: 1.2rem 2.5rem; background-color: #e67e22; color: white !important; border-radius: 8px; text-decoration: none; font-weight: 600; }
+        footer { width: 100%; padding: 3rem 5%; background: #2c3e50; color: #ecf0f1; text-align: center; }
     </style>
 </head>
 <body>
-
     <header>
         <h1>Minha Trajetória Profissional</h1>
-        <p>Mais de 20 anos transformando desafios complexos em soluções de software e infraestrutura.</p>
+        <p>Gladiston Santana - Um site para chamar de meu</p>
     </header>
-
     <nav>
         <ul>
             <li><a href="index.html">Início</a></li>
@@ -139,65 +34,44 @@
             <li><a href="python.html">Python</a></li>
             <li><a href="bash.html">Bash</a></li>
             <li><a href="linux.html">Linux</a></li>
-            <li><a href="sobremim.html" style="color: #007bff;">Sobre mim</a></li>
+            <li><a href="sobremim.html">Sobre mim</a></li>
+            <li><a href="sobremim.html">Contato</a></li>
         </ul>
     </nav>
-
     <main>
         <section>
             <h2>Experiência e Visão Técnica</h2>
-            <p>
-                Iniciei minha jornada na programação escovando bits em sistemas de 8 bits (MSX, CP-400), o que me deu uma compreensão profunda de como o hardware e o software interagem. Hoje, essa base sólida permite-me gerir desde infraestruturas críticas de rede até o desenvolvimento de arquiteturas modernas.
-            </p>
-            <p>
-                Baseado em São Paulo, atuo com foco em automação, portabilidade de código e robustez de dados, garantindo que os sistemas permaneçam produtivos e seguros a longo prazo.
-            </p>
+            <p>Iniciei minha jornada na programação escovando bits em sistemas de 8 bits (MSX, CP-400). Essa base sólida permite-me gerir desde infraestruturas críticas de rede até o desenvolvimento de arquiteturas modernas.</p>
+            <p>Baseado em São Paulo, atuo com foco em automação, portabilidade de código e robustez de dados. Garanto que os sistemas permaneçam produtivos e seguros a longo prazo.</p>
         </section>
-
         <section class="topics-grid">
             <div class="topic-card">
-                <div>
-                    <h3>Eu e a Programação</h3>
-                    <p>Do BASIC às arquiteturas Multitier e Microsserviços. Experiência em Delphi, Python e linguagens modernas.</p>
-                </div>
+                <h3>Eu e a Programação</h3>
+                <p>Do BASIC às arquiteturas Multitier e Microsserviços. Experiência em Delphi, Python e linguagens modernas.</p>
                 <a href="eu_programador.html">Ver trajetória &rarr;</a>
             </div>
-
             <div class="topic-card">
-                <div>
-                    <h3>Eu e o Banco de Dados</h3>
-                    <p>Especialista em SQL ANSI-2002. Gestão de MSSQL Server, PostgreSQL, Firebird e bases legadas xBase.</p>
-                </div>
+                <h3>Eu e o Banco de Dados</h3>
+                <p>Especialista em SQL ANSI-2002. Gestão de MSSQL Server, PostgreSQL, Firebird e bases legadas xBase.</p>
                 <a href="eu_sgbd.html">Ver detalhes técnicos &rarr;</a>
             </div>
-
             <div class="topic-card">
-                <div>
-                    <h3>Eu e o Linux</h3>
-                    <p>Proficiência em administração "raiz", compilação de kernels, segurança com IPTables e serviços de rede.</p>
-                </div>
+                <h3>Eu e o Linux</h3>
+                <p>Proficiência em administração "raiz", compilação de kernels, segurança com IPTables e serviços de rede.</p>
                 <a href="eu_linux.html">Ver experiência Linux &rarr;</a>
             </div>
-
             <div class="topic-card">
-                <div>
-                    <h3>Eu e o Windows</h3>
-                    <p>Administração de Windows Server e Hypervisor. Foco em segurança, GPOs e ambientes de Terminal Service.</p>
-                </div>
+                <h3>Eu e o Windows</h3>
+                <p>Administração de Windows Server e Hypervisor. Foco em segurança, GPOs e ambientes de Terminal Service.</p>
                 <a href="eu_windows.html">Ver experiência Windows &rarr;</a>
             </div>
         </section>
-
-        <section class="cta-container">
+        <section style="text-align: center; margin-top: 4rem;">
             <h3>LinkedIn & Networking</h3>
-            <p>Conecte-se comigo para discutir projetos, ver recomendações profissionais e meu histórico corporativo completo.</p>
-            <a href="https://www.linkedin.com/in/gladiston-santana-25b9007/" class="cta-linkedin" target="_blank">Veja o meu LinkedIn</a>
+            <p>Conecte-se comigo para discutir projetos e ver meu histórico corporativo completo.</p>
+            <a href="https://www.linkedin.com/in/gladiston-santana-25b9007/" class="cta-linkedin">Veja o meu LinkedIn</a>
         </section>
     </main>
-
-    <footer>
-        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
-    </footer>
-
+    <footer><p>&copy; 2026 Gladiston Santana. Todos os direitos reservados. Site estático.</p></footer>
 </body>
 </html>

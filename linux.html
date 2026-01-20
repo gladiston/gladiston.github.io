@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux: Programação e Gerência - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Regra 1: Estilo e Identidade - Layout Full Width */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            width: 100%;
+        }
+
+        code, pre, .mono {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Regra 1: Cabeçalho com cor de destaque Laranja (#e67e22) */
+        header {
+            width: 100%;
+            background: #e67e22;
+            color: white;
+            padding: 4rem 5%;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+        }
+
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        /* Regra 2: Estrutura de Navegação Superior */
+        nav {
+            width: 100%;
+            background: #2c3e50;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            padding: 0 5%;
+            flex-wrap: wrap;
+        }
+
+        nav ul li a {
+            display: block;
+            padding: 1.2rem 1.5rem;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        nav ul li a:hover {
+            background: #e67e22;
+        }
+
+        /* Conteúdo Principal */
+        main {
+            width: 100%;
+            padding: 4rem 5%;
+        }
+
+        h2 {
+            color: #222;
+            border-left: 5px solid #e67e22;
+            padding-left: 15px;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            margin-top: 3rem;
+        }
+
+        p { margin-bottom: 1.2rem; font-size: 1.15rem; color: #444; }
+
+        /* Grade de Itens */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin: 2rem 0;
+        }
+
+        .card {
+            padding: 2rem;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            background: #fdfdfd;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #e67e22;
+        }
+
+        .card h3 { color: #e67e22; margin-bottom: 1rem; font-size: 1.4rem; }
+
+        /* Regra 3: Tratamento de Imagens */
+        .img-container { margin: 2rem 0; }
+        .img-container img { max-width: 100%; border-radius: 8px; }
+        .todo-box {
+            display: block;
+            background: #fff3cd;
+            color: #856404;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border: 1px dashed #ffeeba;
+            margin-top: 8px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Regra 4: Tratamento de Vídeos (YouTube) */
+        .video-link-container {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .video-title { font-weight: 600; color: #333; }
+        .video-btn {
+            background: #e67e22;
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-decoration: none !important;
+        }
+
+        /* Regra 5: Rodapé */
+        footer {
+            width: 100%;
+            padding: 3rem 5%;
+            background: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .playlist-section {
+            background: #fafafa;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Linux (Unices-like)</h1>
+        <p>Programação e gerência de sistemas: Instalação, configuração, Bash, Python e SSH.</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="pascal.html">Pascal</a></li>
+            <li><a href="python.html">Python</a></li>
+            <li><a href="bash.html">Bash</a></li>
+            <li><a href="linux.html">Linux</a></li>
+            <li><a href="sobremim.html">Sobre mim</a></li>
+            <li><a href="sobremim.html">Contato</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="experiencia">
+            <h2>Minha Jornada com Linux</h2>
+            <p>Minha jornada com o Linux começou nos anos 90. Sou de uma época em que não existia "nuvem" e tudo era resolvido compilando fontes, aplicando patches e configurando serviços manualmente.</p>
+
+            <div class="grid-container">
+                <div class="card">
+                    <h3>Infraestrutura de Rede</h3>
+                    <p>Implementação de serviços críticos: SAMBA (com deduplicação), Postfix, DNS (BIND), Proxy SQUID (autenticado LDAP/AD) e Firewalls robustos com IPTables.</p>
+                </div>
+                <div class="card">
+                    <h3>Segurança & Diagnóstico</h3>
+                    <p>Análise de vulnerabilidades com Nmap e Sniffers. Uso extensivo de editores hexadecimais para identificar códigos maliciosos camuflados em arquivos binários.</p>
+                </div>
+                <div class="card">
+                    <h3>Virtualização</h3>
+                    <p>Experiência em ambientes <strong>KVM (o virtualizador padrão do Linux)</strong>, Xen, VirtualBox e gestão via SSH (Screen/Tmux).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="desenvolvimento" class="playlist-section">
+            <h2>Desenvolvimento com Linux (Fedora/GNOME)</h2>
+            <p>Eu desenvolvi uma playlist que mostra como preparar uma máquina para desenvolvimento com Linux usando a distro Fedora. Veja os temas abordados:</p>
+
+            <div class="video-link-container">
+                <span class="video-title">#1: GNOME – Desenvolvimento com FreePascal/Lazarus</span>
+                <a href="https://www.youtube.com/watch?v=VIDEO_ID_1" target="_blank" class="video-btn">Assistir Vídeo</a>
+            </div>
+
+            <div class="video-link-container">
+                <span class="video-title">#2: Flatpak e Flathub – Produtividade no Linux</span>
+                <a href="https://www.youtube.com/watch?v=VIDEO_ID_2" target="_blank" class="video-btn">Assistir Vídeo</a>
+            </div>
+
+            <div class="video-link-container">
+                <span class="video-title">#6: FreePascal Compiler (FPC) no Fedora</span>
+                <a href="https://www.youtube.com/watch?v=VIDEO_ID_6" target="_blank" class="video-btn">Assistir Vídeo</a>
+            </div>
+
+            <div class="video-link-container">
+                <span class="video-title">#7: Instalar o Lazarus-IDE com fpcupdeluge</span>
+                <a href="https://www.youtube.com/watch?v=VIDEO_ID_7" target="_blank" class="video-btn">Assistir Vídeo</a>
+            </div>
+
+            <p style="margin-top: 2rem;">Playlist completa de artigos sobre como preparar o ambiente de desenvolvimento Linux para programação.</p>
+        </section>
+
+        <section id="midia">
+            <h2>Galeria Técnica</h2>
+            <div class="img-container">
+                <img src="assets/img/linux_server_setup.png" alt="Setup de Servidor Linux">
+                <span class="todo-box">todo: gravar imagem de [https://gladiston.net.br/wp-content/uploads/linux_banner.png] para assets/img/linux_server_setup.png</span>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. Página estática via GitHub Pages.</p>
+    </footer>
+
+</body>
+</html>

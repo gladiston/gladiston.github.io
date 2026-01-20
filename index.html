@@ -4,129 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gladiston Santana - Desenvolvedor & Sysadmin</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        /* Reset e Configurações Globais */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: #333;
-            line-height: 1.6;
-            width: 100%;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #333; line-height: 1.6; width: 100%; }
+        code, pre { font-family: 'Fira Code', monospace; }
 
-        /* Layout de Largura Total */
-        header {
-            width: 100%;
-            background: #f8f9fa;
-            border-bottom: 1px solid #eee;
-            padding: 3rem 5%;
-        }
-        nav {
-            width: 100%;
-            background: #fff;
-            padding: 1.2rem 5%;
-            position: sticky;
-            top: 0;
-            border-bottom: 1px solid #eee;
-            z-index: 100;
-        }
-        main {
-            width: 100%;
-            padding: 4rem 5%;
-        }
-        footer {
-            width: 100%;
-            padding: 2.5rem 5%;
-            background: #f8f9fa;
-            text-align: center;
-            font-size: 0.9rem;
-            border-top: 1px solid #eee;
-        }
+        header { width: 100%; background: #e67e22; color: #fff; padding: 4rem 5%; }
+        header h1 { font-size: 2.8rem; margin-bottom: 0.8rem; }
+        header p { font-size: 1.25rem; opacity: 0.9; }
 
-        /* Tipografia e Links */
-        h1, h2, h3 { color: #222; font-weight: 600; }
-        a { color: #007bff; text-decoration: none; transition: 0.3s; }
+        nav { width: 100%; background: #2c3e50; position: sticky; top: 0; z-index: 1000; }
+        nav ul { display: flex; list-style: none; padding: 0 5%; flex-wrap: wrap; }
+        nav ul li a { display: block; padding: 1.2rem 1.5rem; color: #fff; text-decoration: none; font-weight: 500; }
+        nav ul li a:hover { background: #e67e22; }
+
+        main { width: 100%; padding: 4rem 5%; }
+        h2 { color: #222; border-left: 5px solid #e67e22; padding-left: 1.5rem; margin-bottom: 2rem; }
+        a { color: #e67e22; text-decoration: none; }
         a:hover { text-decoration: underline; }
 
-        /* Navegação */
-        nav ul {
-            display: flex;
-            flex-wrap: wrap;
-            list-style: none;
-            justify-content: center;
-            gap: 25px;
-        }
-        nav a {
-            color: #555;
-            font-weight: 500;
-        }
-        nav a:hover {
-            color: #007bff;
-            text-decoration: none;
-        }
+        .highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 2.5rem; }
+        .card { padding: 2rem; border: 1px solid #eee; border-radius: 12px; background: #fff; }
+        .card h3 { margin-bottom: 1rem; color: #e67e22; font-size: 1.4rem; }
 
-        /* Hero Section */
-        .hero h1 { font-size: 2.8rem; margin-bottom: 0.8rem; }
-        .hero p { font-size: 1.25rem; color: #666; max-width: 900px; }
-
-        /* Grade de Destaques */
-        .highlights {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            margin-top: 2.5rem;
-        }
-        .card {
-            padding: 2rem;
-            border: 1px solid #eee;
-            border-radius: 12px;
-            background: #fff;
-            transition: all 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: #007bff;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
-        .card h3 { margin-bottom: 1rem; color: #007bff; font-size: 1.4rem; }
-
-        /* Seção de Contato */
-        .contato-container {
-            margin-top: 4rem;
-            background: #f8f9fa;
-            padding: 3.5rem;
-            border-radius: 12px;
-            border: 1px solid #eee;
-        }
-        .contato-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1000px;
-            margin: 2rem auto 0;
-        }
+        .contato-container { margin-top: 4rem; background: #f8f9fa; padding: 3.5rem; border-radius: 12px; border: 1px solid #eee; }
+        .contato-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 2rem; }
         .contato-item { margin-bottom: 15px; font-size: 1.1rem; }
         .contato-item strong { color: #444; width: 100px; display: inline-block; }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            nav ul { gap: 15px; }
-            .contato-container { padding: 2rem; }
-        }
+        footer { width: 100%; padding: 3rem 5%; background: #2c3e50; color: #ecf0f1; text-align: center; }
     </style>
 </head>
 <body>
-
     <header>
-        <div class="hero">
-            <h1>Gladiston dos Santos Santana</h1>
-            <p>Especialista em desenvolvimento de sistemas cliente/servidor, automação e administração de ambientes críticos (Sysadmin).</p>
-        </div>
+        <h1>Gladiston dos Santos Santana</h1>
+        <p>Especialista em desenvolvimento de sistemas cliente/servidor, automação e administração de ambientes críticos (Sysadmin).</p>
     </header>
-
     <nav>
         <ul>
             <li><a href="index.html">Início</a></li>
@@ -135,12 +49,11 @@
             <li><a href="bash.html">Bash</a></li>
             <li><a href="linux.html">Linux</a></li>
             <li><a href="sobremim.html">Sobre mim</a></li>
-            <li><a href="#contato">Contato</a></li>
+            <li><a href="sobremim.html">Contato</a></li>
         </ul>
     </nav>
-
     <main>
-        <section id="destaques">
+        <section>
             <h2>Destaques Técnicos</h2>
             <div class="highlights">
                 <div class="card">
@@ -157,53 +70,27 @@
                 </div>
             </div>
         </section>
-
-        <section id="sobre" style="margin-top: 5rem; max-width: 900px;">
+        <section id="sobre" style="margin-top: 5rem;">
             <h2>Sobre Mim</h2>
-            <p style="font-size: 1.15rem; color: #444; margin-top: 1.5rem;">
-                Atuo na coordenação técnica e desenvolvimento de sistemas que permanecem em produção há décadas. Tenho foco em criar interfaces que simplificam tarefas complexas para usuários e equipes técnicas, otimizando recursos e tempo.
-            </p>
-            <p style="margin-top: 1rem;">
-                Baseado em <strong>São Paulo</strong>, mantenho uma forte conexão com a comunidade open-source, especialmente em projetos voltados para Debian e Lazarus.
-            </p>
-            <p style="margin-top: 1.5rem;">
-                <a href="sobremim.html" style="font-weight: 600; color: #007bff;">Conheça minha trajetória completa &rarr;</a>
-            </p>
+            <p>Atuo na coordenação técnica e desenvolvimento de sistemas que permanecem em produção há décadas. Tenho foco em criar interfaces que simplificam tarefas complexas para usuários e equipes técnicas, otimizando recursos e tempo.</p>
+            <p style="margin-top: 1rem;">Baseado em <strong>São Paulo</strong>, mantenho uma forte conexão com a comunidade open-source, especialmente em projetos voltados para Debian e Lazarus.</p>
+            <p style="margin-top: 1.5rem;"><a href="sobremim.html">Conheça minha trajetória completa &rarr;</a></p>
         </section>
-
         <section id="contato" class="contato-container">
-            <h2 style="text-align: center;">Conecte-se Comigo</h2>
+            <h2>Conecte-se Comigo</h2>
             <div class="contato-grid">
                 <div>
-                    <div class="contato-item"><strong>E-mail:</strong> <span id="email-ofuscado"><em>Carregando...</em></span></div>
-                    <div class="contato-item"><strong>Telegram:</strong> <a href="https://t.me/gladistonsantana" target="_blank">@gladistonsantana</a></div>
+                    <div class="contato-item"><strong>E-mail:</strong> <span id="email-ofuscado">gladiston.santana@gmail.com</span></div>
+                    <div class="contato-item"><strong>Telegram:</strong> <a href="https://t.me/gladistonsantana">@gladistonsantana</a></div>
                     <div class="contato-item"><strong>Local:</strong> São Paulo, Brasil</div>
                 </div>
-
                 <div>
-                    <div class="contato-item"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/gladiston-santana-25b9007/" target="_blank">Gladiston Santana</a></div>
-                    <div class="contato-item"><strong>YouTube:</strong> <a href="https://www.youtube.com/channel/UCwta2liAMpld7O_YdAgpfdA" target="_blank">Canal de Tecnologia</a></div>
-                    <div class="contato-item"><strong>X/Twitter:</strong> <a href="https://twitter.com/glasantana" target="_blank">@glasantana</a></div>
-                    <div class="contato-item"><strong>Instagram:</strong> <a href="https://www.instagram.com/gladiston.santana/" target="_blank">@gladiston.santana</a></div>
+                    <div class="contato-item"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/gladiston-santana-25b9007/">Gladiston Santana</a></div>
+                    <div class="contato-item"><strong>YouTube:</strong> <a href="https://www.youtube.com/channel/UCwta2liAMpld7O_YdAgpfdA">Canal de Tecnologia</a></div>
                 </div>
             </div>
         </section>
     </main>
-
-    <footer>
-        <p>&copy; 2026 Gladiston Santana. Página estática via GitHub Pages.</p>
-    </footer>
-
-    <script>
-        // Sistema de Proteção contra Spam (Ofuscação de E-mail)
-        (function() {
-            var u = "gladiston.santana";
-            var d = "gmail.com";
-            var target = document.getElementById("email-ofuscado");
-            var full = u + "@" + d;
-            target.innerHTML = '<a href="mailto:' + full + '">' + full + '</a>';
-        })();
-    </script>
-
+    <footer><p>&copy; 2026 Gladiston Santana. Página estática via GitHub Pages.</p></footer>
 </body>
 </html>

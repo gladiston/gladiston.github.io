@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eu e o Linux - Gladiston Santana</title>
+    <title>Bash: Automação & CGI - Gladiston Santana</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* Regra 1: Estilo e Identidade - Layout Full Width */
@@ -85,8 +85,8 @@
 
         p { margin-bottom: 1.2rem; font-size: 1.15rem; color: #444; }
 
-        /* Estilização dos itens de serviço como cards */
-        .service-list {
+        /* Destaques de Habilidades (Cards) */
+        .bash-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 25px;
@@ -94,7 +94,7 @@
             margin-bottom: 3rem;
         }
 
-        .service-item {
+        .bash-card {
             padding: 2rem;
             border: 1px solid #eee;
             border-radius: 12px;
@@ -102,12 +102,24 @@
             transition: transform 0.3s ease;
         }
 
-        .service-item:hover {
+        .bash-card:hover {
             transform: translateY(-5px);
             border-color: #e67e22;
         }
 
-        .service-item h3 { color: #e67e22; margin-bottom: 1rem; font-size: 1.4rem; }
+        .bash-card h3 { color: #e67e22; margin-bottom: 1rem; font-size: 1.4rem; }
+
+        /* Estilização de código */
+        pre {
+            background: #2c3e50;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 2rem 0;
+            font-size: 0.9rem;
+            border: 1px solid #1a252f;
+        }
 
         /* Regra 5: Rodapé Padrão 2026 */
         footer {
@@ -116,6 +128,7 @@
             background: #2c3e50;
             color: #ecf0f1;
             text-align: center;
+            margin-top: 4rem;
         }
 
         .back-link {
@@ -125,14 +138,13 @@
             color: #e67e22;
             text-decoration: none;
         }
-        .back-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Eu e o Linux (Unices-like)</h1>
-        <p>Proficiência em sistemas abertos desde a era Conectiva Linux.</p>
+        <h1>Bash Scripting & Automação</h1>
+        <p>Domínio do Shell para gestão de infraestrutura e ferramentas de backoffice.</p>
     </header>
 
     <nav>
@@ -148,28 +160,37 @@
     </nav>
 
     <main>
-        <p>Minha jornada com o Linux começou nos anos 90. Sou de uma época em que não existia "nuvem" e tudo era resolvido compilando fontes, aplicando patches e configurando serviços manualmente.</p>
+        <h2>O Poder do Shell</h2>
+        <p>Para um administrador de sistemas, o Bash não é apenas um interpretador de comandos, é a linguagem principal para orquestrar a saúde de um servidor Linux. Minha especialidade reside na criação de scripts resilientes para automação de backoffice e interfaces administrativas via Web.</p>
 
-        <div class="service-list">
-            <div class="service-item">
-                <h3>Infraestrutura de Rede</h3>
-                <p>Implementação de serviços críticos: SAMBA (com deduplicação), Postfix, DNS (BIND), Proxy SQUID (autenticado LDAP/AD) e Firewalls robustos com IPTables.</p>
+        <div class="bash-grid">
+            <div class="bash-card">
+                <h3>Scripts de Backoffice</h3>
+                <p>Desenvolvimento de rotinas complexas para saneamento de logs, sincronização de bases de dados (Rsync/Borg), e monitoramento proativo de serviços críticos.</p>
             </div>
-            <div class="service-item">
-                <h3>Segurança & Diagnóstico</h3>
-                <p>Análise de vulnerabilidades com Nmap e Sniffers. Uso extensivo de editores hexadecimais para identificar códigos maliciosos camuflados em arquivos binários.</p>
+            <div class="bash-card">
+                <h3>CGI para Administração</h3>
+                <p>Criação de interfaces CGI (Common Gateway Interface) puras em Shell Script para administrar servidores remotamente via navegador, sem a necessidade de frameworks pesados.</p>
             </div>
-            <div class="service-item">
-                <h3>Automação de Servidores</h3>
-                <p>Scripts avançados em Bash e Python. Exemplo: Sistemas de backup automático para VMs Xen com gestão inteligente de espaço em disco.</p>
-            </div>
-            <div class="service-item">
-                <h3>Virtualização</h3>
-                <p>Experiência em ambientes <strong>KVM (o virtualizador padrão do Linux)</strong>, Xen, VirtualBox e gestão via SSH (Screen/Tmux) para garantir estabilidade em sessões remotas.</p>
+            <div class="bash-card">
+                <h3>Tratamento de Dados</h3>
+                <p>Uso avançado de AWK, SED e GREP para processar grandes volumes de dados textuais e converter formatos proprietários em estruturas padronizadas.</p>
             </div>
         </div>
 
-        <p><strong>Por que Linux?</strong> Pela flexibilidade e transparência. É um sistema que permanece exatamente como você o configurou, pronto para o trabalho pesado.</p>
+        <h2>Exemplo de CGI Administrativo</h2>
+        <p>Abaixo, uma estrutura básica de como utilizo Bash para gerar relatórios de sistema em tempo real via Web:</p>
+
+        <pre><code>
+#!/bin/bash
+echo "Content-type: text/html"
+echo ""
+echo "&lt;html&gt;&lt;body&gt;"
+echo "&lt;h1&gt;Status do Servidor&lt;/h1&gt;"
+echo "&lt;pre&gt;$(uptime)&lt;/pre&gt;"
+echo "&lt;pre&gt;$(df -h | grep '^/dev/')&lt;/pre&gt;"
+echo "&lt;/body&gt;&lt;/html&gt;"
+        </code></pre>
 
         <a href="sobremim.html" class="back-link">&larr; Voltar para Sobre Mim</a>
     </main>
