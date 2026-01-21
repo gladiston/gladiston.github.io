@@ -3,149 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Correção: Fppkg configuration - Gladiston Santana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #fff;
-            color: #333;
-            line-height: 1.6;
-            width: 100%;
-        }
-
-        header {
-            width: 100%;
-            background: #e67e22;
-            color: #fff;
-            padding: 3rem 5%;
-            border-bottom: 5px solid #d35400;
-        }
-        nav {
-            width: 100%;
-            background: #fff;
-            padding: 1rem 5%;
-            position: sticky;
-            top: 0;
-            border-bottom: 1px solid #eee;
-            z-index: 100;
-        }
-
-        main {
-            width: 100%;
-            padding: 4rem 5%;
-        }
-
-        h1 { font-size: 2.2rem; margin-bottom: 1rem; }
-        p { margin-bottom: 1.2rem; font-size: 1.1rem; }
-
-        .code-container {
-            position: relative;
-            background: #1e1e1e;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-            border: 1px solid #333;
-        }
-        pre {
-            padding: 1.5rem;
-            color: #dcdcdc;
-            font-family: 'Fira Code', monospace;
-            font-size: 1rem;
-            overflow-x: auto;
-            white-space: pre-wrap;
-        }
-
-        .img-placeholder {
-            margin: 2rem auto;
-            text-align: center;
-        }
-        .img-placeholder img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .todo-box {
-            background: #fdf2f2;
-            border: 1px dashed #d9534f;
-            color: #d9534f;
-            padding: 10px;
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: inline-block;
-        }
-
-        figcaption {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 5px;
-            margin-bottom: 2rem;
-        }
-
-        .back-link { display: inline-block; margin-top: 2rem; text-decoration: none; color: #e67e22; font-weight: 600; }
-        footer { width: 100%; padding: 2.5rem 5%; background: #f8f9fa; text-align: center; border-top: 1px solid #eee; margin-top: 4rem; }
-    </style>
+    <title>Lidando com a mensagem: “Error: there is a problem with the Fppkg configuration” - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
-    <header>
-        <h1>Lidando com a mensagem: “Error: there is a problem with the Fppkg configuration”</h1>
-        <p>Gladiston Santana - Um site para chamar de meu</p>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
     </header>
 
-    <nav>
-        <ul style="display: flex; justify-content: center; list-style: none; gap: 20px;">
-            <li><a href="index.html" style="text-decoration: none; color: #555;">Início</a></li>
-            <li><a href="lazarus_guia.html" style="text-decoration: none; color: #e67e22; font-weight: 600;">Guia de Sobrevivência</a></li>
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
         </ul>
     </nav>
 
     <main>
         <article>
-            <p>Algumas vezes, ao executar o programa pode aparecer a seguinte mensagem:</p>
+            <h2>Lidando com a mensagem: “Error: there is a problem with the Fppkg configuration”</h2>
+
+            <p>Algumas vezes, ao executar o programa, pode aparecer a seguinte mensagem:</p>
 
             <div class="img-placeholder">
-                <img src="assets/img/instalacao_posinstall_error1.png" alt="Erro fppkg">
-                <br>
-                <span class="todo-box">todo: gravar imagem de http://gladiston.net.br/wp-content/uploads/2022/01/instalacao_posinstall_error1.png para assets/img/instalacao_posinstall_error1.png</span>
-                <figcaption>Error: there is a problem with the Fppkg configuration.</figcaption>
+                <img src="assets/img/instalacao_posinstall_error1.png" alt="Erro de configuração Fppkg">
+                <p><em>Error: there is a problem with the Fppkg configuration.</em></p>
             </div>
 
-            <p>Pelas minhas observações, ela acontece porque o arquivo onde é guardado algumas configurações não existe, está corrompido ou você acabou de fazer uma instalação limpa. Como arquivo de configuração você poderá usar o padrão que ele oferece que é <code>~/.config/fppkg.cfg</code>.</p>
+            <p>Pelas minhas observações, ela acontece porque o arquivo onde são guardadas algumas configurações não existe, está corrompido ou você acabou de fazer uma instalação limpa. Como arquivo de configuração, você poderá usar o padrão que ele oferece, que é <code>~/.config/fppkg.cfg</code>.</p>
 
-            <p>Não é preciso se alarmar com a mensagem, apenas clique em <strong>Restore Fppkg configuration</strong> e então surgirá essa tela:</p>
+            <p>Não é preciso se alarmar com a mensagem, apenas clique em <strong>Restore Fppkg configuration</strong> e então surgirá esta tela:</p>
 
             <div class="img-placeholder">
-                <img src="assets/img/instalacao_posinstall_error1b.png" alt="Tela Restore Fppkg">
-                <br>
-                <span class="todo-box">todo: gravar imagem de http://gladiston.net.br/wp-content/uploads/2022/01/instalacao_posinstall_error1b.png para assets/img/instalacao_posinstall_error1b.png</span>
+                <img src="assets/img/instalacao_posinstall_error1b.png" alt="Tela de restauração de configuração">
             </div>
 
-            <p>Se você indicar <strong>/usr</strong> como sugerido, a IDE achará então que o freepascal estará numa arvore /usr como /usr/lib64/fpc, /usr/bin, etc… será que isso é verdade? Vamos ver:</p>
+            <p>Se você indicar <strong>/usr</strong> como sugerido, a IDE entenderá que o Free Pascal está instalado em uma árvore <code>/usr</code> (como <code>/usr/lib64/fpc</code>, <code>/usr/bin</code>, etc.). Vamos verificar se isso é verdade no seu sistema:</p>
 
-            <div class="code-container">
-                <pre><code>rpm -ql fpc | head -10 | grep /usr</code></pre>
-            </div>
+            <pre><code>rpm -ql fpc | head -10 | grep /usr</code></pre>
 
-            <p>A saída será algo como:</p>
-            <div class="code-container">
-                <pre><code>/usr/bin/bin2obj
+            <p>O retorno deverá ser algo semelhante a isto:</p>
+
+            <pre><code>/usr/bin/bin2obj
 /usr/bin/chmcmd
 /usr/bin/chmls
 /usr/bin/cldrparser
 /usr/bin/compileserver
 /usr/bin/cvsco.tdf
 /usr/bin/cvsdiff.tdf</code></pre>
-            </div>
 
-            <p>Como podemos confirmar acima, aparentemente <strong>/usr</strong> é o prefixo onde o Free Pascal instalou realmente seus arquivos, então podemos confirmar <strong>/usr</strong> na tela acima e posteriormente clicar em <strong>Start IDE</strong>.</p>
+            <p>Como podemos confirmar acima, o prefixo <strong>/usr</strong> é onde o Free Pascal realmente instalou seus arquivos. Portanto, você pode confirmar <strong>/usr</strong> na tela de configuração e posteriormente clicar em <strong>Start IDE</strong>.</p>
+
         </article>
-
-        <a href="lazarus_guia.html" class="back-link">&larr; Voltar para o Guia de Sobrevivência</a>
     </main>
 
-    <footer>
-        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
     </footer>
+
 </body>
 </html>

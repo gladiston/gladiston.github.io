@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A prova de balas - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>A prova de balas</h2>
+
+            <p>A instalação de pacotes ou "addons" estende as funcionalidades tanto da programação como também da IDE e isso é muito bom, contudo podem existir problemas pelo caminho. Como a IDE Lazarus foi compilada com o Free Pascal, incluir novos pacotes requererá que nossa IDE seja recompilada. Mas e se a recompilação falhar, será que perderemos nossa IDE?</p>
+
+            <p>O time do Lazarus pensou nisso também e orgulhosamente eles podem responder "não" a essa pergunta. Mas precisamos estar preparados para recuperar-se dessa situação.</p>
+
+            <p>Se ao instalar um pacote ou por qualquer outro motivo nossa IDE parar de funcionar, saiba que há no diretório de instalação do Lazarus um arquivo <code>lazarus.exe</code> que corresponde ao que está em uso e um outro backup chamado <code>lazarus.exe.old</code>.</p>
+
+            <div class="img-placeholder">
+                <img src="assets/img/lazarus_prova_de_balas1.png" alt="Arquivos executáveis do Lazarus no diretório">
+            </div>
+
+            <p>Na hipótese da IDE deixar de funcionar, simplesmente execute o programa <strong>lazarus.old.exe</strong> (ou <code>lazarus.old</code> no Linux) e aparecerá esta mensagem:</p>
+
+            <div class="img-placeholder">
+                <img src="assets/img/lazarus_prova_de_balas2.png" alt="Mensagem de restauração do Lazarus">
+            </div>
+
+            <p>Então clique em <strong>Update Info</strong> (Atualizar informações) e o sistema irá retornar ao estágio anterior quando as coisas funcionavam.</p>
+
+            <p>Se a IDE quebrou por causa de pacotes que tentou instalar, aproveite para ir em <strong>Packages | Install and uninstall packages</strong> para identificar os pacotes recém instalados e removê-los. Note que às vezes é possível identificá-los porque eles ficam marcados com um ícone de <strong>“+”</strong> ao lado dos nomes, indicando uma tentativa frustrada de instalação:</p>
+
+            <div class="img-placeholder">
+                <img src="assets/img/lazarus_prova_de_balas3.png" alt="Lista de pacotes instalados e desinstalados">
+            </div>
+
+            <p>Marque os pacotes problemáticos para remoção e confirme para que a IDE seja novamente recompilada. Depois disso, não execute mais o <code>lazarus.old.exe</code> e sim o atalho atual que aponta para <code>lazarus.exe</code>.</p>
+
+            <p>Compilar a IDE pode soar estranho, mas quando você instala ou desinstala certos tipos de pacotes é isso o que acontece. Por essa razão, instale pacotes com parcimônia, instale apenas os que irá usar.</p>
+
+            <h3>Vídeo Demonstrativo</h3>
+            <p>Assista ao vídeo explicativo sobre este procedimento: <a href="https://www.youtube.com/watch?v=naVzwD5z8Jc" target="_blank" rel="noopener"><strong>A prova de balas - Lazarus IDE</strong></a></p>
+
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

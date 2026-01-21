@@ -4,93 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gladiston Santana - Desenvolvedor & Sysadmin</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #333; line-height: 1.6; width: 100%; }
-        code, pre { font-family: 'Fira Code', monospace; }
-
-        header { width: 100%; background: #e67e22; color: #fff; padding: 4rem 5%; }
-        header h1 { font-size: 2.8rem; margin-bottom: 0.8rem; }
-        header p { font-size: 1.25rem; opacity: 0.9; }
-
-        nav { width: 100%; background: #2c3e50; position: sticky; top: 0; z-index: 1000; }
-        nav ul { display: flex; list-style: none; padding: 0 5%; flex-wrap: wrap; }
-        nav ul li a { display: block; padding: 1.2rem 1.5rem; color: #fff; text-decoration: none; font-weight: 500; }
-        nav ul li a:hover { background: #e67e22; }
-
-        main { width: 100%; padding: 4rem 5%; }
-        h2 { color: #222; border-left: 5px solid #e67e22; padding-left: 1.5rem; margin-bottom: 2rem; }
-        a { color: #e67e22; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-
-        .highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 2.5rem; }
-        .card { padding: 2rem; border: 1px solid #eee; border-radius: 12px; background: #fff; }
-        .card h3 { margin-bottom: 1rem; color: #e67e22; font-size: 1.4rem; }
-
-        .contato-container { margin-top: 4rem; background: #f8f9fa; padding: 3.5rem; border-radius: 12px; border: 1px solid #eee; }
-        .contato-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 2rem; }
-        .contato-item { margin-bottom: 15px; font-size: 1.1rem; }
-        .contato-item strong { color: #444; width: 100px; display: inline-block; }
-
-        footer { width: 100%; padding: 3rem 5%; background: #2c3e50; color: #ecf0f1; text-align: center; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
-    <header>
-        <h1>Gladiston dos Santos Santana</h1>
-        <p>Especialista em desenvolvimento de sistemas cliente/servidor, automação e administração de ambientes críticos (Sysadmin).</p>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Gladiston dos Santos Santana</h1>
+                <p>Especialista em desenvolvimento de sistemas cliente/servidor, automação e administração de sistemas (Sysadmin).</p>
+            </div>
+        </div>
     </header>
-    <nav>
-        <ul>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
             <li><a href="index.html">Início</a></li>
             <li><a href="pascal.html">Pascal</a></li>
             <li><a href="python.html">Python</a></li>
             <li><a href="bash.html">Bash</a></li>
             <li><a href="linux.html">Linux</a></li>
-            <li><a href="sobremim.html">Sobre mim</a></li>
-            <li><a href="sobremim.html">Contato</a></li>
+            <li><a href="sobre-mim.html">Sobre mim</a></li>
+            <li><a href="contato.html">Contato</a></li>
         </ul>
     </nav>
+
     <main>
-        <section>
-            <h2>Destaques Técnicos</h2>
-            <div class="highlights">
-                <div class="card">
-                    <h3>Desenvolvimento Desktop & Web</h3>
-                    <p>Mais de 20 anos de experiência com Delphi e Lazarus. Especialista em arquiteturas multitier (DataSnap) e microsserviços modernos.</p>
+        <article>
+            <section>
+                <h2>Destaques Técnicos</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 2rem;">
+                    <div style="padding: 2rem; border: 1px solid #eee; border-radius: 12px; background: #fff;">
+                        <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">Desenvolvimento Desktop & Web</h3>
+                        <p>Mais de 20 anos de experiência com Delphi e Lazarus. Especialista em arquiteturas multitier (DataSnap) e microsserviços modernos.</p>
+                    </div>
+                    <div style="padding: 2rem; border: 1px solid #eee; border-radius: 12px; background: #fff;">
+                        <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">Infraestrutura & Sysadmin</h3>
+                        <p>Gestão de redes em ambientes heterogêneos (Linux/Windows). Proficiente em virtualização com Xen, QEMU/KVM e Hypervisor.</p>
+                    </div>
+                    <div style="padding: 2rem; border: 1px solid #eee; border-radius: 12px; background: #fff;">
+                        <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">Automação & Dados</h3>
+                        <p>Criação de scripts robustos em Bash e Python para automação de servidores. Expertise em SQL ANSI e diversos SGBDs (PostgreSQL, Firebird, MSSQL).</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <h3>Infraestrutura & Sysadmin</h3>
-                    <p>Gestão de redes em ambientes heterogêneos (Linux/Windows). Proficiente em virtualização com Xen, QEMU/KVM e Hypervisor.</p>
+            </section>
+
+            <section id="sobre" style="margin-top: 4rem;">
+                <h2>Sobre Mim</h2>
+                <p>Atuo na coordenação técnica e desenvolvimento de sistemas que permanecem em produção há décadas. Tenho foco em criar interfaces que simplificam tarefas complexas para usuários e equipes técnicas, otimizando recursos e tempo.</p>
+                <p>Baseado em <strong>São Paulo</strong>, mantenho uma forte conexão com a comunidade open-source, especialmente em projetos voltados para Debian e Lazarus.</p>
+                <p><a href="sobre-mim.html" class="back-link">Conheça minha trajetória completa &rarr;</a></p>
+            </section>
+
+            <section id="contato" style="margin-top: 4rem; background: #f8f9fa; padding: 2.5rem; border-radius: 12px; border: 1px solid #eee;">
+                <h2>Conecte-se Comigo</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 1.5rem;">
+                    <div>
+                        <p><strong>E-mail:</strong> gladiston.santana@gmail.com</p>
+                        <p><strong>Telegram:</strong> <a href="https://t.me/gladistonsantana">@gladistonsantana</a></p>
+                        <p><strong>Local:</strong> São Paulo, Brasil</p>
+                    </div>
+                    <div>
+                        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/gladiston-santana-25b9007/">Gladiston Santana</a></p>
+                        <p><strong>YouTube:</strong> <a href="https://www.youtube.com/channel/UCwta2liAMpld7O_YdAgpfdA">Canal de Tecnologia</a></p>
+                    </div>
                 </div>
-                <div class="card">
-                    <h3>Automação & Dados</h3>
-                    <p>Criação de scripts robustos em Bash e Python para automação de servidores. Expertise em SQL ANSI e diversos SGBDs (PostgreSQL, Firebird, MSSQL).</p>
-                </div>
-            </div>
-        </section>
-        <section id="sobre" style="margin-top: 5rem;">
-            <h2>Sobre Mim</h2>
-            <p>Atuo na coordenação técnica e desenvolvimento de sistemas que permanecem em produção há décadas. Tenho foco em criar interfaces que simplificam tarefas complexas para usuários e equipes técnicas, otimizando recursos e tempo.</p>
-            <p style="margin-top: 1rem;">Baseado em <strong>São Paulo</strong>, mantenho uma forte conexão com a comunidade open-source, especialmente em projetos voltados para Debian e Lazarus.</p>
-            <p style="margin-top: 1.5rem;"><a href="sobremim.html">Conheça minha trajetória completa &rarr;</a></p>
-        </section>
-        <section id="contato" class="contato-container">
-            <h2>Conecte-se Comigo</h2>
-            <div class="contato-grid">
-                <div>
-                    <div class="contato-item"><strong>E-mail:</strong> <span id="email-ofuscado">gladiston.santana@gmail.com</span></div>
-                    <div class="contato-item"><strong>Telegram:</strong> <a href="https://t.me/gladistonsantana">@gladistonsantana</a></div>
-                    <div class="contato-item"><strong>Local:</strong> São Paulo, Brasil</div>
-                </div>
-                <div>
-                    <div class="contato-item"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/gladiston-santana-25b9007/">Gladiston Santana</a></div>
-                    <div class="contato-item"><strong>YouTube:</strong> <a href="https://www.youtube.com/channel/UCwta2liAMpld7O_YdAgpfdA">Canal de Tecnologia</a></div>
-                </div>
-            </div>
-        </section>
+            </section>
+        </article>
     </main>
-    <footer><p>&copy; 2026 Gladiston Santana. Página estática via GitHub Pages.</p></footer>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
 </body>
 </html>

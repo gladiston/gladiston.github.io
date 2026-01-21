@@ -4,61 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eu e o Banco de Dados - Gladiston Santana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #fff; color: #333; line-height: 1.6; }
-        header { background: #e67e22; color: #fff; padding: 3rem 5%; }
-        nav { width: 100%; background: #2c3e50; position: sticky; top: 0; z-index: 1000; }
-        nav ul { display: flex; list-style: none; padding: 0 5%; }
-        nav ul li a { display: block; padding: 1.2rem 1.5rem; color: #fff; text-decoration: none; }
-        main { padding: 4rem 5%; }
-        .db-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 2rem; }
-        .db-card { background: #fdfdfd; padding: 1.5rem; border-radius: 8px; border: 1px solid #eee; }
-        h3 { color: #e67e22; margin-bottom: 0.8rem; }
-        .back-link { display: inline-block; margin-top: 2rem; color: #e67e22; font-weight: 600; text-decoration: none; }
-        footer { width: 100%; padding: 3rem 5%; background: #2c3e50; color: #ecf0f1; text-align: center; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
-    <header>
-        <h1>Eu e o Banco de Dados</h1>
-        <p>Da era xBase (Clipper/Paradox) aos modernos SGBDs Relacionais e SQL ANSI-2002.</p>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Eu e o Banco de Dados</h1>
+                <p>Da era xBase (Clipper/Paradox) aos modernos SGBDs Relacionais e SQL ANSI-2002.</p>
+            </div>
+        </div>
     </header>
-    <nav>
-        <ul>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
             <li><a href="index.html">Início</a></li>
             <li><a href="pascal.html">Pascal</a></li>
             <li><a href="python.html">Python</a></li>
             <li><a href="bash.html">Bash</a></li>
             <li><a href="linux.html">Linux</a></li>
-            <li><a href="sobremim.html">Sobre mim</a></li>
-            <li><a href="sobremim.html">Contato</a></li>
+            <li><a href="sobre-mim.html">Sobre mim</a></li>
+            <li><a href="contato.html">Contato</a></li>
         </ul>
     </nav>
+
     <main>
-        <p>Minha experiência com dados começou profissionalmente com <strong>DBASE</strong> e <strong>Clipper</strong>, onde a manipulação de arquivos de dados era direta. Hoje, domino o ecossistema SQL, atuando tanto no desenvolvimento de queries complexas quanto na administração de servidores de banco de dados.</p>
-        <div class="db-grid">
-            <div class="db-card">
-                <h3>MSSQL Server</h3>
-                <p>Especialista desde a versão 6.5. Experiência em administração, desenvolvimento DDL/DML, escrita de Stored Procedures e recuperação de bases corrompidas.</p>
+        <article>
+            <p>Minha experiência com dados começou profissionalmente com <strong>DBASE</strong> e <strong>Clipper</strong>, onde a manipulação de arquivos de dados era direta. Hoje, domino o ecossistema SQL, atuando tanto no desenvolvimento de queries complexas quanto na administração de servidores de banco de dados.</p>
+
+            <div class="db-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 2rem;">
+                <div class="db-card" style="background: #fdfdfd; padding: 1.5rem; border-radius: 8px; border: 1px solid #eee; border-left: 5px solid var(--azul-principal);">
+                    <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">MSSQL Server</h3>
+                    <p>Especialista desde a versão 6.5. Experiência em administração, desenvolvimento DDL/DML, escrita de Stored Procedures e recuperação de bases corrompidas.</p>
+                </div>
+                <div class="db-card" style="background: #fdfdfd; padding: 1.5rem; border-radius: 8px; border: 1px solid #eee; border-left: 5px solid var(--azul-principal);">
+                    <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Open Source (PostgreSQL/MySQL)</h3>
+                    <p>Desenvolvimento focado em performance e integridade de dados. Familiaridade com as particularidades de cada motor de busca.</p>
+                </div>
+                <div class="db-card" style="background: #fdfdfd; padding: 1.5rem; border-radius: 8px; border: 1px solid #eee; border-left: 5px solid var(--azul-principal);">
+                    <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">FirebirdSQL</h3>
+                    <p>Vasta experiência em administração e desenvolvimento, com foco em sistemas que utilizam Delphi e Lazarus como frontend.</p>
+                </div>
+                <div class="db-card" style="background: #fdfdfd; padding: 1.5rem; border-radius: 8px; border: 1px solid #eee; border-left: 5px solid var(--azul-principal);">
+                    <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Legado & Flat-Tables</h3>
+                    <p>Manutenção e migração de dados em formatos históricos: xBase (.dbf), Paradox e MS Access.</p>
+                </div>
             </div>
-            <div class="db-card">
-                <h3>Open Source (PostgreSQL/MySQL)</h3>
-                <p>Desenvolvimento focado em performance e integridade de dados. Familiaridade com as particularidades de cada motor de busca.</p>
-            </div>
-            <div class="db-card">
-                <h3>FirebirdSQL</h3>
-                <p>Vasta experiência em administração e desenvolvimento, com foco em sistemas que utilizam Delphi e Lazarus como frontend.</p>
-            </div>
-            <div class="db-card">
-                <h3>Legado & Flat-Tables</h3>
-                <p>Manutenção e migração de dados em formatos históricos: xBase (.dbf), Paradox e MS Access.</p>
-            </div>
-        </div>
-        <p style="margin-top: 2rem;"><strong>Diferencial:</strong> Sou proficiente em SQL ANSI-2002, o que me permite transitar entre diferentes SGBDs (incluindo Oracle) com facilidade, garantindo a portabilidade do código sempre que possível.</p>
-        <a href="sobremim.html" class="back-link">&larr; Voltar para Sobre Mim</a>
+
+            <p style="margin-top: 2rem;"><strong>Diferencial:</strong> Sou proficiente em SQL ANSI-2002, o que me permite transitar entre diferentes SGBDs (incluindo Oracle) com facilidade, garantindo a portabilidade do código sempre que possível.</p>
+
+            <a href="sobre-mim.html" class="back-link">&larr; Voltar para Sobre mim</a>
+        </article>
     </main>
-    <footer><p>&copy; 2026 Gladiston Santana. Página estática via GitHub Pages.</p></footer>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
 </body>
 </html>

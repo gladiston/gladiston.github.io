@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerPDF - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>PowerPDF</h1>
+                <p>Geração nativa de documentos PDF em Pascal</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>O <strong>PowerPDF</strong> é uma suíte de componentes não visuais projetada para permitir que desenvolvedores Lazarus e Delphi criem documentos PDF de forma nativa. Ao contrário de impressoras virtuais de PDF, o PowerPDF gera o arquivo diretamente através de comandos de desenho e escrita, oferecendo um controle preciso sobre o layout, fontes e elementos gráficos do documento final.</p>
+
+            <h2>Características e Compatibilidade</h2>
+            <p>Os documentos gerados seguem o padrão PDF 1.2. É importante destacar que o PowerPDF é focado exclusivamente na <strong>criação</strong> de arquivos; ele não possui recursos para visualização ou edição de PDFs já existentes.</p>
+
+            <p>Embora você possa optar por outros geradores de relatórios, o PowerPDF é uma dependência comum em diversos pacotes do Lazarus. Por isso, recomendo manter este componente instalado em seu ambiente de desenvolvimento para evitar problemas de compilação em projetos de terceiros.</p>
+
+            <div class="info-box">
+                <p><strong>Nota técnica:</strong> Por ser um conjunto de componentes não visuais, o PowerPDF é extremamente leve e ideal para serviços de servidor ou aplicações que precisam gerar documentos em lote sem interface com o usuário.</p>
+            </div>
+
+            <h2>Exemplo Prático de Uso</h2>
+            <p>Abaixo, um exemplo simplificado de como utilizar os componentes <code>TPDFDocument</code> e <code>TPDFPage</code> para gerar um arquivo PDF via código:</p>
+
+<pre><code>procedure GerarPdfSimples;
+var
+  pdf: TPrPDFDocument;
+  pagina: TPrPdfPage;
+begin
+  pdf := TPrPDFDocument.Create(nil);
+  pagina := TPrPdfPage.Create(nil);
+  try
+    pagina.Document := pdf;
+    pdf.FileName := 'meu_documento.pdf';
+    pdf.BeginDoc;
+
+    // Define a fonte e escreve um texto na posição X=50, Y=50
+    pagina.Canvas.Font.Name := 'Helvetica';
+    pagina.Canvas.Font.Size := 12;
+    pagina.Canvas.TextOut(50, 50, 'Olá! Este é um PDF gerado com PowerPDF no Lazarus.');
+
+    pdf.EndDoc;
+  finally
+    pagina.Free;
+    pdf.Free;
+  end;
+end;</code></pre>
+
+            <h2>Documentação Oficial</h2>
+            <p>Para aprender sobre recursos avançados, como a inserção de imagens, tabelas e desenhos vetoriais, consulte a Wiki oficial:</p>
+
+            <a href="https://wiki.lazarus.freepascal.org/PowerPDF" target="_blank" class="btn-link">Documentação Técnica: PowerPDF Wiki</a>
+
+            <div class="video-cta" style="background: #f9f9f9; border: 2px solid #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600;">Quer ver mais implementações?</p>
+                <a href="lazarus_guia_exemplos.html" class="btn-link" style="background-color: #1a5276; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Ver Artigo: Aprendendo por Exemplos
+                </a>
+            </div>
+
+            <h2>Conclusão</h2>
+            <p>O PowerPDF continua sendo uma ferramenta valiosa pela sua simplicidade e por ser totalmente "self-contained". Se o seu objetivo é gerar recibos, etiquetas ou documentos simples sem a necessidade de um motor de relatórios pesado, o PowerPDF oferece a agilidade necessária com um consumo mínimo de recursos do sistema.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

@@ -4,202 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Python: Backoffice & Conectividade - Gladiston Santana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        /* Regra 1: Estilo e Identidade - Layout Full Width */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: #333;
-            line-height: 1.6;
-            width: 100%;
-        }
-
-        code, pre, .mono {
-            font-family: 'Fira Code', monospace;
-        }
-
-        /* Regra 1: Cabeçalho com cor de destaque Laranja (#e67e22) */
-        header {
-            width: 100%;
-            background: #e67e22;
-            color: white;
-            padding: 4rem 5%;
-        }
-
-        header h1 {
-            font-size: 2.8rem;
-            font-weight: 600;
-        }
-
-        header p {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            margin-top: 0.5rem;
-        }
-
-        /* Regra 2: Estrutura de Navegação Superior */
-        nav {
-            width: 100%;
-            background: #2c3e50;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            padding: 0 5%;
-            flex-wrap: wrap;
-        }
-
-        nav ul li a {
-            display: block;
-            padding: 1.2rem 1.5rem;
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background 0.3s;
-        }
-
-        nav ul li a:hover {
-            background: #e67e22;
-        }
-
-        /* Conteúdo Principal */
-        main {
-            width: 100%;
-            padding: 4rem 5%;
-        }
-
-        h2 {
-            color: #222;
-            border-left: 5px solid #e67e22;
-            padding-left: 15px;
-            margin-bottom: 2rem;
-            font-size: 2rem;
-        }
-
-        p { margin-bottom: 1.2rem; font-size: 1.15rem; color: #444; }
-
-        /* Grade de Habilidades */
-        .skill-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            margin-top: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .skill-card {
-            padding: 2rem;
-            border: 1px solid #eee;
-            border-radius: 12px;
-            background: #fdfdfd;
-            transition: transform 0.3s ease;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-            border-color: #e67e22;
-        }
-
-        .skill-card h3 { color: #e67e22; margin-bottom: 1rem; font-size: 1.4rem; }
-
-        /* Estilização de código */
-        pre {
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 1.5rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 2rem 0;
-            font-size: 0.95rem;
-        }
-
-        /* Regra 5: Rodapé Padrão 2026 */
-        footer {
-            width: 100%;
-            padding: 3rem 5%;
-            background: #2c3e50;
-            color: #ecf0f1;
-            text-align: center;
-            margin-top: 4rem;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 2rem;
-            font-weight: 600;
-            color: #e67e22;
-            text-decoration: none;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
 
-    <header>
-        <h1>Python para Engenharia de Sistemas</h1>
-        <p>Desenvolvimento focado em automação de backoffice e integração de dados.</p>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1 style="font-size: 1.6rem; color: #ffffff;">Python para Engenharia de Sistemas</h1>
+                <p style="font-size: 1rem; color: #ffffff;">Desenvolvimento focado em automação de backoffice e integração de dados.</p>
+            </div>
+        </div>
     </header>
 
-    <nav>
-        <ul>
+    <nav class="main-nav">
+        <ul class="nav-links">
             <li><a href="index.html">Início</a></li>
             <li><a href="pascal.html">Pascal</a></li>
             <li><a href="python.html">Python</a></li>
             <li><a href="bash.html">Bash</a></li>
             <li><a href="linux.html">Linux</a></li>
-            <li><a href="sobremim.html">Sobre mim</a></li>
-            <li><a href="sobremim.html">Contato</a></li>
+            <li><a href="sobre-mim.html">Sobre mim</a></li>
+            <li><a href="contato.html">Contato</a></li>
         </ul>
     </nav>
 
     <main>
-        <h2>Backoffice & Servidores</h2>
-        <p>Utilizo o Python como uma ferramenta poderosa para estender as capacidades do sistema operacional, criando ferramentas de backoffice que automatizam processos críticos que antes dependiam de intervenção manual.</p>
+        <article>
+            <h2>Backoffice & Servidores</h2>
+            <p>Utilizo o Python como uma ferramenta poderosa para estender as capacidades do sistema operacional, criando ferramentas de backoffice que automatizam processos críticos que antes dependiam de intervenção manual.</p>
 
-        <div class="skill-grid">
-            <div class="skill-card">
-                <h3>Automação de Servidores</h3>
-                <p>Desenvolvimento de serviços de background (daemons) para monitoramento de recursos, gestão de logs e automação de tarefas de infraestrutura em ambientes heterogêneos.</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin: 2rem 0;">
+                <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd;">
+                    <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">Automação de Servidores</h3>
+                    <p style="font-size: 1rem;">Desenvolvimento de serviços de background (daemons) para monitoramento de recursos, gestão de logs e automação de tarefas de infraestrutura.</p>
+                </div>
+                <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd;">
+                    <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">Conectividade com SGBDs</h3>
+                    <p style="font-size: 1rem;">Expertise na criação de ETLs e middlewares utilizando SQLAlchemy e Psycopg2 para PostgreSQL e Firebird.</p>
+                </div>
+                <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd;">
+                    <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">APIs de Integração</h3>
+                    <p style="font-size: 1rem;">Construção de interfaces REST seguras para ponte entre bases de dados legadas e aplicações modernas.</p>
+                </div>
             </div>
-            <div class="skill-card">
-                <h3>Conectividade com SGBDs</h3>
-                <p>Expertise na criação de ETLs e middlewares de integração utilizando bibliotecas como SQLAlchemy e Psycopg2 para PostgreSQL, Firebird e SQL Server.</p>
-            </div>
-            <div class="skill-card">
-                <h3>APIs de Integração</h3>
-                <p>Construção de interfaces REST rápidas e seguras para servir de ponte entre bases de dados legadas e aplicações modernas, garantindo a integridade dos dados.</p>
-            </div>
-        </div>
 
-        <p>Abaixo, um exemplo de como estruturo conexões robustas para automação de processos de banco de dados:</p>
+            <section style="margin: 2.5rem 0; padding: 2rem; background: #f8f9fa; border-radius: 12px; border: 1px solid #ddd; border-left: 6px solid var(--azul-principal);">
+                <h3 style="color: var(--azul-principal); margin-bottom: 1rem;">Projeto em Destaque: Scripts-Py</h3>
+                <p>Mantenho um repositório dedicado a scripts utilitários de sistema e automação de processos, focados em produtividade e monitoramento de ambientes Linux.</p>
 
-        <pre><code>
-import psycopg2
+                <div style="margin-top: 1.5rem;">
+                    <a href="https://github.com/gladiston/scripts-py" target="_blank" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block;">
+                        Explorar Repositório scripts-py &rarr;
+                    </a>
+                </div>
+            </section>
+
+            <h2>Automação de Conectividade</h2>
+            <p>Abaixo, um exemplo de como estruturo conexões robustas para processos de banco de dados, disponível em meu repositório <a href="https://github.com/gladiston/scripts-py" target="_blank">scripts-py</a>:</p>
+
+            <pre><code>import psycopg2
 
 def connect_to_db():
     try:
-        # Conexão com foco em performance e segurança
-        conn = psycopg2.connect(host="servidor_producao", database="backoffice", user="admin")
+        # Exemplo de lógica para backoffice automatizado
+        conn = psycopg2.connect(
+            host="servidor_producao",
+            database="backoffice",
+            user="admin"
+        )
         print("Conectado ao backoffice com sucesso.")
         return conn
     except Exception as e:
         print(f"Erro na conectividade: {e}")
 
 if __name__ == "__main__":
-    connect_to_db()
-        </code></pre>
+    connect_to_db()</code></pre>
 
-        <a href="sobremim.html" class="back-link">&larr; Voltar para Sobre Mim</a>
+            <p style="margin-top: 2rem;"><a href="sobre-mim.html" class="back-link" style="color: var(--azul-principal); font-weight: 600; text-decoration: none;">&larr; Voltar para Sobre Mim</a></p>
+        </article>
     </main>
 
     <footer>
-        <p>&copy; 2026 Gladiston Santana. Página estática via GitHub Pages.</p>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
     </footer>
 
 </body>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introdução aos Geradores de Relatórios - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>Introdução aos Geradores de Relatórios</h2>
+                <p>Para programadores seniores, a escolha de um motor de relatórios envolve o ciclo de vida da manutenção, a infraestrutura do servidor e a autonomia necessária para o usuário final. Abaixo, apresentamos uma análise técnica aprofundada das ferramentas do ecossistema Lazarus/FPC.</p>
+            </section>
+
+            <section id="frce">
+                <h2>Fortes Report Community Edition (FRCE)</h2>
+                <p>O FRCE é o padrão para quem busca produtividade máxima "Design-on-Form". É ideal quando o relatório exige lógica complexa integrada diretamente ao código fonte da aplicação.</p>
+                <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
+                        <strong>Pontos Positivos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Acesso total a variáveis e funções do projeto via Pascal.</li>
+                            <li>Fácil depuração usando o próprio debugger da IDE.</li>
+                        </ul>
+                    </div>
+                    <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b;">
+                        <strong>Destaque Negativo:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Dependência da LCL. Inviável para servidores Linux Headless sem virtualização de display.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p>Wiki: <a href="https://wiki.freepascal.org/FortesReport" target="_blank">Wiki Fortes Report</a></p>
+            </section>
+
+            <section id="fpreport">
+                <h2>fpReport</h2>
+                <p>Motor de relatórios moderno do FPC, desenvolvido para microsserviços e aplicações web modernas.</p>
+                <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
+                        <strong>Pontos Positivos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Independência total de GUI. Perfeito para APIs REST e serviços de backend.</li>
+                        </ul>
+                    </div>
+                    <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b;">
+                        <strong>Destaque Negativo:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Paradigma de design abstrato; exige maior tempo de adaptação da equipe.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p>Wiki: <a href="https://wiki.freepascal.org/fpReport" target="_blank">Wiki fpReport</a></p>
+            </section>
+
+            <section id="fpspreadsheet">
+                <h2>fpSpreadSheet</h2>
+                <p>Biblioteca poderosa para a criação e manipulação técnica de arquivos de planilhas (XLS, XLSX, ODS) de forma nativa.</p>
+                <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
+                        <strong>Pontos Positivos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Gera planilhas reais para BI sem precisar de Excel ou LibreOffice instalados.</li>
+                            <li>Independente de GUI; funciona perfeitamente em modo console.</li>
+                        </ul>
+                    </div>
+                    <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b;">
+                        <strong>Destaque Negativo:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Manutenção onerosa para layouts fluidos devido ao uso de coordenadas de células (A1, B2).</li>
+                        </ul>
+                    </div>
+                </div>
+                <p>Wiki: <a href="https://wiki.freepascal.org/FPSpreadsheet" target="_blank">Wiki fpSpreadSheet</a></p>
+            </section>
+
+            <section id="fastreport">
+                <h2>FastReport (Lazarus Edition)</h2>
+                <p>Solução comercial líder, permitindo lógica avançada via PascalScript dentro do próprio relatório.</p>
+                <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
+                        <strong>Pontos Positivos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Editor visual de nível industrial e exportações altamente fiéis para múltiplos formatos.</li>
+                        </ul>
+                    </div>
+                    <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b;">
+                        <strong>Destaque Negativo:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Componente comercial pago; também depende de bibliotecas gráficas (GUI).</li>
+                        </ul>
+                    </div>
+                </div>
+                <p>Wiki: <a href="https://wiki.freepascal.org/FastReport_with_Lazarus" target="_blank">Wiki FastReport</a></p>
+            </section>
+
+            <section id="fpdf">
+                <h2>FPDF (fpdf4lazarus)</h2>
+                <p>Biblioteca de baixo nível para geração programática rápida de documentos PDF leves.</p>
+                <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
+                        <strong>Pontos Positivos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Performance máxima para geração de documentos simples (etiquetas/boletos) em massa.</li>
+                        </ul>
+                    </div>
+                    <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b;">
+                        <strong>Destaque Negativo:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Ausência de editor visual; desenvolvimento baseado em coordenadas X/Y manuais no código.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p>Wiki: <a href="https://wiki.freepascal.org/fpdf4lazarus" target="_blank">Wiki FPDF</a></p>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão para Decisão</h2>
+                <p>Cada ferramenta possui um cenário ideal: use <strong>FRCE</strong> ou <strong>FastReport</strong> para desktop, <strong>fpReport</strong> para serviços backend robustos e <strong>fpSpreadSheet</strong> quando a saída de dados para análise em planilhas for o requisito principal.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docagem básica - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Docagem básica</h2>
+
+            <p>O padrão do Lazarus é ter janelas vazadas (independentes): o Editor de Propriedades, o Editor de Código e o Explorador de Código ficam flutuando sobre a área de trabalho. Isso pode parecer um pouco desorganizado no início. Se você prefere um ambiente integrado, podemos juntar esses painéis à IDE principal.</p>
+
+            <p>Com a docagem básica, o ambiente ficará mais organizado, embora o editor de formulários continue separado dos demais componentes, conforme ilustrado abaixo:</p>
+
+            <div class="img-placeholder">
+                <img src="assets/img/docagem_1.png" alt="Lazarus IDE com docagem básica ativa">
+            </div>
+
+            <p>Note que o formulário ainda estará separado (vazado), o que difere um pouco da experiência padrão do Delphi.</p>
+
+            <h3>Como instalar a Docagem</h3>
+            <p>Se você gostou desse visual, acesse o menu <strong>Packages | Install/Uninstall packages</strong> (Instalar/desinstalar pacotes) e selecione os seguintes pacotes:</p>
+
+            <ul>
+                <li><code>AnchorDocking</code></li>
+                <li><code>AnchorDockingDsgn</code></li>
+            </ul>
+
+            <div class="img-placeholder">
+                <img src="assets/img/docagem_2.png" alt="Instalação dos pacotes AnchorDocking no Lazarus">
+            </div>
+
+            <p>Após adicionar os pacotes, clique em <strong>“Salvar e reconstruir IDE”</strong>. O Lazarus será reiniciado e já aparecerá com a nova organização de painéis.</p>
+
+            <h3>Considerações sobre o Layout</h3>
+            <p>Ter a janela de design de formulário separada do editor de código é excelente para setups com dois ou mais monitores, ou telas 4K e Superwide. No entanto, se você usa apenas um monitor FullHD e está acostumado ao estilo "Delphi-like" (onde o formulário ocupa o mesmo espaço do código e você alterna entre eles com <strong>F12</strong>), trabalhar com tudo 100% docado pode ser mais produtivo.</p>
+
+            <h3>Vídeo Demonstrativo</h3>
+            <p>Ainda tem dúvidas sobre o processo? Confira este guia em vídeo:
+                <a href="https://www.youtube.com/watch?v=khovw0YYG3E" target="_blank" rel="noopener">
+                    <strong>Docagem básica - Lazarus</strong>
+                </a>
+            </p>
+
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docagem do editor de formulário - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Docagem do editor de formulário</h2>
+
+            <p>A extensão abaixo é ideal para quem já está acostumado ao fluxo de trabalho do Delphi, onde o editor de formulários ocupa o mesmo espaço que o editor de código, permitindo alternar rapidamente entre eles usando a tecla <strong>F12</strong>.</p>
+
+            <p>Para obter esse comportamento, instale o seguinte pacote na sua IDE:</p>
+            <p><code>dockedformeditor</code></p>
+
+            <p>O <strong>dockedformeditor</strong> trabalha em conjunto com os pacotes <strong>AnchorDocking</strong> e <strong>AnchorDockingDsgn</strong>. Juntos, eles funcionam de forma muito estável e harmoniosa, sendo uma alternativa superior ao antigo <em>sparta_dockedformeditor</em>, que apresentava diversos bugs.</p>
+
+
+
+            <div class="img-placeholder">
+                <img src="assets/img/docagem_3.png" alt="Editor de formulário docado na área de código">
+            </div>
+
+            <p>Um recurso adicional interessante é a opção <strong>‘Anchors’</strong>, que melhora a exibição do formulário ao destacar as posições e o ancoramento dos componentes:</p>
+
+            <div class="img-placeholder">
+                <img src="assets/img/docagem_4.png" alt="Exibição de âncoras no editor docado">
+            </div>
+
+            <div class="alerta" style="background-color: #fff3cd; border-left: 5px solid #ffecb5; padding: 1.5rem; margin: 2rem 0; border-radius: 4px;">
+                <p><strong>⚠️ ALERTA:</strong> Nunca utilize estes pacotes simultaneamente com os pacotes da série <strong>Sparta</strong> (como o <em>sparta_formeditor</em>) em versões do Lazarus anteriores à 2.0. Isso causa sérias instabilidades, como janelas (ex: 'Fields Editor') que "fogem" para trás da IDE principal. O <em>Anchor Docking</em> é um fork do projeto Sparta que foi amplamente refatorado e melhorado.</p>
+            </div>
+
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

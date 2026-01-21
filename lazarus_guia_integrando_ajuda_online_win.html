@@ -3,149 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Integrando o editor de código com ajuda on line(Help) - Gladiston Santana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #fff;
-            color: #333;
-            line-height: 1.6;
-            width: 100%;
-        }
-
-        header {
-            width: 100%;
-            background: #e67e22;
-            color: #fff;
-            padding: 3rem 5%;
-            border-bottom: 5px solid #d35400;
-        }
-        nav {
-            width: 100%;
-            background: #fff;
-            padding: 1rem 5%;
-            position: sticky;
-            top: 0;
-            border-bottom: 1px solid #eee;
-            z-index: 100;
-        }
-
-        main {
-            width: 100%;
-            padding: 4rem 5%;
-        }
-
-        h2 { color: #d35400; margin: 2.5rem 0 1rem; border-bottom: 1px solid #fed; padding-bottom: 0.5rem; }
-        p { margin-bottom: 1.2rem; font-size: 1.1rem; }
-
-        blockquote {
-            background: #f9f9f9;
-            border-left: 10px solid #ccc;
-            margin: 1.5em 10px;
-            padding: 0.5em 10px;
-            font-family: 'Fira Code', monospace;
-            color: #d35400;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 2rem auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .todo-box {
-            background: #f8f9fa;
-            border: 2px dashed #ccc;
-            padding: 1.5rem;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .todo-text { color: #d9534f; font-weight: bold; font-size: 0.85rem; display: block; margin-top: 10px; }
-
-        .back-link { display: inline-block; margin-top: 2rem; text-decoration: none; color: #e67e22; font-weight: 600; }
-        footer { width: 100%; padding: 2.5rem 5%; background: #f8f9fa; text-align: center; border-top: 1px solid #eee; margin-top: 4rem; }
-    </style>
+    <title>Integrando o editor de código com ajuda on-line (Help) - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
-    <header>
-        <h1>Integrando o editor de código com ajuda on line(Help)</h1>
-        <p>Gladiston Santana - Um site para chamar de meu</p>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1 style="font-size: 1.6rem; color: #ffffff;">Integrando o Editor com Ajuda On-line</h1>
+                <p style="font-size: 1rem; color: #ffffff;">Configuração manual de documentação CHM no Lazarus IDE.</p>
+            </div>
+        </div>
     </header>
 
-    <nav>
-        <ul style="display: flex; justify-content: center; list-style: none; gap: 20px;">
-            <li><a href="index.html" style="text-decoration: none; color: #555;">Início</a></li>
-            <li><a href="lazarus_guia.html" style="text-decoration: none; color: #e67e22; font-weight: 600;">Lazarus IDE – Guia de Sobrevivência</a></li>
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
         </ul>
     </nav>
 
     <main>
         <article>
-            <p>(Este subtópico pode estar incompleto, talvez você possa ajudar enviando instruções que estejam faltando aqui)</p>
+            <p>Quando usado o instalador oficial do Lazarus, o editor de código já vem integrado à ajuda on-line. Isso significa que, ao pressionar <strong>F1</strong> com uma função ou método em foco, uma janela abre-se com a respectiva documentação. No entanto, em instalações via GIT ou fpcupdeluxe, essa integração precisa ser feita manualmente.</p>
 
-            <p>Quando usado o instalador oficial do Lazarus o editor de código é integrado a ajuda online, ou seja, se você der um F1 quando uma função ou método estiver em foco então uma janela abre-se com uma explicação sobre o mesmo. Infelizmente isso não funciona quando você faz a instalação via GIT, essa integração você precisa fazer manualmente. Vamos ao procedimento.</p>
+            <h2>Localizando o Utilitário de Ajuda</h2>
+            <p>Vá até a pasta:</p>
+            <pre>$(LazarusDir)\components\chmhelp\lhelp</pre>
+            <p>Lá você encontrará o executável <strong>lhelp</strong> (Linux/macOS) ou <strong>lhelp.exe</strong> (Windows). Se não o encontrar, certifique-se de que o pacote <code>chmhelppkg.lpk</code> foi compilado na IDE.</p>
 
-            <p>Vá até a pasta</p>
-            <blockquote>$(LazarusDir)\components\chmhelp\lhelp</blockquote>
+            <h2>Baixando os Arquivos de Documentação</h2>
+            <p>Agora, verifique a pasta:</p>
+            <pre>$(LazarusDir)\docs\chm</pre>
+            <p>Se ela estiver vazia, você precisará baixar os arquivos <code>.chm</code> oficiais. Acesse a página de documentação no SourceForge:</p>
+            <p><a href="http://sourceforge.net/projects/lazarus/files/Lazarus%20Documentation/" target="_blank">Download Lazarus Documentation</a></p>
 
-            <p>Lá você encontrará um arquivo intitulado <strong>lhelp</strong> (Linux, FreeBSD, macOS) ou <strong>lhelp.exe</strong> se for Windows. Se você não encontrá-lo é porque você não instalou o pacote ‘chmhelppkg.lpk’, o que é bem estranho, já que o mesmo vem pré-instalado logo depois da compilação pronta.</p>
-
-            <p>Agora vá para a pasta:</p>
-            <blockquote>$(LazarusDir)\docs\chm</blockquote>
-
-            <p>E lá você deve encontrar por uma série de arquivos com a extensão *.chm, no meu caso, eles não existem, então aponte seu navegador de internet para o seguinte endereço:</p>
-            <blockquote><a href="http://sourceforge.net/projects/lazarus/files/Lazarus%20Documentation/" target="_blank">http://sourceforge.net/projects/lazarus/files/Lazarus Documentation/</a></blockquote>
-
-            <p>É uma página assim:</p>
-            <div class="todo-box">
+            <div class="img-placeholder">
                 <img src="assets/img/help_sourceforge_page.png" alt="Página de Documentação no SourceForge">
-                <span class="todo-text">todo: gravar imagem assets/img/help_sourceforge_page.png (ref: image.png do original)</span>
             </div>
 
-            <p>Entre no link correspondente a versão mais recente e faça o Download dum arquivo .zip que internamente tem os arquivos de ajuda(.chm):</p>
-            <div class="todo-box">
+            <p>Baixe o arquivo <code>.zip</code> da versão mais recente que contém os arquivos de ajuda:</p>
+            <div class="img-placeholder">
                 <img src="assets/img/help_download_zip.png" alt="Download do ZIP de documentação">
-                <span class="todo-text">todo: gravar imagem assets/img/help_download_zip.png (ref: image-2.png do original)</span>
             </div>
 
-            <p>Descompacte os arquivos na pasta:</p>
-            <blockquote>$(LazarusDir)\docs\chm</blockquote>
-
-            <p>Ficando assim:</p>
-            <div class="todo-box">
-                <img src="assets/img/help_chm_folder.png" alt="Arquivos CHM descompactados">
-                <span class="todo-text">todo: gravar imagem assets/img/help_chm_folder.png (ref: image-4.png do original)</span>
+            <p>Extraia todo o conteúdo para dentro de <code>$(LazarusDir)\docs\chm</code>, de forma que os arquivos fiquem organizados assim:</p>
+            <div class="img-placeholder">
+                <img src="assets/img/help_chm_folder.png" alt="Arquivos CHM descompactados na pasta docs/chm">
             </div>
 
-            <p>Atenção que a imagem acima pode não mostrar todos os arquivos .chm que foram extraídos, a imagem é meramente ilustrativa.</p>
+            <h2>Configuração na IDE</h2>
+            <p>Normalmente, a IDE detecta os arquivos automaticamente após a extração. Caso não funcione, acesse o menu <strong>Tools | Options | Help</strong> e selecione <strong>CHM Help Viewer</strong>:</p>
 
-            <p>Neste ponto a IDE do Lazarus já é esperta o suficiente para quando você apertar F1 e chamar a ajuda online. Faça o teste usando o Object Inspector ou alguma função ou método em seu código.</p>
-
-            <p>Caso a ajuda online não funcione, vá em Tools|Options|Help, daí em CHM Help Viewer:</p>
-            <div class="todo-box">
-                <img src="assets/img/lazarus_help_options.png" alt="Configurações de ajuda na IDE">
-                <span class="todo-text">todo: gravar imagem assets/img/lazarus_help_options.png (ref: image-5.png do original)</span>
+            <div class="img-placeholder">
+                <img src="assets/img/lazarus_help_options.png" alt="Configurações de ajuda na IDE Lazarus">
             </div>
 
-            <p>Entenda os parâmetros:</p>
-            <p><strong>HelpExe</strong>: Deve apontar para o utilitário lhelp. Se você deixar em branco, a IDE o procurará em: $(LazarusDir)\components\chmhelp\lhelp\lhelp.exe, mas você pode indicar outro local. Opcionalmente no Windows, você pode escolher o utilitário “hh.exe””</p>
-            <p><strong>HelpEXEParams</strong>: Normalmente ficará vazio a mesmo que você precise chamar o utilitário com alguma opção de linha de comando. Se você optou por usar o utilitário “hh.exe” então neste caso o HelpEXEParams deve conter “%s::%s” (aspas duplas incluídas).</p>
-            <p><strong>HelpFilesPath</strong>: Deve apontar para o diretório onde estão os arquivos *.chm. Se você deixar em branco, a IDE os procurará em $(LazarusDir)\docs\html e também em $(LazarusDir)\docs\chm. No entanto, você pode especificar outro local.</p>
+            <ul>
+                <li><strong>HelpExe:</strong> Deve apontar para o <code>lhelp.exe</code>. Se vazio, a IDE busca o padrão em <code>components\chmhelp\lhelp\</code>.</li>
+                <li><strong>HelpEXEParams:</strong> Geralmente vazio. Se usar o <code>hh.exe</code> do Windows (opcional), utilize <code>"%s::%s"</code>.</li>
+                <li><strong>HelpFilesPath:</strong> Onde estão os arquivos <code>.chm</code>. O padrão é <code>$(LazarusDir)\docs\chm</code>.</li>
+            </ul>
 
-            <h2>CONCLUSÃO</h2>
-            <p>A documentação e a ajuda online é altamente requerida. Faz muito sentido você confirmar se a mesma está presente em seu sistema e se não o estiver então seguir os procedimentos delineados.</p>
+            <h2 style="border-bottom: 2px solid var(--azul-principal); padding-bottom: 0.5rem; margin-top: 3rem;">Conclusão</h2>
+            <p>A documentação local (F1) é essencial para produtividade, especialmente ao explorar a LCL (Lazarus Component Library). Seguir estes passos garante que você tenha as definições de classes e métodos sempre à mão.</p>
+
+            <a href="lazarus_guia.html" style="display: inline-block; margin-top: 2rem; font-weight: 600; color: var(--azul-principal); text-decoration: none;">&larr; Voltar para o Guia de Sobrevivência</a>
         </article>
-
-        <a href="lazarus_guia.html" class="back-link">&larr; Voltar para o Guia de Sobrevivência</a>
     </main>
 
     <footer>
         <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
     </footer>
+
 </body>
 </html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tchau ShowMessage, Olá TaskDialog no Lazarus - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Lazarus IDE: Modernizando Diálogos com TaskDialog</h1>
+                <p>Gladiston Santana - Desenvolvimento robusto e de alta performance</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article class="conteudo-principal">
+            <section id="introducao">
+                <h2>Introdução</h2>
+                <p>Por muito tempo, o <code>ShowMessage</code> foi a ferramenta padrão para exibir alertas rápidos em Pascal. No entanto, as interfaces modernas exigem mais flexibilidade, traduções consistentes e uma estética que se integre ao sistema operacional. O <strong>TTaskDialog</strong> surge como o substituto definitivo para as antigas funções <code>ShowMessage</code>, <code>MessageBox</code> e <code>MessageDlg</code>.</p>
+                <p>Neste artigo, veremos como implementar essa variação moderna no Lazarus, garantindo um comportamento uniforme em diferentes sistemas operacionais e permitindo uma personalização profunda das interações com o usuário.</p>
+            </section>
+
+
+
+            <section id="porque-usar">
+                <h2>Por que migrar para o TaskDialog?</h2>
+                <p>A principal vantagem é a consistência. Ao contrário dos diálogos antigos, onde os botões muitas vezes não seguiam a tradução do sistema (exibindo "Yes/No" em aplicações em português), o TaskDialog permite total controle sobre os textos, ícones e até a inclusão de elementos como RadioGroups e hyperlinks.</p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/ttaskdialog_example.png" alt="Exemplo de TTaskDialog com múltiplos recursos">
+                    <p><em>Exemplo de diálogo configurado como assistente (Wizard).</em></p>
+                </div>
+            </section>
+
+            <section id="refatoracao">
+                <h2>Refatoração Prática</h2>
+                <p>Muitos desenvolvedores evitam o TaskDialog pelo volume de código necessário. A solução "Web Senior" para isso é a <strong>refatoração</strong>. Ao criar uma função global, você mantém a simplicidade do <code>ShowMessage</code> com o poder do TaskDialog.</p>
+
+                <pre><code>procedure ShowMessage2(ATexto: String; ATitle: String='Informação:'; ACaption: String='');
+begin
+  if ACaption = '' then ACaption := ExtractFileName(Application.ExeName);
+  with TTaskDialog.Create(nil) do
+  try
+    Caption := ACaption;
+    Title := ATitle;
+    Text := ATexto;
+    CommonButtons := [tcbOk];
+    MainIcon := tdiInformation;
+    Execute;
+  finally
+    Free;
+  end;
+end;</code></pre>
+            </section>
+
+            <section id="opcoes-avancadas">
+                <h2>Botões Customizados e RadioButtons</h2>
+                <p>O TaskDialog brilha quando precisamos de respostas específicas. Podemos substituir os botões padrão por textos personalizados (como "Remover" e "Manter") e até incluir listas de opções via RadioButtons para escolhas complexas.</p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/taskdialog_linux.png" alt="TaskDialog com opções no ambiente Linux">
+                </div>
+
+                <pre><code>// Exemplo de chamada com múltiplas opções
+iResposta := QueroEscolher(
+    'Gerar Planilha',
+    'Deseja incluir dados sigilosos?',
+    'Ao prosseguir você concorda com os termos da LGPD...',
+    ['Planilha básica', 'Planilha com CPF oculto*', 'Planilha completa']
+);</code></pre>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/taskdialog_windows_radio.png" alt="TaskDialog com RadioButtons no Windows">
+                </div>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>O <strong>TTaskDialog</strong> não é apenas uma melhoria estética; é uma ferramenta de produtividade e qualidade de software. Ao fatorar suas janelas de diálogo, você reduz o código repetitivo e oferece uma experiência de usuário superior, seja no Windows ou no Linux.</p>
+                <p>Embora o Lazarus ofereça constantes adicionais como o <code>tdiQuestion</code> (inexistente nativamente no Delphi), a lógica de implementação permanece a mesma, facilitando a portabilidade dos seus projetos Pascal.</p>
+                <p>Abandone os diálogos obsoletos e leve suas aplicações para o próximo nível de maturidade visual.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

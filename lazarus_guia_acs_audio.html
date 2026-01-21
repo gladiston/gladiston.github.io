@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACS – Audio Components - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>ACS – Audio Components</h1>
+                <p>Desenvolvimento de Áudio Multiplataforma no Lazarus</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>Implementar recursos de áudio no Lazarus é um desafio de portabilidade. Enquanto no Windows a operação de tocar um arquivo <code>.wav</code> é resolvida com uma simples chamada à API do sistema, no Linux e no macOS a abordagem é completamente diferente. O <strong>ACS (Audio Components Suite)</strong> é o pacote definitivo que padroniza o tratamento de áudio, permitindo desde a reprodução simples até a manipulação complexa de fluxos sonoros de forma multiplataforma.</p>
+
+            <h2>O Desafio da Reprodução de Som</h2>
+            <p>O método mais comum no Windows envolve a unit <code>MMSystem</code>, que é leve e nativa, mas vincula o código exclusivamente a esse sistema operacional. O ACS, por outro lado, é um "canhão" tecnológico: ele suporta diversos codecs, drivers de saída (como ALSA e OSS no Linux) e permite processamento em tempo real. A única ressalva é que ele pode exigir bibliotecas externas (DLLs ou .so) dependendo do formato de áudio escolhido.</p>
+
+
+
+            <h2>Exemplo Didático: Código Multiplataforma</h2>
+            <p>Para criar um código profissional, o ideal é usar a técnica de <strong>compilação condicional</strong>. Assim, mantemos a simplicidade nativa no Windows e a robustez do ACS no Linux.</p>
+
+            <h3>1. Configuração do Uses</h3>
+<pre><code>uses
+  SysUtils, Classes,
+  {$IFDEF WINDOWS}
+    MMSystem, // API nativa e leve do Windows
+  {$ENDIF}
+  {$IFDEF LINUX}
+    acs_misc, acs_audio, acs_cdrom; // Units do pacote ACS
+  {$ENDIF}</code></pre>
+
+            <h3>2. Implementação do Player</h3>
+            <p>Abaixo, um exemplo de como tocar um alerta sonoro de forma assíncrona (sem travar o programa):</p>
+
+<pre><code>procedure TForm1.TocarAlerta(CaminhoArquivo: string);
+var
+  AcsAudioOut: TAcsAudioOut;
+  AcsIn: TAcsFileIn; // Ou TAcsCDIn para streams específicos
+begin
+  if not FileExists(CaminhoArquivo) then Exit;
+
+  {$IFDEF WINDOWS}
+    // No Windows, uma linha resolve o problema nativamente
+    sndPlaySound(PChar(CaminhoArquivo), SND_ASYNC or SND_NODEFAULT);
+  {$ENDIF}
+
+  {$IFDEF LINUX}
+    // No Linux, montamos a cadeia de áudio do ACS
+    AcsIn := TAcsFileIn.Create(nil);
+    AcsAudioOut := TAcsAudioOut.Create(nil);
+    try
+      AcsIn.FileName := CaminhoArquivo;
+      AcsAudioOut.Input := AcsIn;
+      AcsAudioOut.DriverName := 'ALSA'; // Driver padrão na maioria das distros
+      AcsAudioOut.Run; // Inicia a reprodução
+    finally
+      // Nota: Em aplicações reais, a liberação deve ocorrer após o término do áudio
+      AcsAudioOut.Free;
+      AcsIn.Free;
+    end;
+  {$ENDIF}
+end;</code></pre>
+
+            <h2>Vantagens do ACS</h2>
+            <ul>
+                <li><strong>Abstração de Drivers:</strong> Você não precisa se preocupar se o Linux usa ALSA ou PulseAudio.</li>
+                <li><strong>Recursos Avançados:</strong> Permite fazer mixagem, conversão de formatos (MP3, OGG, FLAC) e visualização de ondas (Spectrogram).</li>
+                <li><strong>Comunidade Ativa:</strong> É um dos pacotes de áudio mais antigos e estáveis do ecossistema Free Pascal.</li>
+            </ul>
+
+            <div class="video-cta" style="background: #fdfefe; border: 2px dashed #2e86c1; padding: 2rem; text-align: center; border-radius: 12px; margin: 2rem 0;">
+                <p style="margin-bottom: 1.5rem; font-weight: 700; color: #2e86c1;">WIKI OFICIAL: DOCUMENTAÇÃO COMPLETA DO ACS</p>
+                <a href="https://wiki.freepascal.org/ACS" target="_blank" class="btn-link" style="background-color: #2e86c1; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold;">
+                    ACESSAR DOCUMENTAÇÃO TÉCNICA
+                </a>
+            </div>
+
+            <h2>Conclusão</h2>
+            <p>O uso do ACS é fundamental para quem deseja que suas aplicações Lazarus soem profissionalmente em qualquer lugar. Embora pareça complexo para tocar um simples <code>.wav</code> no Linux, essa complexidade é o preço da flexibilidade que o pacote oferece. Ao adotar a abordagem híbrida (MMSystem + ACS), seu software permanece otimizado para Windows enquanto ganha vida sonora em ambientes Unix-like.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

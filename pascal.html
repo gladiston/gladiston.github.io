@@ -4,212 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pascal: Delphi & Free Pascal - Gladiston Santana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        /* Regra 1: Estilo e Identidade - Layout Full Width */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: #333;
-            line-height: 1.6;
-            width: 100%;
-        }
-
-        code, pre, .mono {
-            font-family: 'Fira Code', monospace;
-        }
-
-        /* Regra 1: Cabeçalho com cor de destaque Laranja (#e67e22) */
-        header {
-            width: 100%;
-            background: #e67e22;
-            color: white;
-            padding: 4rem 5%;
-        }
-
-        header h1 {
-            font-size: 2.8rem;
-            font-weight: 600;
-        }
-
-        header p {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            margin-top: 0.5rem;
-        }
-
-        /* Regra 2: Estrutura de Navegação Superior */
-        nav {
-            width: 100%;
-            background: #2c3e50;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            padding: 0 5%;
-            flex-wrap: wrap;
-        }
-
-        nav ul li a {
-            display: block;
-            padding: 1.2rem 1.5rem;
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background 0.3s;
-        }
-
-        nav ul li a:hover {
-            background: #e67e22;
-        }
-
-        /* Conteúdo Principal */
-        main {
-            width: 100%;
-            padding: 4rem 5%;
-        }
-
-        h2 {
-            color: #222;
-            border-left: 5px solid #e67e22;
-            padding-left: 15px;
-            margin-bottom: 2rem;
-            font-size: 2rem;
-        }
-
-        p { margin-bottom: 1.2rem; font-size: 1.15rem; color: #444; }
-
-        /* Estilização de código */
-        pre {
-            background: #f4f4f4;
-            padding: 1.5rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            border: 1px solid #ddd;
-            margin: 2rem 0;
-        }
-
-        /* Cards de Links Relacionados (Regra 6: Links Locais) */
-        .related-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-top: 4rem;
-        }
-
-        .action-card {
-            padding: 2.5rem;
-            background: #fdfdfd;
-            border: 2px solid #eee;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.3s ease;
-        }
-
-        .action-card:hover {
-            transform: translateY(-5px);
-            border-color: #e67e22;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
-
-        .action-card h3 {
-            color: #e67e22;
-            font-size: 1.6rem;
-            margin-bottom: 1rem;
-        }
-
-        .action-card p {
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .action-btn {
-            align-self: flex-start;
-            background: #e67e22;
-            color: white !important;
-            padding: 0.8rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            text-decoration: none !important;
-        }
-
-        /* Regra 5: Rodapé Padrão 2026 */
-        footer {
-            width: 100%;
-            padding: 3rem 5%;
-            background: #2c3e50;
-            color: #ecf0f1;
-            text-align: center;
-            margin-top: 4rem;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
 
-    <header>
-        <h1>Pascal: Delphi & Free Pascal</h1>
-        <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1 style="font-size: 1.6rem; color: #ffffff;">Pascal: Delphi & Free Pascal</h1>
+                <p style="font-size: 1rem; color: #ffffff;">Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
     </header>
 
-    <nav>
-        <ul>
+    <nav class="main-nav">
+        <ul class="nav-links">
             <li><a href="index.html">Início</a></li>
             <li><a href="pascal.html">Pascal</a></li>
             <li><a href="python.html">Python</a></li>
             <li><a href="bash.html">Bash</a></li>
             <li><a href="linux.html">Linux</a></li>
-            <li><a href="sobremim.html">Sobre mim</a></li>
-            <li><a href="sobremim.html">Contato</a></li>
+            <li><a href="sobre-mim.html">Sobre mim</a></li>
+            <li><a href="contato.html">Contato</a></li>
         </ul>
     </nav>
 
     <main>
-        <h2>Minha Trajetória com Pascal</h2>
-        <p>O Pascal é a linguagem que moldou minha forma de pensar como programador. Desde os tempos do Turbo Pascal até as versões modernas do Delphi e do Free Pascal, sempre apreciei a clareza sintática e a segurança que a linguagem oferece.</p>
+        <article>
+            <h2>Minha Trajetória com Pascal</h2>
+            <p>O Pascal é a linguagem que moldou minha forma de pensar como programador. Desde os tempos do Turbo Pascal até as versões modernas do Delphi e do Free Pascal, sempre apreciei a clareza sintática e a segurança que a linguagem oferece.</p>
 
-        <p>Tenho vasta experiência no desenvolvimento de aplicações desktop complexas, sistemas de automação comercial e ferramentas de infraestrutura. O compilador Free Pascal (FPC), em especial, permitiu-me levar essa expertise para o mundo Linux e ARM, garantindo portabilidade sem perda de desempenho.</p>
+            <p>Tenho vasta experiência no desenvolvimento de aplicações desktop complexas, sistemas de automação comercial e ferramentas de infraestrutura. O compilador Free Pascal (FPC), em especial, permitiu-me levar essa expertise para o mundo Linux e ARM, garantindo portabilidade sem perda de desempenho.</p>
 
-        <pre><code>
-program OlaMundo;
+            <pre><code>program OlaMundo;
 {$mode objfpc}{$H+}
 uses SysUtils;
 
 begin
   WriteLn('Desenvolvendo com Pascal em 2026...');
-end.
-        </code></pre>
+end.</code></pre>
 
-        <p>Seja gerenciando grandes bases de dados com componentes ZeosLib ou criando interfaces ricas com a LCL/VCL, o Pascal continua sendo uma ferramenta indispensável no meu arsenal técnico pela sua capacidade de gerar binários nativos e rápidos.</p>
+            <p>Seja gerenciando grandes bases de dados com componentes ZeosLib ou criando interfaces ricas com a LCL/VCL, o Pascal continua sendo uma ferramenta indispensável no meu arsenal técnico pela sua capacidade de gerar binários nativos e rápidos.</p>
 
-        <div class="related-cards">
-            <div class="action-card">
-                <div>
-                    <h3>Lazarus IDE – Guia de Sobrevivência</h3>
-                    <p>Acesse meu guia técnico detalhado com dicas de instalação, pacotes e produtividade para Lazarus.</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin-top: 3rem;">
+                <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Lazarus IDE – Guia de Sobrevivência</h3>
+                        <p style="font-size: 1rem;">Acesse meu guia técnico detalhado com dicas de instalação, pacotes e produtividade para Lazarus.</p>
+                    </div>
+                    <a href="lazarus_guia.html" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; align-self: flex-start; font-weight: 600; margin-top: 1rem;">Acessar Guia &rarr;</a>
                 </div>
-                <a href="lazarus_guia.html" class="action-btn">Acessar Guia &rarr;</a>
-            </div>
 
-            <div class="action-card">
-                <div>
-                    <h3>O Poder do FPC</h3>
-                    <p>Entenda por que o Free Pascal Compiler é uma das ferramentas mais versáteis para desenvolvimento moderno.</p>
+                <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">O Poder do FPC</h3>
+                        <p style="font-size: 1rem;">Entenda por que o Free Pascal Compiler é uma das ferramentas mais versáteis para desenvolvimento moderno.</p>
+                    </div>
+                    <a href="fpc_pascal.html" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; align-self: flex-start; font-weight: 600; margin-top: 1rem;">Descobrir &rarr;</a>
                 </div>
-                <a href="fpc_pascal.html" class="action-btn">Descobrir &rarr;</a>
             </div>
-        </div>
+        </article>
     </main>
 
     <footer>
-        <p>&copy; 2026 Gladiston Santana. Página estática via GitHub Pages.</p>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
     </footer>
 
 </body>

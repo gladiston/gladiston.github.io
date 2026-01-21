@@ -4,170 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usando fpcupdeluxe (nível médio) - Gladiston Santana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #fff;
-            color: #333;
-            line-height: 1.6;
-            width: 100%;
-        }
-
-        header {
-            width: 100%;
-            background: #e67e22;
-            color: #fff;
-            padding: 3rem 5%;
-            border-bottom: 5px solid #d35400;
-        }
-        nav {
-            width: 100%;
-            background: #fff;
-            padding: 1rem 5%;
-            position: sticky;
-            top: 0;
-            border-bottom: 1px solid #eee;
-            z-index: 100;
-        }
-
-        main {
-            width: 100%;
-            padding: 4rem 5%;
-        }
-
-        h1 { font-size: 2.2rem; margin-bottom: 1rem; }
-        h2 { color: #d35400; margin: 2.5rem 0 1rem; border-bottom: 1px solid #fed; padding-bottom: 0.5rem; }
-        p { margin-bottom: 1.2rem; font-size: 1.1rem; }
-
-        ul { margin-bottom: 1.2rem; margin-left: 2rem; }
-        li { margin-bottom: 0.5rem; font-size: 1.1rem; }
-
-        pre {
-            background: #1e1e1e;
-            color: #dcdcdc;
-            padding: 1.5rem;
-            border-radius: 8px;
-            font-family: 'Fira Code', monospace;
-            margin: 1.5rem 0;
-            overflow-x: auto;
-        }
-
-        blockquote {
-            margin: 1.5rem 0;
-            padding: 1rem 1.5rem;
-            border-left: 5px solid #e67e22;
-            background: #fff9f4;
-            font-style: italic;
-        }
-
-        .img-placeholder {
-            margin: 2rem auto;
-            text-align: center;
-        }
-        .img-placeholder img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .todo-box {
-            background: #fdf2f2;
-            border: 1px dashed #d9534f;
-            color: #d9534f;
-            padding: 10px;
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: inline-block;
-        }
-
-        .video-link-container {
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            margin: 2rem 0;
-        }
-        .video-link-container a {
-            color: #e67e22;
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 1.2rem;
-        }
-        .video-link-container a:hover { text-decoration: underline; }
-
-        .back-link { display: inline-block; margin-top: 2rem; text-decoration: none; color: #e67e22; font-weight: 600; }
-        footer { width: 100%; padding: 2.5rem 5%; background: #f8f9fa; text-align: center; border-top: 1px solid #eee; margin-top: 4rem; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
-    <header>
-        <h1>Usando fpcupdeluxe no Linux (nível médio)</h1>
-        <p>Gladiston Santana - Um site para chamar de meu</p>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
     </header>
 
-    <nav>
-        <ul style="display: flex; justify-content: center; list-style: none; gap: 20px;">
-            <li><a href="index.html" style="text-decoration: none; color: #555;">Início</a></li>
-            <li><a href="lazarus_guia.html" style="text-decoration: none; color: #e67e22; font-weight: 600;">Guia de Sobrevivência</a></li>
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
         </ul>
     </nav>
 
     <main>
         <article>
-            <p>A instalação manual com Lazarus+FPC no Linux permite uma <strong>instalação homeuser</strong>. Isso significa que você pode instalar e usar a IDE sem permissões administrativas (root), mantendo tudo dentro da sua pasta HOME.</p>
+            <h2>Usando fpcupdeluxe (nível médio)</h2>
 
-            <p>Antes de começar, certifique-se de ter o compilador FPC instalado via repositório:</p>
-            <p><a href="instalacao_linux_repositorios.html">Instalação no Linux: Instalar o FPC a partir dos repositórios</a></p>
+            <p>É mais simples uma instalação manual com o Lazarus+FPC, porque sua instalação será <em>homeuser</em>, isto é, podemos sem permissão especial instalar, configurar e usar. Nesta instalação, usaremos o <strong>fpcupdeluxe</strong> para instalar o FPC e Lazarus no HOME do usuário.</p>
 
-            <h2>Resolvendo Dependências</h2>
-            <p>Para corrigir avisos sobre o módulo <code>pk-gtk-module</code>, execute:</p>
-            <pre>sudo -i
+            <p>Primeiro tenha certeza de ter instalado o compilador e código fontes do fpc, caso não tenha, siga este link:
+               <a href="instalacao-no-linux-instalacao-a-partir-dos-repositorios-nivel-facil.html">Instalação no Linux: Instalar o FPC a partir dos repositórios</a>.
+            </p>
+
+            <p>Com o FPC instalado no seu sistema, você apenas baixa ou compila o Lazarus sem essa dependência monstruosa. O download e compilação no caso fpcupdeluxe será menor e, convenhamos, o FPC será algo que você não precisa modificar; deixá-lo instalado no sistema permitirá que a própria distro se encarregue de atualizá-la para você.</p>
+
+            <p>Ao executar programas construídos no Lazarus no ambiente Linux, pode surgir a seguinte mensagem de dependência no terminal:</p>
+
+            <blockquote>
+                <p>Gtk-Message: Failed to load module "pk-gtk-module"</p>
+            </blockquote>
+
+            <p>O programa executa normalmente, mas a falta dessa dependência pode indicar que algum aspecto visual não está como deveria. Para corrigir o problema, execute:</p>
+
+            <pre><code>sudo -i
 echo "/usr/lib64/gtk-3.0/modules" >> /etc/ld.so.conf.d/pk-gtk.conf
 echo "/usr/lib64/gtk-2.0/modules" >> /etc/ld.so.conf.d/gtk2.conf
-ldconfig</pre>
+ldconfig</code></pre>
 
-            <p>Para dependências de som e QT5:</p>
-            <p><strong>Debian/Ubuntu/Mint:</strong></p>
-            <pre>sudo apt install -y libqt5pas-dev libqt5pas1 libcanberra-gtk-module libcanberra-gtk3-module</pre>
-            <p><strong>Fedora:</strong></p>
-            <pre>sudo dnf install -y qt5pas-devel qt5-qtbase-devel libcanberra-gtk2 libcanberra-gtk3</pre>
+            <p>Outra mensagem de erro que pode ocorrer é esta:</p>
 
-            <h2>Download do fpcupdeluxe</h2>
-            <p><a href="https://github.com/LongDirtyAnimAlf/fpcupdeluxe/releases/latest" target="_blank">Releases fpcupdeluxe no GitHub</a></p>
+            <blockquote>
+                <p>Gtk-Message: Failed to load module "canberra-gtk-module"</p>
+            </blockquote>
+
+            <p>Isso não é um erro fatal, apenas um aviso de que o módulo de sons do GTK não está instalado. Para remover este aviso em sistemas <strong>Debian-like</strong> (Ubuntu, Mint):</p>
+
+            <pre><code>sudo apt install -y libqt5pas-dev libqt5pas1
+sudo apt install -y qtbase5-dev # caso use KDE
+sudo apt install -y libcanberra-gtk-module libcanberra-gtk3-module # caso use GNOME</code></pre>
+
+            <p>Em sistemas <strong>RedHat-like</strong> (Fedora):</p>
+
+            <pre><code>sudo dnf install -y qt5pas-devel qt5-qtbase-devel # caso use KDE
+sudo dnf install -y libcanberra-gtk2 libcanberra-gtk3 # caso use GNOME</code></pre>
+
+            <p>Sempre revise as dependências na <a href="https://wiki.lazarus.freepascal.org/fpcupdeluxe" target="_blank">página oficial do fpcupdeluxe</a>.</p>
 
             <div class="img-placeholder">
-                <img src="assets/img/instalacao_linux_fpcupdeluxe1.png" alt="Download fpcupdeluxe Linux">
-                <br>
-                <span class="todo-box">todo: gravar imagem de http://gladiston.net.br/wp-content/uploads/2022/01/instalacao_linux_fpcupdeluge1-1024x424.png para assets/img/instalacao_linux_fpcupdeluxe1.png</span>
+                <img src="assets/img/instalacao_linux_fpcupdeluge1.png" alt="Baixando o fpcupdeluxe">
+                <p><em>Baixando o fpcupdeluxe no GitHub</em></p>
             </div>
 
-            <p>Dê permissão de execução e inicie o instalador:</p>
-            <pre>chmod +x fpcupdeluxe-x86_64-linux
-./fpcupdeluxe-x86_64-linux</pre>
+            <p>O arquivo baixado é um executável. No terminal, dê permissão de execução e rode-o (exemplo para versão GTK):</p>
 
-            <h2>Configuração</h2>
-            <p>No <strong>Setup+</strong>, marque a opção de usar o FPC do sistema:</p>
+            <pre><code>chmod +x fpcupdeluxe-x86_64-linux
+./fpcupdeluxe-x86_64-linux</code></pre>
+
+            <p>Na tela do instalador, selecione <strong>fixes</strong> para FPC e Lazarus Version, e clique em <strong>Setup+</strong> para ajustar os parâmetros:</p>
+
             <div class="img-placeholder">
-                <img src="assets/img/instalacao_linux_instalador_fpc_system.png" alt="Use System FPC">
-                <br>
-                <span class="todo-box">todo: gravar imagem de http://gladiston.net.br/wp-content/uploads/2022/01/instalacao_linux_instalador1.png para assets/img/instalacao_linux_instalador_fpc_system.png</span>
+                <img src="assets/img/instalacao_linux_fpcupdeluge2.png" alt="Ajuste de parâmetros no fpcupdeluxe">
             </div>
 
-            <h2>Vídeo Tutorial</h2>
-            <div class="video-link-container">
-                <p>Assista ao passo a passo detalhado:</p>
-                <a href="https://www.youtube.com/watch?v=57AIzhlKqfw" target="_blank">🎥 #7: Instalar o Lazarus-IDE com fpcupdeluge - YouTube</a>
+            <p>Marque a opção <strong>Use system FPC for Lazarus</strong> conforme a imagem abaixo:</p>
+
+            <div class="img-placeholder">
+                <img src="assets/img/instalacao_linux_instalador1.png" alt="Marque Use system FPC">
             </div>
+
+            <div class="img-placeholder">
+                <img src="assets/img/instalacao_linux_fpcupdeluge3.png" alt="Outras opções do instalador">
+            </div>
+
+            <p>Confirme com OK e clique em <strong>Install/Update FPC+Laz</strong>. A instalação é demorada. Ao final, um atalho será criado no menu do sistema e o script <code>Lazarus_fpcupdeluxe</code> estará na sua pasta HOME.</p>
+
+            <div class="video-link">
+                <a href="https://www.youtube.com/watch?v=57AIzhlKqfw" target="_blank" class="back-link">
+                    🎞️ Assistir Vídeo: Instalar o Lazarus-IDE com fpcupdeluxe no Linux
+                </a>
+            </div>
+
         </article>
-
-        <a href="lazarus_guia.html" class="back-link">&larr; Voltar para o Guia de Sobrevivência</a>
     </main>
 
-    <footer>
-        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
     </footer>
+
 </body>
 </html>
