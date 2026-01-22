@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando o Zeos – ZQuery - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Usando o Zeos – ZQuery</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <p>O componente chamado TZQuery presente na paleta do Zeos é basicamente para executar queries que retornam valores para um TDataset ou ResultSet como preferir chamar. Daí componentes que contenham a propriedade Datasource e Dataset tais como DBGrid, DBEdit, DBNavigator,… se alimentam dele.</p>
+
+            <p>Uma capacidade muito interessante do TZQuery é que o mesmo é capaz de fazer o streaming ou paginação de dados conforme o uso, isto é importante porque ao trazer uma quantidade muito grande de dados para estação cliente, os recursos do cliente podem ser exauridos e talvez parar de responder. Mas usando o recurso de paginação, o cliente requisita os registros que precisará ver sob demanda. Imagine um DBGrid e imagine uma pesquisa contendo mil registros, porém o DBGrid mostra apenas 50 registros por vez, isto significará que a mesmo que você precisará ir para o registro #51 para a query vá até o servidor e pegue mais 50 registros. Claro que essa habilidade é configurável através de métodos como FetchRow ou FetchALL.</p>
+
+            <p>Há um componente muito similar chamado ZReadOnlyQuery, a única diferença é que não tem como usá-la para modificar os dados. Nem mesmo suporte a TUpdateSQL ela possui. Por não ter como usá-la para modificar o banco, pense nela como um componente mais leve para ser usado em consultas, relatórios, exportação de dados e afins.</p>
+
+            <p>Vamos a uma explicação sobre cada propriedade do componente ZQuery:</p>
+
+            <h2>Active</h2>
+
+            <p>Tipo "true" ou "false". Quando passa de falso para verdadeiro, a sentença SQL que estiver na propriedade "SQL" é executada e se tudo ocorrer bem então Active passa a ser "true", se falhar então permanece em "false". Algo sugerido antes de passar de false para true é testar se o mesmo não está ativo e se o estiver então fechá-lo, além de liberar memória, as outras propriedades não serão influenciadas por mudanças com o dataset aberto, como se faz isso? simples:</p>
+
+            <pre><code>if ZQuery1.Active then
+  ZQuery1.Close;</code></pre>
+
+            <h2>AutoCalcFields</h2>
+
+            <p>Tipo "true" ou "false". Quando verdadeiro indica que quando o Dataset for aberto haverá processamento de TFields definidos como "calculated" ("calculado" daqui em diante) no evento OnCalcFields. O calculo ocorre também quando o foco do dataset muda para o campo "calculado". Se falso, tais TFields mesmo que marcados como "calculado" não serão processados:</p>
+
+            <!-- 
+            wget -vc https://gladiston.net.br/wp-content/uploads/2022/03/zquery_calculated.png -O assets/img/lazarus_guia_zeos_query01.png
+            -->
+            <div class="img-container">
+                <img src="assets/img/lazarus_guia_zeos_query01.png" alt="Campos Calculated existem apenas na aplicação e são calculados no evento OnCalcFields">
+            </div>
+
+            <h2>CachedUpdates</h2>
+
+            <p>Tipo "true" ou "false". Os dados serão armazenados localmente pelo programa e não serão enviados para o banco de dados até que o método <strong>ApplyUpdates</strong> seja invocado junto com o <strong>CommitUpdates</strong> para confirmar as operações ou <strong>CancelUpdates</strong> para desfazê-las.</p>
+
+            <h2>Connection</h2>
+
+            <p>Tipo ZConnection. Toda query precisa estar assinalada a uma conexão, no caso do componente Zeos, uma conexão é também uma TIL(Transaction Isolation Layer). A partir do Zeos8 há um componente <strong>ZTransaction</strong> que corrige essa dificuldade e podemos ter uma query assinalada a uma conexão e um tipo de TIL em particular.</p>
+
+            <h2>DataSource</h2>
+
+            <p>Tipo TDatasource. Similar as propriedades LinkedFields, MasterFields e MasterSource para formulários que exibem dados do tipo Mestre/Detalhe, mas com uma única diferença, cria dinamicamente a query detalhe enquanto navega-se no datasource Mestre(apenas Datasource neste contexto). Por exemplo:</p>
+
+            <pre><code>select * from tdetalhe where campo1_tdetalhe =:campo2_tmestre</code></pre>
+
+            <p>É mais vantajoso do que usar LinkedFields, MasterFields e MasterSource porque estes funcionam apenas quando os dados já foram trazidos localmente e estão com o dataset ativo, enquanto usando a propriedade Datasource, uma nova query será gerada toda vez que a posição do cursor no datasource(mestre) se alterar.</p>
+
+            <h2>FetchRow</h2>
+
+            <p>Tipo Inteiro. Determina a quantidade de registros que serão trazidos por vez para o lado cliente, isso é basicamente uma paginação de dados automática. Por exemplo, se for informado <strong>50</strong> então apenas 50 registros serão trazidos para o lado cliente por vez. Isso minimiza o impacto que haveria se trouxesse todos os registros de uma única vez. Se usar <strong>zero</strong>, o sistema trará todos os registros e não haverá paginação e será uma consulta mais lenta e consumindo mais recursos. Se o valor for <strong>-1</strong>, o sistema arbitrará uma quantidade que julgar suficiente conforme a área disponível para exibi-las.</p>
+
+            <p>Quando paginação de dados está envolvida podemos usar o método FetchALL para trazer todos os registros para a estação cliente. Alguns usam FetchALL para poder usar a propriedade RecordCount que retorna a quantidade de registros, porém essa não é uma boa ideia porque todos os registros serão lidos, uma tarefa muito pesada para apenas saber quantos registros há. O ideal é um SELECT COUNT(*) por cima da query adjacente para obter quantidade de registros, imagine a query:</p>
+
+            <pre><code>Select * from clientes where razao_social like "a%"</code></pre>
+
+            <p>Como saber quantos registros a query acima retornou sem ter de usar um FetchALL? Usamos uma query derivativa, veja:</p>
+
+            <pre><code>Select count(*) from (
+  Select * from clientes where razao_social  like "a%"
+)</code></pre>
+
+            <p>Assim será perfeitamente possível criar uma função genérica e reutilizá-la sobre qualquer query. E se você se preocupou que algum campo será lido por causa da menção às colunas, o gerenciador de banco de dados tem inteligência suficiente para entender que nossa ação é saber a quantidade de registro e não os dados em si.</p>
+
+            <h2>Filter e Filtered</h2>
+
+            <p><strong>Filter</strong> é do tipo String, enquanto <strong>Filtered</strong> é "true" ou "false". Filter é basicamente uma expressão que determinará os resultados que estarão visíveis dentro dum TDataset quando <strong>Filtered=true</strong>. Se estiver paginando dados, todos os dados serão resgatados para a aplicação do filtro. Exemplo de filtros são "nome like '*santos*'" ou "cancelado=true".</p>
+
+            <p><strong>Importante</strong>: Se estiver usando paginação de dados, ao usar Filter e Filtered, todos os registros serão trazidos para o lado cliente, por isso, se puder usar WHERE em seu select será mais performático. Use Filtros quando todos os registros de que precisa já estão no lado cliente, é o caso de quando populamos uma tabela temporária para ser exibida em tela e depois processada.</p>
+
+            <h2>IndexFieldNames</h2>
+
+            <p>Nomes dos campos pelo qual manterá ordenação. Os nomes podem estar separados por ponto-e-virgula, por exemplo:</p>
+
+            <pre><code>nome;escolaridade</code></pre>
+
+            <p>Também é possível usar os sufixos "asc" ou "desc" para que a ordenação seja ascendente ou descendente:</p>
+
+            <pre><code>nome desc</code></pre>
+
+            <p>É bom usar essa propriedade com um índice atrelado a tabela, caso contrário, os dados terão de ser ordenados em tempo de execução e isso diminuirá significativamente a performance. Um exemplo prático de usá-lo é no evento onTitleClick de um DBGrid, veja o exemplo:</p>
+
+            <pre><code>procedure TfmPrincipal.DBgrid1TitleClick(Column: TColumn);
+begin
+  if SameText(zquery1.IndexFieldNames,Column.FieldName+' DESC') then
+    zquery1.IndexFieldNames:=Column.FieldName+' ASC'
+  else
+    zquery1.IndexFieldNames:=Column.FieldName+' DESC';
+end;</code></pre>
+
+            <p>As vezes também é necessário indicar que o título da coluna é clicável para ordenação, uma maneira de fazer isso é mudar a aparência do cursor quando passa o ponteiro do mouse por cima delas, isso pode ser conseguido usando o evento OnMouseMove do DBGrid, veja o exemplo:</p>
+
+            <pre><code>procedure TfmPrincipal.DBGrid1MouseMove(Sender: TObject;
+  Shift: TShiftState; X, Y: Integer);
+var
+  Col,
+  Row : Integer;
+  InTitle:Boolean;
+begin
+  Col := DBGrid1.MouseCoord(X, Y).X;
+  Row := DBGrid1.MouseCoord(X, Y).Y;
+  InTitle:=(Row=0);
+  if InTitle then
+    DBGrid1.Cursor:=crHandPoint
+  else
+    DBGrid1.Cursor:=crDefault;
+end;</code></pre>
+
+            <p><strong>Importante</strong>: Se estiver usando paginação de dados, ao usar IndexFieldNames, todos os registros serão trazidos para o lado cliente.</p>
+
+            <h2>LinkedFields, MasterFields e MasterSource</h2>
+
+            <p>Geralmente são usados em conjunto para exibição de dados do tipo Mestre&lt;-&gt;Detalhe. Por exemplo, a tabela clientes e tabela pedidos, você indica em pedidos que a MasterSource será a tabela de clientes, MasterFields será ID_CLIENTE que liga as duas tabelas e LinkedFields é automaticamente ajustada para dizer que ID_CLIENTE de uma tabela refere-se ID_CLIENTE de outra tabela. Geralmente usamos nomes de campos iguais em ambas, mas se a modelagem for diferente, não há problemas desde que o nomes dos campos sejam apontados corretamente em LinkedFields.</p>
+
+            <h2>Options</h2>
+
+            <p>Trata-se de um set de possibilidades, Sendo:</p>
+
+            <ul>
+                <li><strong>doAlignMaxRequiredWideStringFieldSize</strong>: o alinhamento usará o tamanho máximo da definição do campo como referencia</li>
+                <li><strong>doAlwaysDetailResync</strong>: Alguns bancos tem numero de linhas virtuais, e as vezes programadores usam essas linhas como referencias em visualizações mestre/detalhe. Aqui temos a possibilidade de alterar o <em>rowno </em>na tabela mestre e recarregar totalmente as tabelas de detalhes.</li>
+                <li><strong>doCachedLobs</strong>: Alguns drivers, como o Firebird, suportam o carregamento de LOBs (BLOBs e CLOBs) sob demanda. Esses drivers geralmente só carregam LOBs do servidor quando são lidos e os fecham se não forem mais necessários. A configuração doCachedLobs armazenará em cache esses BLOBs e CLOBs no lado do cliente. Drivers que não suportam o carregamento atrasado de LOBs ignorarão essa opção e sempre armazenarão em cache LOBs no lado do cliente.</li>
+                <li><strong>doCalcDefaults</strong>: Deve ser ativado por padrão. Os Zeos tentará carregar e manipular os valores padrão que sua definição de tabela contém para os campos. Se desligado, a ausência de um valor poderá gerar uma exceção.</li>
+                <li><strong>doDontSortOnPost</strong>: Não mude a ordem das linhas exibidas quando fizer o "Post".</li>
+                <li><strong>doNoAlignDisplayWidth</strong>: Não alinhe pela largura do titulo do campo(DisplayWidth)</li>
+                <li><strong>doOemTranslate</strong>: Usar ou não conversão para OEM.</li>
+                <li><strong>doPreferPrepared</strong>: Autopreparar ou não as queries. Se as queries tem parâmetros, mas foi esquecida a preparação, a partir da segunda execução faz o preparo automaticamente.</li>
+                <li><strong>doSmartOpen</strong>: Normalmente TZQuery e TZReadOnlyQuery irão gerar uma exceção se você tentar usar o método Open em instruções que não retornam dados. Isso pode acontecer ao usar INSERT, UPDATE e DELETE. Com essa opção definida, o conjunto de dados não gerará uma exceção, mas abrirá um conjunto de dados vazio com zero linhas e zero colunas.</li>
+                <li><strong>doUpdateMasterFirst</strong>: Isso significa que todas as tabelas de detalhes são registradas no mestre e vice-versa. Eu determino qual é o mestre e esta tabela é atualizada primeiro. Em seguida, todas as tabelas de detalhes serão atualizadas. Isso é muito útil se você tiver restrições.</li>
+            </ul>
+
+            <h2>ParamChar</h2>
+
+            <p>Parametros são aquelas ocorrências de variáveis dinâmicas precedidas geralmente por ":", exemplo:</p>
+
+            <pre><code>select * from clientes where id_cliente=:p_id_cliente</code></pre>
+
+            <p>Pois bem, <strong>:p_id_cliente</strong> é um parâmetro e os <strong>":"</strong> é o ParamChar. Um problema a ser evitado é achar que parâmetros são como macro-substituições, uma espécie de Search/Replace dentro de queries, pois não são. Parâmetros são formas de identificar para o servidor SGBD a possibilidade de repetição de uma mesma sentença SQL, daí ele passará a se lembrar do calculo de menor custo para a operação e não precisará recalculá-lo toda vez. Um ponto importante é que uma vez "preparada" qualquer query de mesma assinatura se beneficiará do calculo previamente realizado para qualquer usuário que estiver conectado e não apenas quem fez a primeira preparação, deveras, mesmo que quem preparou da primeira vez tenha sua conexão terminada a query ainda será mantida pelo tempo que o servidor considerar necessário.</p>
+
+            <p>A propriedade ParamChar existe porque nem sempre é desejável que parâmetros sejam identificados por <strong>":"</strong>, por que não? Porque podem haver sentenças onde <strong>":"</strong> deve ser tratado de outro jeito, por exemplo, no FirebirdSQL dependendo de como você cria um psql ":etiqueta" pode ser um parâmetro ou uma referencia a uma variável local e daí temos uma ambiguidade, ex:</p>
+
+            <pre><code>declare variable id_cliente int;
+begin
+  (...)
+  for select id_cliente from clientes where id_cliente=1001 into <strong>:id_cliente</strong>;</code></pre>
+
+            <p>No exemplo acima, id_cliente é um campo da tabela, contudo :id_cliente é excepcionalmente uma variável local de mesmo nome. Situações assim acontecem em banco de dados que tenham suporte a psql e note que não são parâmetros, mas o Zeos não saberá como distinguir, a menos que o psql seja escrito de uma maneira diferente ou que deixe de usar ":" como indicador de parâmetro para usar outro caractere diferente.</p>
+
+            <p>No FirebirdSQL, em algumas situações como a descrita acima é necessário trocar ParamChar, ex:</p>
+
+            <pre><code>execute block(p_id_cliente int=~p_id_cliente, p_cancelar boolean=~p_cancelar) returns (error_msg varchar(255));
+begin
+  error_msg='';
+  if (:p_id_cliente&lt;=0) then
+     error_msg='Codigo de cliente invalido';
+  (...) 
+  suspend;
+end</code></pre>
+
+            <p>Note que a assinatura (onde estão os parâmetros de entrada e saída) contêm ~p_id_cliente e ~p_cancelar, por que fiz assim? Para que pudêssemos indicar "~" como ParamChar e o Zeos entender que eles são os parâmetros e o :p_id_cliente mais abaixo fosse interpretado como parte do psql e o Zeos não toque nele.</p>
+
+            <p><strong>IMPORTANTE:</strong> Evite o "?"(ponto de interrogação) como ParamChar, pois ele é reservado para outra coisa e não funcionaria adequadamente.</p>
+
+            <h2>ParamCheck</h2>
+
+            <p>Tipo "true" ou "false". Se "true" a lista de parâmetros é esvaziada e os parametros são populados com base na SQL informada no momento em que o método ParamByName ou Params é invocado. Se o valor for "false" a lista não será conferida com o SQL e portanto a lista de parâmetros estará sempre intacta, mas você terá de fornecer os parâmetros(propriedade Params) manualmente.</p>
+
+            <h2>Params</h2>
+
+            <p>Tipo Lista. Em associação com as propriedades ParamCheck e SQL, mantêm uma lista de parametros que poderão ser usados. Existem os métodos .ParamByName('p_nome') e Params[n] que permitem acessar o parâmetro e seu valor. Ex:</p>
+
+            <pre><code>ShowMessage('Quantidade de parametros: '+IntToStr(zqupdate.Params.Count)); 
+zquery1.parambyname('p_id_cliente').AsInteger:=col_ID_CLIENTE;
+zquery1.parambyname('p_NOME_ALTERNATIVO').AsString:=col_NOME_ALTERNATIVO;
+zquery1.parambyname('p_END_CIDADE').AsString:=col_END_CIDADE;
+zquery1.parambyname('p_END_UF').AsString:=col_END_UF;
+zquery1.parambyname('p_STATUS').AsString:=col_STATUS;
+zquery1.Params[0].AsInteger:=col_ID_CLIENTE;
+zquery1.Params[1].AsString:=col_NOME_ALTERNATIVO;
+zquery1.Params[2].AsString:=col_END_CIDADE;
+zquery1.Params[3].AsString:=col_END_UF;
+zquery1.Params[4].AsString:=col_STATUS;</code></pre>
+
+            <p><strong>IMPORTANTE</strong>: Acessar ou mudar parâmetros pelo seu índice é bem mais rápido, mas só faça isso se estiver numa operação de lote muito demorada porque acessar seus valores usando o nome do parâmetro tem a vantagem de evitar erros como mudar a ordem dos parâmetros.</p>
+
+            <h2>Properties</h2>
+
+            <p>Uma lista de parâmetros para estabelecer comportamentos com a base de dados, usar properties aqui significa que os comportamentos que eu desejo é apenas para a query e não para a conexão inteira. Por exemplo, pode usar properties para estabelecer um timeout para sua query. Por exemplo, no firebird podemos:</p>
+
+            <pre><code>SET STATEMENT TIMEOUT 30 SECONDS;
+UPDATE CLIENTES SET STATUS='C' WHERE (...)</code></pre>
+
+            <p>Contudo, o comando SET poderia ser suprimido se eu acrescentasse como parâmetro:</p>
+
+            <pre><code>isc_req_stmt_timeout=30</code></pre>
+
+            <p>Porque ter uma propriedade assim já que podemos fazê-lo numa mesma sentença? Porque alguns bancos não permitem mais que uma instruções no mesmo statement então teria de executar o comando set numa execução e sua sentença SQL na seguinte. Então dependendo do banco de dados que for usar com o Zeos você pode economizar statement com <strong>Properties</strong>.</p>
+
+            <h2>ReadOnly</h2>
+
+            <p>Tipo "true" ou "false". Quando "true", os dados poderão ser lidos, mas nunca alterados. Vale ressaltar que se uma query será do inicio ao fim sempre <strong>read only</strong> então seria melhor usar o componente <strong>TZQueryReadOnly</strong> onde apesar do mesmo objetivo, nunca poderá mudar seu estado para realizar alterações ou ser usado em conjunto com TZUpdateSQL.</p>
+
+            <h2>Sequence e SequenceField</h2>
+
+            <p>É usado para obter uma sequencia numérica do objeto do tipo SEQUENCES no banco de dados. Até o Firebird2.5 usava-se este tipo de dados para obter sequencias que geralmente eram usadas como autoincremento dentro das tabelas. A partir da versão 3.0, o FirebirdSQL ganhou o tipo "autoincremento" para tabelas e não carece mais de usar SEQUENCES para este fim, mas você ainda pode usar um SEQUENCES para outras finalidades.</p>
+
+            <h2>ShowRecordTypes</h2>
+
+            <p>Permite exibir uma coluna virtual que indica o tipo de operação é efetuada com o registro antes do CommitUpdates, a saber:</p>
+
+            <ul>
+                <li>usUnmodified: Não modificado</li>
+                <li>usModified: Modificado</li>
+                <li>usInserted: Inserido</li>
+                <li>usDeleted: Excluído</li>
+            </ul>
+
+            <p>O Firedac no Delphi tem algo similar quando estamos usando Cached Updates, usamos para entender num conjunto de dados, o que será excluído, modificado ou inserido antes do CommitUpdates. Não há documentação farta em como mostrar essas operações no Zeos, mas presume-se algo similar ao Firedac com cached updates, por exemplo, se "usDeleted" estiver ligado neste set e CachedUpdates estiver ativo então será possível ver todos os registros excluídos.</p>
+
+            <h2>SortedFields</h2>
+
+            <p>Lista de campos para ordenação, geralmente usado em conjunto com a propriedade <strong>SortType</strong>. Muitas vezes é mais prático usar SortedFields e SortType do que IndexFieldNames na programação, veja o exemplo abaixo onde ao clicar no titulo de uma coluna no DBGrid haverá uma ordenação pelo campo seja ascendente ou descendente se clicar nele uma segunda vez:</p>
+
+            <pre><code>procedure TFormUsuarios.gridUsuarioTitleClick(Column: TColumn);
+begin
+  if tUsuario.SortType &lt;&gt; stAscending Then
+  begin
+    tUsuario.SortedFields:= Column.FieldName;
+    DataModuleMain.tUsuario.SortType := stDescending;
+  end
+  else
+  begin
+    tUsuario.SortedFields:= Column.FieldName;
+    tUsuario.SortType := stAscending;
+  end;   
+end;</code></pre>
+
+            <h2>SQL</h2>
+
+            <p>Tipo String. É a sentença SQL propriamente dita. Use o ParamChar ":" quando desejar usar parâmetros ou referenciar campos noutro resultset especificado em MasterSource.</p>
+
+            <h2>UpdateMode</h2>
+
+            <p>Set de Valores. Com o CachedUpdates (ou RequestLive com ZTable) ativo você pode alterar os valores locais e eles serão enviados ao servidor após o ApplyUpdates. Para que isso funcione, o sistema gerará queries dinamicamente para aplicar essas atualizações e ele tem basicamente dois métodos onde poderá localizar os registros originais que precisam ser atualizados:</p>
+
+            <ul>
+                <li><strong>umUpdateAll</strong>: Usa todos os campos, modificados ou não. Como se percebe é anti-performático.</li>
+                <li><strong>umUpdateChanged</strong>(default): Atualiza apenas os campos que foram modificados, neste caso você precisa ter uma primary key(PK) para ele saber gerar adequadamente a clausula where do SQL. Esse método é importante também para caso duas ou mais pessoas alterem o mesmo registro na rede, porém cada um deles gerará um update apenas dos campos que cada um modificou mantendo um mix de atualizações, não sobrepondo valores inalterados.</li>
+            </ul>
+
+            <h2>UpdateObject</h2>
+
+            <p>Referencia um TZUpdateSQL. Com um TZUpdateSQL em seu sistema você pode construir seu INSERT/UPDATE/DELETE de forma que uma alteração visual de um registros possa ser aplicado do jeito que você deseja. É muito mais prático do que escrever INSERT/UPDATE/DELETE na unha.</p>
+
+            <h2>WhereMode</h2>
+
+            <p>Set de Valores. Quando essas queries de INSERT/UPDATE/DELETE são criadas dinamicamente, será necessário localizar corretamente os registros originais que sofrerão a ação.</p>
+
+            <ul>
+                <li><strong>wmWhereAll</strong>: Todos os campos serão referenciados na clausula WHERE do SQL para localizar o valor original. Anti-performático. Só faz sentido essa opção em dados não "normatizados" ou "bagunçados".</li>
+                <li><strong>wmWhereKeyOnly</strong>: Usa apenas a primary-key como referencia.</li>
+            </ul>
+
+            <h2>Conclusão</h2>
+
+            <p>O componente TZQuery é o mais usado dentro de um programa. Embora todas as explicações mencionados aqui sejam para o Zeos, muitas outras suítes tem propriedades bastante similares. Então, se dominá-los no Zeos, você leva este conhecimento também para outras frameworks de acesso a dados.</p>
+
+            <h2>Série de vídeos</h2>
+
+            <p>Siga a playlist abaixo e veja o uso das propriedades na prática:</p>
+
+            <div class="video-cta" style="background: #f1f1f1; border: 2px dashed #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600; color: #333;">Aprenda sobre ZQuery na prática:</p>
+                <a href="https://www.youtube.com/watch?v=jxe8mj3xNbI" target="_blank" class="btn-link" style="background-color: #c4302b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Assistir: Zeos com Lazarus e Delphi: ZQuery (Introdução)
+                </a>
+            </div>
+
+            <div class="video-cta" style="background: #f1f1f1; border: 2px dashed #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600; color: #333;">Aprenda sobre Active, Connection e FetchRow:</p>
+                <a href="https://www.youtube.com/watch?v=QUBuZ5TpAv0" target="_blank" class="btn-link" style="background-color: #c4302b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Assistir: Zeos com Lazarus e Delphi: ZQuery(Active, Connection, FetchRow)
+                </a>
+            </div>
+
+            <div class="video-cta" style="background: #f1f1f1; border: 2px dashed #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600; color: #333;">Aprenda sobre AutoCalcFields:</p>
+                <a href="https://www.youtube.com/watch?v=p6T2_PiVyl8" target="_blank" class="btn-link" style="background-color: #c4302b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Assistir: Zeos com Lazarus e Delphi: ZQuery(AutoCalcFields)
+                </a>
+            </div>
+
+            <div class="video-cta" style="background: #f1f1f1; border: 2px dashed #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600; color: #333;">Aprenda sobre CachedUpdates:</p>
+                <a href="https://www.youtube.com/watch?v=xShxllafQu4" target="_blank" class="btn-link" style="background-color: #c4302b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Assistir: Zeos com Lazarus e Delphi: ZQuery(CachedUpdates)
+                </a>
+            </div>
+
+            <div class="video-cta" style="background: #f1f1f1; border: 2px dashed #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600; color: #333;">Aprenda sobre Datasource:</p>
+                <a href="https://www.youtube.com/watch?v=dhUOXPPjG0k" target="_blank" class="btn-link" style="background-color: #c4302b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Assistir: Zeos com Lazarus e Delphi: ZQuery(Datasource)
+                </a>
+            </div>
+
+            <div class="video-cta" style="background: #f1f1f1; border: 2px dashed #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600; color: #333;">Aprenda sobre Filter e Filtered:</p>
+                <a href="https://www.youtube.com/watch?v=Uy_vN0n3-fk" target="_blank" class="btn-link" style="background-color: #c4302b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Assistir: Zeos com Lazarus e Delphi: ZQuery(Filter e Filtered)
+                </a>
+            </div>
+
+            <div class="video-cta" style="background: #f1f1f1; border: 2px dashed #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600; color: #333;">Aprenda sobre IndexFieldNames:</p>
+                <a href="https://www.youtube.com/watch?v=_zpFMsyTegM" target="_blank" class="btn-link" style="background-color: #c4302b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Assistir: Zeos com Lazarus e Delphi: ZQuery(IndexFieldNames)
+                </a>
+            </div>
+
+            <div class="video-cta" style="background: #f1f1f1; border: 2px dashed #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600; color: #333;">Aprenda sobre LinkedFields, MasterFields e MasterSource:</p>
+                <a href="https://www.youtube.com/watch?v=ulzZd7cNwUI" target="_blank" class="btn-link" style="background-color: #c4302b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Assistir: Zeos com Lazarus e Delphi: ZQuery(LinkedFields, MasterFields,MasterSource)
+                </a>
+            </div>
+
+            <div class="video-cta" style="background: #f1f1f1; border: 2px dashed #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600; color: #333;">Aprenda sobre Options:</p>
+                <a href="https://www.youtube.com/watch?v=kZOvmuNxmLc" target="_blank" class="btn-link" style="background-color: #c4302b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Assistir: Zeos com Lazarus e Delphi: ZQuery(Options)
+                </a>
+            </div>
+
+            <div class="video-cta" style="background: #f1f1f1; border: 2px dashed #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600; color: #333;">Aprenda sobre ParamChar e Params:</p>
+                <a href="https://www.youtube.com/watch?v=6xz5N7Oo2OI" target="_blank" class="btn-link" style="background-color: #c4302b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Assistir: Zeos com Lazarus e Delphi: ZQuery(ParamChar, Params)
+                </a>
+            </div>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>
