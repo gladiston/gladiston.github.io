@@ -11,10 +11,10 @@
 
     <header class="main-header">
         <div class="header-container">
-            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
             <div class="header-text">
-                <h1>Pascal: Delphi & Free Pascal</h1>
-                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+                <h1>Integrando o editor de código com ajuda on line (Help)</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
             </div>
         </div>
     </header>
@@ -26,12 +26,10 @@
         </ul>
     </nav>
 
-    <main>
+    <main class="content-wrapper">
         <article>
-            <h2>Integrando o editor de código com ajuda on line (Help)</h2>
-
-            <p>(Este subtópico pode estar incompleto, talvez você possa ajudar enviando instruções que estejam faltando aqui)</p>
-
+            <p>A ajuda integrada ao editor (F1) é essencial para consultar rapidamente a documentação de funções, métodos e classes. No instalador oficial do Lazarus, essa integração já vem configurada; em instalações via GIT ou fpcupdeluxe, é preciso configurá-la manualmente.</p>
+            <p>(Este subtópico pode estar incompleto; contribuições são bem-vindas.)</p>
             <p>Quando usado o instalador oficial do Lazarus o editor de código é integrado a ajuda online, ou seja, se você der um F1 quando uma função ou método estiver em foco então uma janela abre-se com uma explicação sobre o mesmo. Infelizmente isso não funciona quando você faz a instalação via GIT, essa integração você precisa fazer manualmente. Vamos ao procedimento.</p>
 
             <p>Vá até a pasta:</p>
@@ -44,15 +42,15 @@
 
             <p>E lá você deve encontrar por uma série de arquivos com a extensão <strong>*.chm</strong>. No meu caso, eles não existem, então aponte seu navegador de internet para o seguinte endereço:</p>
 
-            <p><a href="http://sourceforge.net/projects/lazarus/files/Lazarus%20Documentation/" target="_blank">Lazarus Documentation no SourceForge</a></p>
+            <p><a href="http://sourceforge.net/projects/lazarus/files/Lazarus%20Documentation/" target="_blank" rel="noreferrer noopener">Lazarus Documentation no SourceForge</a></p>
 
-            <div class="img-placeholder">
+            <div class="img-container">
                 <img src="assets/img/image.png" alt="Página de Documentação do Lazarus">
             </div>
 
             <p>Entre no link correspondente à versão mais recente e faça o Download de um arquivo .zip que internamente tem os arquivos de ajuda (.chm):</p>
 
-            <div class="img-placeholder">
+            <div class="img-container">
                 <img src="assets/img/image-2.png" alt="Download do arquivo de ajuda">
             </div>
 
@@ -61,7 +59,7 @@
 
             <p>Ficando assim:</p>
 
-            <div class="img-placeholder">
+            <div class="img-container">
                 <img src="assets/img/image-4.png" alt="Arquivos CHM extraídos">
                 <p><em>Imagem meramente ilustrativa da pasta de ajuda.</em></p>
             </div>
@@ -70,20 +68,19 @@
 
             <p>Caso a ajuda online não funcione, vá em <strong>Tools | Options | Help</strong>, e selecione <strong>CHM Help Viewer</strong>:</p>
 
-            <div class="img-placeholder">
+            <div class="img-container">
                 <img src="assets/img/image-5.png" alt="Configuração do Visualizador de Ajuda CHM">
             </div>
 
-            <h3>Entenda os parâmetros:</h3>
+            <h2>Entenda os parâmetros</h2>
             <ul>
                 <li><strong>HelpExe:</strong> Deve apontar para o utilitário lhelp. Se deixar em branco, a IDE o procurará em: <code>$(LazarusDir)\components\chmhelp\lhelp\lhelp.exe</code>. No Windows, pode-se escolher o "hh.exe".</li>
                 <li><strong>HelpEXEParams:</strong> Normalmente vazio. Se usar o "hh.exe", deve conter <code>"%s::%s"</code> (com aspas).</li>
                 <li><strong>HelpFilesPath:</strong> Diretório dos arquivos *.chm. Se em branco, a IDE procura em <code>$(LazarusDir)\docs\html</code> e <code>$(LazarusDir)\docs\chm</code>.</li>
             </ul>
 
-            <h2 class="wp-block-heading">CONCLUSÃO</h2>
+            <h2>Conclusão</h2>
             <p>A documentação e a ajuda online são altamente requeridas. Faz muito sentido você confirmar se a mesma está presente em seu sistema e, se não estiver, seguir os procedimentos delineados.</p>
-
         </article>
     </main>
 

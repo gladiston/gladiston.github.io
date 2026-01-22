@@ -4,99 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usando Instalador padrão (nível fácil) - Gladiston Santana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #fff;
-            color: #333;
-            line-height: 1.6;
-            width: 100%;
-        }
-
-        header {
-            width: 100%;
-            background: #e67e22;
-            color: #fff;
-            padding: 3rem 5%;
-            border-bottom: 5px solid #d35400;
-        }
-        header h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
-        header p { font-size: 1.1rem; opacity: 0.9; }
-
-        nav {
-            width: 100%;
-            background: #fff;
-            padding: 1rem 5%;
-            position: sticky;
-            top: 0;
-            border-bottom: 1px solid #eee;
-            z-index: 100;
-        }
-
-        main {
-            width: 100%;
-            padding: 4rem 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        article h2 { color: #d35400; margin: 2.5rem 0 1rem; border-bottom: 1px solid #fed; padding-bottom: 0.5rem; }
-        p { margin-bottom: 1.2rem; font-size: 1.1rem; }
-
-        ul { margin-bottom: 1.2rem; margin-left: 2rem; }
-        li { margin-bottom: 0.5rem; font-size: 1.1rem; }
-
-        .img-placeholder {
-            margin: 2rem auto;
-            text-align: center;
-        }
-        .img-placeholder img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .back-link { display: inline-block; margin-top: 2rem; text-decoration: none; color: #e67e22; font-weight: 600; }
-        footer { width: 100%; padding: 2.5rem 5%; background: #f8f9fa; text-align: center; border-top: 1px solid #eee; margin-top: 4rem; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
-    <header>
-        <h1>Lazarus IDE: Guia de Sobrevivência</h1>
-        <p>Gladiston Santana - Dicas essenciais para produtividade e configuração</p>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Usando Instalador padrão (nível fácil)</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
     </header>
 
-    <nav>
-        <ul style="display: flex; justify-content: center; list-style: none; gap: 20px;">
-            <li><a href="index.html" style="text-decoration: none; color: #555;">Início</a></li>
-            <li><a href="lazarus_guia.html" style="text-decoration: none; color: #e67e22; font-weight: 600;">Guia de Sobrevivência</a></li>
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
         </ul>
     </nav>
 
-    <main>
+    <main class="content-wrapper">
         <article>
-            <h2>Usando Instalador padrão (nível fácil)</h2>
             <p>A instalação do Lazarus para Windows via instalador oficial é o método mais direto e conhecido. Recomendo baixar a versão que suporta tanto 32 quanto 64 bits para maior flexibilidade no desenvolvimento.</p>
 
             <p>Acesse a página oficial de downloads:</p>
-            <p><a href="https://www.lazarus-ide.org/index.php?page=downloads" target="_blank">https://www.lazarus-ide.org/index.php?page=downloads</a></p>
+            <p><a href="https://www.lazarus-ide.org/index.php?page=downloads" target="_blank" rel="noreferrer noopener">https://www.lazarus-ide.org/index.php?page=downloads</a></p>
 
-            <div class="img-placeholder">
+            <div class="img-container">
                 <img src="assets/img/lazarus-download1.png" alt="Página de download oficial do Lazarus">
             </div>
 
             <p>Na tela seguinte, escolha os downloads na ordem recomendada:</p>
 
-            <div class="img-placeholder">
+            <div class="img-container">
                 <img src="assets/img/lazarus-download2.png" alt="Ordem de download dos instaladores">
             </div>
 
             <p>Você deve realizar a instalação na mesma ordem mostrada na imagem. O processo é o padrão do Windows: <strong>Next -> Next -> Finish</strong>. Caso você possua uma versão anterior do Lazarus instalada, lembre-se de marcar a opção de limpeza durante o processo:</p>
 
-            <div class="img-placeholder">
+            <div class="img-container">
                 <img src="assets/img/lazarus-download3.png" alt="Opção de instalação limpa">
             </div>
 
@@ -119,13 +68,16 @@
 
             <h2>Resolução de Problemas</h2>
             <p>Se você enfrentar conflitos, a melhor prática é remover versões anteriores do Lazarus e do FPC, limpando também as variáveis de ambiente (PATH) do Windows, já que o instalador pode não detectar configurações de diretórios antigos automaticamente.</p>
-        </article>
 
-        <a href="lazarus_guia.html" class="back-link">&larr; Voltar para o Guia de Sobrevivência</a>
+            <h2>Conclusão</h2>
+            <p>A instalação do Lazarus via instalador oficial no Windows é o caminho mais direto para começar a desenvolver em Pascal. Ao seguir a ordem recomendada de downloads (FPC, Lazarus) e optar pela versão que suporta 32 e 64 bits, você ganha flexibilidade para desenvolver e distribuir aplicações para ambas as arquiteturas.</p>
+            <p>Lembre-se de ajustar as configurações de cross-compile quando precisar gerar executáveis 32-bits a partir de uma IDE 64-bits, e de manter as DLLs adequadas quando usar componentes que dependem de bibliotecas externas. Com isso, você terá um ambiente estável e pronto para produção.</p>
+        </article>
     </main>
 
-    <footer>
-        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
     </footer>
+
 </body>
 </html>

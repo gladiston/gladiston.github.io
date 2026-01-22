@@ -11,10 +11,10 @@
 
     <header class="main-header">
         <div class="header-container">
-            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
             <div class="header-text">
-                <h1 style="font-size: 1.6rem; color: #ffffff;">Integrando o Editor com Ajuda On-line</h1>
-                <p style="font-size: 1rem; color: #ffffff;">Configuração manual de documentação CHM no Lazarus IDE.</p>
+                <h1>Integrando o Editor com Ajuda On-line</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
             </div>
         </div>
     </header>
@@ -26,9 +26,9 @@
         </ul>
     </nav>
 
-    <main>
+    <main class="content-wrapper">
         <article>
-            <p>Quando usado o instalador oficial do Lazarus, o editor de código já vem integrado à ajuda on-line. Isso significa que, ao pressionar <strong>F1</strong> com uma função ou método em foco, uma janela abre-se com a respectiva documentação. No entanto, em instalações via GIT ou fpcupdeluxe, essa integração precisa ser feita manualmente.</p>
+            <p>A ajuda integrada (F1) no editor é fundamental para consultar a documentação de funções e classes. No instalador oficial do Lazarus ela já vem configurada; em instalações via GIT ou fpcupdeluxe é preciso configurá-la manualmente. Ao pressionar <strong>F1</strong> com uma função ou método em foco, uma janela abre-se com a respectiva documentação.</p>
 
             <h2>Localizando o Utilitário de Ajuda</h2>
             <p>Vá até a pasta:</p>
@@ -41,24 +41,24 @@
             <p>Se ela estiver vazia, você precisará baixar os arquivos <code>.chm</code> oficiais. Acesse a página de documentação no SourceForge:</p>
             <p><a href="http://sourceforge.net/projects/lazarus/files/Lazarus%20Documentation/" target="_blank">Download Lazarus Documentation</a></p>
 
-            <div class="img-placeholder">
+            <div class="img-container">
                 <img src="assets/img/help_sourceforge_page.png" alt="Página de Documentação no SourceForge">
             </div>
 
             <p>Baixe o arquivo <code>.zip</code> da versão mais recente que contém os arquivos de ajuda:</p>
-            <div class="img-placeholder">
+            <div class="img-container">
                 <img src="assets/img/help_download_zip.png" alt="Download do ZIP de documentação">
             </div>
 
             <p>Extraia todo o conteúdo para dentro de <code>$(LazarusDir)\docs\chm</code>, de forma que os arquivos fiquem organizados assim:</p>
-            <div class="img-placeholder">
+            <div class="img-container">
                 <img src="assets/img/help_chm_folder.png" alt="Arquivos CHM descompactados na pasta docs/chm">
             </div>
 
             <h2>Configuração na IDE</h2>
             <p>Normalmente, a IDE detecta os arquivos automaticamente após a extração. Caso não funcione, acesse o menu <strong>Tools | Options | Help</strong> e selecione <strong>CHM Help Viewer</strong>:</p>
 
-            <div class="img-placeholder">
+            <div class="img-container">
                 <img src="assets/img/lazarus_help_options.png" alt="Configurações de ajuda na IDE Lazarus">
             </div>
 
@@ -68,14 +68,12 @@
                 <li><strong>HelpFilesPath:</strong> Onde estão os arquivos <code>.chm</code>. O padrão é <code>$(LazarusDir)\docs\chm</code>.</li>
             </ul>
 
-            <h2 style="border-bottom: 2px solid var(--azul-principal); padding-bottom: 0.5rem; margin-top: 3rem;">Conclusão</h2>
+            <h2>Conclusão</h2>
             <p>A documentação local (F1) é essencial para produtividade, especialmente ao explorar a LCL (Lazarus Component Library). Seguir estes passos garante que você tenha as definições de classes e métodos sempre à mão.</p>
-
-            <a href="lazarus_guia.html" style="display: inline-block; margin-top: 2rem; font-weight: 600; color: var(--azul-principal); text-decoration: none;">&larr; Voltar para o Guia de Sobrevivência</a>
         </article>
     </main>
 
-    <footer>
+    <footer class="main-footer">
         <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
     </footer>
 
