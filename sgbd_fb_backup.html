@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estratégias de Backup no Firebird - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird: Backup Eficiente</h1>
+                <p>Gbak vs Nbackup: Escolhendo a estratégia correta de proteção.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd_fb_intro.html">Voltar Firebird</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Introdução</h2>
+            <p>No Firebird, não basta copiar o arquivo .fdb. Para um backup confiável, devemos usar as ferramentas nativas que garantem a consistência transacional do arquivo durante a cópia.</p>
+
+            <h3>1. GBAK (Backup Lógico)</h3>
+            <p>O <strong>gbak</strong> lê os dados registro por registro. É o método mais seguro para migrar versões do banco ou reduzir o tamanho do arquivo (Garbage Collection).</p>
+            <ul>
+                <li><strong>Vantagem:</strong> Reconstrói índices e limpa o banco.</li>
+                <li><strong>Desvantagem:</strong> Pode ser lento em bancos gigantes.</li>
+            </ul>
+            <pre><code># Comando para backup via GBAK
+gbak -v -t -user SYSDBA -password masterkey banco.fdb backup.fbk</code></pre>
+
+            <h3>2. NBACKUP (Backup Físico/Incremental)</h3>
+            <p>O <strong>nbackup</strong> trabalha a nível de página de disco. Ele permite backups incrementais rápidos e é ideal para bancos de centenas de gigabytes.</p>
+            <pre><code># Backup Completo (Nível 0)
+nbackup -user SYSDBA -password masterkey -backup 0 banco.fdb backup_full.nbk
+
+# Backup Incremental (Nível 1 - apenas o que mudou)
+nbackup -user SYSDBA -password masterkey -backup 1 banco.fdb backup_inc.nbk</code></pre>
+
+            <h2>Conclusão</h2>
+            <p>Uma estratégia robusta utiliza o NBackup diariamente para velocidade e o GBAK semanalmente para manutenção da saúde estrutural do banco de dados.</p>
+
+            <p><a href="sgbd_fb_intro.html" class="back-link">&larr; Voltar para Índice Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>

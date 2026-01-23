@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depuração de PSQL no Firebird - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Depuração em PSQL</h1>
+                <p>Técnicas avançadas para identificar bugs em Stored Procedures e Triggers.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd_fb_intro.html">Voltar Firebird</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Introdução ao Debug em Banco de Dados</h2>
+            <p>Diferente de uma IDE de programação, o Firebird executa o código PSQL dentro do motor. Quando algo falha, muitas vezes recebemos apenas um código de erro genérico. Para debugar com eficiência, utilizamos três estratégias principais.</p>
+
+            <h3>1. Técnica de Log de Eventos (Tabela de Log)</h3>
+            <p>Esta é a técnica mais robusta. Criamos uma tabela autônoma para registar o estado das variáveis em pontos críticos do código.</p>
+
+
+
+            <pre><code>-- Exemplo de inserção de log dentro de uma Procedure
+BEGIN
+  /* ... código complexo ... */
+  INSERT INTO LOG_DEBUG (PASSO, VALOR_VAR)
+  VALUES ('Cálculo do ICMS', :v_valor_calculado);
+  /* ... continua ... */
+END</code></pre>
+
+            <h3>2. Utilização de Exceções Personalizadas</h3>
+            <p>Podemos "forçar" uma paragem no código para inspecionar um valor através do comando <code>EXCEPTION</code>. É o equivalente ao <em>ShowMessage</em> para debug rápido.</p>
+            <pre><code>-- Interrompe a execução e exibe o valor da variável na mensagem de erro
+IF (v_debug_ativo = 1) THEN
+    EXCEPTION EX_DEBUG_ERRO 'O valor atual é: ' || CAST(:v_total AS VARCHAR(20));</code></pre>
+
+            <h3>3. RDP (Remote Debugger Protocol)</h3>
+            <p>Para depuração em tempo real, utilizamos ferramentas de terceiros que se acoplam ao processo do Firebird, como o <strong>FBDebugger</strong> ou ferramentas integradas em IDEs como <strong>IBExpert</strong> ou <strong>Database Workbench</strong>. Estas ferramentas permitem:</p>
+            <ul>
+                <li>Definição de Breakpoints.</li>
+                <li>Inspeção de variáveis locais.</li>
+                <li>Execução passo a passo (Step Into/Over).</li>
+            </ul>
+
+            <h2>Conclusão</h2>
+            <p>Depurar PSQL exige uma abordagem metódica. Para ambientes de produção, a instrumentação via tabelas de log é a única forma segura de entender o comportamento do código sem interromper a operação dos utilizadores.</p>
+
+            <p><a href="sgbd_fb_intro.html" class="back-link">&larr; Voltar para Índice Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>

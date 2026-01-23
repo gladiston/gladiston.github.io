@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebird SQL: Guia de Sobrevivência - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+    <style>
+        /* Estilização específica para a grade de cards técnicos */
+        .fb-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 2rem;
+        }
+        .fb-card {
+            background: #fff;
+            border: 1px solid #e1e4e8;
+            border-left: 5px solid #1a5276;
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .fb-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background: #f8f9fa;
+        }
+        .fb-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: #154360;
+        }
+        .fb-card p {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird SQL</h1>
+                <p>O que é, Instalação, Manutenção e Administração.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD Hub</a></li>
+            <li><a href="sgbd_fb.html">Dicas FB</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Guia Técnico Firebird</h2>
+            <p>Selecione um dos temas abaixo para aprofundar seus conhecimentos na administração e desenvolvimento para Firebird SQL.</p>
+
+            <h2>GERENCIADORES DE BASE DE DADOS FIREBIRD PARA LINUX</h2>
+            <p>No ambiente Linux, existem várias ferramentas gráficas para gerenciar bancos de dados Firebird. As principais opções incluem:</p>
+            <ul>
+                <li><strong>FlameRobin:</strong> Gerenciador leve e específico para Firebird, disponível na maioria dos repositórios Linux. Instale via <code>sudo apt install flamerobin</code> ou compile a partir do código-fonte.</li>
+                <li><strong>DBeaver:</strong> Ferramenta universal de gerenciamento de bancos de dados que suporta Firebird, PostgreSQL, MySQL e muitos outros. Disponível como AppImage ou via Flatpak.</li>
+                <li><strong>IBExpert (via Wine):</strong> Embora seja uma ferramenta Windows, pode ser executada no Linux através do Wine, oferecendo recursos avançados de administração.</li>
+                <li><strong>ISQL (linha de comando):</strong> Ferramenta nativa do Firebird para execução de comandos SQL diretamente no terminal, ideal para scripts e automação.</li>
+            </ul>
+            <p>Para conexões remotas, certifique-se de que o Firebird está configurado para aceitar conexões TCP/IP no arquivo <code>firebird.conf</code> e que a porta 3050 está aberta no firewall.</p>
+
+            <div class="fb-grid">
+                <a href="sgbd_fb_install_win.html" class="fb-card">
+                    <h3>Instalação em Windows</h3>
+                    <p>Passo a passo para configurar o servidor em ambientes Windows.</p>
+                </a>
+
+                <a href="sgbd_fb_install_linux_deb.html" class="fb-card">
+                    <h3>Instalação em Linux (Debian)</h3>
+                    <p>Guia de instalação via terminal para distros baseadas em Debian.</p>
+                </a>
+
+                <a href="sgbd_fb_install_linux_vs_win.html" class="fb-card">
+                    <h3>Linux vs Windows</h3>
+                    <p>Qual sistema operacional performa melhor como servidor de dados?</p>
+                </a>
+
+                <a href="sgbd_fb_pagesize.html" class="fb-card">
+                    <h3>Page Size e Charset</h3>
+                    <p>Por que o tamanho da página é vital no momento da criação do banco?</p>
+                </a>
+
+                <a href="sgbd_fb_charset.html" class="fb-card">
+                    <h3>Qual Charset usar?</h3>
+                    <p>Comparativo entre ISO8859_1, WIN1252 e UTF8.</p>
+                </a>
+
+                <a href="sgbd_fb_collate.html" class="fb-card">
+                    <h3>Collate e Ordenação</h3>
+                    <p>Entendendo como o banco trata acentuação e buscas.</p>
+                </a>
+
+                <a href="lazarus_guia_zeos_tipos_conn.html" class="fb-card">
+                    <h3>Tipos de Conexão</h3>
+                    <p>Diferenças entre conexões Remota, Local e Embarcada (Embedded).</p>
+                </a>
+
+                <a href="sgbd_fb_query_param.html" class="fb-card">
+                    <h3>Queries Parametrizadas</h3>
+                    <p>Por que DBAs insistem que programadores não concatenem strings.</p>
+                </a>
+
+                <a href="sgbd_autocommit.html" class="fb-card">
+                    <h3>Autocommit</h3>
+                    <p>Descubra se o commit automático é um aliado ou um vilão.</p>
+                </a>
+
+                <a href="sgbd_fb_sweeping.html" class="fb-card">
+                    <h3>Gerenciamento de Sweeping</h3>
+                    <p>A importância da limpeza de lixo transacional para a performance.</p>
+                </a>
+
+                <a href="sgbd_fb_backup.html" class="fb-card">
+                    <h3>Estratégias de Backup</h3>
+                    <p>Diferenças entre Gbak e Nbackup (Full, Diferencial e Incremental).</p>
+                </a>
+
+                <a href="sgbd_fb_accounts_transfer.html" class="fb-card">
+                    <h3>Contas de Usuários</h3>
+                    <p>Como transferir usuários (security.db/fdb) entre servidores.</p>
+                </a>
+
+                <a href="sgbd_fb_wrong_accents.html" class="fb-card">
+                    <h3>Acentuações Erradas</h3>
+                    <p>Por que os dados aparecem corrompidos mesmo após o insert correto?</p>
+                </a>
+
+                <a href="sgbd_fb_debug_pssql.html" class="fb-card">
+                    <h3>Depurando PSQL</h3>
+                    <p>Técnicas para debugar comandos e Stored Procedures.</p>
+                </a>
+            </div>
+
+            <p style="margin-top: 3rem;"><a href="sgbd_fb.html" class="back-link">&larr; Voltar para o Índice Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

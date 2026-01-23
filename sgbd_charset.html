@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charset: ISO8859_1, WIN1252 ou UTF8? - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Qual charset devo usar?</h1>
+                <p>Análise técnica entre ISO8859_1, WIN1252 e UTF8.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">Voltar para SGBD</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Introdução</h2>
+            <p>A escolha do Charset (conjunto de caracteres) é uma das decisões mais críticas na criação de um banco de dados. Uma escolha errada pode levar a problemas de acentuação, perda de dados em migrações e degradação de performance.</p>
+
+            <h3>Comparativo de Formatos</h3>
+            <ul>
+                <li><strong>ISO8859_1:</strong> Padrão clássico para línguas latinas. Ocupa 1 byte por caractere.</li>
+                <li><strong>WIN1252:</strong> Uma variação da Microsoft do ISO, incluindo caracteres como o símbolo do Euro (€).</li>
+                <li><strong>UTF8:</strong> O padrão moderno e universal. Suporta quase todos os caracteres do mundo, mas pode usar de 1 a 4 bytes por caractere.</li>
+            </ul>
+
+            <div class="img-placeholder">
+                <img src="assets/img/postgre_jsonb.png" alt="Exemplo de codificação de dados">
+            </div>
+
+            <h2>Exemplo de Impacto</h2>
+            <p>Em um banco Firebird, ao definir uma coluna como <code>VARCHAR(100) CHARACTER SET UTF8</code>, o motor reserva espaço para o pior cenário (400 bytes), o que afeta o cálculo do tamanho de página e índices.</p>
+
+            <h2>Conclusão</h2>
+            <p>Para sistemas novos, o <strong>UTF8</strong> é a recomendação mandatória pela compatibilidade global. Para sistemas legados Windows que não sairão do Brasil, o WIN1252 ainda oferece a melhor economia de espaço e performance de indexação.</p>
+
+            <p><a href="sgbd.html" class="back-link">&larr; Voltar para SGBD</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebird: Linux vs Windows - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Linux vs Windows</h1>
+                <p>Análise de estabilidade e performance para servidores Firebird.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd_fb_intro.html">Voltar Firebird</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Introdução</h2>
+            <p>A dúvida sobre qual Sistema Operacional hospeda melhor o Firebird é comum. Embora o Firebird seja multiplataforma, existem nuances técnicas no gerenciamento de arquivos e memória que favorecem o ambiente Unix-like.</p>
+
+            <h3>Vantagens do Linux</h3>
+            <ul>
+                <li><strong>Sistema de Arquivos:</strong> O XFS ou EXT4 lidam melhor com arquivos de banco de dados grandes e fragmentação do que o NTFS.</li>
+                <li><strong>Estabilidade:</strong> Menor necessidade de reinicializações e ausência de interface gráfica consumindo recursos críticos.</li>
+                <li><strong>Segurança:</strong> Controle de permissões granular e menor exposição a malwares que miram servidores Windows.</li>
+            </ul>
+
+            <h3>Vantagens do Windows</h3>
+            <ul>
+                <li><strong>Facilidade:</strong> Curva de aprendizado menor para administradores sem experiência em terminal.</li>
+                <li><strong>Integração:</strong> Facilidade de uso com ferramentas de monitoramento visual da Microsoft.</li>
+            </ul>
+
+            <h2>Conclusão</h2>
+            <p>Para produção em larga escala e sistemas ERP que exigem 24/7, o <strong>Linux (Debian/Ubuntu)</strong> é a minha recomendação técnica. A performance de I/O é sensivelmente superior, especialmente em operações de escrita intensiva.</p>
+
+            <p><a href="sgbd_fb_intro.html" class="back-link">&larr; Voltar para Índice Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>

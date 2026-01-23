@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transferência de Usuários Firebird - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Transferência de Contas</h1>
+                <p>Como mover usuários entre servidores Firebird com segurança.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd_fb_intro.html">Voltar Firebird</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>O Problema do security.db</h2>
+            <p>No Firebird 2.5 e anteriores, os usuários ficam no arquivo <code>security2.fdb</code>. No Firebird 3.0+, eles podem estar no <code>security.db</code> ou em tabelas de usuário dentro do próprio banco (User Managers).</p>
+
+            <h3>Procedimento de Migração</h3>
+            <p>Se você está migrando o servidor, copiar apenas o seu arquivo de dados (.fdb) não levará os logins dos usuários. Siga estes passos:</p>
+
+            <ol>
+                <li><strong>Backup do Banco de Segurança:</strong> Realize um gbak do arquivo de segurança original do servidor antigo.</li>
+                <li><strong>Identificação de Versão:</strong> Se for do FB 2.5 para o 3.0, os usuários precisarão ser recriados ou migrados via script SQL, pois o hash da senha mudou.</li>
+            </ol>
+
+            <h3>Dica: Exportação via Script</h3>
+            <p>Muitas vezes, a forma mais limpa de transferir contas é gerar um script de comandos <code>CREATE USER</code>:</p>
+            <pre><code># Exemplo de comando no servidor de destino
+CREATE USER NOME_USUARIO PASSWORD 'senha_temporaria' GRANT ADMIN ROLE;</code></pre>
+
+            <h2>Conclusão</h2>
+            <p>Sempre teste o login dos usuários após a migração de um servidor. Lembre-se que as permissões (GRANTs) estão dentro do banco de dados, mas os usuários (Logins) estão no servidor.</p>
+
+            <p><a href="sgbd_fb_intro.html" class="back-link">&larr; Voltar para Índice Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>

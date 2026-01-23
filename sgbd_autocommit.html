@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autocommit: Prós e Contras - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Transações e Autocommit</h1>
+                <p>O impacto do commit automático na integridade e performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">Voltar para SGBD</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>O que é o Autocommit?</h2>
+            <p>O Autocommit é um modo de operação onde o SGBD trata cada instrução SQL individual como uma transação completa, confirmando-a (Commit) automaticamente logo após a execução. Embora pareça prático, ele esconde perigos para a consistência dos dados.</p>
+
+
+
+            <h3>O Problema da Atomicidade</h3>
+            <p>Imagine uma transferência bancária: você precisa tirar dinheiro de uma conta e colocar em outra. No modo Autocommit, se o sistema falhar entre as duas operações, o dinheiro "desaparece". Sem o controle manual de transação, você perde a <strong>Atomicidade</strong> (o "A" do ACID).</p>
+
+            <h3>Impacto na Performance</h3>
+            <p>Escrever no disco é caro. No modo Autocommit, o banco é forçado a gravar fisicamente o log de transação a cada comando. Ao agrupar 1000 inserções em uma única transação manual, a performance pode ser até 10x superior.</p>
+
+            <pre><code>-- EVITE O AUTOCOMMIT EM OPERAÇÕES EM LOTE
+START TRANSACTION;
+INSERT INTO VENDAS ...;
+INSERT INTO ITENS_VENDA ...;
+-- Se tudo correr bem:
+COMMIT;
+-- Se algo falhar:
+ROLLBACK;</code></pre>
+
+            <h2>Conclusão</h2>
+            <p>O Autocommit é aceitável para consultas rápidas (SELECT) ou testes simples via terminal. Para aplicações reais, o controle transacional explícito é o que separa um sistema amador de um software corporativo robusto.</p>
+
+            <p><a href="sgbd.html" class="back-link">&larr; Voltar para SGBD</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>

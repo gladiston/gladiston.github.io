@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamanho de Página e Charset - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>SGBD Fundamentals</h1>
+                <p>Tamanho de Página e Charset.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">Voltar SGBD</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Por que me preocupar com o Page Size?</h2>
+            <p>O tamanho da página (Page Size) define a menor unidade de E/S que o banco de dados lê ou escreve no disco. No Firebird, por exemplo, valores como 8k ou 16k são comuns em hardware moderno.</p>
+
+
+
+            <h3>O impacto no Charset</h3>
+            <p>Ao usar Charsets multibyte como o <strong>UTF8</strong>, cada caractere pode ocupar até 4 bytes. Se o seu tamanho de página for muito pequeno, a profundidade do índice aumenta, degradando a performance de busca.</p>
+
+            <h2>Conclusão</h2>
+            <p>Sempre alinhe o Page Size com o tamanho do cluster do seu sistema de arquivos (geralmente 4KB ou 8KB) para evitar fragmentação e garantir máxima performance.</p>
+
+            <p><a href="sgbd.html" class="back-link">&larr; Voltar para SGBD</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>
