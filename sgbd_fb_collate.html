@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collate: Como o banco compara e ordena caracteres - Gladiston Santana</title>
+    <title>Collate e Ordenação - Firebird SQL - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
@@ -12,8 +13,8 @@
         <div class="header-container">
             <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
             <div class="header-text">
-                <h1>Collate: Comparação e Ordenação de Caracteres</h1>
-                <p>Entendendo como o banco compara e ordena seus dados - Guia completo para SGBDs</p>
+                <h1>Collate e Ordenação</h1>
+                <p>Entendendo como o Firebird compara e ordena caracteres - Guia completo</p>
             </div>
         </div>
     </header>
@@ -22,15 +23,12 @@
         <ul class="nav-links">
             <li><a href="index.html">Início</a></li>
             <li><a href="sgbd.html">SGBD Hub</a></li>
+            <li><a href="sgbd_fb_intro.html">Firebird</a></li>
         </ul>
     </nav>
 
     <main>
         <article>
-            <div class="info-box" style="margin-bottom: 2rem;">
-                <p><strong>Nota:</strong> Este guia aborda conceitos universais de collate que se aplicam a <strong>MS SQL Server</strong>, <strong>PostgreSQL</strong> e <strong>Firebird</strong>. Embora os exemplos práticos sejam baseados no Firebird, os princípios fundamentais são os mesmos para todos os SGBDs mencionados, com poucas ou nenhuma diferença na forma como os collates funcionam.</p>
-            </div>
-
             <h2>O que é Collate?</h2>
             
             <p>Muitos desenvolvedores confundem <strong>Charset</strong> com <strong>Collate</strong>. De forma simples:</p>
@@ -41,6 +39,10 @@
             </ul>
 
             <p>O Collate vive na camada de comparação. Se você precisa que uma busca por "JOAO" retorne "João", você precisa de um collation <em>Case Insensitive</em> (CI) e <em>Accent Insensitive</em> (AI).</p>
+
+            <div class="info-box">
+                <p><strong>Relacionamento com Charset:</strong> O collate está sempre atrelado a um charset. Sem o charset, o banco não teria a regionalidade de ordenação, ou quais sinais diacríticos são iguais a suas versões sem esses sinais. Para entender melhor sobre charsets, consulte o artigo <a href="sgbd_fb_charset.html">Qual Charset usar?</a>.</p>
+            </div>
 
             <h2>Por que Collate é importante?</h2>
 
@@ -75,20 +77,37 @@
                 </li>
             </ul>
 
+            <h2>Collates disponíveis no Firebird</h2>
+
             <div class="info-box">
-                <p><strong>Nota sobre nomenclatura:</strong> A nomenclatura pode variar entre SGBDs, mas os conceitos são universais:</p>
+                <p><strong>Collates por Charset no FirebirdSQL:</strong></p>
                 <ul>
-                    <li><strong>Firebird:</strong> Usa termos como <code>PT_BR</code>, <code>UNICODE_CI_AI</code>, <code>WIN_PTBR</code></li>
-                    <li><strong>MS SQL Server:</strong> Usa padrões como <code>Latin1_General_CI_AS</code> (CI = Case Insensitive, AS = Accent Sensitive)</li>
-                    <li><strong>PostgreSQL:</strong> Usa collates do sistema operacional como <code>pt_BR.UTF-8</code> ou <code>C</code> (binário)</li>
+                    <li><strong>Para UTF8:</strong>
+                        <ul>
+                            <li><code>UCS_BASIC</code> - Ordenação binária (posição na tabela Unicode)</li>
+                            <li><code>UNICODE</code> - Ordenação alfabética usando UCA (Unicode Collation Algorithm)</li>
+                            <li><code>UTF8</code> - Padrão binário, idêntico ao UCS_BASIC</li>
+                            <li><code>UNICODE_CI</code> - Case-insensitive (não diferencia maiúsculas/minúsculas)</li>
+                            <li><code>UNICODE_CI_AI</code> - Case-insensitive e accent-insensitive (não diferencia maiúsculas/minúsculas nem acentos)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Para ISO8859_1:</strong>
+                        <ul>
+                            <li><code>PT_BR</code> - Português do Brasil (case-sensitive, accent-sensitive)</li>
+                            <li><code>PT_PT</code> - Português de Portugal (case-sensitive, accent-sensitive)</li>
+                            <li><code>ISO8859_1</code> - Padrão binário</li>
+                        </ul>
+                    </li>
+                    <li><strong>Para WIN1252:</strong>
+                        <ul>
+                            <li><code>WIN_PTBR</code> - Português do Brasil para Windows (case-sensitive, accent-sensitive)</li>
+                            <li><code>WIN1252</code> - Padrão binário</li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
 
             <h2>Exemplo prático: Criando tabelas com diferentes collates</h2>
-
-            <div class="info-box">
-                <p><strong>Nota:</strong> Os exemplos a seguir são baseados no Firebird, mas os conceitos e princípios são os mesmos para MS SQL Server e PostgreSQL. A sintaxe pode variar ligeiramente, mas a lógica de funcionamento dos collates é universal.</p>
-            </div>
 
             <p><strong>IBExpert – Criar banco de dados:</strong></p>
 
@@ -107,28 +126,6 @@ PORTA: 3040</code></pre>
     NOME_CI_AI VARCHAR(50) CHARACTER SET UTF8 COLLATE UNICODE_CI_AI,  -- Case e Accent Insensitive
     LOGIN VARCHAR(20) CHARACTER SET UTF8 COLLATE UNICODE_CI_AI  -- Para buscas sem diferenciação
 );</code></pre>
-
-            <p><strong>Equivalente em outros SGBDs:</strong></p>
-            <ul>
-                <li><strong>MS SQL Server:</strong>
-                    <pre><code>CREATE TABLE CLIENTES (
-    ID INT PRIMARY KEY,
-    NOME_CS_AS VARCHAR(50) COLLATE Latin1_General_CS_AS,  -- Case e Accent Sensitive
-    NOME_CI_AS VARCHAR(50) COLLATE Latin1_General_CI_AS,  -- Case Insensitive, Accent Sensitive
-    NOME_CI_AI VARCHAR(50) COLLATE SQL_Latin1_General_CP1252_CI_AI,  -- Case e Accent Insensitive
-    LOGIN VARCHAR(20) COLLATE SQL_Latin1_General_CP1252_CI_AI
-);</code></pre>
-                </li>
-                <li><strong>PostgreSQL:</strong>
-                    <pre><code>CREATE TABLE CLIENTES (
-    ID SERIAL PRIMARY KEY,
-    NOME_CS_AS VARCHAR(50) COLLATE "C",  -- Case e Accent Sensitive (binário)
-    NOME_CI_AS VARCHAR(50) COLLATE "pt_BR.UTF-8",  -- Geralmente case insensitive, accent sensitive
-    NOME_CI_AI VARCHAR(50),  -- Requer extensão específica ou função customizada
-    LOGIN VARCHAR(20) COLLATE "pt_BR.UTF-8"
-);</code></pre>
-                </li>
-            </ul>
 
             <h3>Inserindo dados de teste:</h3>
 
@@ -170,12 +167,6 @@ SELECT * FROM CLIENTES
 WHERE NOME_CI_AI = 'Jose';
 -- Resultado: 'Jose', 'JOSE', 'José' (encontra todas as variações)</code></pre>
 
-            <p><strong>Equivalente em outros SGBDs:</strong></p>
-            <ul>
-                <li><strong>MS SQL Server:</strong> A sintaxe é idêntica, apenas os nomes dos collates mudam.</li>
-                <li><strong>PostgreSQL:</strong> Use <code>WHERE NOME_CI_AS ILIKE 'Jose'</code> para case-insensitive, ou defina o collate na coluna.</li>
-            </ul>
-
             <h3>Teste 2: Busca Accent Sensitive vs Accent Insensitive</h3>
 
             <p>Vamos testar se 'Farmacia' encontra 'Farmácia':</p>
@@ -212,10 +203,6 @@ ORDER BY NOME_CI_AI;
 -- Resultado: Ignora maiúsculas/minúsculas e acentos
 -- Exemplo: 'Farmacia', 'Farmácia', 'Jose', 'JOSE', 'José', 'Maria', 'MARIA'</code></pre>
 
-            <div class="info-box">
-                <p><strong>Nota sobre ordenação:</strong> A ordem exata pode variar entre SGBDs dependendo das regras linguísticas do collate escolhido. No Firebird, <code>PT_BR</code> segue regras específicas do português brasileiro, enquanto <code>UNICODE_CI_AI</code> segue regras mais genéricas.</p>
-            </div>
-
             <h2>Exemplo prático: Collate em índices</h2>
 
             <p>O collate é especialmente importante quando você cria índices. Um índice criado com um collate específico só será usado eficientemente em queries que usam o mesmo collate:</p>
@@ -236,13 +223,9 @@ WHERE LOGIN COLLATE UNICODE = 'jose.silva';
                 <strong>Importante:</strong> Quando você especifica um collate diferente na query (usando <code>COLLATE</code> na cláusula WHERE), o banco pode não conseguir usar o índice de forma eficiente. Sempre que possível, use o mesmo collate da coluna nas suas queries.
             </div>
 
-            <h2>Collate e Charset: A relação</h2>
+            <h2>Exemplo: Mesmo charset, collates diferentes</h2>
 
-            <p>O collate está sempre atrelado a um charset. Sem o charset, o banco não teria a regionalidade de ordenação, ou quais sinais diacríticos são iguais a suas versões sem esses sinais.</p>
-
-            <p>Mesmo que um banco de dados tenha uma tabela usando 3 <em>charsets</em> diferentes, contendo os mesmos dados, o <em>collate</em> poderá fazer com que os dados se comportem usando a mesma regra linguística. Por exemplo, para o Brasil, <em>case/accent insensitive</em> significa que o <em>collate</em> não fará distinção entre maiúsculos e minúsculos e que a ordenação seguirá um mesmo padrão.</p>
-
-            <h3>Exemplo: Mesmo charset, collates diferentes</h3>
+            <p>Vamos ver como o mesmo charset pode ter comportamentos diferentes com collates distintos:</p>
 
             <pre><code>CREATE TABLE TESTE_COLLATE (
     TEXTO_PT_BR VARCHAR(50) CHARACTER SET UTF8 COLLATE PT_BR,
@@ -264,59 +247,118 @@ SELECT TEXTO_UNICODE FROM TESTE_COLLATE ORDER BY TEXTO_UNICODE;</code></pre>
 
             <p>Você notará que a ordenação pode ser diferente entre <code>PT_BR</code> e <code>PT_PT</code>, mesmo usando o mesmo charset UTF8, porque cada collate segue regras linguísticas específicas de sua região.</p>
 
-            <h2>Collates disponíveis em diferentes SGBDs</h2>
+            <h2>Exemplo prático: Comparando PT_BR e PT_PT</h2>
 
-            <div class="info-box">
-                <p><strong>Collates em diferentes SGBDs:</strong></p>
-                <ul>
-                    <li><strong>FirebirdSQL:</strong> 
-                        <ul>
-                            <li>Para UTF8: <code>UCS_BASIC</code>, <code>UNICODE</code>, <code>UNICODE_CI</code> (case-insensitive), <code>UNICODE_CI_AI</code> (case e accent insensitive)</li>
-                            <li>Para ISO8859_1: <code>PT_BR</code>, <code>PT_PT</code>, <code>ISO8859_1</code></li>
-                            <li>Para WIN1252: <code>WIN_PTBR</code>, <code>WIN1252</code></li>
-                        </ul>
-                    </li>
-                    <li><strong>MS SQL Server:</strong> 
-                        <ul>
-                            <li><code>Latin1_General_CI_AS</code> (case-insensitive, accent-sensitive)</li>
-                            <li><code>Latin1_General_CS_AS</code> (case-sensitive, accent-sensitive)</li>
-                            <li><code>SQL_Latin1_General_CP1252_CI_AI</code> (case e accent insensitive)</li>
-                            <li>E muitos outros específicos por região</li>
-                        </ul>
-                    </li>
-                    <li><strong>PostgreSQL:</strong> 
-                        <ul>
-                            <li>Usa collates do sistema operacional: <code>pt_BR.UTF-8</code>, <code>en_US.UTF-8</code></li>
-                            <li><code>C</code> ou <code>POSIX</code> para comparações binárias (case e accent sensitive)</li>
-                            <li>Suporta criação de collates customizados</li>
-                        </ul>
-                    </li>
-                </ul>
-                <p>Embora a sintaxe e os nomes variem, o conceito de collate é universal: ele define como os caracteres são comparados e ordenados.</p>
-            </div>
+            <p>Vamos criar uma tabela para demonstrar as diferenças entre collates brasileiro e português:</p>
+
+            <pre><code>CREATE TABLE T2 (
+    NOME  VARCHAR(30) NOT NULL COLLATE PT_BR
+);
+
+INSERT INTO T2 (NOME) VALUES ('FARMACIA');
+INSERT INTO T2 (NOME) VALUES ('FARMÁCIA');
+INSERT INTO T2 (NOME) VALUES ('Jose');
+INSERT INTO T2 (NOME) VALUES ('José');
+INSERT INTO T2 (NOME) VALUES ('JOSÉ');</code></pre>
+
+            <p>Note agora a ordenação de dados entre dois collates diferentes usando o mesmo charset:</p>
+
+            <pre><code>SELECT * FROM T2 a ORDER BY a.nome COLLATE PT_PT;</code></pre>
+
+            <p>Agora o outro:</p>
+
+            <pre><code>SELECT * FROM T2 a ORDER BY a.nome COLLATE PT_BR;</code></pre>
+
+            <p>Os collates estão atrelados ao charset porque sem eles, o banco não teria a regionalidade de ordenação, ou quais sinais diacríticos são iguais a suas versões sem esses sinais e assim por diante.</p>
+
+            <h2>Testando ordenação por charset</h2>
+
+            <p>Mesmo que um banco de dados tenha uma tabela usando 3 <em>charsets</em> diferentes, contendo os mesmos dados, o <em>collate</em> poderá fazer com que os dados se comportem usando a mesma regra linguística. Por exemplo, para o Brasil, <em>case/accent insensitive</em> significa que o <em>collate</em> não fará distinção entre maiúsculos e minúsculos e que a ordenação seguirá um mesmo padrão.</p>
+
+            <p>Vamos testar se a ordenação foi influenciada pelo <em>charset</em> executando esta query (assumindo que você já criou a tabela T1 do exemplo de charset):</p>
+
+            <pre><code>EXECUTE BLOCK
+RETURNS(
+  iso8859_1 VARCHAR(10),
+  win1252 VARCHAR(10),
+  unicode VARCHAR(10))
+AS
+BEGIN
+  --iso8859_1
+  iso8859_1='Sim';
+  win1252='-';
+  unicode='-';
+  SUSPEND;
+  FOR SELECT
+    a.fruta_iso8859, a.fruta_win1252, a.fruta_unicode
+    FROM T1 a
+    ORDER BY a.fruta_iso8859
+    INTO iso8859_1, win1252, unicode
+  DO BEGIN
+    SUSPEND;
+  END
+  -- win1252
+  iso8859_1='-';
+  win1252='Sim';
+  unicode='-';
+  SUSPEND;
+  FOR SELECT
+    a.fruta_iso8859, a.fruta_win1252, a.fruta_unicode
+    FROM T1 a
+    ORDER BY a.fruta_win1252
+    INTO iso8859_1, win1252, unicode
+  DO BEGIN
+    SUSPEND;
+  END
+  -- unicode
+  iso8859_1='-';
+  win1252='-';
+  unicode='Sim';
+  SUSPEND;
+  FOR SELECT
+    a.fruta_iso8859, a.fruta_win1252, a.fruta_unicode
+    FROM T1 a
+    ORDER BY a.fruta_unicode
+    INTO iso8859_1, win1252, unicode
+  DO BEGIN
+    SUSPEND;
+  END
+END</code></pre>
+
+            <p>Notamos na saída do comando <code>EXECUTE BLOCK</code> que a ordenação pelo charset <code>ISO8859_1</code> (latin1), WIN1252 ou unicode não teve diferença! Isso demonstra que o collate padrão de cada charset está fazendo um trabalho similar de ordenação.</p>
 
             <h2>Recomendações práticas</h2>
 
             <h3>Quando usar cada tipo de collate:</h3>
 
             <ul>
-                <li><strong>Case e Accent Insensitive (CI_AI):</strong> 
+                <li><strong>Case e Accent Insensitive (CI_AI) - UNICODE_CI_AI:</strong> 
                     <ul>
                         <li>Campos de login, email, códigos</li>
                         <li>Quando você quer que 'JOAO' encontre 'João'</li>
                         <li>Campos de busca onde o usuário pode digitar sem acentos</li>
+                        <li>Campos que precisam de buscas flexíveis</li>
                     </ul>
                 </li>
-                <li><strong>Case Insensitive, Accent Sensitive (CI_AS):</strong>
+                <li><strong>Case Insensitive, Accent Sensitive (CI_AS) - UNICODE_CI:</strong>
                     <ul>
                         <li>Nomes próprios onde acentos são importantes</li>
                         <li>Quando 'José' deve ser diferente de 'Jose', mas 'JOSE' = 'Jose'</li>
+                        <li>Campos onde a diferenciação de acentos é necessária</li>
                     </ul>
                 </li>
-                <li><strong>Case e Accent Sensitive (CS_AS):</strong>
+                <li><strong>Case e Accent Sensitive (CS_AS) - UNICODE, PT_BR, WIN_PTBR:</strong>
                     <ul>
                         <li>Senhas, tokens, códigos exatos</li>
                         <li>Quando a diferenciação exata é crítica</li>
+                        <li>Campos onde maiúsculas/minúsculas e acentos importam</li>
+                    </ul>
+                </li>
+                <li><strong>PT_BR ou WIN_PTBR:</strong>
+                    <ul>
+                        <li>Para aplicações brasileiras que usam ISO8859_1 ou WIN1252</li>
+                        <li>Ordenação seguindo regras do português brasileiro</li>
+                        <li>Quando você precisa de regionalidade específica</li>
                     </ul>
                 </li>
             </ul>
@@ -329,23 +371,39 @@ SELECT TEXTO_UNICODE FROM TESTE_COLLATE ORDER BY TEXTO_UNICODE;</code></pre>
                 <li><strong>Considere o collate do banco:</strong> Se não especificar, a coluna herdará o collate padrão do banco</li>
                 <li><strong>Para aplicações brasileiras:</strong> <code>PT_BR</code> ou <code>UNICODE_CI_AI</code> são geralmente boas escolhas</li>
                 <li><strong>Teste as comparações:</strong> Sempre teste se suas queries encontram os dados esperados com o collate escolhido</li>
+                <li><strong>Evite usar COLLATE na query:</strong> Se possível, defina o collate correto na coluna ao invés de forçar na query</li>
             </ul>
 
             <div class="info-box">
-                <p><strong>Resumo:</strong> Definir o Collate correto evita que sua aplicação tenha que fazer conversões custosas via software (como <code>UPPER()</code> ou <code>LOWER()</code> em todas as queries), permitindo que o banco utilize os índices de forma eficiente. Este princípio se aplica a todos os SGBDs: MS SQL Server, PostgreSQL e Firebird.</p>
+                <p><strong>Resumo:</strong> Definir o Collate correto evita que sua aplicação tenha que fazer conversões custosas via software (como <code>UPPER()</code> ou <code>LOWER()</code> em todas as queries), permitindo que o banco utilize os índices de forma eficiente. O collate é uma decisão importante que afeta tanto a performance quanto a funcionalidade das suas queries.</p>
+            </div>
+
+            <h2>Collate e Performance</h2>
+
+            <p>O collate escolhido pode impactar a performance das suas queries:</p>
+
+            <ul>
+                <li><strong>Collates mais simples (binários):</strong> Geralmente mais rápidos, mas menos flexíveis</li>
+                <li><strong>Collates CI_AI:</strong> Podem ser um pouco mais lentos em comparações, mas permitem buscas mais flexíveis sem conversões</li>
+                <li><strong>Uso de índices:</strong> Índices criados com um collate específico só serão usados eficientemente em queries que usam o mesmo collate</li>
+                <li><strong>Conversões em runtime:</strong> Usar <code>COLLATE</code> na query força conversões em tempo de execução, o que pode ser custoso</li>
+            </ul>
+
+            <div class="warning-box">
+                <strong>Dica de Performance:</strong> Se você frequentemente precisa fazer buscas case-insensitive ou accent-insensitive, defina o collate adequado na criação da coluna ao invés de usar funções como <code>UPPER()</code> ou <code>LOWER()</code> nas queries. Isso permite que o Firebird use os índices de forma eficiente.
             </div>
 
             <div class="info-box">
-                <p><strong>Referências e compatibilidade entre SGBDs:</strong></p>
+                <p><strong>Referências oficiais:</strong></p>
                 <ul>
                     <li><a href="https://firebirdsql.org/refdocs/langrefupd25-ddl-collate.html" target="_blank">FirebirdSQL - COLLATE Documentation</a></li>
-                    <li><a href="https://learn.microsoft.com/en-us/sql/relational-databases/collations/collation-and-unicode-support" target="_blank">MS SQL Server - Collation and Unicode Support</a></li>
-                    <li><a href="https://www.postgresql.org/docs/current/collation.html" target="_blank">PostgreSQL - Collation Support</a></li>
-                    <li><a href="sgbd_charset.html">Guia sobre Charset</a> - Entenda a relação entre Charset e Collate</li>
+                    <li><a href="https://www.firebirdsql.org/file/documentation/chunk/en/refdocs/fblangref40/fblangref40-datatypes-chartypes.html" target="_blank">FirebirdSQL - Character Data Types</a></li>
+                    <li><a href="sgbd_fb_charset.html">Qual Charset usar?</a> - Entenda a relação entre Charset e Collate</li>
+                    <li><a href="sgbd_collate.html">Guia geral sobre Collate</a> - Comparação entre diferentes SGBDs</li>
                 </ul>
             </div>
 
-            <p style="margin-top: 3rem;"><a href="sgbd.html" class="back-link">&larr; Voltar para o SGBD Hub</a></p>
+            <p style="margin-top: 3rem;"><a href="sgbd_fb_intro.html" class="back-link">&larr; Voltar para o Guia Firebird</a></p>
         </article>
     </main>
 

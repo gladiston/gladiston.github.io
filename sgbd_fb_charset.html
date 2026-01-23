@@ -5,60 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Qual charset devo usar? ISO8859_1, WIN1252 ou UTF8? - Gladiston Santana</title>
     <link rel="stylesheet" href="css/estilo.css">
-    <style>
-        code {
-            background: #f4f4f4;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-        }
-        pre {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 1rem;
-            border-radius: 5px;
-            overflow-x: auto;
-            margin: 1rem 0;
-        }
-        pre code {
-            background: transparent;
-            color: inherit;
-            padding: 0;
-        }
-        .warning-box {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 4px;
-        }
-        .info-box {
-            background: #d1ecf1;
-            border-left: 4px solid #0c5460;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 4px;
-        }
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-        }
-        .comparison-table th,
-        .comparison-table td {
-            border: 1px solid #ddd;
-            padding: 0.75rem;
-            text-align: left;
-        }
-        .comparison-table th {
-            background: var(--azul-principal);
-            color: white;
-        }
-        .comparison-table tr:nth-child(even) {
-            background: #f9f9f9;
-        }
-    </style>
 </head>
 <body>
 
@@ -82,10 +28,6 @@
 
     <main>
         <article>
-            <div class="warning-box">
-                <strong>Nota:</strong> Este artigo ainda está em rascunho. As informações estão corretas, mas faltam ajustes na formatação, concordância gramatical e uma maneira mais didática. Mas se entender, pode utilizá-lo.
-            </div>
-
             <h2>Por que essa pergunta é importante?</h2>
             
             <p>Se você usa o Windows, você deve estar se perguntando porque essa pergunta é importante. Por gentileza abra o cmd e execute comigo o comando <code>chcp</code>, ele retorna o código de página de caracteres que está em uso no momento. Ele retornará o código de página <code>850</code>.</p>
@@ -95,7 +37,7 @@
 
             <p>E então descobrimos que estamos usando o <code>ISO8859_1</code> também conhecido como "Latin1". Então, toda vez que nos referimos ao <code>ISO8859_1</code>, vamos chamar de Latin1, ok?</p>
 
-            <h2>Histórico: Latin1, WIN1252 e Unicode</h2>
+            <h2>Histórico: ISO8859_1(Latin1), WIN1252 e Unicode</h2>
 
             <p>Se você chegou a conhecer o MS-DOS deve se lembrar do comando <code>chcp</code> que usávamos no <code>autoexec.bat</code> para tornar possível ver as acentuações na tela. Então desde os primórdios do MS-DOS usamos Latin1 (ou <code>ISO8859_1</code>) para tornar possível ver nossas acentuações no terminal. Latin1 (ou <code>ISO8859_1</code>) leva o prefixo "iso" porque foi aprovado pelo comitê internacional de mesmo nome: International Organization for Standardization (Organização Internacional de Normalização) o equivalente a nossa ABNT só que internacional.</p>
 
