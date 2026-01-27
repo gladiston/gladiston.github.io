@@ -12,7 +12,7 @@
             <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
             <div class="header-text">
                 <h1>Transações e Autocommit</h1>
-                <p>O impacto do commit automático na integridade e performance.</p>
+                <p>O impacto do commit automático na integridade e no desempenho.</p>
             </div>
         </div>
     </header>
@@ -27,11 +27,11 @@
     <main>
         <article>
             <h2>O que é o Autocommit?</h2>
-            <p>A maioria das suites de conexão ao banco de dados para Delphi ou Lazarus como FireDac, ZeosDBO, SQLdb,... ao conectar base de dados possui uma propriedade chamada <strong>autocommit</strong>, ela pode estar ligada(true) ou desligada(false).</p>
+            <p>A maioria das suítes de conexão ao banco de dados para Delphi ou Lazarus, como FireDAC, ZeosDBO, SQLdb etc., ao se conectar a uma base de dados, possui uma propriedade chamada <strong>autocommit</strong>. Ela pode estar ligada (true) ou desligada (false).</p>
 
-            <p>Para explicar como funciona, precisamos entender o que é uma transação, neste contexto, uma transação é um período que iniciamos uma série de modificações no banco de dados que deve ser encerrada com um commit - a confirmação de que tudo que foi feito desde o início da transação deve ser mantido - ou o rollback - desfazer toda a transação desde seu início.</p>
+            <p>Para explicar como funciona, precisamos entender o que é uma transação. Neste contexto, uma transação é um período em que iniciamos uma série de modificações no banco de dados, que deve ser encerrada com um commit — a confirmação de que tudo o que foi feito desde o início da transação deve ser mantido — ou com um rollback — desfazer toda a transação desde o seu início.</p>
 
-            <p>Então o que o <strong>autocommit</strong> faz ao estar ligado é tornar 'iniciar uma transação' opcional ao programador, porém por baixo dos panos, a suíte de acesso a dados criará uma transação pro você antes de executar seu statement e o finalizará com commit. Isso dá ao programador que a partir de agora não precisará mais se preocupar com iniciar e finalizar suas transações.</p>
+            <p>Então, o que o <strong>autocommit</strong> faz ao estar ligado é tornar “iniciar uma transação” opcional ao programador. Porém, por baixo dos panos, a suíte de acesso a dados criará uma transação para você antes de executar o seu statement e a finalizará com um commit. Isso dá ao programador a impressão de que, a partir de agora, não precisará mais se preocupar com iniciar e finalizar transações.</p>
 
             <h3>O Problema da Atomicidade</h3>
             <p>Imagine uma transferência bancária: você precisa tirar dinheiro de uma conta e colocar em outra. No modo Autocommit, se o sistema falhar entre as duas operações, o dinheiro "desaparece". Sem o controle manual de transação, você perde a <strong>Atomicidade</strong> (o "A" do ACID).</p>
@@ -39,7 +39,7 @@
             <h3>Impacto na Performance</h3>
             <p>Escrever no disco é caro. No modo Autocommit, o banco é forçado a gravar fisicamente o log de transação a cada comando. Ao agrupar 1000 inserções em uma única transação manual, a performance pode ser até 10x superior.</p>
 
-            <p>No vídeo abaixo eu demonstro que uma transferência de 10.000 registros com autocommit ligado e desligado tem diferenças absurdas de tempo, porque? Porque com autocommit desligado, você inicia uma transação uma única vez e faz a transferência de 10.000 registros e depois commit. Porém com o autocommit ligado, o que acontece de diferente é, inicia uma transação, transfere um registro e então commit, depois repete a mesma operação com o segundo, terceiro,.... até o último registro executando 10.000 transações! Como resultado, o autocommit ligado torna as coisas muito, mas muito lentas quando as operações são feitas em lote.</p>
+            <p>No vídeo abaixo, eu demonstro que uma transferência de 10.000 registros com autocommit ligado e desligado tem diferenças absurdas de tempo. Por quê? Porque, com o autocommit desligado, você inicia uma transação uma única vez, faz a transferência de 10.000 registros e, depois, dá commit. Porém, com o autocommit ligado, o que acontece de diferente é: inicia uma transação, transfere um registro e, então, dá commit; depois repete a mesma operação com o segundo, o terceiro... até o último registro, executando 10.000 transações. Como resultado, o autocommit ligado torna as coisas muito, mas muito lentas quando as operações são feitas em lote.</p>
 
             <pre><code>-- EVITE O AUTOCOMMIT EM OPERAÇÕES EM LOTE
 START TRANSACTION;
@@ -52,15 +52,15 @@ ROLLBACK;</code></pre>
 
             <h2>StartTransaction: A Válvula de Escape</h2>
             
-            <p>Algo importante a se dizer é que o autocommit ligado em ferramentas como Zeos ou FireDac tem uma válvula de escape, se você der um <code>StartTransaction</code>, a suite entende que para esta operação o autocommit será falso e você terá de terminar manualmente a transação usando commit. Isso é muito bom para o programador porque ele contorna possíveis problemas de não ter iniciado uma transação, mas caso, inicie, ele terá máxima performance por escolher onde dar o commit.</p>
+            <p>Algo importante a se dizer é que o autocommit ligado em ferramentas como Zeos ou FireDAC tem uma válvula de escape: se você der um <code>StartTransaction</code>, a suíte entende que, para esta operação, o autocommit será falso, e você terá de terminar manualmente a transação usando commit (ou rollback). Isso é muito bom para o programador, porque ele contorna possíveis problemas de não ter iniciado uma transação e, caso inicie, terá máximo desempenho por escolher onde dar o commit.</p>
 
             <div class="warning-box">
                 <strong>⚠️ ATENÇÃO: Comportamento do StartTransaction</strong>
-                <p>O Zeos e o FireDac, quando você dá um <code>conn.StartTransaction</code>, ele <strong>interrompe o autocommit</strong> até que o commit/rollback explícito ocorra. Mas atenção, se seu fluxo de transação não terminar em commit/rollback vai dar um xabú que não tem tamanho, pois a transação vai encapsular tudo que vier depois.</p>
+                <p>No Zeos e no FireDAC, quando você chama <code>conn.StartTransaction</code>, a suíte <strong>interrompe o autocommit</strong> até que ocorra um commit/rollback explícito. Mas atenção: se o seu fluxo de transação não terminar em commit/rollback, vai dar um xabú que não tem tamanho, pois a transação vai encapsular tudo o que vier depois.</p>
                 
-                <p>Quando você ver uma história de alguém que disse que o sistema dele perdeu tudo no final do dia ou registros estão sumindo, geralmente é disso que estamos falando. É porque a transação começou e de início não deu commit ou rollback... daí dados foram acontecendo depois e num outro ponto do programa um <code>try...except</code> deu um rollback mas não voltou apenas aquele ponto do programa, mas desde o primeiro <code>StartTransaction</code> que não teve commit/rollback.</p>
+                <p>Quando você vir uma história de alguém dizendo que o sistema “perdeu tudo” no fim do dia ou que registros estão sumindo, geralmente é disso que estamos falando. A transação começou e, de início, não houve commit nem rollback... daí os dados foram acontecendo depois e, em outro ponto do programa, um <code>try...except</code> deu um rollback, mas não voltou apenas naquele ponto: voltou desde o primeiro <code>StartTransaction</code> que não teve commit/rollback.</p>
                 
-                <p><strong>Por isso, try..except para começar e terminar uma transação é mandatório: se a transação começou, ninguém sai do bloco com ela ativa (sem Commit/Rollback).</strong></p>
+                <p><strong>Por isso, try..except para começar e terminar uma transação é mandatório: se a transação começou, ninguém sai do bloco com ela ativa (sem commit/rollback).</strong></p>
             </div>
 
             <h3>Exemplo Correto: Usando Try..Except</h3>
@@ -82,7 +82,7 @@ except
   // Se algo der errado, desfaz somente o que está nessa transação
   if ZConnection1.InTransaction then
     ZConnection1.Rollback;
-  raise; // Re-lança a exceção para ser tratada fora
+  raise; // Relança a exceção para ser tratada fora
 end;</code></pre>
 
             <pre><code>// Exemplo com FireDAC (padrão recomendado)
@@ -100,7 +100,7 @@ except
   // Se algo der errado, desfaz somente o que está nessa transação
   if FDConnection1.InTransaction then
     FDConnection1.Rollback;
-  raise; // Re-lança a exceção para ser tratada fora
+  raise; // Relança a exceção para ser tratada fora
 end;</code></pre>
 
             <div class="warning-box">
@@ -116,9 +116,9 @@ ZConnection1.Commit;</code></pre>
                 <p>Se <code>Query2.ExecSQL</code> lançar uma exceção, o <code>Commit</code> nunca será executado e a transação ficará aberta, encapsulando todas as operações subsequentes até que a conexão seja fechada ou um rollback seja executado em outro ponto do código (possivelmente causando perda de dados legítimos).</p>
             </div>
 
-            <h2>Porque é importante saber disso?</h2>
+            <h2>Por que é importante saber disso?</h2>
             
-            <p>Porque é importante conhecer a suíte de acesso a banco de dados e suas propriedades como o autocommit? Porque situações de lentidão no acesso a base de dados, a culpa é 'o servidor tá lento' ou 'o banco de dados é lento' quando na realidade é o desconhecimento da ferramenta.</p>
+            <p>Por que é importante conhecer a suíte de acesso a banco de dados e suas propriedades, como o autocommit? Porque, em situações de lentidão no acesso à base de dados, a culpa vira “o servidor está lento” ou “o banco de dados é lento”, quando, na realidade, é desconhecimento da ferramenta.</p>
 
             <h2>Conclusão</h2>
             
