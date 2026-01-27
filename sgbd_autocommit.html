@@ -60,49 +60,47 @@ ROLLBACK;</code></pre>
                 
                 <p>Quando você ver uma história de alguém que disse que o sistema dele perdeu tudo no final do dia ou registros estão sumindo, geralmente é disso que estamos falando. É porque a transação começou e de início não deu commit ou rollback... daí dados foram acontecendo depois e num outro ponto do programa um <code>try...except</code> deu um rollback mas não voltou apenas aquele ponto do programa, mas desde o primeiro <code>StartTransaction</code> que não teve commit/rollback.</p>
                 
-                <p><strong>Por isso, try..except para começar e terminar uma transação é mandatório, ninguém sai do bloco sem commit/rollback.</strong></p>
+                <p><strong>Por isso, try..except para começar e terminar uma transação é mandatório: se a transação começou, ninguém sai do bloco com ela ativa (sem Commit/Rollback).</strong></p>
             </div>
 
             <h3>Exemplo Correto: Usando Try..Except</h3>
             
             <p>Veja como deve ser feito corretamente:</p>
 
-            <pre><code>// Exemplo com Zeos
+            <pre><code>// Exemplo com Zeos (padrão recomendado)
+// - Não engole a exceção (mantém contexto)
+// - Garante que, SE a transação iniciou, ela termina em Commit/Rollback
+ZConnection1.StartTransaction;
 try
-  ZConnection1.StartTransaction;
-  try
-    // Suas operações aqui
-    Query1.ExecSQL;
-    Query2.ExecSQL;
-    // Se tudo correr bem
-    ZConnection1.Commit;
-  except
-    // Se algo der errado, desfaz tudo
-    ZConnection1.Rollback;
-    raise; // Re-lança a exceção para tratamento superior
-  end;
+  // Suas operações aqui
+  Query1.ExecSQL;
+  Query2.ExecSQL;
+
+  // Se tudo correr bem
+  ZConnection1.Commit;
 except
-  // Tratamento de erros de conexão ou outros
-  ShowMessage('Erro ao processar transação');
+  // Se algo der errado, desfaz somente o que está nessa transação
+  if ZConnection1.InTransaction then
+    ZConnection1.Rollback;
+  raise; // Re-lança a exceção para ser tratada fora
 end;</code></pre>
 
-            <pre><code>// Exemplo com FireDac
+            <pre><code>// Exemplo com FireDAC (padrão recomendado)
+// - Não engole a exceção (mantém contexto)
+// - Garante que, SE a transação iniciou, ela termina em Commit/Rollback
+FDConnection1.StartTransaction;
 try
-  FDConnection1.StartTransaction;
-  try
-    // Suas operações aqui
-    FDQuery1.ExecSQL;
-    FDQuery2.ExecSQL;
-    // Se tudo correr bem
-    FDConnection1.Commit;
-  except
-    // Se algo der errado, desfaz tudo
-    FDConnection1.Rollback;
-    raise; // Re-lança a exceção para tratamento superior
-  end;
+  // Suas operações aqui
+  FDQuery1.ExecSQL;
+  FDQuery2.ExecSQL;
+
+  // Se tudo correr bem
+  FDConnection1.Commit;
 except
-  // Tratamento de erros de conexão ou outros
-  ShowMessage('Erro ao processar transação');
+  // Se algo der errado, desfaz somente o que está nessa transação
+  if FDConnection1.InTransaction then
+    FDConnection1.Rollback;
+  raise; // Re-lança a exceção para ser tratada fora
 end;</code></pre>
 
             <div class="warning-box">
@@ -126,7 +124,7 @@ ZConnection1.Commit;</code></pre>
             
             <p>O Autocommit é aceitável para consultas rápidas (SELECT) ou testes simples via terminal. Para aplicações reais, o controle transacional explícito é o que separa um sistema amador de um software corporativo robusto.</p>
 
-            <p><strong>Lembre-se sempre:</strong> Quando usar <code>StartTransaction</code>, sempre envolva em <code>try..except</code> garantindo que commit ou rollback sempre será executado. Isso evita problemas catastróficos de perda de dados ou transações órfãs que podem afetar todo o sistema.</p>
+            <p><strong>Lembre-se sempre:</strong> Quando usar <code>StartTransaction</code>, sempre envolva em <code>try..except</code> garantindo que, <strong>se a transação estiver ativa</strong>, haverá <strong>Commit</strong> ou <strong>Rollback</strong>. Isso evita problemas catastróficos de perda de dados ou transações órfãs que podem afetar todo o sistema.</p>
 
             <p><a href="sgbd.html" class="back-link">&larr; Voltar para SGBD</a></p>
         </article>
