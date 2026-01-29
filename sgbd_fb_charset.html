@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qual charset devo usar? ISO8859_1, WIN1252 ou UTF8? - Gladiston Santana</title>
+    <title>Qual charset devo usar? ISO8859_1, WIN1252 ou UNICODE? - Gladiston Santana</title>
     <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
             <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
             <div class="header-text">
                 <h1>Qual charset devo usar?</h1>
-                <p>ISO8859_1, WIN1252 ou UTF8? - Guia completo para FirebirdSQL</p>
+                <p><code>ISO8859_1</code>, <code>WIN1252</code> ou <code>UNICODE</code>? - Guia completo para FirebirdSQL</p>
             </div>
         </div>
     </header>
@@ -30,38 +30,38 @@
         <article>
             <h2>Por que essa pergunta é importante?</h2>
             
-            <p>Se você usa o Windows, você deve estar se perguntando porque essa pergunta é importante. Por gentileza abra o cmd e execute comigo o comando <code>chcp</code>, ele retorna o código de página de caracteres que está em uso no momento. Ele retornará o código de página <code>850</code>.</p>
+            <p>Se você usa o Windows, deve estar se perguntando por que essa pergunta é importante. Por gentileza, abra o cmd e execute comigo o comando <code>chcp</code>; ele retorna o código de página de caracteres que está em uso no momento. Ele retornará o código de página <code>850</code>.</p>
 
-            <p>Vamos no Google e pesquisar esta página com os termos "Code page 850" e seremos encaminhados para Wikipedia:</p>
+            <p>Vamos ao Google e pesquisar esta página com os termos "Code page 850" e seremos encaminhados para a Wikipedia:</p>
             <p><a href="https://en.wikipedia.org/wiki/Code_page_850" target="_blank">https://en.wikipedia.org/wiki/Code_page_850</a></p>
 
-            <p>E então descobrimos que estamos usando o <code>ISO8859_1</code> também conhecido como "Latin1". Então, toda vez que nos referimos ao <code>ISO8859_1</code>, vamos chamar de Latin1, ok?</p>
+            <p>E então descobrimos que estamos usando o <code>ISO8859_1</code> (também conhecido como "Latin1").</p>
 
-            <h2>Histórico: ISO8859_1(Latin1), WIN1252 e Unicode</h2>
+            <h2>Histórico: <code>ISO8859_1</code>, <code>WIN1252</code> e <code>UNICODE</code></h2>
 
-            <p>Se você chegou a conhecer o MS-DOS deve se lembrar do comando <code>chcp</code> que usávamos no <code>autoexec.bat</code> para tornar possível ver as acentuações na tela. Então desde os primórdios do MS-DOS usamos Latin1 (ou <code>ISO8859_1</code>) para tornar possível ver nossas acentuações no terminal. Latin1 (ou <code>ISO8859_1</code>) leva o prefixo "iso" porque foi aprovado pelo comitê internacional de mesmo nome: International Organization for Standardization (Organização Internacional de Normalização) o equivalente a nossa ABNT só que internacional.</p>
+            <p>Se você chegou a conhecer o MS-DOS deve se lembrar do comando <code>chcp</code> que usávamos no <code>autoexec.bat</code> para tornar possível ver as acentuações na tela. Então desde os primórdios do MS-DOS usamos <code>ISO8859_1</code> para tornar possível ver nossas acentuações no terminal. O <code>ISO8859_1</code> leva o prefixo "iso" porque foi aprovado pelo comitê internacional de mesmo nome: International Organization for Standardization (Organização Internacional de Normalização) o equivalente a nossa ABNT só que internacional.</p>
 
-            <p>Mas uma coisa é o terminal, algo considerado legado por alguns para rodar aplicações. Quando o Windows surgiu com uma interface gráfica, a Microsoft resolveu criar um novo código de página chamado "Win1252" por isso tem o "Win" no nome, foi feito exclusivamente para o ambiente Windows e teve a aprovação da ANSI, a ABNT americana.</p>
+            <p>Mas uma coisa é o terminal, algo considerado legado por alguns para rodar aplicações. Quando o Windows surgiu com uma interface gráfica, a Microsoft resolveu criar um novo código de página chamado <code>WIN1252</code>; por isso tem o "Win" no nome, foi feito exclusivamente para o ambiente Windows e teve a aprovação da ANSI, a ABNT americana.</p>
 
-            <p>Por que criar seu próprio padrão ao invés de continuar usando o <code>ISO8859_1</code> (Latin1)? Essa é uma pergunta difícil de responder, o <code>ISO8859_1</code> foi criado inicialmente pela Apple e depois aprovado pela ISO e naquela época a Microsoft gostava de ditar os padrões da indústria e talvez por isso tenham criado o Win1252. Ele deveria ser desnecessário já que teve como base o próprio <code>ISO8859_1</code> e ambos com poucas exceções são cambiáveis entre si. Pessoalmente, só conheço duas diferenças entre ambos, o Win1252 possui um travessão longo que é diferente do traço normal e um jogo de aspas com serifa (curva).</p>
+            <p>Por que criar seu próprio padrão ao invés de continuar usando o <code>ISO8859_1</code>? Essa é uma pergunta difícil de responder. O <code>ISO8859_1</code> foi criado inicialmente pela Apple e depois aprovado pela ISO, e naquela época a Microsoft gostava de ditar os padrões da indústria; talvez por isso tenham criado o <code>WIN1252</code>. Ele deveria ser desnecessário, já que teve como base o próprio <code>ISO8859_1</code> e ambos, com poucas exceções, são intercambiáveis entre si. Pessoalmente, só conheço duas diferenças entre ambos: o <code>WIN1252</code> possui um travessão longo que é diferente do traço normal e um jogo de aspas com serifa (curva).</p>
 
             <h2>O problema da fragmentação no Windows</h2>
 
-            <p>Ter um padrão de geração de caracteres diferentes só criou problemas para a Microsoft, seu terminal (cmd) é Latin1, a interface gráfica é Win1252, o sistema de arquivos é UNICODE. A pouco tempo atrás, se você usasse um bloco de notas para editar um arquivo php ou html tinha boas chances de ter o seu trabalho perdido. Sistemas como o Linux são tudo UNICODE e normalmente não é preciso lidar com conversões entre código de páginas diferentes.</p>
+            <p>Ter um padrão de geração de caracteres diferentes só criou problemas para a Microsoft: seu terminal (cmd) usa <code>ISO8859_1</code>, a interface gráfica é <code>WIN1252</code>, o sistema de arquivos é <code>UNICODE</code>. Há pouco tempo, se você usasse um bloco de notas para editar um arquivo PHP ou HTML, tinha boas chances de ter o seu trabalho perdido. Sistemas como o Linux são tudo <code>UNICODE</code> e normalmente não é preciso lidar com conversões entre código de páginas diferentes.</p>
 
-            <p>Um outro problema como o ambiente Windows é que ele não é mais tão universal como antes, hoje as aplicações estão em nuvem e a maioria dos serviços de banco de dados são hospedados em computadores que não rodam Windows. Se você hospedar dados num servidor Windows armazenando dados no formato WIN1252 provavelmente teria de pensar o que aconteceria se resolvesse hospedar um banco de dados num sistema operacional Linux que segue apenas padrões internacionais ISO onde o WIN1252 não existe. Você talvez tenha de lidar com problemas de transliteração de caracteres.</p>
+            <p>Um outro problema com o ambiente Windows é que ele não é mais tão universal como antes; hoje as aplicações estão em nuvem e a maioria dos serviços de banco de dados são hospedados em computadores que não rodam Windows. Se você hospedar dados num servidor Windows armazenando dados no formato <code>WIN1252</code>, provavelmente teria de pensar o que aconteceria se resolvesse hospedar um banco de dados num sistema operacional Linux que segue apenas padrões internacionais ISO, onde o <code>WIN1252</code> não existe. Você talvez tenha de lidar com problemas de transliteração de caracteres.</p>
 
             <div class="info-box">
                 <strong>Dica:</strong> Para demonstrar essa transliteração, você pode usar o Notepad++ para visualizar como os mesmos caracteres são interpretados de forma diferente dependendo da codificação escolhida.
             </div>
 
-            <h2>Recomendação: ISO8859_1 para portabilidade</h2>
+            <h2>Recomendação: <code>ISO8859_1</code> para portabilidade</h2>
 
-            <p>Então, o desejável se queremos uma aplicação ou banco de dados que seja portável entre sistemas operacionais é desistir do WIN1252 e em seu lugar optar pelo <code>ISO8859_1</code> (latin1). Agora, daqui em diante vou falar apenas do Latin1 (<code>ISO8859_1</code>) e o padrão Unicode. Mas ao me referir ao Latin1, lembre-se que também é aplicável ao WIN1252.</p>
+            <p>Então, o desejável, se queremos uma aplicação ou banco de dados que seja portável entre sistemas operacionais, é desistir do <code>WIN1252</code> e, em seu lugar, optar pelo <code>ISO8859_1</code>. Agora, daqui em diante vou falar apenas do <code>ISO8859_1</code> e o padrão <code>UNICODE</code>. Mas ao me referir ao <code>ISO8859_1</code>, lembre-se que também é aplicável ao <code>WIN1252</code>.</p>
 
-            <h2>Unicode: a solução moderna</h2>
+            <h2><code>UNICODE</code>: a solução moderna</h2>
 
-            <p>O UNICODE veio para resolver alguns problemas. Há uma ótima palestra Firebird Conference 2011 Luxembourg onde o discursante falou muito sobre charsets, na sua palestra intitulada "Character Sets and Unicode in Firebird" e citou as vantagens:</p>
+            <p>O <code>UNICODE</code> veio para resolver alguns problemas. Há uma ótima palestra da Firebird Conference 2011 em Luxembourg onde o palestrante falou muito sobre charsets, na sua palestra intitulada "Character Sets and Unicode in Firebird" e citou as vantagens:</p>
 
             <p><strong>Referência:</strong> <a href="https://www.firebirdsql.org/file/community/ppts/fbcon11/FbCon2011-Charsets-Heymann.pdf" target="_blank">https://www.firebirdsql.org/file/community/ppts/fbcon11/FbCon2011-Charsets-Heymann.pdf</a></p>
 
@@ -73,43 +73,43 @@
 
             <h3>Testando no terminal do Windows</h3>
 
-            <p>Vamos comprovar que estamos usando o latin1, vamos agora mudar para win1252:</p>
+            <p>Vamos comprovar que estamos usando o <code>ISO8859_1</code>; vamos agora mudar para <code>WIN1252</code>:</p>
 
             <pre><code>chcp 1252
-echo linha #1: teste com com página latin1(iso8859_1)>teste.txt
+echo linha #1: teste com com página iso8859_1>teste.txt
 echo linha #2: atenção, minha acentuação é inoqüa>>teste.txt
 hexeditor teste.txt</code></pre>
 
-            <p>Parece tudo certo, né? Mas vamos mudar agora o código da página para utf:</p>
+            <p>Parece tudo certo, né? Mas vamos mudar agora o código da página para <code>UNICODE</code>:</p>
 
             <pre><code>chcp 65001
 echo linha #3: teste com com página unicode>>teste.txt
 echo linha #4: atenção, minha acentuação é inoqüa>>teste.txt
 hexeditor teste.txt</code></pre>
 
-            <p>Agora temos duas linhas iniciais exibidas corretamente, mas as duas últimas erroneamente, por quê? Porque ao iniciar o arquivo pela primeira vez, não há indicativos de codepage dentro do arquivo e então o Windows assume que é Ansi.</p>
+            <p>Agora temos duas linhas iniciais exibidas corretamente, mas as duas últimas erroneamente. Por quê? Porque ao iniciar o arquivo pela primeira vez, não há indicativos de codepage dentro do arquivo e então o Windows assume que é <code>ANSI</code>.</p>
 
-            <p>Vamos criar as mesmas 4 linhas no Notepad++, note que o mesmo já é criado em UTF8, mas se olharmos no bloco de notas, notaremos que nenhuma das linhas parece correta porque nem Latin1 e nem UTF são compatíveis com o WIN1252 (Ansi).</p>
+            <p>Vamos criar as mesmas 4 linhas no Notepad++; note que o mesmo já é criado em <code>UNICODE</code>, mas se olharmos no bloco de notas, notaremos que nenhuma das linhas parece correta porque nem <code>ISO8859_1</code> nem <code>UNICODE</code> são compatíveis com o <code>WIN1252</code> (<code>ANSI</code>).</p>
 
-            <p>Se usarmos o Notepad++ e convertermos o arquivo para UTF-8 (Formatar → Codificação UTF-8 ou Europa Ocidental) as duas primeiras ou as duas últimas linhas estão corretas, mas nunca as 4 linhas.</p>
+            <p>Se usarmos o Notepad++ e convertermos o arquivo para <code>UNICODE</code> (Formatar → Codificação UTF-8 ou Europa Ocidental), as duas primeiras ou as duas últimas linhas estão corretas, mas nunca as 4 linhas.</p>
 
-            <h2>Por que não usar Unicode sempre?</h2>
+            <h2>Por que não usar <code>UNICODE</code> sempre?</h2>
 
-            <p>Usamos o tempo todo, a Microsoft já se rendeu ao UNICODE no desenvolvimento, embora o Windows ainda tenha uma salada de código de páginas, por exemplo, o sistema de arquivos é unicode, o ambiente gráfico ainda é win1252 e o cmd (terminal) Latin1, por isso, há muitas inconsistências quando programamos em Windows visando o unicode. Se um programador gerar um script SQL e salvá-lo no disco usando WIN1252, mas os caracteres gerados nele estiverem em UNICODE, haverá problemas.</p>
+            <p>Usamos o tempo todo; a Microsoft já se rendeu ao <code>UNICODE</code> no desenvolvimento, embora o Windows ainda tenha uma salada de código de páginas: por exemplo, o sistema de arquivos é <code>UNICODE</code>, o ambiente gráfico ainda é <code>WIN1252</code> e o cmd (terminal) usa <code>ISO8859_1</code>. Por isso, há muitas inconsistências quando programamos em Windows visando o <code>UNICODE</code>. Se um programador gerar um script SQL e salvá-lo no disco usando <code>WIN1252</code>, mas os caracteres gerados nele estiverem em <code>UNICODE</code>, haverá problemas.</p>
 
             <div class="warning-box">
-                <strong>Exemplo prático:</strong> Se você tentar executar um script SQL criado em Win1252 em um banco de dados UTF-8 usando o IBExpert, o script aparentemente inofensivo pode não funcionar corretamente.
+                <strong>Exemplo prático:</strong> Se você tentar executar um script SQL criado em <code>WIN1252</code> em um banco de dados <code>UNICODE</code> usando o IBExpert, o script aparentemente inofensivo pode não funcionar corretamente.
             </div>
 
-            <p>Isso é um inferno que apenas existe no Windows, e que quando você tentar portar para Linux tem de resolver problemas que antes não existiam. Por isso, para nossa comodidade, os bancos de dados incluam WIN1252 entre os seus charsets, embora o mesmo não seja o ideal.</p>
+            <p>Isso é um inferno que apenas existe no Windows, e que quando você tentar portar para Linux tem de resolver problemas que antes não existiam. Por isso, para nossa comodidade, os bancos de dados incluem <code>WIN1252</code> entre os seus charsets, embora o mesmo não seja o ideal.</p>
 
             <h2>Charset e performance em bancos de dados</h2>
 
-            <p>Ainda sobre banco de dados, nem sempre o UNICODE é desejável, pois um único caractere armazenado nele pode ocupar de 1 a 4 bytes, por isso, não é largamente utilizado se uma aplicação já "fala" <code>ISO8859_1</code> ou WIN1252, pois nações que usam ideogramas ou outros símbolos tipográficos também sabem "falar" <code>ISO8859_1</code> ou WIN1252, embora o inverso não seja verdadeiro, se você fosse de uma empresa japonesa teria de escrever uma aplicação que usasse os ideogramas japoneses e muito provavelmente também o ocidental e só o UNICODE resolveria este problema.</p>
+            <p>Ainda sobre banco de dados, nem sempre o <code>UNICODE</code> é desejável, pois um único caractere armazenado nele pode ocupar de 1 a 4 bytes. Por isso, não é largamente utilizado se uma aplicação já "fala" <code>ISO8859_1</code> ou <code>WIN1252</code>, pois nações que usam ideogramas ou outros símbolos tipográficos também sabem "falar" <code>ISO8859_1</code> ou <code>WIN1252</code>, embora o inverso não seja verdadeiro. Se você precisar de emojis, símbolo do euro ou ideogramas japoneses na mesma aplicação que usa caracteres ocidentais, só o <code>UNICODE</code> resolveria este problema.</p>
 
-            <p>Então se você mora num país ocidental que usa os caracteres A-Z pode-se considerar sortudo porque temos opções de escolha, e geralmente optamos pela mais econômica que também é a mais performática, desconsiderar UNICODE e escolher entre WIN1252 ou <code>ISO8859_1</code>.</p>
+            <p>Então, se você mora num país ocidental que usa os caracteres A-Z, pode-se considerar sortudo porque temos opções de escolha, e geralmente optamos pela mais econômica que também é a mais performática: desconsiderar <code>UNICODE</code> e escolher entre <code>WIN1252</code> ou <code>ISO8859_1</code>.</p>
 
-            <p>Um banco de dados inteiramente em UNICODE é menos performático quando comparado ao Latin1, não apenas por ser mais guloso em termos de espaço, lembre-se um <code>varchar(64)</code> a depender do UNICODE usado, ao invés de 64 caracteres pode conter apenas 16, mas também porque o algoritmo de "case insensitive" e "accent insensitive" podem vir a ser mais complexos. O MySQL por exemplo, é reconhecido por adotar uma gambiarra de UNICODE que às vezes criam problemas.</p>
+            <p>Um banco de dados inteiramente em <code>UNICODE</code> é menos performático quando comparado ao <code>ISO8859_1</code>, não apenas por ser mais guloso em termos de espaço — lembre-se, um <code>varchar(64)</code>, a depender do <code>UNICODE</code> usado, ao invés de 64 caracteres pode conter apenas 16 —, mas também porque o algoritmo de "case insensitive" e "accent insensitive" podem vir a ser mais complexos. O MySQL, por exemplo, é reconhecido por adotar uma gambiarra de <code>UNICODE</code> que às vezes cria problemas.</p>
 
             <h2>Exemplo prático: Criando um banco de teste</h2>
 
@@ -126,7 +126,7 @@ PORTA: 3040</code></pre>
             <pre><code>CREATE TABLE T1(
     FRUTA_ISO8859 VARCHAR(10) CHARACTER SET ISO8859_1 COLLATE PT_BR,
     FRUTA_WIN1252 VARCHAR(10) CHARACTER SET WIN1252 COLLATE WIN_PTBR,
-    FRUTA_UNICODE VARCHAR(10) CHARACTER SET UTF8 COLLATE UNICODE_CI_AI
+    FRUTA_UNICODE VARCHAR(10) CHARACTER SET UNICODE COLLATE UNICODE_CI_AI
 );</code></pre>
 
             <h3>Popular valores acentuados com o script:</h3>
@@ -162,7 +162,7 @@ COMMIT WORK;</code></pre>
   a.fruta_unicode||'('||OCTET_LENGTH(a.fruta_unicode)||')' AS unicode
 FROM T1 a;</code></pre>
 
-            <p>Entre as nossas frutas o limite de caracteres é 10, o maracujá foi a fruta que mais ocupou espaço em bytes com 9 bytes em unicode. O que vai acontecer se aumentar para 10 caracteres e acentuarmos ainda mais letras? Vamos conferir:</p>
+            <p>Entre as nossas frutas, o limite de caracteres é 10; o maracujá foi a fruta que mais ocupou espaço em bytes com 9 bytes em <code>UNICODE</code>. O que vai acontecer se aumentarmos para 10 caracteres e acentuarmos ainda mais letras? Vamos conferir:</p>
 
             <pre><code>UPDATE T1 SET
   FRUTA_UNICODE='Maráçujãío' -- 10 caracteres, deveria caber, o limite é 10
@@ -183,7 +183,7 @@ WHERE FRUTA_UNICODE='Maráçujãío';</code></pre>
 FRUTA_UNICODE='áéíóúáéíóú' -- 10 caracteres
 WHERE FRUTA_UNICODE='Maráçujãío';</code></pre>
 
-            <p>Chegamos então à conclusão que em unicode – em especial UTF-8 – o armazenamento do seu banco será maior contendo acentuações do que seria em Latin1 ou Ansi.</p>
+            <p>Chegamos então à conclusão de que em <code>UNICODE</code> o armazenamento do seu banco será maior contendo acentuações do que seria em <code>ISO8859_1</code> ou <code>ANSI</code>.</p>
 
             <h2>Com o armazenamento tão barato, devo me preocupar?</h2>
 
@@ -197,26 +197,26 @@ WHERE FRUTA_UNICODE='Maráçujãío';</code></pre>
                 <p>onde <em>N</em> é o número de bytes por caractere no charset.</p>
             </div>
 
-            <p>Então quando estiver usando unicode tome cuidado com os limites do FirebirdSQL que forem em bytes, pois o que antes era 1 byte = 1 caractere não é mais aplicável. Os limites que eram estabelecidos em caracteres, estes não mudam, se o limite para tamanho de nome para uma tabela é 63 caracteres, continuará sendo 63 caracteres não importando se é unicode ou não.</p>
+            <p>Então, quando estiver usando <code>UNICODE</code>, tome cuidado com os limites do FirebirdSQL que forem em bytes, pois o que antes era 1 byte = 1 caractere não é mais aplicável. Os limites que eram estabelecidos em caracteres, estes não mudam: se o limite para tamanho de nome para uma tabela é 63 caracteres, continuará sendo 63 caracteres, não importando se é <code>UNICODE</code> ou não.</p>
 
-            <p>Aqui temos uma gritante diferença para <code>ISO8859_1</code> ou WIN1252, pois nestes cada caractere é 1 byte, enquanto em unicode o FirebirdSQL assume que cada caractere consumido é 4 bytes. Então se você criar um campo <code>varchar(18000)</code> e inserir 18.000 caracteres acentuados, ele irá deixar, mas o espaço ocupado será 18.000 × 2 ou 18.000 × 4 dependendo do acento.</p>
+            <p>Aqui temos uma gritante diferença para <code>ISO8859_1</code> ou <code>WIN1252</code>, pois nestes cada caractere é 1 byte, enquanto em <code>UNICODE</code> o FirebirdSQL assume que cada caractere consumido é 4 bytes. Então, se você criar um campo <code>varchar(18000)</code> e inserir 18.000 caracteres acentuados, ele irá deixar, mas o espaço ocupado será 18.000 × 2 ou 18.000 × 4 dependendo do acento.</p>
 
             <p>Portanto, quando criar um campo que você sabe que no máximo terá X caracteres, leve em consideração:</p>
 
             <ul>
-                <li>O tamanho declarado não é o mesmo de tamanho ocupado.</li>
-                <li>Cuidado com os metadados, se um tipo de limite for informado em bytes então usando unicode você terá 4x menos do que o informado.</li>
+                <li>O tamanho declarado não é o mesmo que tamanho ocupado.</li>
+                <li>Cuidado com os metadados: se um tipo de limite for informado em bytes, então usando <code>UNICODE</code> você terá 4x menos do que o informado.</li>
             </ul>
 
             <h2>Vamos ao COLLATE</h2>
 
-            <p>Charset é o conjunto de caracteres disponíveis, majoritariamente <code>ISO8859_1</code>, WIN1252 e UNICODE. Cada qual com o seu conjunto limitado de caracteres. Se seu banco de dados precisa de caracteres latinos e ocidentais <code>ISO8859_1</code> está bom para você, você não deveria usar o WIN1252 porque ele foi provido apenas para Windows e sua condição pode mudar no futuro.</p>
+            <p>Charset é o conjunto de caracteres disponíveis, majoritariamente <code>ISO8859_1</code>, <code>WIN1252</code> e <code>UNICODE</code>. Cada qual com o seu conjunto limitado de caracteres. Se seu banco de dados precisa de caracteres latinos e ocidentais, <code>ISO8859_1</code> está bom para você; você não deveria usar o <code>WIN1252</code> porque ele foi provido apenas para Windows e sua condição pode mudar no futuro.</p>
 
-            <p>Mas se precisa de um conjunto grande de caracteres que permita escrever na mesma sentença caracteres ocidentais e ideogramas japoneses então você tem que optar pelo UNICODE, geralmente UTF-8.</p>
+            <p>Mas se precisa de um conjunto grande de caracteres que permita escrever na mesma sentença caracteres ocidentais, emojis e símbolo do euro, então você tem que optar pelo <code>UNICODE</code>.</p>
 
-            <p>O collate é a forma como os caracteres serão tratados e/ou ordenados. Será que 'A' vem antes 'á'? Será que 'Pharmacia' e 'Farmacia' é a mesma coisa? Será que 'José' e 'Jose' também são iguais?</p>
+            <p>O collate é a forma como os caracteres serão tratados e/ou ordenados. Será que 'A' vem antes de 'á'? Será que 'Pharmacia' e 'Farmacia' são a mesma coisa? Será que 'José' e 'Jose' também são iguais?</p>
 
-            <p>Quem cria os collates define isso, no Brasil não tem essa coisa de 'Ph' de pharmacia dos anos 30, mas em outros países podem haver agrupamento de caracteres (collate) que devam ser tratados conjuntamente e não de forma individual.</p>
+            <p>Quem cria os collates define isso. No Brasil não tem essa coisa de 'Ph' de pharmacia dos anos 30, mas em outros países podem haver agrupamento de caracteres (collate) que devam ser tratados conjuntamente e não de forma individual.</p>
 
             <h3>Exemplo prático de Collate:</h3>
 
@@ -241,11 +241,11 @@ INSERT INTO T2 (NOME) VALUES ('JOSÉ');</code></pre>
             <p>Os collates estão atrelados ao charset porque sem eles, o banco não teria a regionalidade de ordenação, ou quais sinais diacríticos são iguais a suas versões sem esses sinais e assim por diante.</p>
 
             <div class="info-box">
-                <p><strong>Informação oficial do FirebirdSQL:</strong> O FirebirdSQL suporta vários collations para UTF8:</p>
+                <p><strong>Informação oficial do FirebirdSQL:</strong> O FirebirdSQL suporta vários collations para <code>UNICODE</code>:</p>
                 <ul>
                     <li><code>UCS_BASIC</code> - Ordenação binária (posição na tabela)</li>
                     <li><code>UNICODE</code> - Ordenação alfabética usando UCA (Unicode Collation Algorithm)</li>
-                    <li><code>UTF8</code> - Padrão binário, idêntico ao UCS_BASIC</li>
+                    <li><code>UNICODE</code> (binário) - Padrão binário, idêntico ao UCS_BASIC</li>
                     <li><code>UNICODE_CI</code> - Case-insensitive (não diferencia maiúsculas/minúsculas)</li>
                     <li><code>UNICODE_CI_AI</code> - Case-insensitive e accent-insensitive (não diferencia maiúsculas/minúsculas nem acentos)</li>
                 </ul>
@@ -305,7 +305,7 @@ BEGIN
   END
 END</code></pre>
 
-            <p>Notamos na saída do comando <code>EXECUTE BLOCK</code> que a ordenação pelo charset <code>ISO8859_1</code> (latin1), WIN1252 ou unicode não teve diferença!</p>
+            <p>Notamos na saída do comando <code>EXECUTE BLOCK</code> que a ordenação pelo charset <code>ISO8859_1</code>, <code>WIN1252</code> ou <code>UNICODE</code> não teve diferença!</p>
 
             <h3>Inserindo caracteres não acentuados:</h3>
 
@@ -346,7 +346,7 @@ INSERT INTO T1 (FRUTA_ISO8859, FRUTA_WIN1252, FRUTA_UNICODE)
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>ISO8859_1</strong> (Latin1)</td>
+                        <td><strong>ISO8859_1</strong></td>
                         <td>1 byte</td>
                         <td>Sistemas legados, aplicações brasileiras que não precisam de internacionalização</td>
                         <td>Melhor performance, menor uso de espaço, compatível com padrões ISO</td>
@@ -360,7 +360,7 @@ INSERT INTO T1 (FRUTA_ISO8859, FRUTA_WIN1252, FRUTA_UNICODE)
                         <td>Específico do Windows, problemas em migração para Linux</td>
                     </tr>
                     <tr>
-                        <td><strong>UTF8</strong></td>
+                        <td><strong>UNICODE</strong></td>
                         <td>1-4 bytes</td>
                         <td>Sistemas novos, aplicações internacionais, bancos que precisam suportar múltiplos idiomas</td>
                         <td>Universal, suporta todos os caracteres, padrão moderno</td>
@@ -371,10 +371,10 @@ INSERT INTO T1 (FRUTA_ISO8859, FRUTA_WIN1252, FRUTA_UNICODE)
 
             <h3>Recomendações finais:</h3>
             <ul>
-                <li><strong>Para sistemas novos:</strong> Use UTF8, especialmente se há possibilidade de internacionalização.</li>
-                <li><strong>Para sistemas legados brasileiros:</strong> ISO8859_1 é a melhor escolha para portabilidade.</li>
-                <li><strong>Evite WIN1252:</strong> A menos que você tenha certeza absoluta que nunca migrará para Linux.</li>
-                <li><strong>Atenção aos limites:</strong> Em UTF8, considere que caracteres acentuados podem ocupar 2-4 bytes, afetando limites de índices.</li>
+                <li><strong>Para sistemas novos:</strong> Use <code>UNICODE</code>, especialmente se há possibilidade de internacionalização.</li>
+                <li><strong>Para sistemas legados brasileiros:</strong> <code>ISO8859_1</code> é a melhor escolha para portabilidade.</li>
+                <li><strong>Evite <code>WIN1252</code>:</strong> A menos que você tenha certeza absoluta de que nunca migrará para Linux.</li>
+                <li><strong>Atenção aos limites:</strong> Em <code>UNICODE</code>, considere que caracteres acentuados podem ocupar 2-4 bytes, afetando limites de índices.</li>
                 <li><strong>Collate adequado:</strong> Escolha o collate apropriado para sua região (PT_BR para Brasil).</li>
             </ul>
 
