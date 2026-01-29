@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colocando aspas simples numa string que talvez já tenha aspas também - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird: Linguagem PSQL</h1>
+                <p>Otimização e centralização de regras de negócio com Procedural SQL.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD</a></li>
+            <li><a href="sgbd_fb.html">Firebird</a></li>
+            <li><a href="sgbd_fb_psql.html">PSQL</a></li>
+            <li><a href="sgbd_fb_udr.html">UDR</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Colocando aspas simples numa string que talvez já tenha aspas também</h2>
+            
+            <p>A linguagem Pascal tem uma função muito útil para construção de queries chamada <code>QuotedStr</code>. Esta função coloca uma string entre aspas. Por exemplo, digamos que uma variável onde nome=Sant'Ana, e agora você precisa usá-la dentro de uma query:</p>
+
+            <pre><code>SQL.Text:='SELECT * FROM CLIENTES WHERE NOME='+QuotedStr(nome);</code></pre>
+
+            <p>O <code>QuotedStr</code> notará as aspas simples em 'nome' e a duplicará para que o código SQL funcione, ficando assim Sant''Ana. Dentro da linguagem procedural (PSQL daqui em diante) também precisamos disso em situações variadas, por exemplo, quando precisamos usar <strong>EXECUTE STATEMENT</strong> com comandos SQL puros e você não sabe se alguns deles terão aspas simples em seu interior. Por essa razão criei a função <code>STR_QUOTED</code>:</p>
+
+            <pre><code>CREATE OR ALTER FUNCTION STR_QUOTED (
+    AVALUE VARCHAR(4096),
+    AUSE_IN_SQL BOOLEAN = FALSE)
+RETURNS VARCHAR(4096)
+AS
+DECLARE VARIABLE Q VARCHAR(1);
+BEGIN
+  /* Essa procedure retorna um texto (4096 bytes) entre aspas simplesmente e opcionalmente
+     com aspas simples dentro do texto transformando-se em aspas simples duplas.
+     p='ola mundo'
+     ret=STR_QUOTED(:p, FALSE);   // resultado: 'ola mundo' com aspas simples abrindo e fechando o texto
+     Se o segundo parâmetro for 'TRUE' ele também trocará aspas simples que houverem dentro
+     do texto para aspas simples duplas.
+     Útil para uso com banco de dados e instruções EXECUTE STATEMENT
+     by gladiston.santana[em]gmail.com
+  */
+  Q='''';
+  IF (:AUSE_IN_SQL) THEN
+  BEGIN
+    IF (POSITION (:Q IN :AVALUE)>0) THEN
+    BEGIN
+      -- Troca aspas simples por duplas
+      AVALUE = REPLACE (:AVALUE, :Q, :Q||:Q);
+    END
+  END
+  -- Retorna uma string entre aspas
+  RETURN :Q||:AVALUE||:Q;
+END</code></pre>
+
+            <h3>Como usar</h3>
+            <pre><code>SQL='UPDATE CLIENTES SET STATUS='||
+  STR_QUOTED('A')||
+  ' WHERE UF='||STR_QUOTED('SP');
+EXECUTE STATEMENT :SQL;</code></pre>
+
+            <h3>Conclusão</h3>
+            <p>Agora você tem um <code>QuotedStr</code> em PSQL.</p>
+
+            <p><a href="sgbd_fb_psql.html" class="back-link">&larr; Voltar para PSQL</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

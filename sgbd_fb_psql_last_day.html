@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pegando o último dia do mês de uma determinada data - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird: Linguagem PSQL</h1>
+                <p>Otimização e centralização de regras de negócio com Procedural SQL.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD</a></li>
+            <li><a href="sgbd_fb.html">Firebird</a></li>
+            <li><a href="sgbd_fb_psql.html">PSQL</a></li>
+            <li><a href="sgbd_fb_udr.html">UDR</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Pegando o último dia do mês de uma determinada data</h2>
+            
+            <p>Vez ou outra em PSQL precisamos de uma função que retorne o primeiro e o último dia do mês de uma determinada data. Isso parece simples, afinal sabemos que o início do mês será sempre o dia '01', muito diferente do último dia do mês que pode variar conforme o mês e o ano. Na função abaixo criamos uma função que retornará o último dia do mês de uma determinada data e retorne em formato do tipo timestamp. Essa função trabalhará em conjunto com a função também explicada em outro artigo chamada de <code>GET_FIRST_DAY_OF_MONTH</code>.</p>
+
+            <p>Se já teve uma necessidade assim, a função PSQL abaixo irá resolver seu problema:</p>
+
+            <pre><code>CREATE OR ALTER FUNCTION GET_LAST_DAY_OF_MONTH (
+    P_DATE_REF TIMESTAMP)
+RETURNS TIMESTAMP
+AS
+DECLARE VARIABLE LCALC_DATE TIMESTAMP;
+DECLARE VARIABLE LCALC_NEXT_MONTH TIMESTAMP;
+BEGIN
+  -- Calcula o próximo mês
+  LCALC_NEXT_MONTH=DATEADD(MONTH, 1, :P_DATE_REF);
+  -- Pega o início do próximo mês
+  SELECT CAST(:LCALC_NEXT_MONTH AS DATE) - EXTRACT(DAY FROM CAST(:LCALC_NEXT_MONTH AS DATE)) + 1
+  FROM RDB$DATABASE
+  INTO :LCALC_DATE;
+
+  -- Agora subtrai 1 segundo
+  LCALC_DATE=DATEADD(SECOND, -1, :LCALC_DATE);
+  RETURN :LCALC_DATE;
+END</code></pre>
+
+            <h3>Modo de usar</h3>
+            <pre><code>SELECT
+  GET_LAST_DAY_OF_MONTH(CURRENT_TIMESTAMP) AS ULTIMO_DIA_DO_MES 
+FROM RDB$DATABASE</code></pre>
+
+            <p>Imagine pesquisar um período de fechamento do mês atual:</p>
+
+            <pre><code>SELECT * FROM TABELA A
+WHERE 
+  A.DT_LANCAMENTO BETWEEN 
+    GET_FIRST_DAY_OF_MONTH(CURRENT_TIMESTAMP)
+      AND 
+    GET_LAST_DAY_OF_MONTH(CURRENT_TIMESTAMP)</code></pre>
+
+            <h3>Conclusão</h3>
+            <p>Funções para pegar o início e o fim do mês podem parecer bobagem no início, mas confie em mim: programando com PSQL você terá momentos em que precisará dessas datas para processar algo importante que deva ser contado a partir do início do mês, até o término dele ou ambos. Por exemplo, considere a possibilidade de consultar lançamentos de um período mensal, onde irá do dia 01 até o final do mês incluindo o sufixo de hora 23:59:59 para não perder os movimentos do último dia. O fato da função retornar um timestamp vai te ajudar inclusive com o índice que não precisará de um cast de timestamp para date.</p>
+
+            <p><a href="sgbd_fb_psql.html" class="back-link">&larr; Voltar para PSQL</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

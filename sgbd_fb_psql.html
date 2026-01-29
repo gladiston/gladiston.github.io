@@ -31,36 +31,60 @@
 
     <main>
         <article>
-            <h2>O que são Funções e Procedimentos PSQL?</h2>
-            <p>O PSQL (Procedural SQL) é a extensão da linguagem SQL do Firebird que permite a criação de rotinas complexas diretamente no banco de dados. Ao utilizar PSQL, conseguimos reduzir drasticamente o tráfego de rede entre a aplicação e o servidor, além de garantir que a regra de negócio seja aplicada independentemente do front-end utilizado.</p>
+            <h2>Funções PSQL Úteis</h2>
+            <p>Confira abaixo uma coleção de funções PSQL práticas e testadas para uso no FirebirdSQL. Cada função resolve problemas comuns do dia a dia no desenvolvimento e administração de bancos de dados.</p>
 
-            <h3>O que podemos fazer com PSQL</h3>
-            <ul>
-                <li><strong>Stored Procedures:</strong> Execução de tarefas em lote ou retorno de conjuntos de dados (Selectable Procedures).</li>
-                <li><strong>Triggers:</strong> Automação de auditorias, validações complexas e manutenção de integridade referencial antes ou depois de operações de DML.</li>
-                <li><strong>Stored Functions:</strong> Criação de funções customizadas que podem ser utilizadas diretamente dentro de cláusulas SELECT ou WHERE.</li>
-                <li><strong>Tratamento de Exceções:</strong> Controle refinado de erros com mensagens personalizadas para o usuário final.</li>
-            </ul>
+            <div class="fb-grid">
+                <a href="sgbd_fb_psql_intro.html" target="_blank" rel="noopener" class="fb-card">
+                    <h3>O que são Funções e Procedimentos PSQL?</h3>
+                    <p>O PSQL (Procedural SQL) é a extensão da linguagem SQL do Firebird que permite a criação de rotinas complexas diretamente no banco de dados. Permite criar Stored Procedures, Triggers, Stored Functions e tratamento de exceções, reduzindo o tráfego de rede e centralizando regras de negócio.</p>
+                </a>
 
-            <h2>Exemplo Prático: Stored Function</h2>
-            <p>Abaixo, um exemplo de uma função simples para calcular o desconto progressivo de um produto diretamente no motor do banco:</p>
+                <a href="sgbd_fb_psql_rtf.html" target="_blank" rel="noopener" class="fb-card">
+                    <h3>Como extrair apenas o texto de um conteúdo RTF</h3>
+                    <p>Função GET_UNRTF para extrair texto puro de conteúdos RTF, removendo todas as tags de formatação. Útil para tornar textos RTF pesquisáveis e analisáveis.</p>
+                </a>
 
-            <pre><code>SET TERM ^ ;
+                <a href="sgbd_fb_psql_html.html" target="_blank" rel="noopener" class="fb-card">
+                    <h3>Como extrair apenas o texto de um conteúdo HTML</h3>
+                    <p>Função GET_UNHTML que remove todas as tags HTML de um conteúdo, retornando apenas o texto puro. Mais simples que a extração de RTF, envolve apenas remover o que está entre os delimitadores "&lt;" e "&gt;".</p>
+                </a>
 
-CREATE OR ALTER FUNCTION FN_CALCULAR_DESCONTO (
-    VALOR_ITEM DOUBLE PRECISION,
-    PERCENTUAL DOUBLE PRECISION
-)
-RETURNS DOUBLE PRECISION
-AS
-BEGIN
-  IF (PERCENTUAL > 50) THEN
-    EXCEPTION EX_DESCONTO_ABUSIVO;
+                <a href="sgbd_fb_psql_numeric.html" target="_blank" rel="noopener" class="fb-card">
+                    <h3>Converter um texto em NUMERIC(18,4) ou NUMERIC(18,2)</h3>
+                    <p>Função STR_TO_NUMERIC4 para converter strings formatadas (como 'R$ 1.123,4567') em valores numéricos. Analisa a string da direita para esquerda para determinar o separador decimal.</p>
+                </a>
 
-  RETURN VALOR_ITEM * (1 - (PERCENTUAL / 100));
-END^
+                <a href="sgbd_fb_psql_abnt.html" target="_blank" rel="noopener" class="fb-card">
+                    <h3>Arredondamento do tipo ABNT em itens de serviço NFs</h3>
+                    <p>Função GET_ROUND_AS_ABNT que aplica a norma ABNT para arredondamento de preços em itens de serviço de Notas Fiscais. Resolve o caso especial onde números pares seguidos de 5 e zeros não são arredondados.</p>
+                </a>
 
-SET TERM ; ^</code></pre>
+                <a href="sgbd_fb_psql_digits.html" target="_blank" rel="noopener" class="fb-card">
+                    <h3>Retornando apenas dígitos válidos de uma string</h3>
+                    <p>Função STR_DIGITS que extrai apenas os caracteres desejados de uma string. Permite definir quais caracteres são válidos, útil para limpar telefones, CPF, CNPJ, CEP e outros dados formatados.</p>
+                </a>
+
+                <a href="sgbd_fb_psql_quoted.html" target="_blank" rel="noopener" class="fb-card">
+                    <h3>Colocando aspas simples numa string que talvez já tenha aspas também</h3>
+                    <p>Função STR_QUOTED equivalente ao QuotedStr do Pascal. Coloca uma string entre aspas simples e opcionalmente duplica aspas internas para uso seguro em comandos SQL com EXECUTE STATEMENT.</p>
+                </a>
+
+                <a href="sgbd_fb_psql_format.html" target="_blank" rel="noopener" class="fb-card">
+                    <h3>Como converter um numero para texto formatado</h3>
+                    <p>Função GET_FORMAT_FLOAT para formatar números com separadores de milhar e decimal. Suporta arredondamento e permite personalizar os separadores, transformando 123456789.0987654 em '123.456.789,10'.</p>
+                </a>
+
+                <a href="sgbd_fb_psql_first_day.html" target="_blank" rel="noopener" class="fb-card">
+                    <h3>Pegando o primeiro dia do mês de uma determinada data</h3>
+                    <p>Função GET_FIRST_DAY_OF_MONTH que retorna o primeiro dia do mês de uma data em formato timestamp. Trabalha em conjunto com GET_LAST_DAY_OF_MONTH para consultas de períodos mensais.</p>
+                </a>
+
+                <a href="sgbd_fb_psql_last_day.html" target="_blank" rel="noopener" class="fb-card">
+                    <h3>Pegando o ultimo dia do mês de uma determinada data</h3>
+                    <p>Função GET_LAST_DAY_OF_MONTH que retorna o último dia do mês de uma data em formato timestamp. Útil para consultas de fechamento mensal e períodos que vão do dia 01 até o final do mês.</p>
+                </a>
+            </div>
 
             <h2>Conclusão</h2>
             <p>Dominar o PSQL transforma o banco de dados de um mero repositório de tabelas em uma camada inteligente da aplicação. Isso resulta em sistemas mais rápidos, seguros e fáceis de manter a longo prazo.</p>
