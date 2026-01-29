@@ -102,6 +102,7 @@
             <h3>Recursos Não Disponíveis</h3>
             <ul>
                 <li><strong>Sem particionamento nativo:</strong> Não possui particionamento de tabelas como PostgreSQL ou SQL Server. Soluções alternativas incluem tabelas separadas ou views unificadas.</li>
+                <li><strong>Acesso à bancos externos:</strong> O Firebird acessa apenas outros bancos Firebird ou arquivos .csv externos (não há suporte a bancos de dados externos como MySQL, Oracle, etc.).</li>
                 <li><strong>Replicação multi-master não nativa:</strong> O Firebird 4+ oferece replicação nativa master-slave; replicação multi-master ainda depende de soluções de terceiros.</li>
                 <li><strong>Materialized Views limitadas:</strong> Suporte a views materializadas é mais limitado comparado a outros SGBDs.</li>
                 <li><strong>Full Text Search via UDR:</strong> Não há full-text search integrado ao núcleo; é necessário instalar e configurar a UDR à parte (por exemplo, a <a href="https://github.com/IBSurgeon/lucene_udr" target="_blank" rel="noopener">Lucene FTS UDR</a>).</li>
@@ -189,15 +190,9 @@
                     </tr>
                     <tr>
                         <td><strong>Portabilidade de Banco</strong></td>
-                        <td>Excelente (arquivo único .fdb)</td>
+                        <td>Excelente (mais fácil ainda se for único arquivo .fdb)</td>
                         <td>Moderada (requer dump/restore)</td>
                         <td>Moderada (requer backup/restore)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Ecossistema</strong></td>
-                        <td>Moderado</td>
-                        <td>Muito grande</td>
-                        <td>Muito grande</td>
                     </tr>
                     <tr>
                         <td><strong>Adoção Empresarial</strong></td>
