@@ -32,12 +32,11 @@
             <h2>Introdução ao Firebird SQL</h2>
             
             <h3>O que é o Firebird?</h3>
-            <p>O Firebird SQL é um sistema de gerenciamento de banco de dados relacional (SGBDR) de código aberto, derivado do InterBase da Borland. É um banco de dados robusto, multiplataforma e de alta performance, amplamente utilizado em aplicações comerciais, sistemas ERP, aplicações embarcadas e soluções de médio e grande porte.</p>
-
+            <p>O FirebirdSQL - ou apenas Firebird - é um sistema de gerenciamento de banco de dados relacional (SGBDR) de código aberto, derivado do InterBase da Borland. É um banco de dados robusto, multiplataforma e de alta performance, amplamente utilizado em aplicações comerciais, sistemas ERP, aplicações embarcadas e soluções de médio e grande porte.</p>
             <h3>Breve Histórico</h3>
             <p>O Firebird nasceu em 2000, quando a Borland liberou o código-fonte do InterBase 6.0 sob a licença InterBase Public License (IPL). Um grupo de desenvolvedores independentes assumiu o projeto e criou o Firebird, mantendo a compatibilidade com o InterBase enquanto adicionava melhorias significativas.</p>
             <p>Desde então, o Firebird evoluiu continuamente, com a versão 5.0 sendo uma das mais recentes e estáveis. O projeto é mantido por uma comunidade ativa de desenvolvedores e empresas que contribuem com código, documentação e suporte.</p>
-
+            <p>O Firebird também possui fornecedores comerciais como <a href="https://rdb.red-soft.ru/en/" target="_blank" rel="noopener"></a>RedDatabase</a>, <a href="https://ib-aid.com/br/start/" target="_blank" rel="noopener">HQBird</a> onde ofertam mais desempenho, recursos e ferramentas.</p>
             <h3>Licença de Uso</h3>
             <p>O Firebird é distribuído sob a <strong>Initial Developer's Public License (IDPL)</strong>, uma licença de código aberto baseada na Mozilla Public License. Esta licença permite:</p>
             <ul>
@@ -68,17 +67,19 @@
             <ul>
                 <li><strong>Zero administração:</strong> Pode funcionar como servidor tradicional ou como banco embarcado (embedded), sem necessidade de instalação de servidor dedicado.</li>
                 <li><strong>Troubleshooting autônomo:</strong> Diferencial importante em relação a outros bancos de dados: enquanto o Firebird pode ser configurado quando necessário, o troubleshooting é autônomo e não requer um DBA dedicado para resolver problemas do dia a dia, ao contrário de muitos outros SGBDs que demandam intervenção constante de administradores.</li>
-                <li><strong>Backup simples:</strong> Um único arquivo .fdb contém todo o banco, facilitando backup, restauração e migração.</li>
+                <li><strong>Backup:</strong> O Backup pode ser simples usando gbak(recomendado) ou incremental/diferencial usando nbak (recomendado para bancos grandes), facilitando backup, restauração e migração.</li>
                 <li><strong>Portabilidade:</strong> O mesmo arquivo de banco funciona em Windows, Linux, macOS e outras plataformas sem modificações.</li>
-                <li><strong>Configuração mínima:</strong> Funciona "out of the box" com configurações padrão adequadas para a maioria dos casos.</li>
+                <li><strong>Configuração mínima:</strong> Funciona "out of the box" com configurações padrão adequadas para a maioria dos casos. No entanto, como a advertência acima, é importante ajustar as configurações do servidor para ambientes de produção, especialmente quando se espera maior carga de trabalho ou múltiplos usuários simultâneos.</li>                
             </ul>
 
             <h3>Recursos Técnicos</h3>
             <ul>
-                <li><strong>SQL padrão:</strong> Suporta SQL-92 e extensões SQL-99, facilitando migração de outros bancos.</li>
+                <li><strong>SQL padrão:</strong> Suporta SQL-92, extensões SQL-99 e SQL-2002, facilitando migração de outros bancos.</li>
+                <li><strong>Replicação nativa master-slave:</strong> A partir do Firebird 4+, replicação master-slave é suportada nativamente.</li>
                 <li><strong>Stored Procedures e Triggers:</strong> Linguagem PSQL (Procedural SQL) completa para lógica de negócio no servidor.</li>
                 <li><strong>UDRs (User Defined Routines):</strong> Possibilidade de criar funções em linguagens externas (C++, Pascal, etc.) para estender capacidades.</li>
-                <li><strong>Suporte a arrays:</strong> Tipos de dados array nativos para armazenar listas.</li>
+                <li><strong>Full Text Search (FTS) via UDR:</strong> Busca full-text com motor Lucene através da <a href="https://github.com/IBSurgeon/lucene_udr" target="_blank" rel="noopener">Lucene FTS UDR</a> (IBSurgeon), requer instalação à parte.</li>
+                <li><strong>JSON via UDR:</strong> Funções para manipulação de JSON em SQL através da <a href="https://github.com/mnf71/udr-lkJSON" target="_blank" rel="noopener">udr-lkJSON</a> (Free Pascal, Windows e Linux).</li>
                 <li><strong>Generators/Sequences:</strong> Suporte completo a sequências para chaves primárias auto-incrementais.</li>
             </ul>
 
@@ -101,16 +102,15 @@
             <h3>Recursos Não Disponíveis</h3>
             <ul>
                 <li><strong>Sem particionamento nativo:</strong> Não possui particionamento de tabelas como PostgreSQL ou SQL Server. Soluções alternativas incluem tabelas separadas ou views unificadas.</li>
-                <li><strong>Sem replicação nativa:</strong> Não possui replicação master-slave ou multi-master nativa. É necessário usar soluções de terceiros ou implementar replicação customizada.</li>
+                <li><strong>Replicação multi-master não nativa:</strong> O Firebird 4+ oferece replicação nativa master-slave; replicação multi-master ainda depende de soluções de terceiros.</li>
                 <li><strong>Materialized Views limitadas:</strong> Suporte a views materializadas é mais limitado comparado a outros SGBDs.</li>
-                <li><strong>Sem full-text search nativo:</strong> Não possui mecanismo de busca full-text integrado. Requer integração com ferramentas externas ou implementação customizada.</li>
+                <li><strong>Full Text Search via UDR:</strong> Não há full-text search integrado ao núcleo; é necessário instalar e configurar a UDR à parte (por exemplo, a <a href="https://github.com/IBSurgeon/lucene_udr" target="_blank" rel="noopener">Lucene FTS UDR</a>).</li>
             </ul>
 
             <h3>Limitações Técnicas</h3>
             <ul>
-                <li><strong>Arquitetura de arquivo único:</strong> Embora seja uma vantagem para portabilidade, pode ser um desafio para bancos muito grandes que precisam de distribuição em múltiplos discos.</li>
                 <li><strong>Menos ferramentas gráficas:</strong> Comparado a SQL Server ou Oracle, há menos ferramentas gráficas de administração disponíveis (embora existam boas opções como FlameRobin, IBExpert, DBeaver).</li>
-                <li><strong>Curva de aprendizado:</strong> PSQL tem sintaxe própria, diferente de PL/SQL ou T-SQL, exigindo aprendizado específico.</li>
+                <li><strong>Curva de aprendizado:</strong> PSQL usa o padrão SQL ANSI/2002 porém tem alguns comandos com sintaxe própria.</li>
                 <li><strong>Documentação em inglês:</strong> A maior parte da documentação oficial está em inglês, embora existam recursos em português da comunidade.</li>
             </ul>
 
@@ -171,13 +171,13 @@
                     </tr>
                     <tr>
                         <td><strong>Replicação</strong></td>
-                        <td>Via terceiros</td>
+                        <td>Sim (nativa master-slave a partir do 4.0)</td>
                         <td>Sim (nativa, streaming, lógica)</td>
                         <td>Sim (AlwaysOn, Mirroring, Log Shipping)</td>
                     </tr>
                     <tr>
                         <td><strong>Full-Text Search</strong></td>
-                        <td>Via terceiros</td>
+                        <td>Via UDR (instalação à parte)</td>
                         <td>Sim (nativo, muito poderoso)</td>
                         <td>Sim (nativo, integrado)</td>
                     </tr>
@@ -223,7 +223,7 @@
                 <li><strong>Aplicações desktop/embarcadas:</strong> Aplicações que precisam de banco embarcado sem servidor dedicado.</li>
                 <li><strong>Portabilidade é crítica:</strong> Precisa mover bancos entre plataformas frequentemente.</li>
                 <li><strong>Administração mínima:</strong> Equipe pequena sem DBA dedicado, precisa de "zero administração". O Firebird pode ser configurado quando necessário, mas o troubleshooting é autônomo, não exigindo intervenção constante de administradores.</li>
-                <li><strong>Sistemas de médio porte:</strong> ERPs, sistemas comerciais, aplicações que não precisam de recursos avançados como particionamento ou replicação nativa.</li>
+                <li><strong>Sistemas de médio porte:</strong> ERPs, sistemas comerciais, aplicações que não precisam de recursos avançados como particionamento ou replicação multi-master.</li>
                 <li><strong>Migração de InterBase:</strong> Já usa InterBase e quer migrar para solução open source.</li>
                 <li><strong>Ambientes Windows legados:</strong> Aplicações Delphi/Pascal que já integram bem com Firebird.</li>
             </ul>
@@ -254,7 +254,7 @@
 
             <h2>Conclusão</h2>
             <p>O Firebird 5.0 é uma excelente escolha para muitas aplicações, especialmente quando se busca um equilíbrio entre performance, facilidade de administração e custo zero. Sua arquitetura eficiente permite excelente desempenho mesmo em hardware modesto, enquanto sua licença permissiva elimina preocupações com custos de licenciamento.</p>
-            <p>No entanto, é importante avaliar cuidadosamente os requisitos do projeto. Se você precisa de recursos avançados como particionamento nativo, replicação integrada ou full-text search, PostgreSQL pode ser mais adequado. Se você está em um ambiente Microsoft puro com orçamento disponível, SQL Server pode fazer mais sentido.</p>
+            <p>No entanto, é importante avaliar cuidadosamente os requisitos do projeto. Se você precisa de recursos avançados como particionamento nativo e replicação multi-master, PostgreSQL pode ser mais adequado. Se você está em um ambiente Microsoft puro com orçamento disponível, SQL Server pode fazer mais sentido.</p>
             <p>Para a maioria das aplicações de médio porte, sistemas comerciais e aplicações que precisam de confiabilidade sem complexidade excessiva, o Firebird oferece uma solução robusta e econômica.</p>
 
             <p><a href="sgbd_fb.html" class="back-link">&larr; Voltar para Firebird SQL</a></p>
