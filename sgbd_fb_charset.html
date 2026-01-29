@@ -98,7 +98,7 @@ hexeditor teste.txt</code></pre>
 
             <h2>Por que não usar <code>UNICODE</code> sempre?</h2>
 
-            <p>Usamos o tempo todo; a Microsoft já se rendeu ao <code>UNICODE</code> no desenvolvimento, embora o Windows ainda tenha uma salada de código de páginas: por exemplo, o sistema de arquivos é <code>UNICODE</code>, o ambiente gráfico ainda é <code>WIN1252</code> e o cmd (terminal) usa <code>ISO8859_1</code>. Por isso, há muitas inconsistências quando programamos em Windows visando o <code>UNICODE</code>. Se um programador gerar um script SQL e salvá-lo no disco usando <code>WIN1252</code>, mas os caracteres gerados nele estiverem em <code>UNICODE</code>, haverá problemas.</p>
+            <p>Usamos o tempo todo; a Microsoft já se rendeu ao <code>UNICODE</code> no desenvolvimento, embora o Windows ainda tenha uma salada de código de páginas: por exemplo, o sistema de arquivos é <code>UNICODE</code>, o ambiente gráfico ainda é <code>WIN1252</code> e o cmd (terminal) usa <code>ISO8859_1</code>. Por isso, há muitas inconsistências quando programamos em Windows estão usando o <code>UNICODE</code>. Se um programador gerar um script SQL e salvá-lo no disco usando <code>WIN1252</code>, mas os caracteres gerados nele estiverem em <code>UNICODE</code>, haverá problemas.</p>
 
             <div class="warning-box">
                 <strong>Exemplo prático:</strong> Se você tentar executar um script SQL criado em <code>WIN1252</code> em um banco de dados <code>UNICODE</code> usando o IBExpert, o script aparentemente inofensivo pode não funcionar corretamente.
