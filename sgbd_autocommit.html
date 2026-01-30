@@ -55,7 +55,7 @@ ROLLBACK;</code></pre>
             <p>Algo importante a se dizer é que o autocommit ligado em ferramentas como Zeos ou FireDAC tem uma válvula de escape: se você der um <code>StartTransaction</code>, a suíte entende que, para esta operação, o autocommit será falso, e você terá de terminar manualmente a transação usando commit (ou rollback). Isso é muito bom para o programador, porque ele contorna possíveis problemas de não ter iniciado uma transação e, caso inicie, terá máximo desempenho por escolher onde dar o commit.</p>
 
             <div class="warning-box">
-                <strong>⚠️ ATENÇÃO: Comportamento do StartTransaction</strong>
+                <strong>ATENÇÃO: Comportamento do StartTransaction</strong>
                 <p>No Zeos e no FireDAC, quando você chama <code>conn.StartTransaction</code>, a suíte <strong>interrompe o autocommit</strong> até que ocorra um commit/rollback explícito. Mas atenção: se o seu fluxo de transação não terminar em commit/rollback, vai dar um xabú que não tem tamanho, pois a transação vai encapsular tudo o que vier depois.</p>
                 
                 <p>Quando você vir uma história de alguém dizendo que o sistema “perdeu tudo” no fim do dia ou que registros estão sumindo, geralmente é disso que estamos falando. A transação começou e, de início, não houve commit nem rollback... daí os dados foram acontecendo depois e, em outro ponto do programa, um <code>try...except</code> deu um rollback, mas não voltou apenas naquele ponto: voltou desde o primeiro <code>StartTransaction</code> que não teve commit/rollback.</p>

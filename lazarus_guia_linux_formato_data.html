@@ -28,12 +28,11 @@
 
     <main>
         <article>
-            <h2>Gerenciamento do Formato de Data em Aplicações Lazarus</h2>
+            <h2>Introdução</h2>
+            <p>A portabilidade de código entre Windows e Linux exige atenção especial à forma como o sistema operacional trata as variáveis regionais. O Lazarus, de forma nativa, tenta herdar as configurações de localidade (Locale) do sistema, mas essa herança pode resultar em erros inesperados, como falhas de parsing ou exibições de data em formatos não previstos, especialmente em ambientes Linux com distribuições variadas.</p>
+            <p>Neste guia, aprenderemos como fixar programaticamente o formato de data e moeda para garantir consistência visual e lógica, independentemente da configuração do usuário.</p>
 
-            <section class="introducao">
-                <p>A portabilidade de código entre Windows e Linux exige atenção especial à forma como o sistema operacional trata as variáveis regionais. O Lazarus, de forma nativa, tenta herdar as configurações de localidade (Locale) do sistema, mas essa herança pode resultar em erros inesperados, como falhas de parsing ou exibições de data em formatos não previstos, especialmente em ambientes Linux com distribuições variadas.</p>
-                <p>Neste guia, aprenderemos como fixar programaticamente o formato de data e moeda para garantir consistência visual e lógica, independentemente da configuração do usuário.</p>
-            </section>
+            <h2>Gerenciamento do Formato de Data em Aplicações Lazarus</h2>
 
             <h3>O Problema da Localização Automática</h3>
             <p>Ao utilizar funções como <code>DateToStr</code>, o programa consulta as configurações do sistema. No Windows, o ambiente costuma ser padronizado para o português do Brasil. No Linux, entretanto, ambientes como o GNOME (versão 41 em diante) podem tratar a localização de forma diferente, alterando separadores e nomes de meses, o que pode causar erros em operações de string.</p>

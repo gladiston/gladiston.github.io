@@ -28,12 +28,11 @@
 
     <main>
         <article>
-            <h2>Depuração Avançada: Isolando a Aplicação do Ambiente Gráfico</h2>
+            <h2>Introdução</h2>
+            <p>Em sistemas Unix-like (Linux, BSD), o comportamento visual de uma aplicação é fortemente influenciado pelo Gerenciador de Janelas e pelo Ambiente Desktop (como GNOME ou KDE). Muitas vezes, um bug visual ou um comportamento inesperado não está no seu código Pascal, mas sim em como o ambiente gráfico força suas próprias diretrizes de interface (HIG) sobre o programa.</p>
+            <p>Para identificar a raiz desses problemas, a melhor técnica é isolar a aplicação em um servidor gráfico independente. Neste guia, aprenderemos a utilizar o <strong>Xephyr</strong> para criar um "display sandbox", permitindo testes puros e controlados sem a necessidade de trocar de sessão ou reiniciar o sistema.</p>
 
-            <section class="introducao">
-                <p>Em sistemas Unix-like (Linux, BSD), o comportamento visual de uma aplicação é fortemente influenciado pelo Gerenciador de Janelas e pelo Ambiente Desktop (como GNOME ou KDE). Muitas vezes, um bug visual ou um comportamento inesperado não está no seu código Pascal, mas sim em como o ambiente gráfico força suas próprias diretrizes de interface (HIG) sobre o programa.</p>
-                <p>Para identificar a raiz desses problemas, a melhor técnica é isolar a aplicação em um servidor gráfico independente. Neste guia, aprenderemos a utilizar o <strong>Xephyr</strong> para criar um "display sandbox", permitindo testes puros e controlados sem a necessidade de trocar de sessão ou reiniciar o sistema.</p>
-            </section>
+            <h2>Depuração Avançada: Isolando a Aplicação do Ambiente Gráfico</h2>
 
 
 

@@ -36,7 +36,7 @@
             <p>Parâmetros são formas de identificar para o servidor SGBD os valores e seus tipos de forma organizada, segura e não sujeita a erros. Além disso, permitem a reutilização de uma mesma sentença SQL de forma mais performática.</p>
 
             <div class="warning-box">
-                <strong>⚠️ Erro comum:</strong> Muitos programadores pensam que parâmetros são apenas uma forma de substituir valores em strings. Na verdade, parâmetros são uma forma segura e eficiente de passar dados para o SGBD, com benefícios importantes de segurança e performance.
+                <strong>Erro comum:</strong> Muitos programadores pensam que parâmetros são apenas uma forma de substituir valores em strings. Na verdade, parâmetros são uma forma segura e eficiente de passar dados para o SGBD, com benefícios importantes de segurança e performance.
             </div>
 
             <h2>O problema das queries literais (concatenação de strings)</h2>
@@ -255,7 +255,7 @@ if not Query1.Prepared then
             <p>Como a query já foi preparada, as pesquisas seguintes usarão o mesmo PLANO, ou seja, você forçou o uso de um índice imprestável ao LIKE que só o fará perder tempo.</p>
 
             <div class="warning-box">
-                <strong>⚠️ Atenção:</strong> Alguns SGBDs podem detectar a situação acima através de probabilidades e estatísticas e agir de forma preditiva, mas é muito melhor quando programadores evitam situações assim. Hoje um programador pode usar um banco e amanhã outro completamente diferente que não seja tão preditivo. É melhor que o desenvolvedor seja mais esperto e não submeta armadilhas ao próprio SGBD.
+                <strong>Atenção:</strong> Alguns SGBDs podem detectar a situação acima através de probabilidades e estatísticas e agir de forma preditiva, mas é muito melhor quando programadores evitam situações assim. Hoje um programador pode usar um banco e amanhã outro completamente diferente que não seja tão preditivo. É melhor que o desenvolvedor seja mais esperto e não submeta armadilhas ao próprio SGBD.
             </div>
 
             <h3>Solução para casos ambíguos:</h3>
@@ -272,7 +272,7 @@ Query1.SQL.Add('WHERE RAZAO_SOCIAL LIKE ' + QuotedStr(edtPesquisa.Text));</code>
 
             <h2>Resumo das boas práticas</h2>
 
-            <h3>✅ Sempre use queries parametrizadas quando:</h3>
+            <h3>Sempre use queries parametrizadas quando:</h3>
             <ul>
                 <li>Os valores vêm de entrada do usuário (formulários, campos de texto)</li>
                 <li>A estrutura da query é fixa e apenas os valores mudam</li>
@@ -280,7 +280,7 @@ Query1.SQL.Add('WHERE RAZAO_SOCIAL LIKE ' + QuotedStr(edtPesquisa.Text));</code>
                 <li>A query será executada múltiplas vezes com valores diferentes</li>
             </ul>
 
-            <h3>✅ Use Prepare quando:</h3>
+            <h3>Use Prepare quando:</h3>
             <ul>
                 <li>A query será executada repetidamente na mesma sessão</li>
                 <li>Você quer otimizar performance em operações em lote</li>
@@ -312,11 +312,11 @@ Query1.SQL.Add('WHERE RAZAO_SOCIAL LIKE ' + QuotedStr(edtPesquisa.Text));</code>
             <div class="info-box">
                 <p><strong>Principais benefícios das queries parametrizadas:</strong></p>
                 <ul>
-                    <li>✅ <strong>Segurança:</strong> Proteção contra SQL Injection</li>
-                    <li>✅ <strong>Performance:</strong> Possibilidade de preparação e reutilização</li>
-                    <li>✅ <strong>Manutenibilidade:</strong> Código mais limpo e fácil de manter</li>
-                    <li>✅ <strong>Tipagem:</strong> Validação automática de tipos de dados</li>
-                    <li>✅ <strong>Eficiência:</strong> Menor uso de recursos do servidor</li>
+                    <li><strong>Segurança:</strong> Proteção contra SQL Injection</li>
+                    <li><strong>Performance:</strong> Possibilidade de preparação e reutilização</li>
+                    <li><strong>Manutenibilidade:</strong> Código mais limpo e fácil de manter</li>
+                    <li><strong>Tipagem:</strong> Validação automática de tipos de dados</li>
+                    <li><strong>Eficiência:</strong> Menor uso de recursos do servidor</li>
                 </ul>
             </div>
 

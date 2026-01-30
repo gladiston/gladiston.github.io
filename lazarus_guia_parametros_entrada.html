@@ -28,12 +28,11 @@
 
     <main>
         <article>
-            <h2>Lidando com parâmetros de entrada em seu aplicativo</h2>
+            <h2>Introdução</h2>
+            <p>Ao desenvolver utilitários de linha de comando ou aplicativos de suporte, a capacidade de interpretar argumentos externos é vital. Seja para indicar verbosidade com um sinalizador como <code>verbose</code> ou definir caminhos de arquivos como <code>import=entrada.log</code>, saber capturar esses dados corretamente garante que seu software seja integrável a scripts e automações complexas.</p>
+            <p>Neste guia, exploraremos métodos eficientes para detectar e validar parâmetros no Delphi e Lazarus, garantindo manutenibilidade e profissionalismo ao seu código.</p>
 
-            <section class="introducao">
-                <p>Ao desenvolver utilitários de linha de comando ou aplicativos de suporte, a capacidade de interpretar argumentos externos é vital. Seja para indicar verbosidade com um sinalizador como <code>verbose</code> ou definir caminhos de arquivos como <code>import=entrada.log</code>, saber capturar esses dados corretamente garante que seu software seja integrável a scripts e automações complexas.</p>
-                <p>Neste guia, exploraremos métodos eficientes para detectar e validar parâmetros no Delphi e Lazarus, garantindo manutenibilidade e profissionalismo ao seu código.</p>
-            </section>
+            <h2>Lidando com parâmetros de entrada em seu aplicativo</h2>
 
             <h3>Onde verificar ou ler os parâmetros informados?</h3>
             <p>O melhor lugar para ler os parâmetros de entrada é logo nas primeiras linhas de execução para que os mesmos possam ser usados antes do processo iniciar-se. No Delphi e no Lazarus, o ponto mais estrito seria o arquivo de Projeto (.dpr ou .lpr), mas muitos preferem fazê-lo no <code>OnCreate</code> do primeiro formulário.</p>

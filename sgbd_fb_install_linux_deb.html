@@ -88,7 +88,7 @@ newgrp firebird</code></pre>
             <pre><code>ls -l /lib64/libfbclient.so</code></pre>
 
             <div class="warning-box">
-                <strong>⚠️ Debian/Ubuntu</strong>
+                <strong>Debian/Ubuntu</strong>
                 <p>Em Debian/Ubuntu, o diretório <code>/lib64</code> pode não existir (ou a biblioteca pode estar em outro caminho, como <code>/usr/lib/x86_64-linux-gnu</code>). Se este teste falhar, use:</p>
                 <pre><code>sudo find /opt/firebird -name 'libfbclient.so*' -maxdepth 3
 ldconfig -p | grep -i fbclient</code></pre>

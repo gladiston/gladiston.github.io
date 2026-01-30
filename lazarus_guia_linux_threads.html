@@ -28,12 +28,11 @@
 
     <main>
         <article>
-            <h2>Configuração de Threads em Ambiente Linux</h2>
+            <h2>Introdução</h2>
+            <p>O uso de processamento paralelo através de Threads é um recurso essencial para manter a responsividade de aplicações modernas. No ecossistema Pascal (Delphi/Lazarus), a implementação de Threads é nativa, porém, o comportamento do gerenciador de memória e das bibliotecas de sistema difere significativamente entre Windows e Linux.</p>
+            <p>Enquanto no Windows o suporte é transparente, no Linux o compilador Free Pascal exige uma sinalização explícita para vincular as bibliotecas de threads do sistema (pthreads). Sem esse ajuste, qualquer tentativa de iniciar uma thread resultará no travamento imediato da aplicação.</p>
 
-            <section class="introducao">
-                <p>O uso de processamento paralelo através de Threads é um recurso essencial para manter a responsividade de aplicações modernas. No ecossistema Pascal (Delphi/Lazarus), a implementação de Threads é nativa, porém, o comportamento do gerenciador de memória e das bibliotecas de sistema difere significativamente entre Windows e Linux.</p>
-                <p>Enquanto no Windows o suporte é transparente, no Linux o compilador Free Pascal exige uma sinalização explícita para vincular as bibliotecas de threads do sistema (pthreads). Sem esse ajuste, qualquer tentativa de iniciar uma thread resultará no travamento imediato da aplicação.</p>
-            </section>
+            <h2>Configuração de Threads em Ambiente Linux</h2>
 
             <h3>Ajuste Obrigatório para Linux</h3>
             <p>Para habilitar o suporte a threads em binários Linux, você deve informar ao compilador que utilizará a <code>cthreads</code>. O método mais limpo e recomendado via IDE Lazarus é configurar as opções do projeto:</p>
