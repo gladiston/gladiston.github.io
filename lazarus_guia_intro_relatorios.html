@@ -28,10 +28,22 @@
 
     <main class="content-wrapper">
         <article>
-            <h2>Introdução</h2>
+            <h2 id="introducao">Introdução</h2>
             <p>A escolha de um motor de relatórios é um dos pontos mais críticos — e muitas vezes irreversíveis — na vida de um programador. Não é uma decisão de conveniência: é uma aposta de longo prazo. Na prática, raramente se adota mais de um gestor de relatórios no mesmo projeto: cada ferramenta impõe seu próprio modelo de design, suas APIs e dependências. Trocar depois significa reescrever todos os relatórios do zero. Se a ferramenta escolhida for descontinuada ou perder suporte, a equipe ficará presa a um legado caro e arriscado. Por isso, a decisão envolve o ciclo de vida da manutenção, a infraestrutura do servidor e a autonomia necessária ao usuário final — e exige que o desenvolvedor pense em anos, não em sprints.</p>
             <p>Vale planejar desde o início. Uma boa prática é manter os relatórios <strong>fora do binário principal</strong>: usar bibliotecas dinâmicas (por exemplo, <code>.so</code> no Linux ou <code>.dll</code> no Windows) ou definições em arquivos externos, de forma que alterações e correções em relatórios não exijam recompilar toda a aplicação. Evite embutir a definição dos relatórios dentro do código do programa principal; assim você ganha flexibilidade para evoluir ou até trocar de motor no futuro, sem refatorar o núcleo da aplicação.</p>
             <p>Abaixo, apresentamos uma análise técnica das principais opções do ecossistema Lazarus/FPC, com contexto sobre origem, mantenedores e cenários de uso.</p>
+
+            <h3>Neste artigo</h3>
+            <ol>
+                <li><a href="#introducao">Introdução</a></li>
+                <li><a href="#frce">Fortes Report Community Edition (FRCE)</a></li>
+                <li><a href="#fpreport">fpReport</a></li>
+                <li><a href="#fpspreadsheet">fpSpreadSheet</a></li>
+                <li><a href="#fastreport">FastReport (Lazarus Edition)</a></li>
+                <li><a href="#fpdf">FPDF (fpdf4lazarus)</a></li>
+                <li><a href="#powerpdf">PowerPDF</a></li>
+                <li><a href="#conclusao">Conclusão</a></li>
+            </ol>
 
             <section id="frce">
                 <h2>Fortes Report Community Edition (FRCE)</h2>
