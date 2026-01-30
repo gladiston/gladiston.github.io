@@ -36,48 +36,20 @@
             <h3>Neste artigo</h3>
             <ol>
                 <li><a href="#introducao">Introdução</a></li>
-                <li><a href="#frce">Fortes Report Community Edition (FRCE)</a></li>
                 <li><a href="#lazreport">LazReport</a></li>
                 <li><a href="#fpreport">fpReport</a></li>
-                <li><a href="#fpspreadsheet">fpSpreadSheet</a></li>
+                <li><a href="#frce">Fortes Report Community Edition (FRCE)</a></li>
                 <li><a href="#fastreport">FastReport (Lazarus Edition)</a></li>
+                <li><a href="#fpspreadsheet">fpSpreadSheet</a></li>
                 <li><a href="#fpdf">FPDF (fpdf4lazarus)</a></li>
                 <li><a href="#powerpdf">PowerPDF</a></li>
                 <li><a href="#conclusao">Conclusão</a></li>
             </ol>
 
-            <section id="frce">
-                <h2>Fortes Report Community Edition (FRCE)</h2>
-                <p>O <strong>Fortes Report</strong> nasceu na <strong>Fortes Informática</strong>, empresa brasileira, como solução comercial para Delphi. A versão para Lazarus/Free Pascal (Fortes4Lazarus) foi portada por <strong>Isaac Trindade</strong> e <strong>Luiz Américo</strong>, e hoje existe também o projeto <strong>Fortes Report 123</strong> (GPLv3) no SourceForge. É muito usado no Brasil e tornou-se o padrão para quem busca produtividade máxima com design visual no formulário ("Design-on-Form"). É ideal quando o relatório exige lógica complexa integrada diretamente ao código fonte da aplicação.</p>
-                <p><strong>Nível de dificuldade de aprendizado:</strong> <strong>Baixo a Médio</strong>. A interface visual no formulário facilita muito o aprendizado inicial. Quem já trabalhou com componentes Delphi/Lazarus se adapta rapidamente. A curva de aprendizado aumenta quando se precisa de lógica complexa ou personalizações avançadas.</p>
-                <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
-                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
-                        <strong>Pontos Positivos:</strong>
-                        <ul style="margin-top: 10px; font-size: 0.95rem;">
-                            <li>Acesso total a variáveis e funções do projeto via Pascal.</li>
-                            <li>Fácil depuração usando o próprio debugger da IDE.</li>
-                            <li>Editor visual integrado ao formulário (WYSIWYG).</li>
-                            <li>Ampla comunidade brasileira e documentação em português.</li>
-                            <li>Suporte a múltiplos formatos de exportação (PDF, HTML, Excel, etc.).</li>
-                            <li>Permite criar relatórios complexos com sub-relatórios e grupos.</li>
-                        </ul>
-                    </div>
-                    <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b;">
-                        <strong>Pontos Negativos:</strong>
-                        <ul style="margin-top: 10px; font-size: 0.95rem;">
-                            <li>Dependência da LCL. Inviável para servidores Linux Headless sem virtualização de display.</li>
-                            <li>Requer ambiente gráfico para design e execução.</li>
-                            <li>Pode ser pesado para relatórios muito simples.</li>
-                            <li>Manutenção comunitária pode variar em ritmo de atualizações.</li>
-                        </ul>
-                    </div>
-                </div>
-                <p>Wiki: <a href="https://wiki.freepascal.org/FortesReport" target="_blank">Wiki Fortes Report</a></p>
-            </section>
-
             <section id="lazreport">
                 <h2>LazReport</h2>
                 <p>O <strong>LazReport</strong> foi criado por <strong>golivier</strong> no SourceForge em <strong>setembro de 2004</strong>, baseado no FreeReport 2.32, e hoje é mantido pela comunidade do Lazarus como parte do ecossistema oficial da IDE. Ele vem integrado à instalação padrão do Lazarus (embora precise ser ativado via gerenciador de pacotes) e segue um paradigma muito próximo ao <strong>FastReport</strong> do Delphi: foca em um designer visual independente do código-fonte. Diferente do Fortes Report, onde o design acontece no formulário, o LazReport oferece um editor próprio que centraliza a construção do layout, quase dispensando programação manual para relatórios padrão.</p>
+                <p>Para quem está começando com Pascal, o LazReport oferece uma vantagem estratégica importante: por fazer parte do repositório oficial do Lazarus e ser mantido junto com a IDE, ele tende a acompanhar o ciclo de vida do próprio projeto. Isso reduz o risco de ter que reescrever relatórios no futuro por falta de manutenção — uma preocupação legítima ao escolher ferramentas de terceiros ou projetos comunitários sem garantias institucionais.</p>
                 <p><strong>Nível de dificuldade de aprendizado:</strong> <strong>Baixo a Médio</strong>. O editor visual independente do código facilita o aprendizado para quem vem do FastReport ou de ferramentas WYSIWYG. A curva aumenta quando se exige lógica avançada ou integração profunda via código Pascal.</p>
                 <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
                     <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
@@ -131,36 +103,36 @@
                         </ul>
                     </div>
                 </div>
-                <p>Wiki: <a href="https://wiki.freepascal.org/fpReport" target="_blank">Wiki fpReport</a></p>
+                <p>Guia detalhado: <a href="lazarus_guia_fpreport.html">Relatórios com fpReport</a>. Wiki: <a href="https://wiki.freepascal.org/fpReport" target="_blank" rel="noopener">Wiki fpReport</a></p>
             </section>
 
-            <section id="fpspreadsheet">
-                <h2>fpSpreadSheet</h2>
-                <p>O <strong>fpSpreadsheet</strong> é mantido no GitHub (repositório <code>tcs-ulli/fpspreadsheet</code>) e faz parte do Lazarus Code and Component Repository (Lazarus-CCR), com contribuições de vários desenvolvedores da comunidade. Tem histórico longo de releases (por exemplo, 1.12 em 2020, 1.14 em 2022, 1.16 em 2023, 2.0 em 2025) e desenvolvimento ativo. Não é um "relatório bandado" clássico: é uma biblioteca para criar e manipular planilhas (XLS, XLSX, ODS) de forma nativa, sem depender de Excel ou LibreOffice.</p>
-                <p><strong>Nível de dificuldade de aprendizado:</strong> <strong>Médio</strong>. A API é relativamente intuitiva para quem já trabalhou com planilhas, mas exige conhecimento de como estruturar dados em linhas e colunas. O conceito de células e fórmulas é familiar, mas a programação manual de layouts pode ser trabalhosa. A documentação e exemplos ajudam bastante.</p>
+            <section id="frce">
+                <h2>Fortes Report Community Edition (FRCE)</h2>
+                <p>O <strong>Fortes Report</strong> nasceu na <strong>Fortes Informática</strong>, empresa brasileira, como solução comercial para Delphi. A versão para Lazarus/Free Pascal (Fortes4Lazarus) foi portada por <strong>Isaac Trindade</strong> e <strong>Luiz Américo</strong>, e hoje existe também o projeto <strong>Fortes Report 123</strong> (GPLv3) no SourceForge. É muito usado no Brasil e tornou-se o padrão para quem busca produtividade máxima com design visual no formulário ("Design-on-Form"). É ideal quando o relatório exige lógica complexa integrada diretamente ao código fonte da aplicação.</p>
+                <p><strong>Nível de dificuldade de aprendizado:</strong> <strong>Baixo a Médio</strong>. A interface visual no formulário facilita muito o aprendizado inicial. Quem já trabalhou com componentes Delphi/Lazarus se adapta rapidamente. A curva de aprendizado aumenta quando se precisa de lógica complexa ou personalizações avançadas.</p>
                 <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
                     <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
                         <strong>Pontos Positivos:</strong>
                         <ul style="margin-top: 10px; font-size: 0.95rem;">
-                            <li>Gera planilhas reais para BI sem precisar de Excel ou LibreOffice instalados.</li>
-                            <li>Independente de GUI; funciona perfeitamente em modo console.</li>
-                            <li>Suporte a múltiplos formatos (XLS, XLSX, ODS, CSV).</li>
-                            <li>Permite criar fórmulas, formatação de células, gráficos e formatação condicional.</li>
-                            <li>Desenvolvimento ativo e bem mantido pela comunidade.</li>
-                            <li>Ideal para integração com sistemas de Business Intelligence.</li>
+                            <li>Acesso total a variáveis e funções do projeto via Pascal.</li>
+                            <li>Fácil depuração usando o próprio debugger da IDE.</li>
+                            <li>Editor visual integrado ao formulário (WYSIWYG).</li>
+                            <li>Ampla comunidade brasileira e documentação em português.</li>
+                            <li>Suporte a múltiplos formatos de exportação (PDF, HTML, Excel, etc.).</li>
+                            <li>Permite criar relatórios complexos com sub-relatórios e grupos.</li>
                         </ul>
                     </div>
                     <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b;">
                         <strong>Pontos Negativos:</strong>
                         <ul style="margin-top: 10px; font-size: 0.95rem;">
-                            <li>Manutenção onerosa para layouts fluidos devido ao uso de coordenadas de células (A1, B2).</li>
-                            <li>Não é um gerador de relatórios tradicionais; focado em planilhas.</li>
-                            <li>Alterar layouts complexos pode exigir reescrever código significativo.</li>
-                            <li>Pode ser excessivo para relatórios simples que não precisam de formato de planilha.</li>
+                            <li>Dependência da LCL. Inviável para servidores Linux Headless sem virtualização de display.</li>
+                            <li>Requer ambiente gráfico para design e execução.</li>
+                            <li>Pode ser pesado para relatórios muito simples.</li>
+                            <li>Manutenção comunitária pode variar em ritmo de atualizações.</li>
                         </ul>
                     </div>
                 </div>
-                <p>Wiki: <a href="https://wiki.freepascal.org/FPSpreadsheet" target="_blank">Wiki fpSpreadSheet</a></p>
+                <p>Guia detalhado: <a href="lazarus_guia_fortes_report.html">Relatórios com Fortes Report</a>. Wiki: <a href="https://wiki.freepascal.org/FortesReport" target="_blank" rel="noopener">Wiki Fortes Report</a></p>
             </section>
 
             <section id="fastreport">
@@ -191,7 +163,36 @@
                         </ul>
                     </div>
                 </div>
-                <p>Wiki: <a href="https://wiki.freepascal.org/FastReport_with_Lazarus" target="_blank">Wiki FastReport</a></p>
+                <p>Wiki: <a href="https://wiki.freepascal.org/FastReport_with_Lazarus" target="_blank" rel="noopener">Wiki FastReport</a></p>
+            </section>
+
+            <section id="fpspreadsheet">
+                <h2>fpSpreadSheet</h2>
+                <p>O <strong>fpSpreadsheet</strong> é mantido no GitHub (repositório <code>tcs-ulli/fpspreadsheet</code>) e faz parte do Lazarus Code and Component Repository (Lazarus-CCR), com contribuições de vários desenvolvedores da comunidade. Tem histórico longo de releases (por exemplo, 1.12 em 2020, 1.14 em 2022, 1.16 em 2023, 2.0 em 2025) e desenvolvimento ativo. Não é um "relatório bandado" clássico: é uma biblioteca para criar e manipular planilhas (XLS, XLSX, ODS) de forma nativa, sem depender de Excel ou LibreOffice.</p>
+                <p><strong>Nível de dificuldade de aprendizado:</strong> <strong>Médio</strong>. A API é relativamente intuitiva para quem já trabalhou com planilhas, mas exige conhecimento de como estruturar dados em linhas e colunas. O conceito de células e fórmulas é familiar, mas a programação manual de layouts pode ser trabalhosa. A documentação e exemplos ajudam bastante.</p>
+                <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
+                        <strong>Pontos Positivos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Gera planilhas reais para BI sem precisar de Excel ou LibreOffice instalados.</li>
+                            <li>Independente de GUI; funciona perfeitamente em modo console.</li>
+                            <li>Suporte a múltiplos formatos (XLS, XLSX, ODS, CSV).</li>
+                            <li>Permite criar fórmulas, formatação de células, gráficos e formatação condicional.</li>
+                            <li>Desenvolvimento ativo e bem mantido pela comunidade.</li>
+                            <li>Ideal para integração com sistemas de Business Intelligence.</li>
+                        </ul>
+                    </div>
+                    <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b;">
+                        <strong>Pontos Negativos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Manutenção onerosa para layouts fluidos devido ao uso de coordenadas de células (A1, B2).</li>
+                            <li>Não é um gerador de relatórios tradicionais; focado em planilhas.</li>
+                            <li>Alterar layouts complexos pode exigir reescrever código significativo.</li>
+                            <li>Pode ser excessivo para relatórios simples que não precisam de formato de planilha.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p>Guia detalhado: <a href="lazarus_guia_fpspreadsheet.html">Planilhas com fpSpreadsheet</a>. Wiki: <a href="https://wiki.freepascal.org/FPSpreadsheet" target="_blank" rel="noopener">Wiki fpSpreadSheet</a></p>
             </section>
 
             <section id="fpdf">
@@ -223,7 +224,7 @@
                         </ul>
                     </div>
                 </div>
-                <p>Wiki: <a href="https://wiki.freepascal.org/fpdf4lazarus" target="_blank">Wiki FPDF</a></p>
+                <p>Guia detalhado: <a href="lazarus_guia_fpdf.html">Documentos PDF com FPDF</a>. Wiki: <a href="https://wiki.freepascal.org/fpdf4lazarus" target="_blank" rel="noopener">Wiki FPDF</a></p>
             </section>
 
             <section id="powerpdf">
@@ -254,7 +255,7 @@
                         </ul>
                     </div>
                 </div>
-                <p>Wiki: <a href="https://wiki.lazarus.freepascal.org/PowerPDF" target="_blank">Wiki PowerPDF</a></p>
+                <p>Guia detalhado: <a href="lazarus_guia_powerpdf.html">Documentos PDF com PowerPDF</a>. Wiki: <a href="https://wiki.lazarus.freepascal.org/PowerPDF" target="_blank" rel="noopener">Wiki PowerPDF</a></p>
             </section>
 
             <section id="conclusao">
@@ -268,6 +269,7 @@
                     <li><strong>FPDF</strong> atende quem precisa de PDFs simples em alto volume (etiquetas, boletos, recibos), com controle total e dependências mínimas, aceitando uma curva de aprendizado mais alta em troca de desempenho.</li>
                     <li><strong>PowerPDF</strong> oferece um meio termo: componentes visuais para facilitar o design, mas com recursos mais limitados que ferramentas comerciais. Adequado para projetos que precisam de PDFs básicos sem a complexidade de bibliotecas puramente programáticas.</li>
                 </ul>
+                <p><strong>fpReport</strong> e <strong>LazReport</strong> são altamente recomendados por já pertencerem ao ecossistema oficial do Free Pascal e do Lazarus. Essa integração elimina o risco de ter que reescrever relatórios no futuro por falta de manutenção — uma preocupação legítima ao escolher ferramentas de terceiros ou projetos comunitários sem garantias institucionais.</p>
                 <p>Antes de fixar a decisão, vale testar em protótipo, considerar o nível de dificuldade de aprendizado da equipe e, sempre que possível, manter os relatórios fora do binário principal. Assim você preserva flexibilidade para evoluir — ou, se um dia for necessário, migrar — sem reescrever o núcleo da aplicação.</p>
             </section>
         </article>
