@@ -60,14 +60,20 @@ ldconfig</code></pre>
 
             <p>Isso não é um erro fatal, apenas um aviso de que o módulo de sons do GTK não está instalado. Para remover este aviso em sistemas <strong>Debian-like</strong> (Ubuntu, Mint):</p>
 
-            <pre><code>sudo apt install -y libqt5pas-dev libqt5pas1
+<pre><code>s
 sudo apt install libpango1.0-dev libcairo2-dev libatk1.0-dev  libgdk-pixbuf-xlib-2.0-dev
-# caso use KDE ou use a IDE Lazarus em KDE
+</code></pre>
+<p>Caso esteja usando o ambiente KDE ou pretenda compilar a IDE usando qt, execute também:</p>
+<pre><code>
 sudo apt install -y qtbase5-dev 
-# caso use GNOME ou use a IDE Lazarus em GNOME
+</code></pre>
+<p>Esta usando ambiente gtk(GNOME, Mint, etc...)?, então execute:</p>:
+<pre><code>
 sudo apt install libgtk2.0-dev libpango1.0-dev libcairo2-dev libatk1.0-dev  libgdk-pixbuf-xlib-2.0-dev
 sudo apt install -y libcanberra-gtk-common-dev
-sudo apt install -y libcanberra-gtk3-module</code></pre>
+sudo apt install -y libcanberra-gtk3-module
+</code></pre>
+
 
             <p>Em sistemas <strong>RedHat-like</strong> (Fedora):</p>
 
