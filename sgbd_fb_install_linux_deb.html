@@ -157,7 +157,7 @@ sudo setfacl -R -m u:firebird:rwx,g:firebird:rwx,o:rx /home/fdb
 sudo setfacl -R -d -m u:firebird:rwx,g:firebird:rwx,o:rx /home/fdb</code></pre>
 
                 <p><strong>3. Automatização via /etc/fstab:</strong></p>
-                <p>Edite o arquivo: <code>sudo nano /etc/fstab</code> e adicione a linha:</p>
+                <p>Edite o arquivo: <code>sudo editor /etc/fstab</code> e adicione a linha:</p>
                 <pre><code>/home/fdb  /var/fdb  none  bind  0  0</code></pre>
 
                 <p>Aplique as configurações:</p>
