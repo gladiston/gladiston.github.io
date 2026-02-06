@@ -27,7 +27,7 @@
     </nav>
 
     <main class="content-wrapper">
-        <article>
+        <p>
             <h2>Introdução</h2>
             <p>O <strong>fpcupdeluxe</strong> é uma ferramenta poderosa para instalação do Lazarus e Free Pascal Compiler (FPC) no Linux. Diferente da instalação via repositórios do sistema, o fpcupdeluxe permite uma instalação <em>homeuser</em>, ou seja, podemos instalar, configurar e usar sem permissões especiais de administrador. Esta abordagem oferece maior controle sobre o ambiente de desenvolvimento e permite manter múltiplas versões do Lazarus e FPC simultaneamente.</p>
 
@@ -48,7 +48,6 @@
             <p>O programa executa normalmente, mas a falta dessa dependência pode indicar que algum aspecto visual não está como deveria. Para corrigir o problema, execute:</p>
 
             <pre><code>sudo -i
-echo "/usr/lib64/gtk-3.0/modules" >> /etc/ld.so.conf.d/pk-gtk.conf
 echo "/usr/lib64/gtk-2.0/modules" >> /etc/ld.so.conf.d/gtk2.conf
 ldconfig</code></pre>
 
@@ -61,24 +60,24 @@ ldconfig</code></pre>
             <p>Isso não é um erro fatal, apenas um aviso de que o módulo de sons do GTK não está instalado. Para remover este aviso em sistemas <strong>Debian-like</strong> (Ubuntu, Mint):</p>
 
 <pre><code>
-sudo apt install libpango1.0-dev libcairo2-dev libatk1.0-dev  libgdk-pixbuf-xlib-2.0-dev
+sudo apt install libpango1.0-dev libcairo2-dev libatk1.0-dev  libgdk-pixbuf-xlib-2.0-dev libcanberra-gtk-module
 </code></pre>
-<p>Caso esteja usando o ambiente KDE ou pretenda compilar a IDE usando qt, execute também:</p>
+<p>Caso esteja usando o ambiente KDE ou pretenda compilar a IDE usando qt5, execute também:</p>
 <pre><code>
-sudo apt install -y qtbase5-dev 
+sudo apt install -y qtbase5-dev libqt5pas-dev
 </code></pre>
 <p>Esta usando ambiente que usa gtk(GNOME, XFCE, LXDE, Cinnamon, etc...)?, então execute:</p>
 <pre><code>
 sudo apt install libgtk2.0-dev libpango1.0-dev libcairo2-dev libatk1.0-dev  libgdk-pixbuf-xlib-2.0-dev
 sudo apt install -y libcanberra-gtk-common-dev
-sudo apt install -y libcanberra-gtk3-module
 </code></pre>
 
+<p><b>ATENÇÃO:</b> O Xorg esta saindo de cena para a entrada do Wayland na maior parte das distribuições Linux e o Lazarus usa gtk2 em sua IDE que não recebe mais atualizações e isso evidentemente isso tem causado alguns bugs de posicionamento na tela aleatórios. Caso presencie este problema, recompile a IDE usando "qt5"  e solucionará este problema e configure o build de seus programas (Project|Project Options|Compiler Options|Config and Targets e mude <b>LCL widgetsets</b> para <b>GTK2</b> e assim suas aplicações ainda seriam geradas usando GTK2. Contudo saiba que usar "qt5" num ambiente GNOME causa algumas inconsistências como ancorar outras ferramentas na IDE, porém sem bugs criticos que estão na versão gtk2.</p>
 
             <p>Em sistemas <strong>RedHat-like</strong> (Fedora):</p>
 
-            <pre><code>sudo dnf install -y qt5pas-devel qt5-qtbase-devel # caso use KDE
-sudo dnf install -y libcanberra-gtk2 libcanberra-gtk3 # caso use GNOME</code></pre>
+            <pre><code>sudo dnf install -y qt5pas-devel qt5-qtbase-devel libQt5Pas # caso use KDE
+sudo dnf install -y libcanberra-gtk2 # caso use GNOME</code></pre>
 
             <p>Sempre revise as dependências na <a href="https://wiki.lazarus.freepascal.org/fpcupdeluxe" target="_blank">página oficial do fpcupdeluxe</a>.</p>
 
