@@ -66,10 +66,10 @@ sudo apt install libpango1.0-dev libcairo2-dev libatk1.0-dev  libgdk-pixbuf-xlib
 <pre><code>
 sudo apt install -y qtbase5-dev libqt5pas-dev
 </code></pre>
-<p>Esta usando ambiente que usa gtk(GNOME, XFCE, LXDE, Cinnamon, etc...)?, então execute:</p>
+<p>Esta usando ambiente que usa gtk(GNOME, XFCE, LXDE, Cinnamon, etc...) ou compilá tendo como alvo um programa em gtk?, então execute:</p>
 <pre><code>
-sudo apt install libgtk2.0-dev libpango1.0-dev libcairo2-dev libatk1.0-dev  libgdk-pixbuf-xlib-2.0-dev
 sudo apt install -y libcanberra-gtk-common-dev
+sudo apt install -y libgtk2.0-dev libpango1.0-dev libcairo2-dev libatk1.0-dev  libgdk-pixbuf-xlib-2.0-dev
 </code></pre>
 
 <p><b>ATENÇÃO:</b> O Xorg esta saindo de cena para a entrada do Wayland na maior parte das distribuições Linux e o Lazarus usa gtk2 em sua IDE que não recebe mais atualizações e isso evidentemente isso tem causado alguns bugs de posicionamento na tela aleatórios. Caso presencie este problema, recompile a IDE usando "qt5"  e solucionará este problema e configure o build de seus programas (Project|Project Options|Compiler Options|Config and Targets e mude <b>LCL widgetsets</b> para <b>GTK2</b> e assim suas aplicações ainda seriam geradas usando GTK2. Contudo saiba que usar "qt5" num ambiente GNOME causa algumas inconsistências como ancorar outras ferramentas na IDE, porém sem bugs criticos que estão na versão gtk2.</p>
@@ -108,6 +108,153 @@ sudo dnf install -y libcanberra-gtk2 # caso use GNOME</code></pre>
 
             <p>Confirme com OK e clique em <strong>Install/Update FPC+Laz</strong>. A instalação é demorada. Ao final, um atalho será criado no menu do sistema e o script <code>Lazarus_fpcupdeluxe</code> estará na sua pasta HOME.</p>
 
+
+<h2>Pontos de atenção no ambiente KDE</h2>
+
+<p>
+O KDE Plasma tem muitos atalhos globais que entram em conflito direto com os atalhos
+padrão do Lazarus/Qt. O resultado típico é: você aperta o atalho no Lazarus e nada acontece,
+ou pior, outra funcionalidade do KDE é acionada.
+</p>
+
+<p>
+Isso ocorre porque o KDE captura diversos atalhos em nível global, impedindo que a IDE
+receba o evento de teclado. Esse comportamento é mais perceptível quando o Lazarus é
+compilado usando <strong>Qt</strong> e executado em ambientes KDE Plasma.
+</p>
+
+<p>Os conflitos mais comuns incluem:</p>
+
+<ul>
+    <li>
+        <strong>Ctrl + Alt + S</strong>
+        <br>
+        No Lazarus: salvar todos os arquivos.
+        <br>
+        No KDE: aciona o <em>Spectacle</em> (captura de tela).
+    </li>
+
+    <li>
+        <strong>Ctrl + Alt + ← / →</strong>
+        <br>
+        No Lazarus: navegação no editor ou em abas.
+        <br>
+        No KDE: troca de área de trabalho virtual.
+    </li>
+
+    <li>
+        <strong>Alt</strong>
+        <br>
+        No Lazarus: ativa menus da IDE.
+        <br>
+        No KDE/Qt: pode não funcionar corretamente devido a foco ou atalhos reservados.
+    </li>
+
+    <li>
+        <strong>Ctrl + F9</strong>
+        <br>
+        No Lazarus: compila o projeto em modo debug e executa a aplicação.
+        <br>
+        No KDE: Mostra todos os programas em mosaico.
+    </li>
+</ul>
+
+<p>
+Quando um desses atalhos está configurado globalmente no KDE, o Lazarus sequer recebe o
+evento de teclado, tornando impossível o funcionamento correto do atalho dentro da IDE.
+</p>
+
+<p><strong>Resolução:</strong></p>
+
+<ul>
+    <li>
+        <strong>Opção 1 (recomendada):</strong> alterar ou remover o atalho conflitante no KDE, acessando
+        <em>Configurações do Sistema → Atalhos → Atalhos Globais</em>.
+        Dessa forma, o Lazarus passa a receber corretamente as teclas.
+    </li>
+
+    <li>
+        <strong>Opção 2:</strong> alterar o atalho dentro do próprio Lazarus, em
+        <em>Ferramentas → Editor de Atalhos</em>, escolhendo uma combinação que não seja usada pelo KDE.
+    </li>
+</ul>
+
+<p>
+Após ajustar os atalhos, reinicie o Lazarus para garantir que as novas configurações
+entrem em vigor.
+</p>
+
+<h2>Pontos de atenção no ambiente GNOME</h2>
+
+<p>
+No ambiente GNOME, também podem ocorrer conflitos de atalhos com o Lazarus,
+especialmente quando o sistema está rodando sob <strong>Wayland</strong>.
+Diferente do KDE, o GNOME possui menos atalhos configuráveis, porém vários deles
+são <em>reservados pelo GNOME Shell</em> e não podem ser repassados às aplicações.
+</p>
+
+<p>
+Quando um atalho é reservado pelo GNOME Shell, ele simplesmente não chega à IDE,
+fazendo com que comandos do Lazarus não funcionem ou pareçam ignorados.
+</p>
+
+<p>Os conflitos mais comuns incluem:</p>
+
+<ul>
+    <li>
+        <strong>Ctrl + Alt + ↑ / ↓</strong>
+        <br>
+        No Lazarus: navegação ou atalhos customizados.
+        <br>
+        No GNOME: visão de atividades ou alternância de workspaces.
+    </li>
+
+    <li>
+        <strong>Ctrl + F9</strong>
+        <br>
+        No Lazarus: compilar em modo debug e executar.
+        <br>
+        No GNOME: normalmente funciona, porém pode falhar se existir algum atalho
+        personalizado ou extensão que capture esta combinação.
+    </li>
+</ul>
+
+<p>
+Em sessões Wayland, algumas combinações de teclas são intencionalmente bloqueadas
+pelo compositor por razões de segurança, impossibilitando que aplicações como o Lazarus interceptem esses eventos.
+</p>
+
+<p><strong>Resolução:</strong></p>
+
+<ul>
+    <li>
+        Verifique os atalhos em
+        <em>Configurações → Teclado → Atalhos</em> e remova combinações que entrem
+        em conflito com a IDE.
+    </li>
+
+    <li>
+        Caso utilize Wayland e enfrente problemas persistentes,
+        considere iniciar a sessão em <strong>Xorg</strong>, onde o controle de atalhos
+        pelas aplicações é mais flexível.
+    </li>
+
+    <li>
+        Alternativamente, ajuste os atalhos dentro do Lazarus em
+        <em>Ferramentas → Editor de Atalhos</em>.
+    </li>
+</ul>
+
+            <h2>Resolução de Problemas Comuns</h2>
+            <p>O KDE Plasma tem muitos atalhos globais que entram em conflito direto com os atalhos padrão do Lazarus/Qt. O resultado típico é, você aperta o atalho no Lazarus e nada acontece ou pior, outra coisa do KDE dispara.</p>
+            <ul>
+                <li>Verifique se todas as dependências do GTK estão instaladas corretamente</li>
+                <li>Certifique-se de que o FPC do sistema está funcionando corretamente</li>
+                <li>Revise as permissões do diretório HOME onde o Lazarus foi instalado</li>
+                <li>Consulte a <a href="https://wiki.lazarus.freepascal.org/fpcupdeluxe" target="_blank" rel="noreferrer noopener">documentação oficial do fpcupdeluxe</a> para problemas específicos</li>
+            </ul>
+
+
             <section id="video-tutorial">
                 <h2>Vídeo Tutorial</h2>
                 <p>Assista abaixo à demonstração:</p>
@@ -126,15 +273,6 @@ sudo dnf install -y libcanberra-gtk2 # caso use GNOME</code></pre>
                 <li><strong>Portabilidade:</strong> A instalação pode ser facilmente copiada ou movida para outro sistema</li>
                 <li><strong>Controle total:</strong> Você escolhe exatamente quais versões e componentes instalar</li>
                 <li><strong>Uso do FPC do sistema:</strong> Ao marcar "Use system FPC for Lazarus", você aproveita o FPC já instalado via repositórios, economizando tempo de compilação</li>
-            </ul>
-
-            <h2>Resolução de Problemas Comuns</h2>
-            <p>Se você encontrar problemas durante a instalação ou uso do Lazarus instalado via fpcupdeluxe:</p>
-            <ul>
-                <li>Verifique se todas as dependências do GTK estão instaladas corretamente</li>
-                <li>Certifique-se de que o FPC do sistema está funcionando corretamente</li>
-                <li>Revise as permissões do diretório HOME onde o Lazarus foi instalado</li>
-                <li>Consulte a <a href="https://wiki.lazarus.freepascal.org/fpcupdeluxe" target="_blank" rel="noreferrer noopener">documentação oficial do fpcupdeluxe</a> para problemas específicos</li>
             </ul>
 
             <h2>Conclusão</h2>
