@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1 style="font-size: 1.6rem; color: #ffffff;">Contato</h1>
+                <p style="font-size: 1rem; color: #ffffff;">Vamos conversar sobre tecnologia, sistemas e infraestrutura.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="linux.html">Linux</a></li>
+            <li><a href="pascal.html">Pascal</a></li>
+            <li><a href="python.html">Python</a></li>
+            <li><a href="bash.html">Bash</a></li>
+            <li><a href="sgbd.html">Banco de dados</a></li>
+            <li><a href="sobre-mim.html">Sobre mim</a></li>
+            <li><a href="contato.html">Contato</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Conecte-se Comigo</h2>
+            <p>Escolha o canal de sua preferência para conversarmos. O e-mail abaixo está protegido por JavaScript para evitar sistemas automáticos de colheita de dados.</p>
+
+            <div class="contact-grid">
+
+                <div class="contact-card">
+                    <div>
+                        <strong>E-mail Profissional</strong>
+                        <span id="email-ofuscado"><em>A carregar e-mail...</em></span>
+                    </div>
+                </div>
+
+                <div class="contact-card">
+                    <div>
+                        <strong>Telegram</strong>
+                        <a href="https://t.me/gladistonsantana" target="_blank">@gladistonsantana</a>
+                    </div>
+                </div>
+
+                <div class="contact-card">
+                    <div>
+                        <strong>LinkedIn</strong>
+                        <a href="https://www.linkedin.com/in/gladiston-santana-25b9007/" target="_blank">Perfil Profissional</a>
+                    </div>
+                </div>
+
+                <div class="contact-card">
+                    <div>
+                        <strong>Localização</strong>
+                        <span>São Paulo, Brasil</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <p style="margin-top: 3rem; font-style: italic; color: #666;">
+                Disponível para consultoria técnica, arquitetura de sistemas e automação de ambientes críticos.
+            </p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+    <script>
+        (function() {
+            const u = "gladiston.santana";
+            const d = "gmail.com";
+            const f = u + "@" + d;
+            const el = document.getElementById("email-ofuscado");
+            if(el) {
+                el.innerHTML = `<a href="mailto:${f}" title="Enviar e-mail">${f}</a>`;
+            }
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de código - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Configurações do Editor de Código</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>O editor de código é o ambiente onde você passa a maior parte do tempo ao desenvolver no Lazarus. Personalizar fonte, tabulação, destaque de blocos, comportamento ao rodar o programa e integração com o depurador faz grande diferença na produtividade e no conforto visual.</p>
+            <p>Nesta etapa, focaremos em ajustes que melhoram diretamente a experiência de escrita e depuração de código. Todas as opções citadas abaixo podem ser encontradas no menu <strong>Tools | Options</strong> (Ferramentas | Opções).</p>
+
+            <h2>Minimizar ao Rodar (Opcional)</h2>
+            <p>No Delphi, ao pressionar <strong>F9</strong>, a IDE costuma ser minimizada automaticamente. Isso ajuda a reduzir a poluição visual se você estiver lidando com muitos programas. No entanto, pode ser inconveniente se você precisar debugar com <em>breakpoints</em> enquanto observa o código.</p>
+            <p>Se desejar ativar, vá em <strong>Environment -> Window</strong> e marque <strong>Hide IDE windows on run</strong>.</p>
+
+            <div class="img-container">
+                <img src="assets/img/ide_editor_run.png" alt="Opção de ocultar janelas ao rodar">
+            </div>
+
+            <h2>Detalhes do Projeto no Título (Recomendado)</h2>
+            <p>Ter informações contextuais no título da janela ajuda muito na organização. Em <strong>Environment -> Window</strong>, você pode habilitar:</p>
+            <ul>
+                <li><strong>IDE title starts with project name:</strong> Exibe o nome do projeto no início.</li>
+                <li><strong>IDE title show project directory:</strong> Mostra o caminho da pasta.</li>
+                <li><strong>IDE title show selected build mode:</strong> Indica se está em Win32, Win64, Debug, etc.</li>
+            </ul>
+
+            <div class="img-container">
+                <img src="assets/img/ide_editor_title.png" alt="Configuração de título da IDE">
+            </div>
+
+            <h2>Fim dos Nomes Genéricos</h2>
+            <p>Para evitar componentes chamados <em>Label1, Label2, Button1</em>, ative <strong>Ask name on create</strong> em <strong>Environment -> Form Editor</strong>. A IDE solicitará um nome toda vez que você arrastar um componente para o formulário.</p>
+
+            <h2>Precisão no Formulário</h2>
+            <p>Ainda em <strong>Form Editor</strong>, mude o <em>Grid size X e Y</em> de 8 para <strong>4px</strong>. Isso garante que o alinhamento dos componentes via mouse seja muito mais preciso.</p>
+
+            <div class="img-container">
+                <img src="assets/img/ide_editor_grid.png" alt="Ajuste de grade do formulário">
+            </div>
+
+            <h2>Destaque de Bordas (Border Spacing)</h2>
+            <p>Ative a opção <strong>Show border spacing</strong>. Ela desenha linhas (geralmente vermelhas) que indicam o <em>padding</em> e espaços de ancoragem, mesmo quando a borda visível é zero. Isso é essencial para layouts complexos.</p>
+
+            <div class="img-container">
+                <img src="assets/img/ide_editor_borders.png" alt="Visualização de border spacing">
+            </div>
+
+            <h2>Fontes e Tabulação</h2>
+            <p>A fonte padrão <em>Courier New</em> pode ser cansativa. Em <strong>Editor -> Display</strong>, recomendo mudar para <strong>Consolas</strong> ou <strong>Noto Mono</strong>. Além disso, em <strong>Editor -> General -> Tab and Indent</strong>, altere o <em>Tab width</em> de 8 para <strong>2 ou 4</strong> para um código mais compacto.</p>
+
+            <h2>Destaque da Linha Atual e Correspondências</h2>
+            <p>Para não perder o cursor de vista, vá em <strong>Editor -> Display -> Colors</strong> e configure o <strong>"Current line highlight"</strong> (ex: fundo verde suave). </p>
+            <p>Em <strong>Markup and Matches -> Outline</strong>, ative a colorização de blocos (begin..end, if..then). Isso facilita seguir a lógica visualmente.</p>
+
+            <div class="img-container">
+                <img src="assets/img/ide_editor_markup.png" alt="Destaque de blocos de código">
+            </div>
+
+            <h2>Remover Métodos Vazios</h2>
+            <p>Sabe quando você clica duas vezes num botão sem querer e cria um evento vazio? Ative <strong>Auto remove empty methods</strong> em <strong>Editor -> Completion and hints</strong> para que a IDE limpe esses blocos automaticamente ao salvar.</p>
+
+            <h2>Salto Direto para o Código</h2>
+            <p>Se você prefere que o <strong>Ctrl + Click</strong> leve diretamente ao corpo da função (implementation) em vez da declaração (interface), ative <strong>Jump directly to method body</strong> em <strong>CodeTools</strong>.</p>
+
+            <h2>Conclusão</h2>
+            <p>As configurações do editor de código, do form editor e do ambiente (janelas, título, grid, border spacing, fontes, tabulação, destaque de blocos e completion) têm impacto direto no dia a dia. Vale investir um tempo em <strong>Tools | Options</strong> para ajustar tudo ao seu gosto e fluxo de trabalho.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

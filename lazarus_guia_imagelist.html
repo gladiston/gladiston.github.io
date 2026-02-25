@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando o ImageList com múltiplos dimensionamentos - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Introdução</h2>
+            <p>O <code>TImageList</code> atua como um repositório centralizado de imagens em uma aplicação. Seja para ícones de botões, menus ou componentes de grade, ele permite organizar recursos visuais de forma eficiente. Diferente do comportamento clássico do Delphi, o Lazarus oferece uma flexibilidade superior, permitindo que um único componente ImageList gerencie múltiplas resoluções de forma nativa.</p>
+            <p>Neste guia, exploraremos como configurar o ImageList para suportar redimensionamentos automáticos, a importância de utilizar DataModules para centralizar esses recursos e como aplicar as diferentes resoluções nos componentes visuais do seu projeto.</p>
+
+            <h2>Usando o ImageList com múltiplos dimensionamentos</h2>
+
+            <p>Geralmente utilizamos formatos como Bitmap (.bmp), PNG (.png) e JPEG (.jpg). A grande vantagem do Lazarus é permitir múltiplos redimensionamentos de um mesmo grupo de imagens sem a necessidade de componentes adicionais.</p>
+
+            <section id="video-tutorial">
+                <h2>Vídeo Tutorial</h2>
+                <p>Assista abaixo à demonstração do ImageList com múltiplos dimensionamentos:</p>
+                <div class="video-cta">
+                    <p>ImageList no Lazarus</p>
+                    <a href="https://www.youtube.com/watch?v=lepvfSR9q-o" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+                </div>
+            </section>
+
+            <h3>Centralizando com DataModules</h3>
+            <p>Uma boa prática de arquitetura é não poluir seus formulários com repositórios de imagens. Em vez disso, utilize um <strong>DataModule</strong>. Ele possui um <em>footprint</em> menor de recursos e permite que as imagens sejam compartilhadas por toda a aplicação, facilitando a manutenção.</p>
+
+            <div class="img-placeholder">
+                <img src="assets/img/lazarus_datamodule_new1.png" alt="Criando um datamodule para conter o ImageList">
+                <p><em>Criando um DataModule para hospedar recursos visuais</em></p>
+            </div>
+
+            <h3>Configurando Resoluções</h3>
+            <p>Ao arrastar um ImageList para o DataModule, configure o tamanho máximo (ex: 64x64). Todas as imagens depositadas poderão ser redimensionadas para resoluções menores (48x48, 32x32, etc), mas nunca maiores que o definido inicialmente.</p>
+
+            <div class="img-placeholder">
+
+                <img src="assets/img/lazarus_imagelist1.png" alt="Configuração inicial do ImageList">
+                <p><em>Defina a largura e altura máxima com atenção</em></p>
+            </div>
+
+            <h3>Incluindo Imagens e Novas Resoluções</h3>
+            <p>Através do <strong>ImageList Editor</strong>, você adiciona suas imagens base. O diferencial do Lazarus está no botão <strong>New resolutions</strong>, onde você pode informar resoluções proporcionais que serão geradas automaticamente pelo componente.</p>
+
+            <div class="img-placeholder">
+                <video controls style="max-width: 100%; border-radius: 8px;">
+                    <source src="https://gladiston.net.br/wp-content/uploads/2022/01/lazarus_imagelist_add1.mp4" type="video/mp4">
+                    Seu navegador não suporta vídeos.
+                </video>
+                <p><em>Adicionando imagens na resolução base</em></p>
+            </div>
+
+            <div class="img-placeholder">
+                <video controls style="max-width: 100%; border-radius: 8px;">
+                    <source src="https://gladiston.net.br/wp-content/uploads/2022/01/lazarus_imagelist_resolutions1.mp4" type="video/mp4">
+                </video>
+                <p><em>Gerando resoluções proporcionais (48, 32, 24, 16)</em></p>
+            </div>
+
+            <h3>Aplicando nos Componentes Visuais</h3>
+            <p>Para usufruir das imagens, associe a propriedade <code>Images</code> do seu botão ou menu ao ImageList do DataModule (lembre-se de usar Alt+F11 para incluir a unit no uses). O segredo para mudar o tamanho visual é ajustar a propriedade <strong>ImageWidth</strong>.</p>
+
+            <div class="img-placeholder">
+                <video controls style="max-width: 100%; border-radius: 8px;">
+                    <source src="https://gladiston.net.br/wp-content/uploads/2022/01/lazarus_imagelist_resolutions_components1.mp4" type="video/mp4">
+                </video>
+                <p><em>Demonstração do uso das propriedades ImageWidth e ImageIndex</em></p>
+            </div>
+
+            <h2>Conclusão</h2>
+            <p>O uso estratégico do <code>TImageList</code> no Lazarus simplifica drasticamente a gestão de ícones em aplicações modernas, especialmente em cenários com diferentes densidades de tela. Ao centralizar suas imagens em um DataModule e configurar múltiplas resoluções, você garante que sua interface permaneça nítida e profissional, independentemente do tamanho dos componentes. Lembre-se que o formato PNG é geralmente superior para manter a qualidade, mas o Bitmap continua sendo o padrão de compatibilidade para componentes de terceiros e relatórios.</p>
+
+            <div style="background: var(--cinza-fundo); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+                <p><strong>Exemplos de Código:</strong></p>
+                <p>Você pode baixar os projetos de demonstração usados neste guia no repositório oficial:</p>
+                <a href="https://github.com/gladiston/lazdemos_gsl" target="_blank" style="color: var(--azul-principal); font-weight: bold;">Repositório GitHub - lazdemos_gsl</a>
+            </div>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

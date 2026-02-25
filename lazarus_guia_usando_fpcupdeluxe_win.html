@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando como instalador o fpcupdeluxe (nível médio) - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Usando como instalador o fpcupdeluxe (nível médio)</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>O <strong>fpcupdeluxe</strong> é uma ferramenta alternativa para instalação do Lazarus e Free Pascal Compiler (FPC) no Windows. Diferente do instalador oficial, o fpcupdeluxe oferece maior controle sobre o processo de instalação e compilação, permitindo uma <strong>instalação homeuser</strong> sem necessidade de permissões de administrador. O programa compila o FPC e o Lazarus otimizados especificamente para o seu processador, resultando em melhor performance.</p>
+
+            <p>Este método é recomendado para usuários que desejam mais controle sobre a instalação, precisam de versões específicas do compilador ou preferem uma instalação portável que não modifica o sistema operacional.</p>
+
+            <p>Visite a página de releases:</p>
+            <p><a href="https://github.com/LongDirtyAnimAlf/fpcupdeluxe/releases" target="_blank" rel="noreferrer noopener">https://github.com/LongDirtyAnimAlf/fpcupdeluxe/releases</a></p>
+
+            <div class="img-container">
+                <img src="assets/img/instalacao_windows_fpcupdeluge1.png" alt="Releases fpcupdeluxe">
+            </div>
+
+            <p><strong>Passo #1:</strong> Execute o <code>fpcupdeluxe.exe</code>. Aceite a telemetria se desejar ajudar os desenvolvedores.</p>
+
+            <div class="img-container">
+                <img src="assets/img/instalacao_windows_fpcupdeluge2.png" alt="Aviso Telemetria">
+            </div>
+
+            <p><strong>Passo #2:</strong> Selecione a versão <strong>fixes</strong> para FPC e Lazarus e clique em <strong>Install/update FPC+Laz</strong>.</p>
+
+            <div class="img-container">
+                <img src="assets/img/instalacao_windows_fpcupdeluge3.png" alt="Configuração de Versões">
+            </div>
+
+            <p><strong>Passo #3 (Opcional):</strong> No botão <strong>Setup+</strong>, defina critérios como o alvo das compilações.</p>
+
+            <div class="img-container">
+                <img src="assets/img/instalacao_windows_fpcupdeluge4.png" alt="Opções Setup+">
+            </div>
+
+            <h2>Configuração Importante</h2>
+            <p>Use sempre o atalho <strong>Lazarus_fpcupdeluxe</strong>, pois ele contém o parâmetro essencial <code>--pcp</code>:</p>
+            <pre><code>--pcp=C:\pasta\de\instalacao\do\lazarus\configs</code></pre>
+
+            <p>Este parâmetro garante que o Lazarus use a configuração correta da instalação do fpcupdeluxe, evitando conflitos com outras instalações do Lazarus que possam estar no sistema.</p>
+
+            <h2>Vantagens do fpcupdeluxe</h2>
+            <p>Algumas vantagens de usar o fpcupdeluxe incluem:</p>
+            <ul>
+                <li><strong>Instalação portável:</strong> Não requer permissões de administrador e pode ser instalado em qualquer diretório</li>
+                <li><strong>Compilação otimizada:</strong> O FPC e Lazarus são compilados especificamente para o seu processador</li>
+                <li><strong>Múltiplas versões:</strong> Permite instalar e gerenciar múltiplas versões do FPC e Lazarus simultaneamente</li>
+                <li><strong>Controle total:</strong> Você escolhe exatamente quais componentes e versões instalar</li>
+                <li><strong>Atualizações fáceis:</strong> Atualizar para versões mais recentes é simples através da interface do programa</li>
+            </ul>
+
+            <h2>Conclusão</h2>
+            <p>O fpcupdeluxe é uma excelente alternativa ao instalador oficial, especialmente para desenvolvedores que precisam de mais controle sobre o ambiente de desenvolvimento ou que trabalham com múltiplas versões do Lazarus e FPC. A instalação homeuser elimina a necessidade de permissões administrativas, tornando o processo mais simples e seguro.</p>
+
+            <p>Se você está começando com o Lazarus, pode preferir o <a href="lazarus_guia_instalador_oficial_win.html">instalador oficial</a> por ser mais direto. Porém, se você já tem experiência ou precisa de funcionalidades específicas, o fpcupdeluxe oferece a flexibilidade necessária para um ambiente de desenvolvimento profissional.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

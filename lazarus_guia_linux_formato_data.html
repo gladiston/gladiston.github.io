@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formato de data dentro do programa - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Introdução</h2>
+            <p>A portabilidade de código entre Windows e Linux exige atenção especial à forma como o sistema operacional trata as variáveis regionais. O Lazarus, de forma nativa, tenta herdar as configurações de localidade (Locale) do sistema, mas essa herança pode resultar em erros inesperados, como falhas de parsing ou exibições de data em formatos não previstos, especialmente em ambientes Linux com distribuições variadas.</p>
+            <p>Neste guia, aprenderemos como fixar programaticamente o formato de data e moeda para garantir consistência visual e lógica, independentemente da configuração do usuário.</p>
+
+            <h2>Gerenciamento do Formato de Data em Aplicações Lazarus</h2>
+
+            <h3>O Problema da Localização Automática</h3>
+            <p>Ao utilizar funções como <code>DateToStr</code>, o programa consulta as configurações do sistema. No Windows, o ambiente costuma ser padronizado para o português do Brasil. No Linux, entretanto, ambientes como o GNOME (versão 41 em diante) podem tratar a localização de forma diferente, alterando separadores e nomes de meses, o que pode causar erros em operações de string.</p>
+
+            <h3>Solução: Definindo DefaultFormatSettings</h3>
+            <p>Uma forma definitiva de resolver este problema é forçar as instruções de formatação na seção <code>initialization</code> da sua unit principal. Isso garante que, assim que o programa for carregado na memória, os padrões brasileiros sejam aplicados.</p>
+
+            <pre><code>initialization
+  DefaultFormatSettings.DateSeparator := '/';
+  DefaultFormatSettings.ShortDateFormat := 'DD/MM/YYYY';
+  DefaultFormatSettings.LongDateFormat := 'dd" "mmmm" "yyyy';
+  DefaultFormatSettings.CurrencyString := 'R$';
+  DefaultFormatSettings.DecimalSeparator := ',';
+
+  // Nome dos meses abreviados
+  DefaultFormatSettings.ShortMonthNames[1] := 'Jan';
+  DefaultFormatSettings.ShortMonthNames[2] := 'Fev';
+  DefaultFormatSettings.ShortMonthNames[3] := 'Mar';
+  DefaultFormatSettings.ShortMonthNames[4] := 'Abr';
+  DefaultFormatSettings.ShortMonthNames[5] := 'Mai';
+  DefaultFormatSettings.ShortMonthNames[6] := 'Jun';
+  DefaultFormatSettings.ShortMonthNames[7] := 'Jul';
+  DefaultFormatSettings.ShortMonthNames[8] := 'Ago';
+  DefaultFormatSettings.ShortMonthNames[9] := 'Set';
+  DefaultFormatSettings.ShortMonthNames[10] := 'Out';
+  DefaultFormatSettings.ShortMonthNames[11] := 'Nov';
+  DefaultFormatSettings.ShortMonthNames[12] := 'Dez';
+
+  // Nome dos dias da semana
+  DefaultFormatSettings.LongDayNames[1] := 'Domingo';
+  DefaultFormatSettings.LongDayNames[2] := 'Segunda';
+  DefaultFormatSettings.LongDayNames[3] := 'Terça';
+  DefaultFormatSettings.LongDayNames[4] := 'Quarta';
+  DefaultFormatSettings.LongDaySettings[5] := 'Quinta';
+  DefaultFormatSettings.LongDayNames[6] := 'Sexta';
+  DefaultFormatSettings.LongDayNames[7] := 'Sábado';</code></pre>
+
+            <h3>Boas Práticas e Internacionalização</h3>
+            <p>Se o seu software for destinado ao mercado global, a técnica acima deve ser adaptada. Recomendo criar um formulário de configurações ou carregar estas variáveis de um arquivo <code>.ini</code> ou <code>.json</code> baseado na preferência do usuário ou no país detectado.</p>
+
+            <p>Em ambientes Linux, quando o software é distribuído via terminal, é importante garantir que o binário tenha as permissões corretas para ler arquivos de configuração localizados na mesma pasta:</p>
+            <pre><code>chmod +x meu_programa
+./meu_programa</code></pre>
+
+            <div style="border: 2px solid #1a5276; padding: 20px; border-radius: 8px; text-align: center; margin: 2rem 0;">
+                <p><strong>Dica Técnica:</strong> Para entender mais sobre como o Free Pascal lida com variáveis de ambiente e parâmetros de sistema no Linux, veja nosso guia completo.</p>
+                <a href="lazarus_guia_parametros_entrada.html" style="background: #1a5276; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 10px;">
+                    ▶ Ver Guia de Parâmetros
+                </a>
+            </div>
+
+            <section class="conclusao">
+                <h3>Conclusão</h3>
+                <p>Fixar o formato de data e moeda via código é uma estratégia de "sobrevivência" essencial para desenvolvedores Lazarus que buscam o mercado multiplataforma. Ao assumir o controle das <code>DefaultFormatSettings</code>, você elimina uma das fontes mais comuns de bugs em ambientes Linux, garantindo que seu aplicativo se comporte exatamente da mesma forma em qualquer desktop, do Windows ao GNOME ou KDE.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

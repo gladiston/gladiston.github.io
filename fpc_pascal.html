@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Poder do FPC - Free Pascal & Lazarus - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1 style="font-size: 1.6rem; color: #ffffff;">O Poder do FPC – Free Pascal & Lazarus</h1>
+                <p style="font-size: 1rem; color: #ffffff;">Desenvolvimento nativo, multiplataforma e de alta performance com Object Pascal.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="linux.html">Linux</a></li>
+            <li><a href="pascal.html">Pascal</a></li>
+            <li><a href="python.html">Python</a></li>
+            <li><a href="bash.html">Bash</a></li>
+            <li><a href="sgbd.html">Banco de dados</a></li>
+            <li><a href="sobre-mim.html">Sobre mim</a></li>
+            <li><a href="contato.html">Contato</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>O Poder do FPC</h2>
+            <p>O Free Pascal (FPC) é um compilador maduro, capaz de gerar binários extremamente rápidos para diversas arquiteturas. Combinado com a IDE Lazarus, oferece uma alternativa robusta e Open Source ao Delphi, mantendo a compatibilidade e a facilidade de uso do RAD (Rapid Application Development).</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin-top: 3rem;">
+                <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Instalação e Build</h3>
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li style="margin-bottom: 0.8rem;">Compilação a partir dos fontes para versões específicas.</li>
+                            <li style="margin-bottom: 0.8rem;">Uso do fpcupdeluxe para gestão de múltiplas instâncias.</li>
+                            <li style="margin-bottom: 0.8rem;">Instalação via GIT para acompanhar o branch trunk.</li>
+                            <li style="margin-bottom: 0.8rem;">Cross-compilation entre Windows e Linux.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Desenvolvimento</h3>
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li style="margin-bottom: 0.8rem;">Interfaces gráficas complexas com LCL.</li>
+                            <li style="margin-bottom: 0.8rem;">Desenvolvimento de daemons e serviços de console.</li>
+                            <li style="margin-bottom: 0.8rem;">Otimização de diretivas de compilação.</li>
+                            <li style="margin-bottom: 0.8rem;">Integração com bibliotecas externas.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Conectividade</h3>
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li style="margin-bottom: 0.8rem;">Uso da ZeosLib para bases de dados relacionais.</li>
+                            <li style="margin-bottom: 0.8rem;">Implementação de protocolos (Indy, lNet).</li>
+                            <li style="margin-bottom: 0.8rem;">Manipulação de JSON e APIs REST.</li>
+                            <li style="margin-bottom: 0.8rem;">Relatórios nativos (FortesReport, LazReport).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Guia de Sobrevivência</h3>
+                        <p style="font-size: 1rem;">Um compêndio completo para quem quer dominar a IDE, desde a instalação até técnicas avançadas de produtividade e depuração.</p>
+                    </div>
+                    <a href="lazarus_guia.html" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; align-self: flex-start; font-weight: 600; margin-top: 1rem;">Acessar o Guia &rarr;</a>
+                </div>
+            </div>
+
+            <section style="background: #f0f7ff; padding: 2rem; border-radius: 12px; border-left: 5px solid var(--azul-principal); margin-top: 2rem;">
+                <p style="margin-bottom: 0;"><strong>Dica de Sysadmin:</strong> O Lazarus é excelente para criar ferramentas de administração de servidores com interface gráfica leve que rodam via X11 tunneling, facilitando a gestão remota em ambientes Linux.</p>
+            </section>
+
+            <p style="margin-top: 2rem;"><a href="pascal.html" style="color: var(--azul-principal); font-weight: 600; text-decoration: none;">&larr; Voltar para Pascal</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

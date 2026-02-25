@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refatoração de código usando a IDE - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1 style="font-size: 1.6rem; color: #ffffff;">Refatoração de código na IDE</h1>
+                <p style="font-size: 1rem; color: #ffffff;">Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>O que é Refatoração?</h2>
+                <p>Refatorar significa melhorar a estrutura interna de um código sem alterar seu comportamento externo. Um dos aspectos mais valorizados em um software profissional é a ausência de redundâncias. Se há código repetido, há uma oportunidade de refatoração.</p>
+                <p>O objetivo é quebrar trechos grandes em pedaços menores e reutilizáveis, como procedimentos, funções ou, no caso do Pascal, subprocedimentos locais.</p>
+            </section>
+
+            <section id="exemplo-pratico">
+                <h2>Exemplo de Código Redundante</h2>
+                <p>Imagine o código de um botão que simplesmente exibe uma caixa de diálogo personalizada:</p>
+
+                <pre class="wp-block-code"><code>var  ACaption, ATitle, AText, AButtonText1, AButtonText2: String;  AResult: TModalResult;
+begin
+  AResult := mrNone;
+  ACaption := 'Ser ou não ser';
+  ATitle := 'Eis a questão:';
+  // ... configuração do TTaskDialog ...
+end;</code></pre>
+
+
+                <img src="assets/img/refatorar1.png" alt="Exemplo de diálogo no Lazarus" style="display: block; margin: 1.5rem auto; max-width: 100%;">
+            </section>
+
+            <section id="metodo-funcao">
+                <h2>1. Refatorando para um Método ou Função</h2>
+                <p>Se você precisar usar esse mesmo diálogo em outro botão, a tendência é copiar e colar (Ctrl+C / Ctrl+V). Isso cria um problema de manutenção. Para resolver isso usando a IDE:</p>
+
+                <ol>
+                    <li>Marque o trecho de código repetido no editor.</li>
+                    <li>Vá ao menu: <strong>Source | Refactoring | Extract Procedure...</strong></li>
+                    <li>Escolha o nome do novo método (ex: <code>PerguntarDlg</code>) e o escopo (Private ou Public).</li>
+                </ol>
+
+                <img src="assets/img/refatorar2.png" alt="Selecionando código para refatoração" style="display: block; margin: 1.5rem auto; max-width: 100%;">
+                <img src="assets/img/refatorar3b.png" alt="Diálogo de extração de procedimento" style="display: block; margin: 1.5rem auto; max-width: 100%;">
+
+                <p>A IDE criará automaticamente a assinatura do método e substituirá o código original pela chamada da nova função.</p>
+            </section>
+
+            <section id="subprocedimento">
+                <h2>2. Refatorando para Subprocedimento Local</h2>
+                <p>Às vezes, a repetição acontece dentro de uma mesma função (ex: liberar memória de objetos locais). Para esses casos, podemos usar o <strong>Sub Procedure</strong>.</p>
+
+                <img src="assets/img/refatorar7.png" alt="Linhas repetidas localmente" style="display: block; margin: 1.5rem auto; max-width: 100%;">
+
+                <p>Ao selecionar a opção <strong>Sub Procedure</strong> na extração, a IDE cria um procedimento dentro do bloco <code>procedure</code> atual, permitindo que objetos locais (como queries) sejam manipulados sem expor esse código ao resto da classe.</p>
+
+                <img src="assets/img/refatorar8.png" alt="Extraindo Sub Procedure" style="display: block; margin: 1.5rem auto; max-width: 100%;">
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>Manter um código limpo (Clean Code) é um investimento que se paga na primeira manutenção que você precisar fazer. O uso das ferramentas de refatoração do Lazarus economiza tempo e evita erros manuais de digitação ao extrair lógica para novos métodos.</p>
+                <p>Sempre que finalizar uma funcionalidade, reserve alguns minutos para revisar o código e aplicar essas técnicas. Seu "eu do futuro" agradecerá pela legibilidade e facilidade de depuração.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lidando com parâmetros de entrada em seu aplicativo - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Introdução</h2>
+            <p>Ao desenvolver utilitários de linha de comando ou aplicativos de suporte, a capacidade de interpretar argumentos externos é vital. Seja para indicar verbosidade com um sinalizador como <code>verbose</code> ou definir caminhos de arquivos como <code>import=entrada.log</code>, saber capturar esses dados corretamente garante que seu software seja integrável a scripts e automações complexas.</p>
+            <p>Neste guia, exploraremos métodos eficientes para detectar e validar parâmetros no Delphi e Lazarus, garantindo manutenibilidade e profissionalismo ao seu código.</p>
+
+            <h2>Lidando com parâmetros de entrada em seu aplicativo</h2>
+
+            <h3>Onde verificar ou ler os parâmetros informados?</h3>
+            <p>O melhor lugar para ler os parâmetros de entrada é logo nas primeiras linhas de execução para que os mesmos possam ser usados antes do processo iniciar-se. No Delphi e no Lazarus, o ponto mais estrito seria o arquivo de Projeto (.dpr ou .lpr), mas muitos preferem fazê-lo no <code>OnCreate</code> do primeiro formulário.</p>
+
+            <h3>Os parâmetros são obrigatórios ou opcionais?</h3>
+            <p>Muitos programadores criam utilitários que servem de apoio a um programa principal. O aplicativo principal chama esses utilitários via linha de comando para tratar funcionalidades específicas, como processamento de logs. Para isso, é preciso determinar o que é essencial para a execução.</p>
+
+            <pre><code>// Exemplo de validação de parâmetros obrigatórios
+var
+  ErrorMsg: String;
+  sParam: String;
+  iParamCount: Cardinal;
+  bHasImport, bHasExport: Boolean;
+  i: Integer;
+begin
+  iParamCount := ParamCount;
+  bHasImport := false;
+  bHasExport := false;
+  ErrorMsg := '';
+
+  if iParamCount = 0 then
+    ErrorMsg := 'Não há parâmetros'
+  else
+  begin
+    for i := 1 to iParamCount do
+    begin
+      sParam := ParamStr(i);
+      if ContainsText(sParam, 'import=') then bHasImport := true;
+      if ContainsText(sParam, 'export=') then bHasExport := true;
+    end;
+
+    if (ErrorMsg = '') and (not bHasImport) then
+      ErrorMsg := 'Falta o parametro import=(...)';
+  end;
+
+  if ErrorMsg <> '' then
+  begin
+    writeln(stderr, ErrorMsg);
+    Sleep(5000);
+    Halt(2); // Indica falha ao chamador
+  end;
+end;</code></pre>
+
+            <h3>Lendo, validando e processando</h3>
+            <p>O uso de <code>TStringList</code> facilita muito a gestão de pares "chave=valor". Ao carregar os parâmetros em uma lista, podemos usar métodos como <code>IndexOfName</code> e <code>Values</code> para acessar os dados de forma elegante.</p>
+
+            <h3>Criando utilitários no Linux e Windows</h3>
+            <p>Se estiver usando Lazarus/FPC, tome cuidado com dependências de ambiente gráfico. Para criar utilitários puros, vá em <strong>Project Options -> Compiler Options -> Config and Target</strong> e mude o <strong>LCL widgetset</strong> para <strong>nogui</strong>.</p>
+
+            <p>No Linux, após compilar seu utilitário, lembre-se de definir as permissões antes da execução:</p>
+            <pre><code>chmod +x meuutilitario
+./meuutilitario import=entrada.log export=saida.csv</code></pre>
+
+            <div class="img-placeholder">
+                <img src="assets/img/lazarus_nogui2.png" alt="Configuração de Widgetset para NOGUI no Lazarus">
+            </div>
+
+            <h3>Ecoando mensagens no terminal</h3>
+            <p>No Windows, para que as mensagens de <code>WriteLn</code> apareçam no console sem abandonar a IDE durante o desenvolvimento, desligue a opção <strong>Win32 gui application (-WG)</strong> nas opções do compilador.</p>
+
+            <div class="img-placeholder">
+                <img src="assets/img/lazaus_ide_Win32_gui_aplications.png" alt="Configuração de Win32 GUI Application">
+            </div>
+
+            <div style="border: 2px solid #1a5276; padding: 20px; border-radius: 8px; text-align: center; margin: 2rem 0;">
+                <p><strong>Aprofunde seu conhecimento:</strong> Assista a uma demonstração prática sobre o uso da unit CustApp para simplificar parâmetros.</p>
+                <a href="https://github.com/gladiston/lazdemos_gsl" target="_blank" style="background: #1a5276; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 10px;">
+                    ▶ Ver Código e Demos no GitHub
+                </a>
+            </div>
+
+            <section class="conclusao">
+                <h3>Conclusão</h3>
+                <p>Dominar o tratamento de parâmetros de entrada transforma scripts simples em ferramentas profissionais e robustas. Ao implementar validações rigorosas e garantir que seu utilitário comunique erros via <code>Exit Codes</code>, você facilita a integração com sistemas de terceiros e automações de infraestrutura, seja no Windows ou no Linux.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

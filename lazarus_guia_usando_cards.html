@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migrando de DBGrid para Cards - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Migrando de DBGrid para Cards: Modernizando o Visual no Lazarus</h2>
+
+            <h2>Introdução</h2>
+            <p>O <code>TDBGrid</code> é o herói cansado do ecossistema Pascal. Ele nos serviu bem por décadas, mas
+                sejamos sinceros: ele tem aquele "cheiro" de aplicação dos anos 90, com cara de planilha de Excel
+                antiga. Em um mundo onde o usuário está acostumado com interfaces fluidas e intuitivas, o DBGrid pode
+                parecer burocrático e confuso quando a densidade de informação é alta.</p>
+
+            <p>Os <strong>Cards</strong> (cartões) são a evolução natural. Eles agrupam informações relacionadas em
+                blocos visuais únicos, facilitando a leitura e permitindo designs que se adaptam muito melhor a
+                diferentes resoluções de tela.</p>
+
+            <p><strong>Nota técnica:</strong> Para este guia, utilizaremos nomes de componentes genéricos como
+                <code>TQuery</code> e <code>TMemTable</code>. Entretanto, o princípio de migração e a lógica de
+                construção são os mesmos para qualquer outra suíte de acesso, seja o <strong>SQLdb</strong> (nativo do
+                Lazarus), <strong>Zeos</strong> (popular no Lazarus e Delphi), <strong>FireDAC</strong> (exclusivo do
+                Delphi e limitado conforme a licença), <strong>UniDAC</strong> ou qualquer outra que você utilize.
+            </p>
+
+
+            <div class="img-placeholder">
+                <img src="assets/img/lazarus_guia_usando_cards01.png" alt="Exemplo de DBGrid clássico"
+                    style="max-width: 100%; border-radius: 8px;">
+                <p><em>Nosso ponto de partida: um DBGrid funcional, mas visualmente saturado.</em></p>
+            </div>
+
+            <p>Note que na imagem acima o <code>TDBGrid</code> está sendo levado ao seu limite técnico: estamos usando
+                várias linhas de dados em uma única linha de grid, imagens, checkboxes e outros truques de modernização.
+                Chegar nesse resultado exige uma montanha de código nos eventos de desenho (como o
+                <code>OnDrawColumnCell</code>). É justamente por isso que muitos programadores evitam usar todo o
+                potencial do Grid: a manutenção torna-se um pesadelo. No decorrer deste guia, você verá como os Cards
+                simplificam essa programação e entregam um aspecto muito mais moderno com uma fração do esforço.
+            </p>
+
+            <h2>A Abordagem: Frames + FlowPanel</h2>
+            <p>Muitos desenvolvedores tentam criar "Cards" desenhando componentes diretamente em um painel comum.
+                <strong>Fuja disso!</strong> Fazer desta forma é assinar um contrato de pesadelo de manutenção. Se você
+                precisar mudar uma cor de fonte ou adicionar um botão em 50 cards criados manualmente, você vai se
+                arrepender amargamente depois de 6 meses.
+            </p>
+
+            <h3>O TFrame: O Coração da Manutenibilidade</h3>
+            <p>Se você nunca usou um <strong>TFrame</strong>, pense nele como um "mini formulário" onde você pode
+                ancorá-lo (termo técnico para "ser colado") dentro de outros formulários ou painéis
+                (<code>TPanel</code>). Diferente de um <code>TForm</code>, o Frame não é uma janela independente; é um
+                contêiner de componentes que você desenha uma vez e reutiliza quantas vezes quiser e onde quiser.</p>
+
+            <p><strong>Como criar um Frame no Lazarus:</strong></p>
+            <ol>
+                <li>Vá ao menu superior: <strong>File > New...</strong></li>
+                <li>Na árvore de opções, escolha <strong>Module</strong> e selecione <strong>Frame</strong>.</li>
+                <li>O Lazarus abrirá uma área de design vazia. Salve-a como <code>ufrItemCard.pas</code> e dê o nome à
+                    classe de <code>TfrItemCard</code>.</li>
+                <li>Agora, desenhe o seu card lá dentro: coloque Labels para o título, imagens para o produto e as
+                    ações.</li>
+            </ol>
+
+            <h3>Design Responsivo no Card: Ancoragem Avançada</h3>
+            <p>Ao desenhar seu Card, saber usar alinhamento e ancoragem é vital. No Lazarus, temos a propriedade básica
+                <code>Anchors</code> (akTop, akLeft, etc.), mas para um layout verdadeiramente profissional e dinâmico,
+                você deve usar o <strong>Anchor Editor</strong>.
+            </p>
+
+            <div class="img-placeholder">
+                <img src="assets/img/lazarus_guia_usando_cards02.png" alt="Lazarus Anchor Editor"
+                    style="max-width: 100%; border-radius: 8px;">
+                <p><em>O Anchor Editor permite amarrar componentes entre si, criando layouts inteligentes.</em></p>
+            </div>
+
+            <p>Acesse-o em <strong>View > Anchor Editor</strong>. Ele vai muito além das âncoras simples: essa
+                ferramenta permite que você amarre um componente a outro objeto de referência. Por exemplo: você pode
+                configurar para que o <code>TEdit</code> edtDescricao fique sempre ancorado à borda inferior e à direita
+                do Label lblDescricao, mantendo uma distância fixa e, mesmo em tempo de design, se você arrastar o
+                TLabel, o TEdit virá junto.</p>
+
+            <p>Se abaixo do TEdit de descrição tiver um Label para "Saldo em estoque" alinhado com o edtDescricao, esse
+                será levado junto quando você arrastar o TLabel. Fica como no antigo jogo dos <strong>Lemmings</strong>:
+                ao arrastar um, você arrasta todo mundo que está amarrado na fila! Além disso, se um componente crescer
+                de altura em tempo de execução, os que estão abaixo se ajustam automaticamente. No início, você achará
+                esse tipo de alinhamento mais trabalhoso de lidar, no entanto, com o passar do tempo verá que ele
+                economiza tempo na manutenção, deixa o design mais fluído e também evita que os componentes se
+                sobreponham, mantendo a integridade visual do card independentemente do tamanho do texto carregado.
+                Veja:</p>
+
+            <div class="video-container">
+                <video src="assets/videos/lazarus_guia_usando_cards03.mp4" autoplay loop muted playsinline
+                    style="max-width: 100%; border-radius: 8px;"
+                    title="Demonstração de ancoragem usando o Anchor Editor"></video>
+            </div>
+
+            <h3>Dica Especial: Revelamento Progressivo (Progressive Disclosure)</h3>
+            <p>Às vezes, um card precisa mostrar muita informação, mas você não quer que ele ocupe a tela inteira por
+                padrão. A técnica para resolver isso pode envolver várias estratégias, dependendo do objetivo visual:
+            </p>
+
+            <h4>1. Alternância de Conteúdo com TPageControl</h4>
+            <p>Se você deseja trocar uma informação por outra no mesmo espaço (ex: alternar entre "Dados do Produto" e
+                "Histórico de Vendas"), use um <strong>TPageControl</strong> sem abas (<code>ShowTabs := False</code>).
+                Isso desliga uma informação e "liga" outra no mesmo card apenas mudando a <code>ActivePageIndex</code>
+                via código.</p>
+
+            <div class="video-container">
+                <video src="assets/videos/lazarus_guia_usando_cards04.mp4" autoplay loop muted playsinline
+                    style="max-width: 100%; border-radius: 8px;"
+                    title="Demonstração de Revelamento Progressivo com PageControl"></video>
+            </div>
+
+            <h4>2. Expansão Vertical (Efeito Accordion)</h4>
+            <p>Se a ideia é mostrar mais informações rolando para baixo, a técnica ideal é empilhar painéis
+                (<strong>TPanel</strong>) sem bordas dentro do Frame, todos com <code>Align := alTop</code>. Mantenha os
+                painéis de detalhes com <code>Visible := False</code> inicialmente. Quando o usuário clicar em um botão
+                de "Ver mais" (ícone ▼), alterne a visibilidade desses painéis.</p>
+
+            <div class="video-container">
+                <video src="assets/videos/lazarus_guia_usando_cards05.mp4" autoplay loop muted playsinline
+                    style="max-width: 100%; border-radius: 8px;"
+                    title="Demonstração de Expansão Vertical (Efeito Accordion)"></video>
+            </div>
+
+            <p>Como o Frame e o FlowPanel externo estão configurados com <code>AutoSize := True</code>, o Lazarus irá
+                reorganizar todos os outros cards automaticamente quando um deles "esticar" para revelar os detalhes. É
+                um efeito extremamente moderno e funcional.</p>
+
+            <h3>O TFlowPanel: O Organizador Automático</h3>
+
+            <p>O <strong>TFlowPanel</strong> é um componente de layout "inteligente". Ao contrário de um
+                <code>TPanel</code> comum, onde você solta um componente e ele fica numa posição fixa, o FlowPanel
+                organiza os seus filhos automaticamente em fila.
+            </p>
+
+            <p><strong>Como configurar o FlowPanel:</strong></p>
+            <ul>
+                <li>Localize-o na paleta de componentes (normalmente em <strong>Standard</strong> ou
+                    <strong>Additional</strong>).
+                </li>
+                <li>Coloque-o no formulário e defina a propriedade <code>Align</code> para <code>alTop</code>.</li>
+                <li><strong>O Pulo do Gato:</strong> Coloque o FlowPanel dentro de um <code>TScrollBox</code> (alClient)
+                    e defina <code>FlowPanel.AutoSize := True</code>. Isso garantirá que barras de rolagem apareçam
+                    automaticamente quando a lista de cards crescer!</li>
+            </ul>
+
+            <h3>Ações no Card: Do Ícone ao Menu</h3>
+            <p>Uma grande vantagem da migração é a limpeza da interface. Botões como "Editar" ou "Excluir" podem sair da
+                barra de ferramentas superior e ir direto para o Card. Para um ar de modernidade, troque os velhos
+                <code>TSpeedButton</code> por um <code>TComboBox</code> de ações.
+            </p>
+            <p>E não precisa ser obrigatoriamente um ComboBox; você também pode utilizar um <strong>TPopupMenu</strong>
+                vinculado a um ícone de "três pontinhos" ou até mesmo a um Label qualquer. Há muitos recursos visuais
+                que você poderá usar para economizar espaço e/ou melhorar significativamente o aspecto visual do card,
+                mantendo as opções de edição e exclusão acessíveis, mas discretas.</p>
+
+            <div class="video-container">
+                <video src="assets/videos/lazarus_guia_usando_cards06.mp4" autoplay loop muted playsinline
+                    style="max-width: 100%; border-radius: 8px;"
+                    title="Demonstração de menus de ação(TPopupMenu) num TLabel"></video>
+            </div>
+
+            <h3>Não tenha medo do unicode</h3>
+            <p>Diferente do Delphi, onde muitas vezes o editor vem configurado com o charset ANSI (especialmente em
+                versões mais antigas), o editor do Lazarus é puramente <strong>Unicode (UTF-8)</strong> por padrão. Isso
+                significa que você pode usar caracteres especiais diretamente no seu código-fonte e nas propriedades
+                dos componentes sem medo de "quebrar" o binário.</p>
+
+            <p>Veja como você pode usar labels para criar interfaces mais ricas sem precisar de arquivos de imagem
+                adicionais:</p>
+
+            <pre><code>procedure Tframe_RM_Item.lblMostrarMaisClick(Sender: TObject);
+begin
+  if ContainsText(lblMostrarMais.Caption,' mais ') then
+  begin
+    MyNextPanel.Visible:=true;
+    lblMostrarMais.Caption:='Mostrar menos informações ▲';
+  end
+  else
+  begin
+    MyNextPanel.Visible:=false;
+    lblMostrarMais.Caption:='Mostrar mais informações ▼';
+  end;
+end;</code></pre>
+
+            <p>Percebeu os caracteres <strong>▲</strong> e <strong>▼</strong>? Isso mesmo! Use eles e tantos outros que
+                conseguir. Evite poluir o seu projeto com arquivos de recursos (<code>.res</code>) ou imagens externas
+                quando sinais diacríticos, setas ou até mesmo emojis do Unicode estão disponíveis nativamente.</p>
+
+            <h3>Use efeitos de hyperlink nos Labels</h3>
+            <p>Podemos usar eventos nos labels para criar um efeito de hyperlink similar aos navegadores, tornando a
+                interface mais intuitiva para ações. Por exemplo, no evento <code>OnMouseEnter</code> (quando o mouse
+                passa por cima do label), você pode torná-lo azul, sublinhado e negrito. Veja este código genérico que
+                serve para qualquer <code>TLabel</code>:</p>
+
+            <pre><code>if (Sender is TLabel) then
+begin
+  with (Sender as TLabel) do
+  begin
+    Font.Style := Font.Style + [fsBold, fsUnderline];
+    Font.Color := clBlue;
+  end;
+end;</code></pre>
+
+            <p>E depois, use o evento <code>OnMouseLeave</code> (quando o mouse sai da área do label) para desfazer os
+                efeitos aplicados e retornar ao estado original:</p>
+
+            <pre><code>if (Sender is TLabel) then
+begin
+  with (Sender as TLabel) do
+  begin
+    Font.Style := Font.Style - [fsBold, fsUnderline];
+    Font.Color := clDefault;
+  end;
+end;</code></pre>
+            <p>Veja como fica o efeito de hyperlink em labels:</p>
+            <div class="video-container">
+                <video src="assets/videos/lazarus_guia_usando_cards04.mp4" autoplay loop muted playsinline
+                    style="max-width: 100%; border-radius: 8px;"
+                    title="Demonstração de efeito de hyperlink em labels"></video>
+            </div>
+
+            <h3>Comparativo de Manutenibilidade</h3>
+            <p>Para quem ainda tem dúvidas sobre qual caminho seguir, o quadro abaixo resume os ganhos reais de
+                produtividade e organização ao adotar o uso de Frames em conjunto com o FlowPanel. Não se trata apenas
+                de estética, mas de preparar seu projeto para o crescimento e para manutenções rápidas e seguras:</p>
+
+            <div class="table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Critério</th>
+                            <th>Sem Frames (Gambiarra)</th>
+                            <th>Com Frames + FlowPanel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Alterar Layout</strong></td>
+                            <td>Terror (mexer em cada item via código)</td>
+                            <td><strong>Fácil</strong> (muda apenas no Designer do Frame)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Depuração</strong></td>
+                            <td>Caótica (milhares de componentes soltos)</td>
+                            <td><strong>Organizada</strong> (lógica isolada no Frame)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Legibilidade</strong></td>
+                            <td>Baixa (Formulário principal gigante)</td>
+                            <td><strong>Alta</strong> (Código modular e limpo)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reutilização</strong></td>
+                            <td>Nula (precisa copiar e colar componentes e código)</td>
+                            <td><strong>Alta</strong> (o mesmo card serve para várias telas do sistema)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Consistência</strong></td>
+                            <td>Frágil (mudar um padrão visual exige alteração manual em cada item)</td>
+                            <td><strong>Total</strong> (mudou no "molde", mudou em todo o projeto)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Trabalho em Equipe</strong></td>
+                            <td>Difícil (gera muitos conflitos na Unit principal)</td>
+                            <td><strong>Paralelo</strong> (um mexe no Card, outro na lógica da tela principal)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Testabilidade</strong></td>
+                            <td>Complexa (lógica misturada com a tela e o banco)</td>
+                            <td><strong>Simplificada</strong> (você testa o Frame isoladamente)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>Exemplo de Fluxo de Trabalho (O Jeito Certo)</h2>
+
+            <h3>1. A Estratégia de Dados: Desacoplamento é a Chave</h3>
+            <p>Muitos programadores ainda caem na armadilha de usar o <strong>TQuery</strong> direto ou "espetar" os
+                componentes do Frame diretamente ao DataSet da consulta principal. Funciona? Sim, mas é a típica técnica
+                do "fazedor de telas" que não projeta para o futuro. Ao fazer essa ligação direta, você cria uma
+                dependência rígida: o seu Card passa a ser um escravo daquela consulta específica, tornando impossível
+                reutilizá-lo com dados vindos de outra origem.</p>
+
+            <p>Esse é o ponto crucial que separa os amadores dos arquitetos de software. Usar um
+                <strong>TMemTable</strong> ou carregar os dados para uma <code>TObjectList</code> é muito mais elegante.
+                Isso garante o <strong>desacoplamento</strong>: o seu Frame não precisa saber se os dados vêm de um
+                banco Firebird antigo, de um Postgres moderno ou de uma API JSON; ele apenas recebe os valores prontos e
+                os exibe.
+            </p>
+
+            <p>Vale lembrar que componentes como o <strong>TMemTable</strong> possuem métodos poderosos para clonar
+                outros datasets, seja apenas a estrutura ou a estrutura completa com os dados (como o
+                <code>CopyFromDataset</code>). Não é necessário — e nem produtivo — ficar populando registro a registro
+                via código manual; afinal, isso seria como estar no jardim de infância na escola de programação. Além
+                disso, ao usar memória, a atualização da tela torna-se instantânea, sem estressar a rede a cada refresh.
+            </p>
+
+            <h3>2. Implementando a Lógica Interna do Frame (usando Propriedades)</h3>
+            <p>Para um código profissional, a abordagem mais limpa e orientada a objetos é usar <strong>Propriedades
+                    (Properties)</strong> com <strong>getters</strong> e <strong>setters</strong> diretamente no Frame
+                para receber os dados que o Card precisa exibir. Isso
+                encapsula a lógica e permite que o Frame reaja instantaneamente quando um dado é alterado.</p>
+
+            <pre><code>{ TfrItemCard }
+type
+  TfrItemCard = class(TFrame)
+    lblDescricao: TLabel;
+    lblEstoque: TLabel;
+    // ... outros componentes visuais ...
+  private
+    FCodigo: Integer;
+    FDescricao: string;
+    FValor: Currency;
+    FEstoque: Double;
+    procedure SetCodigo(const AValue: Integer);
+    procedure SetDescricao(const AValue: string);
+    procedure SetValor(const AValue: Currency);
+    procedure SetEstoque(const AValue: Double);
+  public
+    property Codigo: Integer read FCodigo write SetCodigo;
+    property Descricao: string read FDescricao write SetDescricao;
+    property Valor: Currency read FValor write SetValor;
+    property Estoque: Double read FEstoque write SetEstoque;
+  end;
+
+implementation
+
+// O método setter (SetCodigo) pode atualizar um Label ou Edit
+procedure TfrItemCard.SetCodigo(const AValue: Integer);
+begin
+  if FCodigo = AValue then Exit;
+  FCodigo := AValue;
+  // Exemplo: edtCodigo.Text := IntToStr(FCodigo);
+  // ou lblCodigo.Caption := IntToStr(FCodigo);
+end;
+
+// O método setter (SetDescricao) atualiza o visual assim que a propriedade recebe um valor
+procedure TfrItemCard.SetDescricao(const AValue: string);
+begin
+  if FDescricao = AValue then Exit;
+  FDescricao := AValue;
+  lblDescricao.Caption := FDescricao;
+end;
+
+// O método setter (SetValor) atualiza o visual formatando a moeda
+procedure TfrItemCard.SetValor(const AValue: Currency);
+begin
+  if FValor = AValue then Exit;
+  FValor := AValue;
+  // Supondo que você tenha um TLabel ou TEdit para o valor
+  // Exemplo: edtValor.Text := FormatFloat('"R$ ",0.00', FValor);
+end;
+
+// O método setter (SetEstoque) injeta a regra de negócio visual
+procedure TfrItemCard.SetEstoque(const AValue: Double);
+begin
+  if FEstoque = AValue then Exit;
+  FEstoque := AValue;
+  
+  lblEstoque.Caption := 'Qtd: ' + FloatToStr(FEstoque);
+
+  // Lógica visual: Isolada e fácil de manter, executada automaticamente ao definir a propriedade!
+  if FEstoque <= 0 then
+  begin
+    lblEstoque.Font.Color := clRed;
+    lblEstoque.Font.Style := [fsBold];
+  end
+  else
+  begin
+    lblEstoque.Font.Color := clDefault;
+    lblEstoque.Font.Style := [];
+  end;
+end;</code></pre>
+
+            <h3>3. O Loop de Criação (No Formulário Principal)</h3>
+            <p>Com o Frame pronto e usando propriedades, percorremos os dados injetando o efeito Zebra. Note a
+                simplicidade em atribuir os valores diretamente às propriedades do Frame criado:</p>
+
+            <pre><code>
+procedure TFormPrincipal.CarregarCards;
+var
+  Card: TfrItemCard;
+begin
+  FlowPanel1.DisableAlign; // Performance: Bloqueia realinhamento durante o loop
+  try
+    qPesquisa.Open;
+
+    // Limpa cards existentes
+    while FlowPanel1.ControlCount > 0 do
+      FlowPanel1.Controls[0].Free;
+
+    qPesquisa.First;
+    while not qPesquisa.EOF do
+    begin
+      Card := TfrItemCard.Create(Self);
+      Card.Parent := FlowPanel1;
+      Card.Name := 'Card_' + qPesquisa.FieldByName('ID').AsString;
+
+      // Vincula um menu de ações global ao botão do card
+      Card.lblMostrar_Opcoes.PopupMenu := Menu_Acoes;
+
+      // EFEITO ZEBRA: Alternância de cores
+      if Odd(FlowPanel1.ControlCount) then
+        Card.Color := $E9EFF5
+      else
+        Card.Color := $F7F9FB;
+
+      // Se o card tiver um botão do estilo "Aplicar" para efetivar modificações    
+      // O botão no evento onclick deve ser assinalado para que o card saiba o que 
+      // fazer apenas para aquele card
+      //Card.btnAplicar.OnClick := Card.btnAplicarClick;
+
+      // Injeção de dados direta via Propriedades
+      Card.Codigo    := qPesquisa.FieldByName('ID').AsInteger;
+      Card.Descricao := qPesquisa.FieldByName('NOME').AsString;
+      Card.Estoque   := qPesquisa.FieldByName('SALDO').AsFloat;
+      Card.Valor     := qPesquisa.FieldByName('PRECO').AsCurrency;
+
+      qPesquisa.Next;
+    end;
+  finally
+    FlowPanel1.EnableAlign;
+    FlowPanel1.Realign;
+  end;
+end;
+</code></pre>
+
+            <p><strong>Dica de Arquitetura:</strong> Note que vinculamos o <code>PopupMenu</code> (ou qualquer outro
+                evento de botão) que tenha implicações nos dados — como consultas ou alterações — diretamente no loop de
+                criação. Isto é fundamental: a <strong>Tela Principal</strong> (que conhece o contexto do banco de
+                dados)
+                deve gerenciar as ações de negócio. Deixe para o <strong>Frame</strong> apenas os eventos de
+                interatividade puramente visual, como o <em>revelamento progressivo</em>, os <em>efeitos de
+                    hyperlink</em> ou animações internas.</p>
+
+            <p>Se você assinou um evento de clique para um botão do card (como o <code>btnAplicar</code> no exemplo
+                acima), você precisará saber de qual card veio o clique para obter os dados corretos. Você faz isso
+                fazendo um <em>cast</em> (conversão de tipo) do parâmetro <code>Sender</code> ou acessando o
+                <code>Parent</code> do botão clicado:
+            </p>
+
+            <pre><code>procedure TFormPrincipal.btnAplicarClick(Sender: TObject);
+var
+  CardClicado: TfrItemCard;
+  ComponenteAtual: TControl;
+begin
+  if not (Sender is TControl) then Exit; 
+
+  // O Parent do botão pode ser um Panel, um fluxo, ou o próprio Frame. 
+  // Precisamos subir na hierarquia até encontrar o Frame (TfrItemCard).
+  ComponenteAtual := TControl(Sender);
+  CardClicado := nil;
+
+  while Assigned(ComponenteAtual) do
+  begin
+    if ComponenteAtual is TfrItemCard then
+    begin
+      CardClicado := TfrItemCard(ComponenteAtual);
+      Break;
+    end;
+    ComponenteAtual := ComponenteAtual.Parent;
+  end;
+
+  if Assigned(CardClicado) then
+  begin
+    // Agora você tem acesso total ao Frame que disparou o evento!
+    // Exemplo: pegando o texto de um Label interno (embora menos recomendado):
+    ShowMessage('Você clicou em aplicar no produto: ' + CardClicado.lblDescricao.Caption);
+    
+    // O JEITO MAIS ELEGANTE: Acesse diretamente as propriedades que você criou no Frame!
+    // Ex: ProcessarVenda(CardClicado.Codigo, CardClicado.Valor);
+  end;
+end;</code></pre>
+
+            <h2>Dicas de "Pulo do Gato" no Lazarus</h2>
+            <ul>
+                <li><strong>Scroll Automático:</strong> Quando o FlowPanel está cheio de Frames, o foco pode ficar
+                    "preso" nos componentes internos. Para resolver, implemente o evento <code>OnMouseWheel</code> no
+                    seu Frame e repasse o comando para o ScrollBox pai:
+                    <pre><code>procedure TfrItemCard.FrameMouseWheel(Sender: TObject; Shift: TShiftState;
+  WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
+begin
+  // Repassa o movimento para o ScrollBox pai através do TFlowPanel
+  if (Parent is TFlowPanel) and (TFlowPanel(Parent).Parent is TScrollBox) then
+    TScrollBox(TFlowPanel(Parent).Parent).VertScrollBar.Position :=
+      TScrollBox(TFlowPanel(Parent).Parent).VertScrollBar.Position - WheelDelta;
+  Handled := True;
+end;</code></pre>
+                </li>
+                <li><strong>Constraints:</strong> No Frame, defina <code>Constraints.MinWidth</code> para impedir
+                    deformações visuais indesejadas.</li>
+                <li><strong>Eventos de Clique:</strong> Lembre-se que o usuário clica nos Labels. Reatribua o
+                    <code>OnClick</code> dos componentes internos para o evento do Painel principal do Frame para o card
+                    todo ser clicável.
+                </li>
+                <li><strong>Estilo Visual:</strong> Use a propriedade <code>BevelOuter</code> ou um <code>TShape</code>
+                    ao fundo para criar efeito de profundidade.</li>
+            </ul>
+
+            <h2>Como fica nosso exemplo?</h2>
+            <p>Ao aplicarmos todas as sugestões indicadas neste guia, nosso projeto se comportaria como mostrado no
+                vídeo abaixo:</p>
+
+            <div class="video-container">
+                <video src="assets/videos/lazarus_guia_usando_cards98.mp4" autoplay loop muted playsinline
+                    style="max-width: 100%; border-radius: 8px;"
+                    title="Exemplo prático com cards e botão Aplicar"></video>
+            </div>
+
+            <p>Note que neste exemplo, a alteração de cada card é <strong>individual</strong>. Para deixar isso claro,
+                criei um botão "Aplicar" que apenas se habilita quando algo é alterado no card; ao clicar nele, a
+                informação é gravada de forma indelével. Então, se você alterar dois ou mais cards simultaneamente apenas os "Aplicar" destes cards estarão ligados ou disponiveis.</p>
+            <p>Caso queira o exemplo completo para testar en seu próprio computador, poderá baixá-lo do repositório:
+                <a href="https://github.com/gladiston/lazdemos_gsl/tree/main/lazdemo_cards" target="_blank"
+                    rel="noopener noreferrer">lazdemo_cards no GitHub</a>.
+            </p>
+
+            <h2>O Resultado Final: Da Planilha Estática ao Design Fluído</h2>
+            <p>Compare agora o impacto visual. Aquele <code>TDBGrid</code> denso e limitado que vimos no início deu
+                lugar a uma interface baseada em cartões. Note que, mesmo mantendo uma estética limpa e sem bibliotecas
+                externas de terceiros, o ganho em clareza é imediato.</p>
+
+            <p>As informações que antes lutavam por espaço em colunas rígidas agora respiram em um layout hierárquico,
+                utilizando <strong>exibição progressiva</strong> para ocultar detalhes secundários e <strong>elementos
+                    visuais contextuais</strong> para destacar o que realmente importa. É a prova de que a robustez do
+                Pascal pode — e deve — caminhar junto com um design moderno e eficiente:</p>
+
+            <div class="video-container">
+                <video src="assets/videos/lazarus_guia_usando_cards99.mp4" autoplay loop muted playsinline
+                    style="max-width: 100%; border-radius: 8px;"
+                    title="Resultado final da conversão de DBGrid para cards"></video>
+            </div>
+
+            <p>Quando temos informações colunadas, isto é, um TEdit abaixo de cada TLabel e com repetição então é
+                possível comprimir ainda mais, basta criamos um cabeçalho usando <code>TLabels</code> no topo fora do
+                TFrame e
+                então colocar apenas as informações no TFrame sem os TLabels. Daí ficaria um card bem parecido ao DBGrid
+                inicial,
+                mas sem a complicação toda de programar os eventos OnDrawColumnCell, rolagens laterais, etc.</p>
+
+            <h2>Conclusão</h2>
+            <p>Abandonar o DBGrid não é apenas estética, é usabilidade profissional. Usando <strong>Frames e
+                    FlowPanels</strong>, você pode até entregar a aparência de um DBGrid mas sem a complexidade do
+                mesmo, além disso, entrega uma interface moderna sem sacrificar a robustez do Pascal. O seu "eu" daqui a
+                6 meses agradecerá por não ter feito uma gambiarra!</p>
+
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Projetos (Project Manager) - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Gerenciador de Projetos (Project Manager)</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>Por padrão, o Lazarus IDE abre apenas um projeto por vez, o que nem sempre é o ideal. Em alguns ambientes, é conveniente ter todos os projetos reunidos em um grupo para editar ou compilar o que for mais necessário de forma ágil. Por exemplo, você pode abrir todos os projetos de um grupo e compilá-los em um único movimento.</p>
+
+            <p>Se você deseja essa funcionalidade, vá em <strong>Package | Install/Uninstall Packages</strong> e instale o pacote <strong>"lazprojectgroups"</strong>:</p>
+
+            <div class="img-container">
+                <img src="assets/img/pacote_project_manager1.png" alt="Instalação do pacote lazprojectgroups">
+            </div>
+
+            <p>Após adicionar o pacote, clique em <strong>"Salvar e reconstruir IDE"</strong>. Depois de reiniciar o Lazarus, você encontrará as opções no menu:</p>
+            <ul>
+                <li><strong>Project | New project group</strong>: Para criar um novo grupo.</li>
+                <li><strong>Project | Open project group</strong>: Para abrir um grupo existente.</li>
+            </ul>
+
+            <p>Você pode docar o gerenciador em um painel lateral para deixá-lo permanentemente visível em sua área de trabalho.</p>
+
+            <h2>Vantagens do Gerenciador de Projetos</h2>
+
+            <p>O Project Manager oferece várias vantagens para desenvolvedores que trabalham com múltiplos projetos:</p>
+
+            <ul>
+                <li><strong>Organização eficiente:</strong> Agrupe projetos relacionados em um único local para fácil acesso</li>
+                <li><strong>Compilação em lote:</strong> Compile todos os projetos de um grupo com um único comando</li>
+                <li><strong>Navegação rápida:</strong> Alterne entre projetos relacionados sem precisar abrir e fechar arquivos manualmente</li>
+                <li><strong>Gerenciamento de dependências:</strong> Visualize e gerencie as relações entre projetos do grupo</li>
+                <li><strong>Produtividade aumentada:</strong> Reduza o tempo gasto abrindo e fechando projetos individualmente</li>
+            </ul>
+
+            <p>Para aprender o básico de sua utilização, leia o artigo: <a href="usando-grupo-projetos.html"><strong>Usando grupo de projetos</strong></a>.</p>
+
+            <h2>Vídeo Demonstrativo</h2>
+            <p>Confira o funcionamento do gerenciador de projetos neste vídeo:</p>
+            <div class="video-cta" style="background: #f1f1f1; border: 2px dashed #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600; color: #333;">Aprenda a usar o gerenciador de projetos na prática:</p>
+                <a href="https://www.youtube.com/watch?v=11PS7W3lNYk" target="_blank" class="btn-link" style="background-color: #c4302b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Assistir: Produtividade com IDE Lazarus: Usando grupo de projetos
+                </a>
+            </div>
+
+            <h2>Conclusão</h2>
+
+            <p>O Gerenciador de Projetos (Project Manager) é uma ferramenta essencial para desenvolvedores que trabalham com múltiplos projetos relacionados. Embora o Lazarus abra apenas um projeto por vez por padrão, a instalação do pacote <strong>lazprojectgroups</strong> adiciona funcionalidades poderosas que transformam significativamente o fluxo de trabalho.</p>
+
+            <p>A capacidade de agrupar projetos, compilá-los em lote e navegar rapidamente entre eles não apenas aumenta a produtividade, mas também melhora a organização do trabalho. Para desenvolvedores que mantêm bibliotecas, aplicações relacionadas ou projetos que compartilham código, o Project Manager é praticamente indispensável.</p>
+
+            <p>A instalação é simples: basta adicionar o pacote através do menu <strong>Package | Install/Uninstall Packages</strong>, salvar e reconstruir a IDE. Uma vez instalado, você terá acesso às opções de criar e abrir grupos de projetos através do menu <strong>Project</strong>, e poderá docar o gerenciador em um painel lateral para acesso permanente.</p>
+
+            <p>Se você ainda não experimentou essa funcionalidade, considere instalá-la. Mesmo que inicialmente você trabalhe com projetos isolados, à medida que seus projetos crescem e se relacionam, você descobrirá que o Project Manager se torna uma ferramenta valiosa no seu conjunto de recursos de desenvolvimento.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

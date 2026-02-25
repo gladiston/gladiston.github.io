@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atalhos úteis - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <section id="introducao">
+                <h2>Atalhos úteis</h2>
+                <p>Todo sistema ou programa tem seus atalhos considerados úteis, no Lazarus IDE não é diferente. Os atalhos para o Delphi são praticamente os mesmos para o Lazarus IDE. Mas há algumas diferenças, <strong>Ctrl+Shift+N</strong> é um deles.</p>
+                <p>Se deseja ser produtivo com o Lazarus é bom aprendê-los. Há alguns atalhos que considero essenciais para sobreviver com o Lazarus:</p>
+            </section>
+
+            <section id="atalhos-ide">
+                <h3>Produtividade e IDE</h3>
+                <div class="shortcut-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin: 1.5rem 0;">
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <code style="color: #e22658; font-weight: bold; font-size: 1.1rem;">F11</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Invoca o <strong>editor de propriedades</strong> (Object Inspector).</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <code style="color: #e22658; font-weight: bold; font-size: 1.1rem;">F12</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Troca entre o <strong>editor de código</strong> e <strong>editor de formulários</strong>.</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <code style="color: #e22658; font-weight: bold; font-size: 1.1rem;">ALT + F1</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Adiciona uma <em>unit</em> do projeto a seção <em>interface</em> ou <em>implementation</em>.</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <code style="color: #e22658; font-weight: bold; font-size: 1.1rem;">Ctrl + ALT + P</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Invoca a <strong>paleta de componentes</strong>.</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <code style="color: #e22658; font-weight: bold; font-size: 1.1rem;">Ctrl + Espaço</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;"><strong>Code Complete</strong>: Descobre a função e mostra os parâmetros requeridos conforme você digita.</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <code style="color: #e22658; font-weight: bold; font-size: 1.1rem;">ALT + G</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Invoca a <strong>lista de procedimentos</strong> (eventos, procedures e functions) para navegação rápida.</p>
+                        <img src="https://gladiston.github.io/hello_lazarus/assets/productivity_shortcuts1.png" alt="Lista de procedimentos" style="margin-top:10px; max-width:100%;">
+                    </div>
+                </div>
+            </section>
+
+            <section id="atalhos-edicao">
+                <h3>Edição de Código e Blocos</h3>
+                <div class="shortcut-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin: 1.5rem 0;">
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9;">
+                        <code style="color: #e22658; font-weight: bold;">Ctrl + Shift + C</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;"><strong>Class Completion</strong>: Cria o código vazio para procedimentos declarados (protótipo). Se você alterar parâmetros na declaração, este atalho sincroniza a implementação automaticamente.</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9;">
+                        <code style="color: #e22658; font-weight: bold;">Ctrl + Shift + N</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;"><strong>Enclausurar código</strong>: Envolve o trecho selecionado em blocos (try..except, begin..end, while, etc). Útil para embutir lógica pronta em blocos de proteção.</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9;">
+                        <code style="color: #e22658; font-weight: bold;">Ctrl + J</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Invoca o <strong>Code Template</strong> (modelos de código repetitivos).</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9;">
+                        <code style="color: #e22658; font-weight: bold;">Ctrl + /</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;"><strong>Comentar/Descomentar</strong> linhas ou blocos de código selecionados.</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9;">
+                        <code style="color: #e22658; font-weight: bold;">Ctrl + Seta Cima/Baixo</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Faz o <strong>scroll do editor</strong> sem mover o cursor de texto ou navega entre métodos.</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9;">
+                        <code style="color: #e22658; font-weight: bold;">Ctrl + ALT + Setas</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;"><strong>Column Mode</strong>: Edição em colunas para seleções verticais.</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9;">
+                        <code style="color: #e22658; font-weight: bold;">Ctrl + Num+ / Num-</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Aumenta ou diminui o <strong>tamanho da fonte</strong> no editor (teclado numérico).</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9;">
+                        <code style="color: #e22658; font-weight: bold;">Ctrl + K + E / F</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Converte o texto selecionado para <strong>minúsculo</strong> (E) ou <strong>maiúsculo</strong> (F).</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="build-execucao">
+                <h3>Build e Execução</h3>
+                <div class="shortcut-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin: 1.5rem 0;">
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #27ae60;">
+                        <code style="color: #27ae60; font-weight: bold;">Ctrl + F9</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;"><strong>Compilar e Rodar (Build)</strong>: Apenas compila o projeto sem executá-lo.</p>
+                    </div>
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #27ae60;">
+                        <code style="color: #27ae60; font-weight: bold;">F9</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Executa o programa com o <strong>BuildMode</strong> selecionado (com debugger).</p>
+                    </div>
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #27ae60;">
+                        <code style="color: #27ae60; font-weight: bold;">Ctrl + Shift + F9</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Executa o programa <strong>sem o debugger</strong>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="debugger">
+                <h3>Debugger</h3>
+                <div class="shortcut-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin: 1.5rem 0;">
+                    <div style="background: #fff9db; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #fcc419;">
+                        <code style="color: #000; font-weight: bold;">F8 (Step Over)</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Executa a linha atual e para na próxima. Útil para acompanhar linha a linha.</p>
+                    </div>
+                    <div style="background: #fff9db; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #fcc419;">
+                        <code style="color: #000; font-weight: bold;">F7 (Step Into)</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Entra no procedimento ou função atual. Combine com Shift+F7 para pular expressões.</p>
+                    </div>
+                    <div style="background: #fff9db; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #fcc419;">
+                        <code style="color: #000; font-weight: bold;">F4</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Roda o programa até a posição atual do cursor.</p>
+                    </div>
+                    <div style="background: #fff9db; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #fcc419;">
+                        <code style="color: #000; font-weight: bold;">Ctrl + F5</code>
+                        <p style="margin-top: 10px; font-size: 0.95rem;">Adiciona uma variável ou expressão à janela <strong>Watches</strong> para monitoramento.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="conflitos-linux">
+                <h2>Conflitos de Atalhos no Linux (KDE e GNOME)</h2>
+                <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b; margin: 1.5rem 0;">
+                    <p>Muitos programadores enfrentam problemas onde o <strong>Ctrl + F9</strong> ou o <strong>F9</strong> não funcionam no Linux. Isso ocorre porque estes atalhos costumam estar reservados pelo sistema operacional (ex: alternar desktops no KDE).</p>
+                    <p><strong>Como resolver:</strong> Altere o atalho nas Configurações do Sistema do Linux ou remapeie na IDE em <em>Tools > Options > Editor > Key Mappings</em>.</p>
+                </div>
+            </section>
+
+            <section id="atalho-ctrl-h">
+                <h2>Atalho Ctrl+H para mostrar/esconder componentes não visuais</h2>
+                <div style="background: #e1f5fe; padding: 2rem; border-radius: 8px; border-left: 5px solid #0288d1; margin-bottom: 2rem;">
+                    <p>No Delphi, o atalho <strong>Ctrl+H</strong> é essencial para "limpar" o Form Designer. No Lazarus, ele também permite focar exclusivamente na interface visual sem a poluição de ícones de sistema.</p>
+                    <p><strong>Leia o artigo completo:</strong> <a href="lazarus_guia_atalho_ctrl_h.html" style="font-weight: bold; color: #0288d1;">Guia do Atalho Ctrl+H no Lazarus</a>.</p>
+                </div>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>Estes atalhos são fundamentais para um desenvolvimento ágil. Note que no MacOS as combinações variam. Explore a <a href="https://wiki.freepascal.org/Lazarus_IDE_Shortcuts" target="_blank" rel="noreferrer noopener">Wiki oficial</a> e o blog <a href="http://lazplanet.blogspot.com/2015/06/10-things-you-did-not-know-about-lazarus.html" target="_blank" rel="noreferrer noopener">LazPlanet</a> para mais segredos de produtividade.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

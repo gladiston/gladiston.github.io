@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Converter um texto em NUMERIC(18,4) ou NUMERIC(18,2) - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird: Linguagem PSQL</h1>
+                <p>Otimização e centralização de regras de negócio com Procedural SQL.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD</a></li>
+            <li><a href="sgbd_fb.html">Firebird</a></li>
+            <li><a href="sgbd_fb_psql.html">PSQL</a></li>
+            <li><a href="sgbd_fb_udr.html">UDR</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Converter um texto em NUMERIC(18,4) ou NUMERIC(18,2)</h2>
+            
+            <p>Uma das coisas mais básicas que encontramos na programação é a conversão de texto para número. Isto muitas vezes ocorre porque extraímos o valor de que precisamos de um texto, mas enquanto o valor ainda for do tipo texto não poderemos fazer operações matemáticas como somar ou subtrair. Para resolver o problema é preciso fazer a conversão.</p>
+
+            <p>A SQL Function abaixo resolve este problema. Ela possui dois parâmetros de entrada:</p>
+
+            <ul>
+                <li><strong>String com o valor:</strong> Por exemplo 'R$ 1.123,4567'</li>
+                <li><strong>Valor assumido caso a conversão falhe:</strong> Assume zero, mas você pode trocar o valor.</li>
+            </ul>
+
+            <p>E retorna NUMERIC(18,4), mas eu sei que muitos de vocês preferem valores com 2 casas decimais, portanto onde vê NUMERIC(18,4) no código PSQL basta trocar por NUMERIC(18,2):</p>
+
+            <pre><code>CREATE OR ALTER FUNCTION STR_TO_NUMERIC4 (
+    P_VALUE_AS_TEXT VARCHAR(30),
+    P_VALUE_DEFAULT_IF_FAILS NUMERIC(18,4) = 0)
+RETURNS NUMERIC(18,4)
+AS
+BEGIN
+  /* Essa procedure/função retorna um numeric(18, 4) a partir de um tipo
+     texto exibido como número, por exemplo, '1.234,5678'
+     O resultado será o numeric(18,4) 1234.5678 já no formato SQL decimal
+     O segundo parâmetro é o valor que deverá ser retornado caso o texto numérico
+     não seja válido, ex:
+     a=STR_TO_NUMERIC4('R$ 1.234,5678', 0);
+     Visto que nesse exemplo o R$ não deveria existir então retornará zero.
+     O sistema analisa a string da direita para a esquerda a fim de
+     determinar qual é o sinal de decimal. Se ele encontrar primeiro a
+     vírgula, então a vírgula será o decimal. Se ele encontrar o ponto
+     então o ponto será o decimal e o inverso será o separador de milhar
+     by gladiston.santana[em]gmail.com
+  */
+  P_VALUE_AS_TEXT=TRIM(:P_VALUE_AS_TEXT);
+  IF (:P_VALUE_AS_TEXT IS NULL) THEN
+    P_VALUE_AS_TEXT=CAST(P_VALUE_DEFAULT_IF_FAILS AS VARCHAR(30));
+  P_VALUE_AS_TEXT=TRIM(:P_VALUE_AS_TEXT);
+  IF (:P_VALUE_AS_TEXT='') THEN
+    P_VALUE_AS_TEXT=CAST(P_VALUE_DEFAULT_IF_FAILS AS VARCHAR(30));
+  IF (POSITION (',' IN :P_VALUE_AS_TEXT)>0) THEN
+  BEGIN
+    P_VALUE_AS_TEXT=REPLACE (:P_VALUE_AS_TEXT,  ',', '.');
+  END
+
+  P_VALUE_AS_TEXT=TRIM(:P_VALUE_AS_TEXT);
+  RETURN CAST(P_VALUE_AS_TEXT AS NUMERIC(18,4));
+END</code></pre>
+
+            <h3>Modo de Usar</h3>
+            <pre><code>s='12.345,6789';
+n=STR_TO_NUMERIC4(s, 0);
+-- retorna 12345.6789
+s='R$ 12.345,6789';
+n=STR_TO_NUMERIC4(s, 0);
+-- retorna zero porque R$ tornará o número inválido</code></pre>
+
+            <h3>Conclusão</h3>
+            <p>O exemplo acima com pouca modificação você pode deixar o número de casas decimais dinâmico, ou até mesmo permitir que 'R$' seja ignorado dentro de uma string. O ponto é: temos agora uma maneira simples de converter um texto para um número.</p>
+
+            <p><a href="sgbd_fb_psql.html" class="back-link">&larr; Voltar para PSQL</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

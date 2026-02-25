@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criando modelos formais de projetos para a IDE - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>Transição para Modelos Profissionais</h2>
+                <p>Anteriormente, exploramos como utilizar modelos de forma informal, uma técnica ágil para o cotidiano. Contudo, à medida que os projetos crescem em complexidade ou a equipe aumenta, a informalidade pode resultar em falta de documentação e desorganização.</p>
+                <p>A formalização de templates no Lazarus permite que seus modelos personalizados apareçam diretamente no diálogo de criação de novos projetos, integrando-se nativamente à IDE e fornecendo instruções claras para cada tipo de aplicação.</p>
+            </section>
+
+            <section id="conteudo-principal">
+                <h2>Modelos Formais de Projetos</h2>
+                <p>O Lazarus permite registrar tipos de projetos personalizados através de pacotes de <em>designtime</em>. O pacote <code>projtemplates</code>, pré-instalado na IDE, é a chave para transformar projetos existentes em modelos profissionais.</p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/image-8.png" alt="IDE com modelos personalizados">
+                    <p><em>A IDE com nossos modelos personalizados de projetos</em></p>
+                </div>
+
+                <h3>1. Definindo o Repositório</h3>
+                <p>A primeira coisa que é preciso fazer é definir onde será nosso repositório de modelos. Você pode escolher uma pasta compartilhada na rede ou um repositório local (preferencialmente usando Git para versionamento).</p>
+                <p>Vá em: <strong>Tools | Project Template Options...</strong></p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/laztemplates-setdir1.png" alt="Definindo pasta de templates">
+                </div>
+
+                <h3>2. Estrutura e Variáveis</h3>
+                <p>Cada subpasta no repositório representa um modelo. Dentro de cada uma, deve existir um arquivo <code>project.ini</code> para definir as metainformações e variáveis dinâmicas.</p>
+
+                <p>Exemplo de <code>project.ini</code> (formatado para alta legibilidade):</p>
+                <pre><code><span style="color: #4db8ff; font-weight: bold;">[Project]</span>
+<span style="color: #bbbbbb;">Name</span>=Projeto básico com DATAMODULE
+<span style="color: #bbbbbb;">Author</span>=Gladiston Santana
+<span style="color: #bbbbbb;">Description</span>=Projeto com DataModule e Form principal.
+<span style="color: #bbbbbb;">Recurse</span>=0
+<span style="color: #bbbbbb;">Exclude</span>=.gitignore;leiame.txt
+
+<span style="color: #4db8ff; font-weight: bold;">[Variables]</span>
+<span style="color: #bbbbbb;">MAINUNIT</span>=Nome da unit principal|fprincipal
+<span style="color: #bbbbbb;">MAINFORM</span>=Nome do formulário|fmPrincipal</code></pre>
+
+                <p style="margin-top: 1rem;"><strong>Atenção:</strong> Ao nomear arquivos ou componentes no modelo para serem substituídos pelas variáveis, utilize dois underlines antes e depois do nome, como em <code>__MAINUNIT__.pas</code>. Note que são dois caracteres underline de cada lado.</p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/image-2.png" alt="Pasta do modelo e arquivos">
+                </div>
+
+                <h3>3. Utilização</h3>
+                <p>Após reiniciar o Lazarus, seu modelo estará disponível em <strong>File | New project from template</strong> ou no diálogo padrão de novo projeto.</p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/image-5.png" alt="Modelo registrado na IDE">
+                </div>
+
+                <p>Ao selecionar o modelo, a IDE solicitará o preenchimento das variáveis definidas no arquivo <code>.ini</code>. Após a confirmação, o Lazarus automatiza a renomeação de unidades e formulários de acordo com o informado.</p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/image-7.png" alt="Confirmação de variáveis do modelo">
+                </div>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>A adoção de modelos formais transforma a IDE em uma ferramenta personalizada para o fluxo de trabalho de sua empresa ou projeto pessoal. Isso não apenas agiliza o início de novas tarefas, mas garante que padrões arquiteturais sejam seguidos desde a primeira linha de código.</p>
+                <p>Ter um catálogo de modelos para relatórios, APIs REST e integrações comuns é um investimento em produtividade que reduz drasticamente o tempo de <em>onboarding</em> de novos desenvolvedores na equipe, permitindo que todos foquem no que realmente importa: a regra de negócio.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

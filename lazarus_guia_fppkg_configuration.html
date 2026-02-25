@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lidando com a mensagem: "Error: there is a problem with the Fppkg configuration" - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Lidando com a mensagem: "Error: there is a problem with the Fppkg configuration"</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>Durante a instalação ou primeira execução do Lazarus no Linux, você pode encontrar uma mensagem de erro relacionada à configuração do Fppkg (Free Pascal Package Manager). Este erro é comum e geralmente ocorre após instalações limpas ou quando o arquivo de configuração está ausente ou corrompido.</p>
+
+            <p>Algumas vezes, ao executar o programa, pode aparecer a seguinte mensagem:</p>
+
+            <div class="img-container">
+                <img src="assets/img/instalacao_posinstall_error1.png" alt="Erro de configuração Fppkg">
+            </div>
+
+            <p>Pelas minhas observações, ela acontece porque o arquivo onde são guardadas algumas configurações não existe, está corrompido ou você acabou de fazer uma instalação limpa. Como arquivo de configuração, você poderá usar o padrão que ele oferece, que é <code>~/.config/fppkg.cfg</code>.</p>
+
+            <p>Não é preciso se alarmar com a mensagem, apenas clique em <strong>Restore Fppkg configuration</strong> e então surgirá esta tela:</p>
+
+            <div class="img-container">
+                <img src="assets/img/instalacao_posinstall_error1b.png" alt="Tela de restauração de configuração">
+            </div>
+
+            <p>Se você indicar <strong>/usr</strong> como sugerido, a IDE entenderá que o Free Pascal está instalado em uma árvore <code>/usr</code> (como <code>/usr/lib64/fpc</code>, <code>/usr/bin</code>, etc.). Vamos verificar se isso é verdade no seu sistema:</p>
+
+            <pre><code>rpm -ql fpc | head -10 | grep /usr</code></pre>
+
+            <p>O retorno deverá ser algo semelhante a isto:</p>
+
+            <pre><code>/usr/bin/bin2obj
+/usr/bin/chmcmd
+/usr/bin/chmls
+/usr/bin/cldrparser
+/usr/bin/compileserver
+/usr/bin/cvsco.tdf
+/usr/bin/cvsdiff.tdf</code></pre>
+
+            <p>Como podemos confirmar acima, o prefixo <strong>/usr</strong> é onde o Free Pascal realmente instalou seus arquivos. Portanto, você pode confirmar <strong>/usr</strong> na tela de configuração e posteriormente clicar em <strong>Start IDE</strong>.</p>
+
+            <h2>Verificação Manual da Configuração</h2>
+            <p>Se você quiser verificar ou editar manualmente o arquivo de configuração do Fppkg, ele geralmente está localizado em:</p>
+
+            <pre><code>~/.config/fppkg.cfg</code></pre>
+
+            <p>Você pode visualizar o conteúdo do arquivo com:</p>
+
+            <pre><code>cat ~/.config/fppkg.cfg</code></pre>
+
+            <p>O arquivo deve conter informações sobre o prefixo de instalação do FPC. Se o arquivo não existir, o Lazarus criará um novo quando você usar a opção "Restore Fppkg configuration".</p>
+
+            <h2>Outros Prefixos Comuns</h2>
+            <p>Dependendo da forma como o Free Pascal foi instalado, o prefixo pode variar:</p>
+            <ul>
+                <li><strong>/usr</strong>: Instalação padrão via repositórios do sistema (mais comum)</li>
+                <li><strong>/usr/local</strong>: Instalação manual ou via fpcupdeluxe</li>
+                <li><strong>~/fpcupdeluxe</strong>: Instalação homeuser via fpcupdeluxe</li>
+            </ul>
+
+            <p>Para verificar onde o FPC está realmente instalado no seu sistema, você pode usar:</p>
+
+            <pre><code>which fpc
+fpc -iD  # mostra o diretório de instalação</code></pre>
+
+            <h2>Conclusão</h2>
+            <p>O erro de configuração do Fppkg é um problema comum e facilmente resolvido. Na maioria dos casos, basta usar a opção "Restore Fppkg configuration" fornecida pelo próprio Lazarus e confirmar o prefixo correto (geralmente <strong>/usr</strong> para instalações via repositórios).</p>
+
+            <p>É importante entender que este erro não indica um problema grave com sua instalação do Lazarus ou FPC. Ele simplesmente indica que o arquivo de configuração do gerenciador de pacotes não foi encontrado ou está incompleto, situação que o assistente de configuração resolve automaticamente.</p>
+
+            <p>Após restaurar a configuração, o Lazarus deve iniciar normalmente e você poderá usar todos os recursos da IDE, incluindo o gerenciamento de pacotes através do Fppkg. Se você continuar enfrentando problemas, verifique se o Free Pascal está corretamente instalado no sistema e se todas as dependências necessárias estão presentes.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

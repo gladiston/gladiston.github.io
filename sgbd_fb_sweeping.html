@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Sweeping no Firebird - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird: Sweeping</h1>
+                <p>Mantendo a performance através da limpeza de versões de registros.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD Hub</a></li>
+            <li><a href="sgbd_fb_intro.html">Voltar Firebird</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>O que é o Sweeping?</h2>
+            <p>O Firebird utiliza uma arquitetura multi-geracional (MVCC), onde cada atualização ou deleção gera uma nova versão do registro. O <strong>Sweeping</strong> é o processo de "limpeza de lixo" que remove versões antigas que não são mais visíveis por nenhuma transação ativa.</p>
+
+            <h3>O Intervalo de Sweeping</h3>
+            <p>Por padrão, o Firebird vem configurado com um intervalo de 20.000 (Sweep Interval). Isso significa que, a cada 20.000 operações acumuladas entre a transação mais antiga e a mais recente, o banco inicia uma limpeza automática.</p>
+
+            <div style="background: #fff4f4; border-left: 5px solid #c0392b; padding: 1rem; margin: 1.5rem 0;">
+                <strong>Nota de Performance:</strong> Em bancos de alta transacionalidade, o sweeping automático pode causar "travamentos" repentinos. A recomendação profissional é desativar o automático e agendar uma tarefa via Crontab ou Task Scheduler.
+            </div>
+
+            <h2>Exemplo: Desativando e Agendando</h2>
+            <p>Para desativar o sweeping automático e realizá-lo manualmente via linha de comando:</p>
+
+            <pre><code># Desativar o automático (ajustar para zero)
+gfix -housekeeping 0 /caminho/do/banco.fdb
+
+# Executar o sweeping manual (ideal para horários de baixo uso)
+gfix -sweep /caminho/do/banco.fdb</code></pre>
+
+            <h2>Conclusão</h2>
+            <p>Um banco sem sweeping torna-se cada vez mais lento em operações de SELECT, pois o motor precisa percorrer cadeias de versões inúteis. O gerenciamento proativo deste processo é o que diferencia um sistema estável de um sistema que degrada com o tempo.</p>
+
+            <p><a href="sgbd_fb_intro.html" class="back-link">&larr; Voltar para Índice Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>

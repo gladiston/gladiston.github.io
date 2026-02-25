@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retornando apenas dígitos válidos de uma string - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird: Linguagem PSQL</h1>
+                <p>Otimização e centralização de regras de negócio com Procedural SQL.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD</a></li>
+            <li><a href="sgbd_fb.html">Firebird</a></li>
+            <li><a href="sgbd_fb_psql.html">PSQL</a></li>
+            <li><a href="sgbd_fb_udr.html">UDR</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Retornando apenas dígitos válidos de uma string</h2>
+            
+            <p>Às vezes precisamos retirar de uma string apenas seus dígitos válidos. Por exemplo, considere o número de telefone informado como '(11)5555-4444' e que tal pudéssemos ter apenas a porção numérica que nos interessa, ou seja, 1155554444?</p>
+
+            <p>Mas imagine ainda que no caso de um telefone alguém informe algo como 'INTL +55(11)5555-4444' e que nessa situação queremos apenas os dígitos numéricos, mas mantendo o "+" que é significativo para ligações internacionais, deixando-o assim '+551155554444'.</p>
+
+            <p>Vamos imaginar mais uma vez: o telefone ainda é o mesmo, isto é, 'INTL +55(11)5555-4444', mas que dessa vez nos interessa além dos dígitos numéricos, também "+", "(", ")" e "-", deixando-o assim '+55(11)5555-4444'.</p>
+
+            <p>Claro que este foi apenas um exemplo com telefone, mas as aplicações são várias, especialmente para remover dígitos que não são interessantes em máscaras de CEP, CNPJ, CPF e outros. É para isso que criei a SQL Function chamada de <code>STR_DIGITS</code>:</p>
+
+            <pre><code>CREATE OR ALTER FUNCTION STR_DIGITS (
+    APARAM_VALUE VARCHAR(255) = '',
+    AVALID_DIGITS VARCHAR(127) = '0123456789')
+RETURNS VARCHAR(255)
+AS
+DECLARE VARIABLE ARETURN VARCHAR(255);
+DECLARE VARIABLE ISIZEOFSTRING INTEGER;
+DECLARE VARIABLE I INTEGER;
+DECLARE VARIABLE SONLYCHAR CHAR(1);
+BEGIN
+  -- Retorna apenas os dígitos desejados de uma string, ex:
+  -- ret=STR_DIGITS('(11)5555-4444') // retorna 1155554444 porque o padrão é apenas os números
+  -- Pode-se definir os caracteres válidos, ex:
+  -- ret=STR_DIGITS('INTL +55(11)5555-4444'); -- Retorna: '551155554444'
+  -- ret=STR_DIGITS('INTL +55(11)5555-4444','+'); -- Retorna: '+551155554444'
+  -- ret=STR_DIGITS('INTL +55(11)5555-4444','+-()'); -- Retorna: '+55(11)5555-4444'
+  ARETURN='';
+  APARAM_VALUE=TRIM(APARAM_VALUE);
+
+  ISIZEOFSTRING = OCTET_LENGTH(APARAM_VALUE); -- character_length
+  IF ((APARAM_VALUE<>'') AND (ISIZEOFSTRING > 0)) THEN
+  BEGIN
+    I = 1;
+    WHILE (I <= ISIZEOFSTRING) DO
+    BEGIN
+      SONLYCHAR = SUBSTRING (APARAM_VALUE FROM I FOR 1);
+      IF ( POSITION (SONLYCHAR IN AVALID_DIGITS)>0 ) THEN
+      BEGIN
+        ARETURN = ARETURN || SONLYCHAR;
+      END
+      I = I + 1;
+    END
+  END
+  RETURN ARETURN;
+END</code></pre>
+
+            <h3>Como usar</h3>
+            <pre><code>STR_DIGITS('INTL +55(11)5555-4444'); -- Retorna: '551155554444'
+STR_DIGITS('INTL +55(11)5555-4444','+'); -- Retorna: '+551155554444'
+STR_DIGITS('INTL +55(11)5555-4444','+-()'); -- Retorna: '+55(11)5555-4444'
+-- Selecionando clientes onde o CNPJ tenham traços e pontos
+SELECT A.RAZAO_SOCIAL, A.CNPJ FROM CLIENTES A
+WHERE STR_DIGITS(A.CNPJ)='00000000000191'</code></pre>
+
+            <h3>Conclusão</h3>
+            <p>Novamente é preciso ressaltar que usar para extrair números válidos de um telefone foi apenas um exemplo. As aplicações são ilimitadas, por exemplo, remover dígitos que não são interessantes em máscaras de CEP, CNPJ, CPF e NCM.</p>
+
+            <p><a href="sgbd_fb_psql.html" class="back-link">&larr; Voltar para PSQL</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

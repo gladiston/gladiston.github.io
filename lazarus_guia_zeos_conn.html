@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando Zeos – Conectando uma base de dados com ZConnection - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Usando Zeos – Conectando uma base de dados com ZConnection</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>Neste artigo vamos esmiuçar o componente <strong>ZConnection</strong>, o principal componente da paleta "Zeos". Sim, sem ele não conseguiriamos conectar a uma base de dados. Se tiver dúvida em como instalá-lo, veja este artigo intitulado "<a href="lazarus_guia_zeoslib.html">ZeosLib</a>".</p>
+
+            <p>O componente ZConnection permite que sua aplicação conecte-se a uma lista bem grande de base de dados, mas antes de falar dele, vamos esclarecer dois tipos de acessos a dados, o direto e o indireto:</p>
+
+            <ul>
+                <li><strong>Acesso indireto</strong>: É quando o acesso a base de dados depende de um componente terceiro, comumente chamado de API de acesso a dados, exemplos conhecidos são: ADO, ODBC e JODBC. Essas APIs conversam com outra API chamado de 'SQL Client' que no Windows refere-se a uma DLL distribuida para conversar com o banco de dados.</li>
+                <li><strong>Acesso direto</strong>: É quando o acesso a base de dados é direto ao banco de dados ou por meio da  API 'SQL Client', no Windows refere-se a uma DLL distribuída para conversar com o banco de dados.</li>
+            </ul>
+
+            <p>O Zeos tem acesso indireto a virtualmente a qualquer banco de dados compativel com ADO e ODBC(Zeos8+). Neste caso você deve instalar além do 'SQL Client' também os drivers ADO em seu sistema.</p>
+
+            <p>O Zeos separadamente tem um outro componente chamado de ZODBC, ele permite acesso a qualquer banco de dados que tenha o 'SQL Client'e drivers ODBC instalados.</p>
+
+            <p>Porém a maior vantagem é o acesso direto, pois nesse caso apenas o 'SQL Client' é o suficiente para acessar o banco de dados, tornando geralmente o acesso mais rápido emais fácil de distribuir com a sua aplicação. Contudo, há vantagens em usar drivers ADO/ODBC em certas circunstâncias, por exemplo quando desejamos fazer um pool de conexões. É possivel fazer um pool de conexões, mas daí teríamos de programar.</p>
+
+            <p>Conheçam o componente ZConnection, este aqui:</p>
+
+            <!-- 
+            wget -vc https://gladiston.net.br/wp-content/uploads/2022/02/lazarus-zeos-zconnection01.png -O assets/img/lazarus_guia_zeos_conn01.png
+            -->
+            <div class="img-container">
+                <img src="assets/img/lazarus_guia_zeos_conn01.png" alt="Componente ZConnection">
+            </div>
+
+            <p>Vamos explicar suas propriedades antes de demonstrar como fazemos a conexão:</p>
+
+            <h2 id="autocommit">AutoCommit</h2>
+
+            <p>Valor Verdadeiro ou Falso. Para explicar como funciona, precisamos entender o que é uma transação, neste contexto, uma transação é um período que iniciamos uma série de modificações no banco de dados que deve ser encerrada com um commit, a confirmação de que tudo que foi feito desde o inicio da transação deve ser mantido ou o rollback que é  desfazer toda a transação.  Se o Modo AutoCommit estiver ligado não é necessário iniciar uma transação e nem dar commit porque o componente enviará o commit implicitamente a cada operação de escrita que ele detectar, contudo podem existir operações que o Zeos não detecte corretamente como sendo uma operação de escrita, por exemplo: </p>
+
+            <ul>
+                <li>select * from someprocedure;</li>
+                <li>select * from someprocedure(:param1, :param2);</li>
+            </ul>
+
+            <p>O Zeos não tem como saber se a <em>stored procedure</em> irá ou não escrever dados, este é apenas um exemplo de que o modo Autocommit pode falhar quando objetos são executados dentro do banco de dados que o Zeos não pode ver. Então, se o banco de dados tem suporte a autocommit internamente é melhor habilitá-lo. Algo muito interessante sobre o modo Autocommit é que ao iniciar as transações manualmente com o comando ZConnection.StartTransaction, o Modo Autocommit será desabilitado momentaneamente até que você dê um commit ou rollback.</p>
+
+            <p>No link a seguir há uma bela explicação com diagramas e graficos sobre o funcionamento dessa propriedade:</p>
+
+            <p><a href="https://sourceforge.net/p/zeoslib/wiki/TZConnection.AutoCommit/" target="_blank" rel="noreferrer noopener">https://sourceforge.net/p/zeoslib/wiki/TZConnection.AutoCommit/</a></p>
+
+            <p>Há um vídeo explicativo que dá outros detalhes sobre o autocommit e descobrir se ele é um vilão ou herói:</p>
+
+            <div class="video-cta">
+                <p>Conexão ao banco de dados com ZeosLib/Autocommit – Lazarus</p>
+                <a href="https://www.youtube.com/watch?v=xHB7oFudD7I" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+            </div>
+
+            <h2 id="autoencodestrings-verdadeiro-ou-falso"><strong>AutoEncodeStrings</strong>:</h2>
+
+            <p>Valor do tipo Verdadeiro ou Falso. Quando AutoEncodeStrings está ativado (true), Zeos tenta traduzir seus dados entre o conjunto de caracteres de conexão e a configuração ControlsCodePage. Isso pode levar à perda de dados se nenhuma conversão for possível. AutoEncodeStrings, portanto, só deve ser definido como true se uma conversão for necessária. No Zeos 7.2 ou superior esta propriedade é inoqua e não existe mais, se ela aparece em seu sistema, ignore-a, ela só existe para não quebrar a compatibilidade com versões anteriores.</p>
+
+            <p><strong>Observação</strong>: Para evitar dores de cabeça com conversão de página de caracteres, sempre que possivel use Unicode como UTF-8. Desenvolver usando o ambiente Windows pode ser complexo porque o mesmo usa o WIN1252(Ansi) para os aplicativos com GUI enquanto o terminal usa o ISO 8859_1/cp850(conhecido como Latin1) e essa sopa de codificações, especialmente em arquivos textuais fazem um inferno se não prestar muita atenção a como se lê ou grava arquivos.</p>
+
+            <h2 id="catalog-string"><strong>Catalog</strong>:</h2>
+
+            <p>Valor do tipo String. É uma propriedade dedicada a banco de dados Postgree, não tem uso para outros bancos de dados pelo que sei.</p>
+
+            <h2 id="connected-verdadeiro-ou-falso"><strong>Protocol</strong>:</h2>
+
+            <p>Valor do tipo String. Essa string definirá o protocolo(ou driver) de comunicação de banco de dados que o Zeos usará, se for para se comunicar com o FirebirdSQL então é "firebird". Ao definir o protocolo, algumas propriedades como <em>ClientCodePage</em> tornar-se-ão selecionáveis, isto porque apenas quando sabemos qual é o protocolo poderemos saber quais páginas de código estarão disponíveis ao protocolo selecionadp. A partir da versão Zeos8+ os protocolos ODBC e OLEDB foram adicionados podendo então acessar qualquer banco de dados que tenham drivers nestas frameworks para eles.</p>
+
+            <p>No nome de protocolo há uma palavra reservada de prefixo chamada <strong>pooled</strong> que só deve ser usada quando se implementa um <a href="https://pt.wikipedia.org/wiki/Pool_de_conex%C3%B5es" target="_blank" rel="noreferrer noopener" title="pool de conexões"><em>pool</em> de conexões</a>, isto é, manter conexões abertas para pronto-usufruto. Normalmente requerido quando servimos conexões advindas da WEB com proposito de consultas.</p>
+
+            <h2 id="clientcodepage-string"><strong>ClientCodepage</strong>:</h2>
+
+            <p>Valor do tipo String. Este é o conjunto de caracteres que nosso programa solicitará ao servidor de banco de dados para enviar ao nosso programa. A maioria dos servidores pode converter facilmente caracteres entre o solicitante e o servidor. Em IDEs  totalmente unicode como o Lazarus, é melhor solicitar dados de caracteres em unicode e deixar que o sistema hospedeiro lide com o resto seja ele ISO8859_1(Latin1) ou WIN1252(Ansi). No <em>ZConnection </em>esta propriedade também pode ser configurada em "Properties" através dos parâmetros "lc_ctype" ou "Codepage":<br>ZConection.Properties.Add ('lc_ctype=ISO8859_1'); // firebird<br>ou<br>ZConnection.Properties.Add ('Codepage=ISO8859_1'); // outros</p>
+
+            <p>Porque você deve dar atenção a isso, afinal o banco de dados armazena o que tiver que armazenar não importa a codificação no lado cliente, certo? É verdade que o servidor aceitará o que o lado cliente enviar e não há um tratamento específico para uma ou outra codificação de página, no entanto, quando o lado cliente  indica qual é página de código a qual o texto será armazenado então o banco  saberá também como "traduzi-lo" depois.  Então identificar o charset na conexão servirá como <a href="https://pt.wikipedia.org/wiki/Pedra_de_Roseta" target="_blank" rel="noreferrer noopener" title="pedra de roseta">pedra de roseta</a> traduzindo os "code points" que é a representação do caractere entre o banco de dados e o lado cliente.</p>
+
+            <p><strong>Observação muito importante</strong>: Muito cuidado ao carregar scripts de arquivos para dentro do banco de dados, geralmente editores como vscode, notepad++ criam arquivos usando a codificação UTF-8, mas se seu banco esta ajustado para ISO8859_1(Latin1) ou WIN1252(Ansi) você poderá ter problemas com alguns tipos de acentuações. Como eu disse, não será culpa do banco de dados em não aceitá-los, é a pedra de roseta sendo bugada achando que está usando um código de página, mas ao carregar um arquivo externo está em outra. Ao desenvolver dentro do Linux/BSD/Mac, o UTF-8 reina absoluto em todas as aplicações, IDE, editores,…. então dificilmente você encontra problemas desse tipo, mas no Windows há uma salada de código de páginas que você precisa ter cuidado ao criar ou usufruir de dados externos numa codificação diferente de sua conexão.</p>
+
+            <h2 id="controlscodepage-verdadeiro-ou-falso"><strong>ControlsCodePage</strong>:</h2>
+
+            <p>Valor do tipo Verdadeiro ou Falso. Isso permite determinar qual codificação de caracteres você prefere em seus TDatasets (TZQuery, TZReadOnlyQuery e TZTable). Existem 3 opções, porém apenas uma verdadeiramente funciona:</p>
+
+            <ul>
+                <li><strong>cCP_UTF8 </strong>: Esta é a configuração padrão do Lazarus. As strings passadas são esperadas como UTF8 e os TStringFields são passados. Como TStringField fornece apenas um byte para caracteres multibyte, Zeos aumenta o tamanho de TStringField quatro vezes. Uma string no formato VarChar com 50 caracteres tem um TSTringField.Size de 200 caracteres.</li>
+            </ul>
+
+            <ul>
+                <li><strong>cCP_UTF16 </strong>e <strong>cGET_ACP</strong>: são implementados por causa do Delphi e não devem ser usados ​​no Lazarus.</li>
+            </ul>
+
+            <p>Quando se usa UTF-8 no banco, mas sua conexão for Win1252 como código de página então há uma <a href="https://sourceforge.net/p/zeoslib/wiki/Zeos%20and%20character%20sets/" target="_blank" rel="noreferrer noopener" title="nota muito importante">nota muito importante</a> que refere-se a um bug até o Zeos 7.2 que merece sua atenção.</p>
+
+            <h2 id="database-string"><strong>Database</strong>:</h2>
+
+            <p>Valor do tipo String. Refere-se a localização do banco de dados, seja a forma literal com C:\Caminho\para\o\banco.fdb" ou em forma de string de conexão como:</p>
+
+            <pre><code>localhost/3050:C:\Caminho\para\o\banco.fdb (remoto no próprio computador)
+intranet.local/3050:banco.fdb (remoto em outro computador)
+xnet://C:\Caminho\para\o\banco.fdb (local)</code></pre>
+
+            <p>Ou outras formas reconhecidas pelo ADO ou 'SQL Client' de seu banco de dados.</p>
+
+            <p>Alguns bancos de dados como o FirebirdSQL, MSSQL, PostgreSQL,… uma string de conexão pode suprir tudo que o 'SQL Client' precise para se conectar a base, de forma que as propriedades como <em>Host, Port, Protocol, ClientCodepage, UserName</em> e <em>Password</em> fiquem desnecessárias.</p>
+
+            <h2 id="designconnection-verdadeiro-ou-falso"><strong>DesignConnection</strong>:</h2>
+
+            <p>Valor do tipo Verdadeiro ou Falso. Se o valor for definido como <em>true</em>(verdadeiro), a conexão estará ativa em tempo de design, mas permanecerá desconectado quando você der um '<em>run</em>' no projeto ou executar o aplicativo <em>standalone</em>. Isso evita conexões ativas esquecidas dentro do executável que só rodam em localhost e quando vai para o ambiente de produção causam problemas. Nem precisamos dizer que essa opção é muito útil.</p>
+
+            <h2 id="hostname-string"><strong>HostName</strong>:</h2>
+
+            <p>Valor do tipo String. Nome do host que servirá o banco de dados, pode ser um IP, nome qualificado de rede ou simplesmente "localhost", em todos estes casos estamos reivindicando o uso cliente/servidor de acesso. É importante dizer que "localhost" não é exatamente um acesso sem rede como alguns afirmam, mas que o host é o próprio computador que estamos usando, em poucas palavras você usa a infraestrutura de rede para localizar a si mesmo. Quando o acesso é direto ao arquivo físico dizemos que se trata uma conexão local e nessa situação não é necessário informar o <em>hostname</em> e nem <em>port</em>.</p>
+
+            <h2 id="librarylocation-string"><strong>LibraryLocation</strong>:</h2>
+
+            <p>Valor do tipo String. Indica onde a biblioteca de acesso(SQL Client) estará, no caso do FirebirdSQL chama-se <em>fbclient.dll</em> no Windows ou<em> libfbclient.so</em> no Linux. Deixar este parâmetro em branco implica em que a localização seja automática e isso pode ser um problema para alguns bancos que ao longo do tempo mudaram o nome da biblioteca, por exemplo, o FirebirdSQL 1.x usava como 'SQL Client' um arquivo chamado de <em>gds32.dll</em>, depois virou <em>fbclient.dll</em>, mas por retrocompatibilidade ainda aceita <em>gds32.dll</em> e nessa situação nem sempre é possível garantir que o "automático" reconheça qual é a DLL certa quando ambas estão no sistema. Por isso recomendo que ao menos deixe o nome correto do 'SQL Client' que pretender usar, por exemplo, "fbclient.dll" e evitar que o "automatico" encontre a DLL errada primeiro.</p>
+
+            <p>Há um problema muito comum quando o sistema operacional do host é 64bits, pois comumente os programas para Windows ainda são 32bits. Programadores confundem achando que devem instalar o 'SQL Client' igual a da arquitetura do sistema operacional e isso dará errado porque o 'SQL Client' deve ser da mesma arquitetura dos programas que iremos usar para acessar a base de dados. A Microsoft implementou uma maneira muito eficiente de resolver este problema nos sistemas 64bits, pois bibliotecas são instaladas em C:\Windows\System32 e bibliotecas de 32bits em C:\Windows\SysWow64 e qualquer programa que instalar a DLLs usará o diretório correspondente a arquitetura dele. Contudo o desconhecimento dessa informação leva programadores a muita confusão, espalhando DLLs desnecessariamente e posteriormente confundindo a resolução do problema. Portanto, quando temos um sistema operacional 64bits, instalamos o SQL Client de nosso banco de dados duas vezes, o 'SQL Client' de 32 bits e depois a de 64bits. Alguns bancos já sabem disso e simplificam essa operação, o FirebirdSQL 3+ ao instalar o 'SQL Client' de 64bits, já instala também a versão de 32bits.</p>
+
+            <p>É digno de nota que se você especificar um caminho como "c:\app\bin\fbclient.dll" como seu <em>Librarylocation</em> então o sistema não a procurará no path do sistema, mas apenas a que foi especificada, chamaremos isso de 'engessar a DLL'. Muitos programadores tomam essa atitude por considerar uma forma mais simples, contudo isso cria outro problema: você será o responsável por atualizar a 'SQL Client' manualmente e pbter correção de bugs e falhas de segurança. Se estiver implantando um sistema na nuvem, nunca deveria engessar a 'SQL Client' a uma localização. Ambientes Linux atualizam programas obtidos de seus repositórios automaticamente e atualizará o 'SQL Client' também.</p>
+
+            <h2 id="loginprompt-verdadeiro-ou-falso"><strong>LoginPrompt</strong>:</h2>
+
+            <p>Valor do tipo Verdadeiro ou Falso. Se for "true", perguntará o nome de usuário e senha toda vez que conectar-se, mesmo que os parâmetros de UserName e Password tenham sido fornecidos.</p>
+
+            <h2 id="user-string"><strong>User</strong>:</h2>
+
+            <p>Valor do tipo String.  O nome de usuário do banco de dados. Por exemplo, "SYSDBA", "dbo", "sa",…</p>
+
+            <h2 id="password-string"><strong>Password</strong>:</h2>
+
+            <p>Valor do tipo String. Senha para conectar-se ao banco de dados, exemplo: masterkey</p>
+
+            <h2 id="port-inteiro-0-65535"><strong>Port</strong>:</h2>
+
+            <p>Valor do tipo Inteiro(0-65535). Especifica a porta de conexão, no exemplo do Firebird, geralmente é 3050. Se deixar "0" o Zeos vai usar o <em>default</em> conforme o protocolo(driver) do banco de dados.</p>
+
+            <h2 id="transactisolationlevel-tinone-tireadcommitted-tireaduncommitted-tirepeatableread-tiserializable"><strong>TransactIsolationLevel</strong> (TIL):</h2>
+
+            <p>Valores: tiNone, tiReadCommitted, tiReadUncommitted, tiRepeatableRead, tiSerializable.  Determina qual será o Transaction Isolation Level(TIL daqui em diante). Explicação para cada um deles:</p>
+
+            <ul>
+                <li><strong>tiNone</strong>: Como o nome sugere, significa "nenhum", como "nenhum" é uma escolha impossível para um banco de dados relacional, isto significa que você usará <em>properties</em> (parametros daqui em diante) com um set de comandos que definirá o TIL. Deixar <em>tiNone</em> e não ter nenhum tipo de <em>properties </em>que formem um TIL causará uma mensagem de erro fatal porque a característica <a href="https://pt.wikipedia.org/wiki/ACID" target="_blank" rel="noreferrer noopener" title="ACID">ACID</a> de um banco de dados só faz sentido se houver um TIL definido.</li>
+                <li><strong>tiRepeatableRead</strong>: Corresponde ao TIL "REPEATABLE READ". Uma transação vê durante seu tempo de vida apenas os dados confirmados antes que a transação tenha sido iniciada.</li>
+                <li><strong>tiReadCommitted</strong>: Corresponde ao TIL "READ COMMITTED". Uma transação vê apenas os dados confirmados antes que a instrução seja executada. Essa é uma sutil diferença para o "repeatable read" .</li>
+                <li><strong>tiReadUnCommitted</strong>: Corresponde ao TIL "READ UNCOMMITTED".  Uma transação vê as alterações feitas por transações não confirmadas. Também é conhecida em outros bancos de dados como TIL "SNAPSHOT".</li>
+                <li><strong>tiSerializable</strong>: Corresponde ao TIL "SERIALIZABLE". Este é o nível de isolamento mais estrito, que impõe a serialização da transação, isto significa que em todas as vezes você inicia a transação e depois dá um  <em>commit</em> ou <em>rollback</em>. Se usar uma clausula WHERE o bloqueio poderá impedir outros de iniciarem a atualização dos mesmos registros. Os dados acessados no contexto de uma transação SERIALIZABLE não podem ser acessados por nenhuma outra transação, exceto o TIL "SNAPSHOT". Também é conhecido em outros sistemas como "concurrency control".</li>
+            </ul>
+
+            <p>A preocupação de todo "novato" é impedir o infame "dead lock", quando na realidade, eles são bem vindos dependendo do cenário. A preocupação do DBA mais experiente são os registos "fantasmas" , elas ocorrem quando no decorrer de uma transação, novas linhas ou registros são adicionados por uma outra transação concorrente. Imagine a estação #1 num SELECT com uma clausula WHERE status='A' e enquanto o select esta em execução a estação #2 faz alguns INSERTs onde o STATUS é 'A' então sem esperar por nada a estação #1 ganha alguns registros extras que podem não estar sendo vistos dependendo do TIL e podem ou não estar de fora de um UPDATE, daí nasce o termo "registros fantasmas". Em todas as aplicações, mas especialmente as de grande porte,  um comando como UPDATE ou MERGE levanta a pergunta: "Se existirem fantasmas, o que fazer com eles, atualizo ou ignoro?" e então selecionar o TIL adequado sendo  "SERIALIZABLE" o mais estrito e que provavelmente resolverá o problema. Os pormenores sobre os TILs podem ser lidos <a href="https://en.wikipedia.org/wiki/Isolation_(database_systems)" target="_blank" rel="noreferrer noopener" title="neste artigo da wikipedia">neste artigo da wikipedia</a>.</p>
+
+            <p>Para usuários do banco de dados FirebirdSQL há algumas considerações(ignore se estiver usando outro banco de dados):</p>
+
+            <ul>
+                <li><strong>TIL "READ COMMITTED":</strong> No FirebirdSQL corresponde a combinação dos parâmetros <strong>isc_tpb_read_committed</strong>, <strong>isc_tpb_rec_version </strong>e <strong>isc_tpb_nowait </strong>juntos. Uma transação vê apenas os dados confirmados antes que a instrução seja executada. O parâmetro "rec_version" para o Firebird é responsável pelo comportamento de que os valores mais recentes que foram "commitados" por outros usuários serão considerados. O parâmetro "nowait" é responsável pelo comportamento de que não há espera pela liberação de um registro bloqueado. Neste nível o servidor é mais sobrecarregado que no TIL "REPEATABLE READ", porque tem que fazer todos os "refresh" para adquirir estes valores novamente. O FirebirdSQL é mais usado com esta configuração.</li>
+                <li><strong>TIL "READ UNCOMMITTED"</strong>:  A documentação do Zeos diz que essa opção não existe no Firebird, no entanto, ela está documentada no <a href="https://www.firebirdsql.org/pdfmanual/html/isql-transactions.html" target="_blank" rel="noreferrer noopener" title="site oficial">site oficial</a>. Mas ao tentar usar essa opção, o Zeos responde dizendo que essa opção não é suportada. Independente de qual informação esteja correta, ler informações ainda não confirmadas podem não fazer sentido, mas pode haver cenários em que isso seja necessário. Esse TIL pode ser simulado pela <strong>ausência </strong>da <em>property</em>(parâmetro, daqui em diante) <strong>"isc_tpb_rec_version</strong>" ficando apenas os parâmetros: <strong>isc_tpb_concurrency </strong>e <strong>isc_tpb_nowait</strong>.</li>
+                <li><strong>TIL "REPEATABLE READ"</strong> é conhecido como <strong>"SNAPSHOT"</strong>. É uma combinação dos parâmetros de transação "<strong>concurrency</strong>" e "<strong>nowait</strong>".</li>
+                <li><strong>TIL "SERIALIZABLE" </strong>é conhecido como <strong>"Snapshot table stability"</strong>. É uma combinação dos parâmetros de transação "<strong>concurrency</strong>" e "<strong>nowait</strong>".</li>
+                <li>Enquanto o Zeos usa o TIL tiReadCommitted, tiReadUncommitted, tiRepeatableRead, tiSerializable que define bem o que desejamos, o Firebird é flexível em poder combinar várias características por meio de parâmetros, se entender bem como eles funcionam: <strong>isc_tpb_concurrency</strong>, <strong>isc_tpb_nowait</strong>, <strong>isc_tpb_read</strong>, <strong>isc_tpb_write</strong>, <strong>isc_tpb_consistency</strong>, <strong>isc_tpb_read_committed</strong>, <strong>isc_tpb_rec_version </strong>você terá um TIL personalizado.</li>
+                <li>Uma explicação por menor e com exemplos é feita pelo IbSurgeon <a href="https://ib-aid.com/en/transactions-in-firebird-acid-isolation-levels-deadlocks-and-update-conflicts-resolution/" target="_blank" rel="noreferrer noopener" title="neste artigo">neste artigo</a>.</li>
+            </ul>
+
+            <p>Esses TILs são a dor de cabeça de inexperientes quando se queixam que o sistema está lento, tendo <em>dead lock</em> ou resultando em valores errados, por isso, ter um DBA (especialista em banco de dados) ajuda em orientar programadores a usar o TIL mais adequado para o cenário em questão. Veja estes cenários a seguir e tente por conta própria decidir qual o TIL mais adequado:</p>
+
+            <p><strong>Cenário #1:</strong> Digamos que você queira um relatório de fechamento qualquer, o relatório é demorado e antes que termine, durante o processo, alguns valores se modificam e no final do relatório percebe-se por exemplo que o total de cada mês não bate com o final do ano, isso aconteceu porque valores processados foram alterados enquanto o relatório ainda estava em execução, como resolveria?</p>
+
+            <p><strong>Cenário #2:</strong> Digamos que seu sistema de bilhetagem de poltrona de avião tenha de resolver o seguinte problema, você não deseja que quando alguém esta decidindo a compra de uma numeração específica que outro mais rapidinho ou que more numa região geográfica com internet mais abundante passe na frente e então confirme a compra da mesma poltrona que o primeiro que vem de uma conexão  mais lenta ainda não concretizou a compra. Nessa situação, qual TIL seria mais adequado? "SNAPSHOT TABLE STABILITY" ou "SERIALIZABLE" e então SELECT FOR UPDATE WITH LOCK?</p>
+
+            <p>Usar o mesmo TIL para uma aplicação inteira pode não ser razoável, talvez algumas características em partes do programa requeiram um TIL diferente, caso contrário, pode causar problemas lógicos de difícil compreensão. Mas se você entendeu bem os TILs, uma aplicação usando o TIL como o "SERIALIZABLE" (conhecido no FirebirdSQL como SNAPSHOT TABLE STABILITY) evitaria edições simultâneas indesejadas, mas se não souber como usar será um festival de travamentos(tecnicamente aguardando registros serem liberados) ou dead locks.</p>
+
+            <p>Se você não sabe bem como usufruir dos TILs, recomendo que crie aplicativos que simulem os efeitos que exemplifiquei antes de implementar uma solução dentro do projeto, se preferirem poderão usar o meu projeto de exemplo feito Lazarus/FPC chamado "lazdemo_transacoes" hospedado no github:</p>
+
+            <p><a href="https://github.com/gladiston/lazdemos_gsl" target="_blank" rel="noreferrer noopener">https://github.com/gladiston/lazdemos_gsl</a></p>
+
+            <p>Uma dificuldade com o Zeos até a versão 7.2 é que  não é possível mudar de TIL após estar conectado, assim deve-se criar uma nova conexão com o TIL adequado e fazer o que precisa ser feito sob esta nova conexão. Outras suítes como Firedac, SQLdb, … tem um componente intitulado <em><strong>Transaction</strong></em> que permite ser associado a uma conexão vigente e trocá-la sem precisar abrir uma nova conexão com TIL diferente. A partir do Zeos8+ já existe um componente ZTransaction para esse proposito, se quiser ajudar o projeto, o mesmo está em:</p>
+
+            <p><a href="https://sourceforge.net/projects/zeoslib/" target="_blank" rel="noreferrer noopener">https://sourceforge.net/projects/zeoslib/</a></p>
+
+            <p>E para fazer perguntas ou reportar bugs:</p>
+
+            <p><a href="https://zeoslib.sourceforge.io/" target="_blank" rel="noreferrer noopener">https://zeoslib.sourceforge.io/</a></p>
+
+            <p>A capacidade de trocar de TIL sem ter que estabelecer uma nova conexão é bastante interessante porque as vezes experimentamos cenários diferentes dentro do mesmo programa, por exemplo, usar "READ COMMITED" para pesquisas, mas um "SNAPSHOT" quando a situação for relatórios ou ainda "SERIALIZABLE" quando for editar registros específicos e bloquear outros de editá-las. Além disso, alguns RDBMS cobram suas licenças de uso  "por conexão" ao banco ao invés de "por dispositivo".</p>
+
+            <h2 id="properties-lista-de-parametros"><strong>Properties</strong>(propriedades ou parâmetros):</h2>
+
+            <p>Valor será uma Lista de parametros ao estilo PairList(variável=conteúdo).</p>
+
+            <p><em>Properties</em> são parâmetros de conexão de banco de dados que podem definir comportamentos do componente Zeos ou do banco de dados, por exemplo. Como exemplo de <em>properties </em>que mudam o comportamento do Zeos podemos citar sua capacidade de criar um banco de dados com a <em>properties </em><strong>CreateNewDatabase</strong>, veja esse exemplo:</p>
+
+            <pre><code>// O codigo abaixo esta criando o banco de dados, porém o charset UTF8 que 
+// deveria ter o collate UNICODE_CI_AI ficou sem nenhum collation. Este foi bug 
+// que reportei e aguardo estarem resolvidos na próxima revisão.
+try
+  if ZConnection1.Connected then
+    ZConnection1.Disconnect;
+  ZConnection1.Properties.Clear;
+  ZConnection1.Properties.Values['dialect']:='3';
+  ZConnection1.Properties.Values['CreateNewDatabase'] :=
+    'CREATE DATABASE ' + QuotedStr('C:\PATH\TO\DATABASE.FDB') +  
+    ' USER ' + QuotedStr('SYSDBA') +
+    ' PASSWORD ' + QuotedStr('masterkey') +
+    ' PAGE_SIZE ' + intToStr(8192) +
+    ' DEFAULT CHARACTER SET '+QuotedStr('UTF8')
+    ' COLLATION '+QuotedStr('UNICODE_CI_AI') +';'+sLineBreak;
+  ZConnection1.Connect;
+  ShowMessage('banco criado!'); 
+except
+on e:exception do ShowMessage(e.Message);
+end;</code></pre>
+
+            <p><strong>Observação</strong>: Usar database com charset UNICODE como no exemplo acima traz algumas limitações,  visto que um caractere pode consumir mais bytes que outros charsets, o tamanho de página máximo será reduzido a metade, se o tamanho de página máximo for <strong>16.384</strong> bytes para outros charsets, provavelmente em UNICODE não passará de <strong>8.192</strong> bytes.</p>
+
+            <p>Pessoalmente, prefiro rodar scripts para criar banco de dados porque a ferramenta iSQL é otimizada e testada para isso. Criar banco de dados usando um componente não há garantias que o mesmo foi criado sem nenhum bug.</p>
+
+            <p><em>Properties<strong> </strong></em>também pode ser usado para mudar a forma como o banco deve se comportar em algumas situações. No exemplo abaixo, estou usando <em>Properties</em> para modificar o isolamento das transações(TIL) num banco FirebirdSQL:</p>
+
+            <pre><code>// propriedades de read commited para o FirebirdSQL
+ZConnection1.Connection.TransactIsolationLevel := tiNone;
+ZConnection1.Properties.Clear;
+ZConnection1.Properties.Add('isc_tpb_read_committed');
+ZConnection1.Properties.Add('isc_tpb_rec_version');
+ZConnection1.Properties.Add('isc_tpb_nowait');</code></pre>
+
+            <p>As propriedades e características variam conforme o banco de dados, mas especificamente para o TIL não é preciso usar elas já que temos a propriedade <strong>TransactIsolationLevel</strong> especializada nisso. Mudar o tipo de isolamento por meio de <em>Properties </em>e não usar TransactIsolationLevel := tiNone pode resultar em problema porque uma pode descaracterizar  outra e o Zeos impede isso dando uma mensagem de erro fatal.</p>
+
+            <h2 id="readonly-verdadeiro-ou-falso"><strong>ReadOnly</strong>:</h2>
+
+            <p>Valor do tipo Verdadeiro ou Falso. Quando "true", nenhuma operação de escrita no banco de dados funcionará. Isso não quer dizer que não possa haver <em>Commit</em> ou <em>RollBack</em>, pois eles tem a ver também com o TIL onde registros poderão estar disponíveis apenas depois de um commit seguido de um refresh.</p>
+
+            <h2 id="sqlhourglass-verdadeiro-ou-falso"><strong>SQLHourGlass</strong>:</h2>
+
+            <p>Valor Verdadeiro ou Falso. Quando SQLHourGlass é "true", no momento em que um comando SQL é submetido, a aparência cursor incluirá as iniciais "SQL" dentro da mesma.</p>
+
+            <h2 id="usemetadata-verdadeiro-ou-falso"><strong>UseMetadata</strong>:</h2>
+
+            <p>Valor do tipo Verdadeiro ou Falso. Se "true", os metadados (tabelas internas do banco de dados, não as tabelas criadas por você) serão usados para determinar se as colunas(campos) são graváveis ou não, isso é necessários para que comandos SQL como insert, update e delete gerados automaticamente sejam funcionais. Boa parte dos componentes como TZUpdateSQL ou TFields precisam disso então a boa politica aqui é manter ligado, isto é, verdadeiro.</p>
+
+            <p>Mantenha "falso" apenas se tiver certeza de que o acesso a metadados não serão necessários, geralmente desejamos isso quando estamos escrevendo um backend ou classes onde todas as atualizações em SQL serão escritas e executadas manualmente sem as automações que falei. Alguns programadores evitam os data-awares – componentes associados a TFields – e tem seus SQLs de INSERT/UPDATE/DELETE escritos manualmente e assim também não precisam dessa opção ligada. Evitar que a aplicação faça consulta aos metadados é também uma forma de otimizar o sistema, já que sua aplicação fará menos consulta ao banco de dados, útil especialmente em serviços hospedados na nuvem como consultas REST.</p>
+
+            <p>Se você usa métodos como <strong><em>RowAffected </em></strong>ou <em><strong>RowCount</strong></em>, que retornam o numero de registros afetados pelo ultimo select/insert/update/delete não é muito saudável deixar essa propriedade em Verdadeiro, pois seus resultados obtidos podem ter sido influenciados por consulta ao metadados depois que você concluiu um comando SQL.</p>
+
+            <h2 id="connected">Connected</h2>
+
+            <p>Valor do tipo Verdadeiro ou Falso. Quando "true" conecta ao banco de dados e permanece como <em>verdadeiro</em>, se a conexão falhar então retorna como <em>falso</em>. Se já estiver conectado e for informado <em>falso</em> então a conexão será  interrompida. Ex:</p>
+
+            <pre><code>    if ZConnection1.Connected then
+      ZConnection1.Connected:=false;</code></pre>
+
+            <p>Mas para alguns é estranho usar do jeito acima, por isso, há esse outro jeito:</p>
+
+            <pre><code>if ZConnection1.Connected then
+  ZConnection1.Disconnect;</code></pre>
+
+            <p>Jeitos diferentes de fazer a mesma coisa é comum na programação, muito do que conhecemos hoje vem de padrões criados em outras linguagens, isso facilita muito para que programadores de outras linguagens possam se sentir a vontade.</p>
+
+            <h2 id="conectando-a-uma-base-de-dados">Conectando a uma base de dados</h2>
+
+            <p>Agora que sabemos todas as propriedades de conexão do Zeos, podemos então conectar a uma base de dados:</p>
+
+            <pre><code>try
+  if zConnection1.Connected then
+    zConnection1.Disconnect;
+  zConnection1.AutoCommit:=false;
+  //zConnection1.AutoEncodeStrings:=false; // ela é inoqua
+  zConnection1.Catalog:=''; // voce usa postgre?
+  zConnection1.Protocol:='firebird';
+  zConnection1.ClientCodePage:='ISO8859_1';
+  // A constante cCP_UTF8 precisa da unit ZCompatibility no uses
+  // as constantes cCP_UTF16 e cGET_ACP não são usados no Lazarus.
+  zConnection1.ControlsCodePage:=cCP_UTF8;
+  zConnection1.Database:='c:\caminho\para\o\banco.fdb';
+  zConnection1.Hostname:='localhost';
+  zConnection1.LibraryLocation:='fbclient.dll';
+  zConnection1.LoginPrompt:=false;
+  zConnection1.User:='SYSDBA';
+  zConnection1.Password:='masterkey';
+  zConnection1.Port:=3050;
+  // As constantes dentro de TransactIsolationLevel 
+  // estão dentro da unit ZDbcIntfs 
+  zConnection1.TransactIsolationLevel := tiReadCommitted;
+  // propriedades de read commited para o FirebirdSQL irão mudar o isolamento
+  // mesmo com TransactIsolationLevel=tiReadCommitted
+  zConnection1.Properties.Clear;
+  zConnection1.Properties.Add('isc_tpb_read_committed');
+  zConnection1.Properties.Add('isc_tpb_rec_version');
+  zConnection1.Properties.Add('isc_tpb_nowait');
+  zConnection1.ReadOnly:=false;
+  zConnection1.SQLHourGlass:=true;
+  zConnection1.UseMetadata:=true;
+  ZConnection1.Connected:=true;
+finally
+end;</code></pre>
+
+            <h2 id="pool-de-conexoes">Pool de conexões</h2>
+
+            <p>Este é um recurso muito útil para quem servirá múltiplas conexões e não necessariamente uma conexão por usuário, é quase uma exigência para serviços WEB, pois ao manter conexões abertas pré-dispostas não é necessário conectar a base todas as vezes, e se uma conexão já estiver em uso, podemos usufruir de outra disponível ou abrir uma nova. Saiba que é possível pool de conexões usando o Zeos, o método é bastante simples envolvendo uma nova propriedade em <em>Properties </em>e renomear a conexão e o <em>Protocol </em>para ter o sufixo <strong>pooled</strong> nas conexões. Mas falta material para que eu possa demonstrar como fazê-la, mas se pretende implementá-la sugiro que leia o link:</p>
+
+            <p><a href="https://sourceforge.net/p/zeoslib/wiki/Connection%20Pooling/" target="_blank" rel="noreferrer noopener">https://sourceforge.net/p/zeoslib/wiki/Connection%20Pooling/</a></p>
+
+            <h2 id="conclusao">Conclusão</h2>
+
+            <p>Tudo que aprendemos com o Zeos tem em outras suítes de componentes de acesso a dados como o SQLdb(Lazarus), FireDAC, IBO e tantos outros. Então aprender como o Zeos funciona também nos ensina como outras suítes funcionam, aprendeu uma, praticamente aprendeu todas.</p>
+
+            <p>Se ainda estiver em dúvida, assista ao vídeo:</p>
+
+            <div class="video-cta">
+                <p>Parte 2: Conexão a banco de dados com Zeos, falando sobre TILs - Lazarus</p>
+                <a href="https://www.youtube.com/watch?v=8GL851YCDNY" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+            </div>
+
+            <p>No vídeo a seguir, vamos entender a diferença entre uma conexão embarcada, local e remota usando o Banco de dados FirebirdSQL:</p>
+
+            <div class="video-cta">
+                <p>Banco de dados: Diferença entre conexão local, remota e embarcado, em especial com FirebirdSQL</p>
+                <a href="https://www.youtube.com/watch?v=KT5VDXnLCFc" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+            </div>
+
+            <p>Caso queira estudar os exemplos, os mesmos podem ser obtidos aqui:</p>
+
+            <p><a href="https://github.com/gladiston/lazdemos_gsl" target="_blank" rel="noreferrer noopener">https://github.com/gladiston/lazdemos_gsl</a></p>
+
+            <h2>Conclusão</h2>
+            <p>O componente <strong>ZConnection</strong> é o coração do acesso a dados com Zeos no Lazarus. Dominar suas propriedades — especialmente <strong>Protocol</strong>, <strong>Host</strong>, <strong>Database</strong>, <strong>AutoCommit</strong> e <strong>TransactIsolationLevel</strong> — é fundamental para construir aplicações que se conectem de forma correta e eficiente a diversos bancos de dados.</p>
+            <p>Entender a diferença entre acesso direto e indireto, além de quando usar transações manuais ou autocommit, evita armadilhas em produção. Consulte a documentação oficial e os vídeos indicados para aprofundar; os exemplos no repositório <em>lazdemos_gsl</em> complementam este guia.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

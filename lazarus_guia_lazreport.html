@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios com LazReport - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>Introdução ao LazReport</h2>
+                <p>O <strong>LazReport</strong> foi criado por <strong>golivier</strong> no SourceForge em <strong>setembro de 2004</strong>, baseado no FreeReport 2.32, e hoje é mantido pela comunidade do Lazarus como parte do ecossistema oficial da IDE. Ele vem integrado à instalação padrão do Lazarus (embora precise ser ativado via gerenciador de pacotes) e segue um paradigma muito próximo ao <strong>FastReport</strong> do Delphi, focando em um designer visual independente do código-fonte.</p>
+                <p>Diferente do Fortes Report, onde o design acontece no formulário, o LazReport oferece um editor próprio que centraliza a construção do layout, quase dispensando programação manual para relatórios padrão. Por ser parte do ecossistema oficial do Lazarus, ele recebe atualizações regulares junto com a IDE. Para comparar com outras opções do ecossistema (Fortes Report, fpReport, fpSpreadsheet, FastReport, FPDF, PowerPDF), consulte a <a href="lazarus_guia_intro_relatorios.html">Introdução aos Geradores de Relatórios</a>.</p>
+            </section>
+
+            <section id="analise-tecnica">
+                <h2>Análise para Programadores</h2>
+                <p>O LazReport trabalha com o conceito de <strong>Datasets</strong> para conexão de dados e <strong>Variáveis</strong> para valores dinâmicos (como data/hora ou totais personalizados). Ele é ideal para cenários onde o layout precisa de ajustes frequentes sem a necessidade de recompilar toda a aplicação.</p>
+                <p><strong>Nível de dificuldade de aprendizado:</strong> <strong>Baixo a Médio</strong>. O editor visual independente do código facilita o aprendizado para quem vem do FastReport ou de ferramentas WYSIWYG. A curva aumenta quando se exige lógica avançada ou integração profunda via código Pascal.</p>
+                <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
+                        <strong>Pontos Positivos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Interface de design poderosa e intuitiva para usuários.</li>
+                            <li>Suporta a criação de variáveis customizadas em tempo de execução.</li>
+                            <li>Facilidade em criar relatórios puramente visuais (low-code).</li>
+                            <li>Integrado à instalação padrão do Lazarus; exportação PDF via PowerPDF, XLS/ODS via fpSpreadsheet.</li>
+                            <li>Relatórios podem ser ajustados sem recompilar a aplicação.</li>
+                            <li>Recebe atualizações regulares junto com a IDE.</li>
+                        </ul>
+                    </div>
+                    <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b;">
+                        <strong>Destaques Negativos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Menos flexível que o Fortes para lógicas complexas via código Pascal puro.</li>
+                            <li>A manutenção de fórmulas complexas dentro do editor pode ser difícil de rastrear.</li>
+                            <li>Dependência da LCL; inviável para servidores headless.</li>
+                            <li>Depende de pacotes externos (PowerPDF, fpSpreadsheet) para algumas exportações.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="exemplo-codigo">
+                <h2>Manipulação via Código</h2>
+                <p>Embora seja visual, é perfeitamente possível localizar e alterar objetos do relatório em tempo de execução para ajustes finos:</p>
+
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; font-family: 'Fira Code', monospace;">
+                    <pre>
+// Localizando e alterando componentes visuais
+if frx_Report.FindObject('LBL_VL_TOTAL') &lt;&gt; nil then
+begin
+  TfrxMemoView(frx_Report.FindObject('LBL_VL_TOTAL')).Memo.Text := 'Valor em REAIS';
+end;
+
+// Passando variáveis para o motor de relatório
+frx_Report.Variables.Variables['NOME_LOCAL'] := 'Estado, Cidade, Cep, UF';
+frx_Report.Variables.Variables['REQUERENTE'] := 'José da Silva';</pre>
+                </div>
+            </section>
+
+            <section id="instalacao">
+                <h2>Instalação dos Pacotes</h2>
+                <p>Para utilizar o LazReport, acesse <strong>Pacote -> Instalar e desinstalar pacotes</strong> e selecione os seguintes itens essenciais:</p>
+                <ul>
+                    <li><code>lazreport</code>: O motor principal.</li>
+                    <li><code>lazreportpdfexport</code>: Exportação para PDF (requer PowerPDF).</li>
+                    <li><code>lrspreadsheetexport</code>: Exportação para XLS/ODS (requer fpSpreadsheet).</li>
+                    <li><code>lr_codereport_pkg</code> e <code>lazfpreportdesign</code>: Recursos adicionais de design e código.</li>
+                </ul>
+                <p><strong>Dica Técnica:</strong> Fique atento às dependências. Instalar pacotes que iniciam com <code>lazIstoOuAquilo</code> pode adicionar funcionalidades extras, mas sempre valide as dependências antes da compilação para não "quebrar" a IDE.</p>
+                <p>Wiki oficial: <a href="https://wiki.freepascal.org/LazReport" target="_blank">Wiki LazReport</a></p>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>O LazReport é a escolha ideal quando o foco é a autonomia do usuário final ou a facilidade de design visual. Para programadores Delphi veteranos, a transição é imediata devido à semelhança com o FastReport, consolidando-se como uma ferramenta de alta produtividade para aplicações Desktop profissionais. Para uma visão comparativa com FRCE, fpReport, fpSpreadsheet, FastReport, FPDF e PowerPDF, consulte a <a href="lazarus_guia_intro_relatorios.html">Introdução aos Geradores de Relatórios</a>.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

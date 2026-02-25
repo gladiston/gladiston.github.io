@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDINotebook - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>TDINotebook</h1>
+                <p>Implementando a Interface de Documentos em Abas no Lazarus</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>A gestão de janelas em softwares desktop evoluiu para atender às exigências de usabilidade e hardware moderno. O <strong>TDINotebook</strong> é o componente que traz o conceito de <strong>TDI (Tabbed Document Interface)</strong> para o ambiente Lazarus, permitindo organizar formulários em abas dentro de um único container principal, eliminando o caos de múltiplas janelas flutuantes ou modais que limitam a experiência do usuário.</p>
+
+            <h2>O Fim das Interfaces MDI</h2>
+            <p>O antigo modelo MDI (Multiple Document Interface), popular nas décadas passadas, é hoje considerado tecnicamente ultrapassado:</p>
+            <ul>
+                <li><strong>Abandono pela Microsoft:</strong> O suporte ao MDI foi descontinuado nos Windows recentes. O modelo não é compatível com as novas diretrizes de design e usabilidade.</li>
+                <li><strong>Bugs de HighDPI:</strong> Em telas de alta resolução, o MDI sofre com falhas graves de renderização e redimensionamento que não receberão mais correções oficiais pela Microsoft.</li>
+                <li><strong>Rejeição no Linux:</strong> No Linux, interfaces MDI nunca existiram de fato por serem vistas como um projeto de UI falho que interfere na autonomia do gerenciador de janelas do sistema.</li>
+                <li><strong>Adoção do TDI pelo Delphi:</strong> As versões atuais do Delphi migraram para o modelo TDI (com abas visíveis ou ocultas), justamente para contornar as limitações técnicas do MDI em ambientes modernos.</li>
+            </ul>
+
+
+
+            <h2>Vantagens Estratégicas do TDI</h2>
+            <p>Além da compatibilidade técnica, o uso de abas oferece multitarefa real ao usuário e uma gestão de memória superior, já que o TDINotebook automatiza a destruição dos formulários ao fechar cada guia.</p>
+
+            <section id="video-tutorial">
+                <h2>Vídeo Tutorial</h2>
+                <p>Assista abaixo à demonstração:</p>
+                <div class="video-cta">
+                    <p>O que é uma aplicação TDI e como instalar</p>
+                    <a href="https://www.youtube.com/watch?v=IZFOSHklOJY" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+                </div>
+            </section>
+
+            <h2>Exemplo de Implementação</h2>
+            <p>Para configurar o TDINotebook e evitar a aparência padrão de "navegador web", oculte as abas e gerencie o fluxo via código no <code>OnCreate</code> do form principal:</p>
+
+<pre><code>// Configuração estética do componente
+TDINoteBook1.Align := alClient;
+TDINoteBook1.ShowTabs := false; // Oculta abas para controle via menu
+
+// Esconde ações que o usuário não deve acessar diretamente
+TDINoteBook1.TDIActions.CloseAllTabs.Visible := false;
+TDINoteBook1.TDIActions.CloseTab.Visible := false;</code></pre>
+
+            <p>Para abrir um formulário garantindo que ele não seja duplicado na memória:</p>
+
+<pre><code>procedure TForm1.actClientesExecute(Sender: TObject);
+var
+  i: Integer;
+begin
+  i := TDINoteBook1.FindFormInPages(fmClientes);
+  if i < 0 then
+    fmClientes := TfmClientes.Create(Self);
+
+  TDINoteBook1.ShowFormInPage(fmClientes, i);
+end;</code></pre>
+
+            <h2>Docagem: Uma Alternativa Poderosa</h2>
+            <p>Além do uso de abas com o TDINotebook, outra possibilidade avançada para criar interfaces TDI é o <strong>Docking</strong>. Esta técnica consiste em "docar" janelas secundárias ou <code>TFrames</code> dentro de componentes como o <code>TPanel</code> ou até mesmo outros formulários.</p>
+            <p>Ao definir a propriedade <code>Parent</code> de um formulário recém-criado para um painel da janela principal, você ganha total flexibilidade de layout, podendo criar áreas de trabalho complexas onde o usuário pode organizar os módulos do sistema como preferir.</p>
+
+
+
+            <div class="video-cta">
+                <p>Criando uma aplicação TDI passo a passo</p>
+                <a href="https://www.youtube.com/watch?v=lKhq5phLEas" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+            </div>
+
+            <h2>Conclusão</h2>
+            <p>Migrar para o TDINotebook ou adotar técnicas de docagem é alinhar seu software Lazarus com os padrões de desenvolvimento vigentes no Windows e no Linux. Ao abandonar o MDI e as janelas modais em excesso, você soluciona problemas críticos de renderização em telas de alta densidade e oferece ao usuário final uma interface organizada, estável e de alta performance. É a escolha definitiva para sistemas de gestão modernos.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

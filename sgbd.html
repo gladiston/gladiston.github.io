@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGBD: Guia de Administração e Performance - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Gestão de Bancos de Dados</h1>
+                <p>Fundamentos, Performance e Estratégias de Migração.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="pascal.html">Pascal</a></li>
+            <li><a href="python.html">Python</a></li>
+            <li><a href="bash.html">Bash</a></li>
+            <li><a href="linux.html">Linux</a></li>
+            <li><a href="sgbd.html">Banco de dados</a></li>
+            <li><a href="sobre-mim.html">Sobre mim</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Artigos e Boas Práticas de DBA</h2>
+            <p>Abaixo, reuni os principais tópicos sobre a saúde e a performance do seu banco de dados, fundamentais para desenvolvedores e administradores.</p>
+
+            <div class="bash-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 15px; margin-top: 2rem;">
+
+                <a href="sgbd_pagesize.html" class="card-link" style="text-decoration: none; color: inherit;">
+                    <div style="padding: 1.2rem; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; border-left: 4px solid var(--azul-principal);">
+                        <strong>Páginas:</strong> Por que se preocupar com charset e tamanho de página?
+                    </div>
+                </a>
+
+                <a href="sgbd_charset.html" class="card-link" style="text-decoration: none; color: inherit;">
+                    <div style="padding: 1.2rem; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; border-left: 4px solid var(--azul-principal);">
+                        <strong>Escolha:</strong> Qual charset usar? ISO8859_1, WIN1252 ou UTF8?
+                    </div>
+                </a>
+
+                <a href="sgbd_collate.html" class="card-link" style="text-decoration: none; color: inherit;">
+                    <div style="padding: 1.2rem; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; border-left: 4px solid var(--azul-principal);">
+                        <strong>Collate:</strong> O que são, o que comem e onde vivem?
+                    </div>
+                </a>
+
+                <a href="sgbd_backup.html" class="card-link" style="text-decoration: none; color: inherit;">
+                    <div style="padding: 1.2rem; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; border-left: 4px solid var(--azul-principal);">
+                        <strong>Backup:</strong> Completo, Diferencial e Incremental - a melhor estratégia.
+                    </div>
+                </a>
+
+                <a href="sgbd_conn_types.html" class="card-link" style="text-decoration: none; color: inherit;">
+                    <div style="padding: 1.2rem; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; border-left: 4px solid var(--azul-principal);">
+                        <strong>Arquitetura:</strong> Diferença entre conexão remota, local e embarcada.
+                    </div>
+                </a>
+
+                <a href="sgbd_query_params.html" class="card-link" style="text-decoration: none; color: inherit;">
+                    <div style="padding: 1.2rem; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; border-left: 4px solid var(--azul-principal);">
+                        <strong>Segurança:</strong> Por que utilizar Querys Parametrizadas?
+                    </div>
+                </a>
+
+                <a href="sgbd_autocommit.html" class="card-link" style="text-decoration: none; color: inherit;">
+                    <div style="padding: 1.2rem; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; border-left: 4px solid var(--azul-principal);">
+                        <strong>Transações:</strong> Autocommit - isso é bom ou ruim para seu programa?
+                    </div>
+                </a>
+
+            </div>
+
+            <hr style="margin: 3rem 0; border: 0; border-top: 1px solid #eee;">
+
+            <h2>Especialidades em SGBDs</h2>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <a href="sgbd_fb.html" style="padding: 1rem 2rem; background: var(--azul-principal); color: white; border-radius: 5px; text-decoration: none;">Firebird SQL</a>
+                <a href="sgbd_mssql.html" style="padding: 1rem 2rem; background: #c0392b; color: white; border-radius: 5px; text-decoration: none;">MS SQL Server</a>
+                <a href="sgbd_postgre.html" style="padding: 1rem 2rem; background: #2e86c1; color: white; border-radius: 5px; text-decoration: none;">PostgreSQL</a>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

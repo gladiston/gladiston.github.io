@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDR: Estendendo o Firebird - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird: UDR (User Defined Routines)</h1>
+                <p>Alta performance e integração externa com linguagens compiladas.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD</a></li>
+            <li><a href="sgbd_fb.html">Firebird</a></li>
+            <li><a href="sgbd_fb_udr.html">UDR</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>UDR: User Defined Routines</h2>
+            <p>Confira abaixo uma coleção de recursos e informações sobre UDRs (User Defined Routines) no FirebirdSQL. As UDRs permitem estender o Firebird com funções customizadas desenvolvidas em linguagens compiladas como Pascal e C++.</p>
+
+            <div class="fb-grid">
+                <a href="sgbd_fb_udr_intro.html" target="_blank" rel="noopener" class="fb-card">
+                    <h3>O que são UDR (User Defined Routines)?</h3>
+                    <p>A partir da versão 3.0, o Firebird introduziu as UDRs, substituindo o antigo conceito de UDFs. As UDRs são plugins integrados que rodam dentro do motor com segurança e contexto de transação, permitindo cálculos complexos, integração de sistemas e criptografia customizada com alta performance.</p>
+                </a>
+
+                <a href="https://github.com/IBSurgeon/lucene_udr" target="_blank" rel="noopener" class="fb-card">
+                    <h3>Lucene FTS UDR</h3>
+                    <p>Biblioteca UDR que implementa procedimentos e funções de busca full-text para Firebird SQL usando o poderoso motor de busca Lucene++. Permite realizar buscas de texto completo com alta performance e recursos avançados de análise de texto, incluindo suporte para múltiplos idiomas e analisadores customizados.</p>
+                </a>
+
+                <a href="https://github.com/mnf71/udr-lkJSON" target="_blank" rel="noopener" class="fb-card">
+                    <h3>JSON UDR library for Firebird</h3>
+                    <p>Biblioteca UDR desenvolvida em FreePascal para trabalhar com JSON no FirebirdSQL 3.0. Funciona em Windows e Linux, com licença MIT (100% livre e open source). Permite manipular e processar dados JSON diretamente no banco de dados Firebird através de funções UDR.</p>
+                </a>
+            </div>
+
+            <p><a href="sgbd_fb.html" class="back-link">&larr; Voltar para Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

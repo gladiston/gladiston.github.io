@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebird SQL: Guia Completo de Administração e Desenvolvimento - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird SQL</h1>
+                <p>O que é, Instalação, Manutenção e Administração.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD Hub</a></li>
+            <li><a href="sgbd_fb.html">Dicas FB</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Guia Completo de Administração e Desenvolvimento Firebird</h2>
+            <p>O FirebirdSQL é um banco de dados relacional open source, leve e poderoso, derivado do InterBase da Borland. Ele roda em Windows, Linux, macOS e ARM, e é amplamente usado em sistemas comerciais, ERP e aplicações embarcadas. </p>
+            <p>Selecione um dos temas abaixo para aprofundar seus conhecimentos na administração e desenvolvimento para Firebird SQL.</p>
+
+
+            <div class="fb-grid">
+                <a href="sgbd_fb_intro.html" class="fb-card">
+                    <h3>Introdução ao FirebirdSQL</h3>
+                    <p>O que é, pontos positivos, histórico, etc.</p>
+                </a>                
+                <a href="sgbd_fb_install_win.html" class="fb-card">
+                    <h3>Instalação em Windows</h3>
+                    <p>Passo a passo para configurar o servidor em ambientes Windows.</p>
+                </a>
+
+                <a href="sgbd_fb_install_linux_deb.html" class="fb-card">
+                    <h3>Instalação em Linux (Debian)</h3>
+                    <p>Guia de instalação via terminal para distros baseadas em Debian.</p>
+                </a>
+
+                <a href="sgbd_fb_install_linux_vs_win.html" class="fb-card">
+                    <h3>Linux vs Windows</h3>
+                    <p>Qual sistema operacional performa melhor como servidor de dados?</p>
+                </a>
+                <a href="sgbd_fb_apps.html" class="fb-card">
+                    <h3>Gerenciadores de Banco de dados Firebird</h3>
+                    <p>Quais alguns programas que podemos usar para gerenciar o Firebird?</p>
+                </a>
+                <a href="sgbd_fb_config_hints.html" class="fb-card">
+                    <h3>Configurações importantes em firebird.conf </h3>
+                    <p>Fique por dentro das configurações importantes do arquivo de configuração do Firebird.</p>
+                </a> 
+                <a href="sgbd_fb_db_aliases.html" class="fb-card">
+                    <h3>Criando aliases para bancos de dados</h3>
+                    <p>Chega de digitar o caminho completo do banco de dados, crie aliases para bancos de dados.</p>
+                </a>                                
+                <a href="sgbd_fb_pagesize.html" class="fb-card">
+                    <h3>Page Size</h3>
+                    <p>Por que o tamanho da página é vital no momento da criação do banco?</p>
+                </a>
+
+                <a href="sgbd_fb_charset.html" class="fb-card">
+                    <h3>Qual Charset usar?</h3>
+                    <p>Comparativo entre ISO8859_1, WIN1252 e UTF8.</p>
+                </a>
+
+                <a href="sgbd_fb_collate.html" class="fb-card">
+                    <h3>Collate e Ordenação</h3>
+                    <p>Entendendo como o banco trata acentuação e buscas.</p>
+                </a>
+
+                <a href="lazarus_guia_zeos_tipos_conn.html" class="fb-card">
+                    <h3>Tipos de Conexão</h3>
+                    <p>Diferenças entre conexões Remota, Local e Embarcada (Embedded).</p>
+                </a>
+
+                <a href="sgbd_fb_query_param.html" class="fb-card">
+                    <h3>Queries Parametrizadas</h3>
+                    <p>Por que DBAs insistem que programadores não concatenem strings.</p>
+                </a>
+
+                <a href="sgbd_autocommit.html" class="fb-card">
+                    <h3>Autocommit</h3>
+                    <p>Descubra se o commit automático é um aliado ou um vilão.</p>
+                </a>
+
+                <a href="sgbd_fb_sweeping.html" class="fb-card">
+                    <h3>Gerenciamento de Sweeping</h3>
+                    <p>A importância da limpeza de lixo transacional para a performance.</p>
+                </a>
+
+                <a href="sgbd_fb_backup.html" class="fb-card">
+                    <h3>Estratégias de Backup</h3>
+                    <p>Diferenças entre Gbak e Nbackup (Full, Diferencial e Incremental).</p>
+                </a>
+
+                <a href="sgbd_fb_accounts_transfer.html" class="fb-card">
+                    <h3>Contas de Usuários</h3>
+                    <p>Como transferir usuários (security.db/fdb) entre servidores.</p>
+                </a>
+
+                <a href="sgbd_fb_wrong_accents.html" class="fb-card">
+                    <h3>Acentuações Erradas</h3>
+                    <p>Por que os dados aparecem corrompidos mesmo após o insert correto?</p>
+                </a>
+
+                <a href="sgbd_fb_debug_pssql.html" class="fb-card">
+                    <h3>Depurando PSQL</h3>
+                    <p>Técnicas para debugar comandos e Stored Procedures.</p>
+                </a>
+
+                <a href="sgbd_fb_scripts_video.html" class="fb-card">
+                    <h3>Por que aprender scripts no Firebird?</h3>
+                    <p>Quem trabalha com Firebird cedo ou tarde esbarra em deploy de banco, criação de estruturas (DDL), carga de dados e rotinas repetíveis. Saber “scriptar” bem significa conseguir reproduzir um ambiente do zero, versionar mudanças e reduzir erros manuais.</p>
+                </a>
+
+
+            </div>
+
+            <p style="margin-top: 3rem;"><a href="sgbd_fb.html" class="back-link">&larr; Voltar para o Índice Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

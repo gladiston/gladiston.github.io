@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python: Backoffice & Conectividade - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1 style="font-size: 1.6rem; color: #ffffff;">Python para Engenharia de Sistemas</h1>
+                <p style="font-size: 1rem; color: #ffffff;">Desenvolvimento focado em automação de backoffice e integração de dados.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="linux.html">Linux</a></li>
+            <li><a href="pascal.html">Pascal</a></li>
+            <li><a href="python.html">Python</a></li>
+            <li><a href="bash.html">Bash</a></li>
+            <li><a href="sgbd.html">Banco de dados</a></li>
+            <li><a href="sobre-mim.html">Sobre mim</a></li>
+            <li><a href="contato.html">Contato</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Backoffice & Servidores</h2>
+            <p>Utilizo o Python como uma ferramenta poderosa para estender as capacidades do sistema operacional, criando ferramentas de backoffice que automatizam processos críticos que antes dependiam de intervenção manual.</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin: 2rem 0;">
+                <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd;">
+                    <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">Automação de Servidores</h3>
+                    <p style="font-size: 1rem;">Desenvolvimento de serviços de background (daemons) para monitoramento de recursos, gestão de logs e automação de tarefas de infraestrutura.</p>
+                </div>
+                <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd;">
+                    <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">Conectividade com SGBDs</h3>
+                    <p style="font-size: 1rem;">Expertise na criação de ETLs e middlewares utilizando SQLAlchemy e Psycopg2 para PostgreSQL e Firebird.</p>
+                </div>
+                <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd;">
+                    <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">APIs de Integração</h3>
+                    <p style="font-size: 1rem;">Construção de interfaces REST seguras para ponte entre bases de dados legadas e aplicações modernas.</p>
+                </div>
+            </div>
+
+            <section style="margin: 2.5rem 0; padding: 2rem; background: #f8f9fa; border-radius: 12px; border: 1px solid #ddd; border-left: 6px solid var(--azul-principal);">
+                <h3 style="color: var(--azul-principal); margin-bottom: 1rem;">Projeto em Destaque: Scripts-Py</h3>
+                <p>Mantenho um repositório dedicado a scripts utilitários de sistema e automação de processos, focados em produtividade e monitoramento de ambientes Linux.</p>
+
+                <div style="margin-top: 1.5rem;">
+                    <a href="https://github.com/gladiston/scripts-py" target="_blank" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block;">
+                        Explorar Repositório scripts-py &rarr;
+                    </a>
+                </div>
+            </section>
+
+            <h2>Automação de Conectividade</h2>
+            <p>Abaixo, um exemplo de como estruturo conexões robustas para processos de banco de dados, disponível em meu repositório <a href="https://github.com/gladiston/scripts-py" target="_blank">scripts-py</a>:</p>
+
+            <pre><code>import psycopg2
+
+def connect_to_db():
+    try:
+        # Exemplo de lógica para backoffice automatizado
+        conn = psycopg2.connect(
+            host="servidor_producao",
+            database="backoffice",
+            user="admin"
+        )
+        print("Conectado ao backoffice com sucesso.")
+        return conn
+    except Exception as e:
+        print(f"Erro na conectividade: {e}")
+
+if __name__ == "__main__":
+    connect_to_db()</code></pre>
+
+            <p style="margin-top: 2rem;"><a href="sobre-mim.html" class="back-link" style="color: var(--azul-principal); font-weight: 600; text-decoration: none;">&larr; Voltar para Sobre Mim</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

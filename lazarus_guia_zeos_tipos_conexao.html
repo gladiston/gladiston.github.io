@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conexão Remota, Local e Embarcada: Qual a diferença? - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Diferenças entre Conexão Remota, Local e Embarcada</h1>
+                <p>Gladiston Santana - Especialista em Banco de Dados e Desenvolvimento</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article class="conteudo-principal">
+            <section id="introducao">
+                <h2>Introdução</h2>
+                <p>Uma das dúvidas mais comuns para quem está começando a trabalhar com sistemas de banco de dados, especialmente utilizando o Zeos no Delphi ou Lazarus, é entender as nuances entre os tipos de conexão disponíveis. Muitas vezes, termos como "localhost" são confundidos com conexões verdadeiramente locais, o que pode impactar a performance e a arquitetura do seu software.</p>
+                <p>Nesta seção, vamos desmistificar esses conceitos e entender como tirar proveito de protocolos específicos, como o XNET do FirebirdSQL.</p>
+            </section>
+
+            <section id="tipos-conexao">
+                <h3>O que define cada conexão?</h3>
+                <p>Para os programadores menos experientes, existe uma confusão comum: acreditar que usar <code>localhost</code> configura uma conexão local. Na verdade, ao usar o host local, você ainda está passando pela camada de rede (TCP/IP), o que gera um overhead desnecessário se a aplicação e o banco estão no mesmo processo ou máquina.</p>
+
+
+
+                <ul>
+                    <li><strong>Remota:</strong> O banco de dados está em outro servidor físico ou virtual, acessado via rede (IP/Host).</li>
+                    <li><strong>Local:</strong> O banco está na mesma máquina, mas utiliza protocolos de memória compartilhada ou IPC (como XNET), ignorando a pilha TCP/IP.</li>
+                    <li><strong>Embarcada (Embedded):</strong> O motor do banco de dados é uma biblioteca carregada pelo próprio executável, sem um serviço rodando separadamente no sistema operacional.</li>
+                </ul>
+            </section>
+
+            <section id="video-tutorial">
+                <h2>Vídeo Tutorial</h2>
+                <p>Assista abaixo à explicação detalhada sobre as diferenças técnicas e quando utilizar cada uma:</p>
+                <div class="video-cta">
+                    <p>Banco de dados: Diferença entre conexão local, remota e embarcado</p>
+                    <a href="https://www.youtube.com/watch?v=KT5VDXnLCFc" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+                </div>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>Entender a diferença entre esses tipos de acesso é vital para criar aplicações escaláveis e performáticas. Programadores devem parar de assumir que <code>localhost</code> é sinônimo de acesso local. Ao projetar seus sistemas, ofereça flexibilidade para que o usuário ou o instalador possa definir o melhor protocolo para o ambiente de implantação.</p>
+                <p>Seja via rede para múltiplos usuários, local para performance em estação única, ou embarcada para portabilidade total, a escolha correta do driver no Zeos garantirá o sucesso do seu projeto.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

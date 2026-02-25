@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atalho Ctrl+H para componentes não visuais - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Atalho Ctrl+H para mostrar/esconder componentes não visuais</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>Durante o desenvolvimento de interfaces gráficas no Lazarus, é comum trabalhar com formulários que contêm tanto componentes visuais quanto não visuais. Os componentes não visuais, como timers, conexões de banco de dados e action lists, são essenciais para a funcionalidade da aplicação, mas podem poluir visualmente a área de design do formulário, dificultando a visualização e o trabalho com o layout.</p>
+
+            <p>O atalho <strong>Ctrl+H</strong> é uma funcionalidade simples mas extremamente útil que permite alternar rapidamente entre mostrar e ocultar esses componentes não visuais, limpando a visualização do formulário quando necessário. Esta é uma ferramenta essencial para desenvolvedores que trabalham com formulários complexos e desejam focar no design visual sem distrações.</p>
+
+            <p>No Delphi, o atalho <strong>Ctrl+H</strong> é amplamente utilizado para esconder ou exibir rapidamente os componentes não-visuais (como timers, conexões de banco de dados e action lists) que ficam sobre o <em>Form Designer</em>. No Lazarus IDE, essa funcionalidade também está disponível e é essencial para "limpar" a visão do layout durante o desenvolvimento.</p>
+
+            <h2>O que são componentes não-visuais?</h2>
+            <p>São elementos que fornecem funcionalidades importantes em tempo de execução, mas não possuem representação gráfica para o usuário final. Exemplos comuns incluem:</p>
+            <ul>
+                <li><code>TTimer</code></li>
+                <li><code>TDataSource</code>, <code>TSQLQuery</code>, <code>TZConnection</code></li>
+                <li><code>TImageList</code> e <code>TActionList</code></li>
+            </ul>
+
+            <h2>Configurando o atalho no Lazarus</h2>
+            <p>Por padrão, o Lazarus pode usar o Ctrl+H para busca de texto. Para configurar ou verificar o atalho de visibilidade de componentes, acesse:</p>
+            <p><strong>Tools | Options | Key Map</strong></p>
+
+            <div class="img-container">
+                <img src="assets/img/image.png" alt="Configuração de Key Map no Lazarus">
+            </div>
+
+            <div class="img-container">
+                <img src="assets/img/image-14.png" alt="Exemplo de componentes não visuais no formulário">
+            </div>
+
+            <p>Para localizar a função específica, use o filtro e pesquise por <strong>"nonvisual"</strong>. A opção desejada é <strong>"Toggle showing nonvisual components"</strong>.</p>
+
+            <div class="img-container">
+                <img src="assets/img/image-7.png" alt="Localizando a opção Toggle showing nonvisual components">
+            </div>
+
+            <p>Clique em <strong>Edit</strong> para definir o atalho. Você pode usar o botão <strong>Grab Key</strong> e pressionar a combinação <code>Ctrl+H</code>. Caso o Lazarus informe um conflito com o editor de texto, não se preocupe: a IDE consegue distinguir atalhos usados no editor daqueles usados no modo de design de formulários.</p>
+
+            <div class="img-container">
+                <img src="assets/img/image-11.png" alt="Atribuição do atalho Ctrl+H">
+            </div>
+
+            <h2>Testando a Funcionalidade</h2>
+            <p>Com um formulário aberto e repleto de ícones de componentes, pressione <code>Ctrl+H</code>. Note como a área de trabalho fica imediatamente limpa, permitindo focar exclusivamente no design visual da interface. Pressione novamente para que os ícones retornem.</p>
+
+            <div class="img-container">
+                <img src="assets/img/image-13.png" alt="Formulário com componentes ocultos após Ctrl+H">
+            </div>
+
+            <h2>Benefícios</h2>
+            <ul>
+                <li><strong>Clareza Visual:</strong> Melhora a visibilidade do layout em formulários complexos.</li>
+                <li><strong>Agilidade:</strong> Evita a necessidade de mover ícones manualmente para ver o que está por baixo.</li>
+                <li><strong>Foco:</strong> Permite alternar rapidamente entre a lógica (componentes) e a estética (layout).</li>
+            </ul>
+
+            <h2>Conclusão</h2>
+
+            <p>O atalho <strong>Ctrl+H</strong> é uma ferramenta simples mas extremamente valiosa para desenvolvedores que trabalham com formulários complexos no Lazarus. Ao permitir alternar rapidamente entre mostrar e ocultar componentes não visuais, ele melhora significativamente a clareza visual durante o design de interfaces, permitindo focar exclusivamente no layout sem a distração de ícones de componentes.</p>
+
+            <p>A configuração do atalho é direta através do menu <strong>Tools | Options | Key Map</strong>, e mesmo que haja um conflito aparente com outras funções do editor, a IDE consegue distinguir corretamente quando o atalho deve ser aplicado no modo de design versus o modo de edição de código.</p>
+
+            <p>Incorporar o <code>Ctrl+H</code> ao seu fluxo de trabalho no Lazarus tornará o desenvolvimento mais fluido e organizado. Esta pequena funcionalidade pode fazer uma grande diferença na sua produtividade, especialmente quando você trabalha com formulários que contêm muitos componentes não visuais. É uma daquelas ferramentas que, uma vez descoberta, se torna indispensável no seu conjunto de recursos de desenvolvimento.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

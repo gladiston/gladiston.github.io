@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O que são Funções e Procedimentos PSQL? - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird: Linguagem PSQL</h1>
+                <p>Otimização e centralização de regras de negócio com Procedural SQL.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD</a></li>
+            <li><a href="sgbd_fb.html">Firebird</a></li>
+            <li><a href="sgbd_fb_psql.html">PSQL</a></li>
+            <li><a href="sgbd_fb_udr.html">UDR</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>O que são Funções e Procedimentos PSQL?</h2>
+            <p>O PSQL (Procedural SQL) é a extensão da linguagem SQL do Firebird que permite a criação de rotinas complexas diretamente no banco de dados. Ao utilizar PSQL, conseguimos reduzir drasticamente o tráfego de rede entre a aplicação e o servidor, além de garantir que a regra de negócio seja aplicada independentemente do front-end utilizado.</p>
+
+            <h3>O que podemos fazer com PSQL</h3>
+            <ul>
+                <li><strong>Stored Procedures:</strong> Execução de tarefas em lote ou retorno de conjuntos de dados (Selectable Procedures).</li>
+                <li><strong>Triggers:</strong> Automação de auditorias, validações complexas e manutenção de integridade referencial antes ou depois de operações de DML.</li>
+                <li><strong>Stored Functions:</strong> Criação de funções customizadas que podem ser utilizadas diretamente dentro de cláusulas SELECT ou WHERE.</li>
+                <li><strong>Tratamento de Exceções:</strong> Controle refinado de erros com mensagens personalizadas para o usuário final.</li>
+            </ul>
+
+            <h3>Exemplo Prático: Stored Function</h3>
+            <p>Abaixo, um exemplo de uma função simples para calcular o desconto progressivo de um produto diretamente no motor do banco:</p>
+
+            <pre><code>SET TERM ^ ;
+
+CREATE OR ALTER FUNCTION FN_CALCULAR_DESCONTO (
+    VALOR_ITEM DOUBLE PRECISION,
+    PERCENTUAL DOUBLE PRECISION
+)
+RETURNS DOUBLE PRECISION
+AS
+BEGIN
+  IF (PERCENTUAL > 50) THEN
+    EXCEPTION EX_DESCONTO_ABUSIVO;
+
+  RETURN VALOR_ITEM * (1 - (PERCENTUAL / 100));
+END^
+
+SET TERM ; ^</code></pre>
+
+            <h2>Conclusão</h2>
+            <p>Dominar o PSQL transforma o banco de dados de um mero repositório de tabelas em uma camada inteligente da aplicação. Isso resulta em sistemas mais rápidos, seguros e fáceis de manter a longo prazo.</p>
+
+            <p><a href="sgbd_fb_psql.html" class="back-link">&larr; Voltar para PSQL</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

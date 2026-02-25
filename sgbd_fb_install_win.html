@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalação Manual do Firebird (Windows) - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird no Windows (Manual)</h1>
+                <p>Aprenda a instalar via .zip, configurar instâncias e definir o SYSDBA.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd_fb_intro.html">Voltar Firebird</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Por que instalar manualmente?</h2>
+            <p>Diferente do instalador executável, a instalação manual via arquivo ZIP permite que você mantenha o sistema "limpo", escolha exatamente onde os binários residirão e, o mais importante, execute múltiplas versões (ex: v3.0 e v4.0) no mesmo servidor alterando apenas as portas.</p>
+
+            <h3>1. Download e Extração</h3>
+            <p>Acesse o site oficial e baixe a versão <strong>Windows 64-bit Zip kit</strong>. Extraia o conteúdo em uma pasta curta na raiz, como <code>C:\fb4</code> ou <code>C:\fb3</code> [00:01:40].</p>
+
+            <h3>2. Instalação do Serviço via Terminal</h3>
+            <p>Abra o CMD como Administrador e navegue até a pasta bin. Para instalar o serviço com um nome personalizado (instância), use:</p>
+            <pre><code># Instalação padrão
+instsvc.exe install
+
+# Instalação com nome de instância personalizado (ex: fb4)
+instsvc.exe install -name fb4</code></pre>
+            <p>Isso permite identificar claramente o serviço no <code>services.msc</code> do Windows [00:04:43].</p>
+
+            <h3>3. Configuração do SYSDBA (Acesso Inicial)</h3>
+            <p>Em instalações manuais, o arquivo de segurança inicia vazio. Você deve criar o usuário mestre via <strong>ISQL</strong> usando uma conexão embarcada (direta no arquivo) [00:05:41]:</p>
+            <pre><code>isql -user sysdba
+SQL> create user sysdba password 'masterkey';
+SQL> commit;</code></pre>
+
+            <h3>4. Rodando múltiplas versões (Troca de Porta)</h3>
+            <p>Se você já tem um Firebird na porta padrão (3050), edite o arquivo <code>firebird.conf</code> da nova instalação e altere o parâmetro <code>RemoteServicePort</code> para 3040 ou 3030 [00:10:30]. Reinicie o serviço para aplicar.</p>
+
+            <div style="background: #fdf2f2; border-left: 5px solid #c0392b; padding: 1.5rem; margin: 2rem 0; border-radius: 8px;">
+                <h3 style="margin-top:0; color:#c0392b;">Aprenda na íntegra!</h3>
+                <p>Este guia foi baseado no excelente tutorial em vídeo do canal <strong>Insist Informática</strong>. Para ver o passo a passo detalhado, incluindo a criação de bancos de teste e depuração de erros de sintaxe, assista ao vídeo completo abaixo:</p>
+                <div style="text-align: center;">
+                    <a href="https://www.youtube.com/watch?v=DNQv_hjGAZ0" target="_blank" style="display: inline-block; padding: 12px 25px; background: #ff0000; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                        ASSISTIR VÍDEO COMPLETO &nbsp; &#9658;
+                    </a>
+                </div>
+            </div>
+
+            <h2>Conclusão</h2>
+            <p>A instalação manual oferece a flexibilidade necessária para ambientes de desenvolvimento complexos e facilita o gerenciamento de permissões de pastas, garantindo que usuários comuns não corrompam os arquivos de dados [00:20:09].</p>
+
+            <p><a href="sgbd_fb_intro.html" class="back-link">&larr; Voltar para Índice Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>

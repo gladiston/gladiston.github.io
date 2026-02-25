@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios com FortesReport Community Edition (FRCE) - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>Introdução ao FortesReport</h2>
+                <p>O <strong>FortesReport Community Edition (FRCE)</strong> foi inicialmente produzido por uma empresa nacional: Fortes Sistemas. Este gerador de relatório tornou-se uma referência tão sólida que muitos desenvolvedores migraram seus projetos de outros geradores para ele.</p>
+                <p>No FRCE, os relatórios são compostos por bandas (faixas) com funções específicas no fluxo de impressão. A definição de agrupamentos, subníveis e totais é feita por relação hierárquica entre essas faixas, oferecendo uma paleta rica de componentes para texto, gráficos, fórmulas e códigos de barras.</p>
+
+                <h3>Neste artigo</h3>
+                <ol>
+                    <li><a href="#introducao">Introdução ao FortesReport</a></li>
+                    <li><a href="#analise-tecnica">Análise para Programadores</a></li>
+                    <li><a href="#instalacao-ide">Instalação na IDE (Lazarus e Delphi)</a></li>
+                    <li><a href="#instalacao-linux">Instalação no Linux</a></li>
+                    <li><a href="#conclusao">Conclusão</a></li>
+                </ol>
+            </section>
+
+            <section id="analise-tecnica">
+                <h2>Análise para Programadores</h2>
+                <p>Diferente de geradores puramente visuais, no FRCE os relatórios são construídos com componentes bandas colocados sobre o formulário. Isso permite que Labels e outros elementos possuam eventos nativos (<code>OnPrint</code>, <code>OnBeforePrint</code>, etc.), exigindo programação direta em Pascal.</p>
+
+                <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
+                        <strong>Pontos Positivos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Controle total via eventos, permitindo lógica complexa em runtime.</li>
+                            <li>Fácil depuração usando o debugger da IDE.</li>
+                            <li>Curva de aprendizado mínima para quem conhece o QuickReport.</li>
+                        </ul>
+                    </div>
+                    <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b;">
+                        <strong>Destaques Negativos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Dependência da LCL: inviável para serviços Headless (sem GUI).</li>
+                            <li>Vazamentos de memória conhecidos (recomenda-se monitorar via Heaptrc).</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="instalacao-ide">
+                <h2>Instalação na IDE (Lazarus e Delphi)</h2>
+                <p>O FRCE possui versão para Lazarus e Delphi Community. No Lazarus, ele está disponível via <strong>Online Package Manager (OPM)</strong>. No Delphi, pode ser instalado via <strong>boss</strong> ou manualmente.</p>
+
+                <p><strong>Avisos de Segurança e Estabilidade:</strong></p>
+                <ul>
+                    <li><strong>Aviso #1:</strong> Não instale o pacote <code>Fortes4Lazarus</code> e o <code>FRCE</code> simultaneamente para evitar conflitos de nomes internos.</li>
+                    <li><strong>Aviso #2:</strong> Certifique-se de ter o pacote <code>cairo_canvas</code> instalado antes de iniciar a compilação do pacote <code>frce.lpk</code>.</li>
+                </ul>
+
+                <div class="code-container" style="background: #f4f4f4; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
+                    <pre>git clone https://github.com/fortesinformatica/fortesreport-ce.git</pre>
+                </div>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/frce_install_package.png" alt="Instalação do pacote frce.lpk no Lazarus">
+                </div>
+            </section>
+
+            <section id="instalacao-linux">
+                <h2>Instalação no Linux</h2>
+                <p>Para simplificar a instalação no Linux e garantir que todas as dependências de sistema e caminhos de biblioteca estejam corretos, utilize o script de automação do meu repositório pessoal. Este método é especialmente recomendado para quem utiliza o conjunto de componentes ACBr:</p>
+
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; font-family: 'Fira Code', monospace; border-left: 4px solid #2980b9;">
+                    <pre>git clone https://github.com/gladiston/acbr_install_linux.git
+cd acbr_install_linux
+chmod +x install_acbr.sh
+./install_acbr.sh</pre>
+                </div>
+                <p>O script gerencia a instalação das bibliotecas de sistema necessárias e configura o ambiente para que o FRCE funcione corretamente em distribuições Linux.</p>
+                <p>Repositório de suporte: <a href="https://github.com/gladiston/acbr_install_linux" target="_blank">acbr_install_linux no GitHub</a></p>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>O FRCE é a escolha robusta para aplicações Desktop. Sua integração profunda com o Pascal oferece o controle que programadores seniores exigem. Para documentação detalhada de componentes, acesse a <a href="https://wiki.freepascal.org/FortesReport" target="_blank">Wiki do FortesReport</a>.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

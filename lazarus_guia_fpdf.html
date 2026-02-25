@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios PDF com o FPDF - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>Introdução ao FPDF (fpdf4lazarus)</h2>
+                <p>O <strong>FPDF</strong> original é uma classe em PHP criada por <strong>Olivier Plathey</strong> (o "F" significa livre: uso e modificação permitidos), sendo uma das bibliotecas mais antigas e amplamente utilizadas para geração de PDF em PHP. A versão Pascal, compatível com Lazarus e Delphi, é mantida pelo <strong>Projeto ACBr</strong> (FPDF-Pascal no GitHub), rodando em Windows, Linux e Android.</p>
+                <p>No mundo <strong>ACBr</strong>, o FPDF é uma das peças fundamentais para a geração de documentos fiscais e boletos em PDF, especialmente quando a performance é o requisito número um. Diferente de geradores baseados em bandas visuais, o FPDF funciona através de comandos programáticos diretos: não há editor visual; o desenvolvedor posiciona texto e gráficos por coordenadas no código. É uma biblioteca de baixo nível, ideal para geração em massa de documentos simples — etiquetas, boletos, recibos — com desempenho máximo e dependências mínimas. Para comparar com outras opções, consulte a <a href="lazarus_guia_intro_relatorios.html">Introdução aos Geradores de Relatórios</a>.</p>
+            </section>
+
+            <section id="analise-tecnica">
+                <h2>Análise para Programadores</h2>
+                <p>Para um desenvolvedor sênior, o FPDF representa a liberdade total sobre o documento. Ele não carrega o peso de uma engine visual e não exige que a IDE esteja aberta para desenhar o layout. É a escolha lógica para automações de backend, geração de milhares de boletos ou etiquetas em poucos segundos.</p>
+                <p><strong>Nível de dificuldade de aprendizado:</strong> <strong>Médio a Alto</strong>. Requer conhecimento de coordenadas e posicionamento manual. Não há editor visual, então o desenvolvedor precisa calcular posições X/Y manualmente. A curva de aprendizado é íngreme para layouts complexos, mas relativamente simples para documentos básicos. Ideal para quem precisa de controle total e não se importa em trabalhar com coordenadas.</p>
+                <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
+                        <strong>Pontos Positivos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li><strong>Velocidade:</strong> Renderização extremamente rápida de documentos simples.</li>
+                            <li><strong>Headless:</strong> Independência total de GUI ou servidores X11 no Linux.</li>
+                            <li><strong>ACBr Native:</strong> Compatibilidade total com os geradores de documentos do ACBr.</li>
+                            <li>Dependências mínimas; biblioteca leve e rápida.</li>
+                            <li>Controle total sobre cada pixel do documento.</li>
+                            <li>Funciona em qualquer ambiente (console, servidor, desktop).</li>
+                            <li>Mantido pelo Projeto ACBr, garantindo continuidade no ecossistema brasileiro.</li>
+                            <li>Geração de PDF puro sem dependências externas.</li>
+                        </ul>
+                    </div>
+                    <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b;">
+                        <strong>Destaques Negativos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li><strong>Manual:</strong> Exige cálculos manuais de coordenadas X e Y.</li>
+                            <li><strong>Sem Preview:</strong> O desenvolvimento é baseado em "Código → Executa → Abre PDF".</li>
+                            <li>Manutenção trabalhosa: alterar layouts exige recalcular coordenadas.</li>
+                            <li>Não é adequado para relatórios complexos com múltiplas páginas dinâmicas.</li>
+                            <li>Curva de aprendizado íngreme para desenvolvedores acostumados com editores visuais.</li>
+                            <li>Debugging visual é difícil; precisa compilar e visualizar para ver o resultado.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="exemplo-codigo">
+                <h2>Exemplo de Implementação</h2>
+                <p>Abaixo, um exemplo clássico de como gerar um PDF simples via código puro:</p>
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; font-family: 'Fira Code', monospace;">
+                    <pre>
+pdf := TFPDF.Create;
+try
+  pdf.AddPage;
+  pdf.SetFont('Arial', 'B', 16);
+  pdf.Cell(40, 10, 'Relatório Técnico ACBr');
+  pdf.Ln(10);
+  pdf.SetFont('Arial', '', 12);
+  pdf.Cell(40, 10, 'Documento gerado programaticamente via FPDF.');
+  pdf.Output('meu_relatorio.pdf');
+finally
+  pdf.Free;
+end;</pre>
+                </div>
+            </section>
+
+            <section id="instalacao">
+                <h2>Instalação</h2>
+                <p>O pacote <code>fpdf4lazarus</code> geralmente é instalado como dependência automática ao instalar componentes do ACBr que o utilizam. Caso precise instalá-lo manualmente:</p>
+                <ol>
+                    <li>No Lazarus, acesse <strong>Pacote</strong> -> <strong>Abrir arquivo de pacote (.lpk)</strong>.</li>
+                    <li>Navegue até a pasta de componentes (comumente dentro da pasta do ACBr ou baixado via OPM).</li>
+                    <li>Abra o <code>fpdf4lazarus.lpk</code>, clique em <strong>Compilar</strong> e depois em <strong>Instalar</strong>.</li>
+                </ol>
+                <p>Wiki oficial: <a href="https://wiki.freepascal.org/fpdf4lazarus" target="_blank">Wiki fpdf4lazarus</a></p>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>O FPDF é a ferramenta "pé de boi" do programador Lazarus. Se você precisa de um gerador que nunca falha por falta de ambiente gráfico e que entrega resultados rápidos para grandes volumes de dados, o FPDF é indispensável na sua arquitetura. Para uma visão comparativa com Fortes Report, fpReport, fpSpreadsheet, FastReport e PowerPDF, consulte a <a href="lazarus_guia_intro_relatorios.html">Introdução aos Geradores de Relatórios</a>.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

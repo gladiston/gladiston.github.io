@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptIni - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>CryptIni</h1>
+                <p>Gerenciamento seguro de arquivos de configuração (.ini)</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>O armazenamento de informações sensíveis em arquivos de texto simples representa uma vulnerabilidade crítica em qualquer software. No ecossistema Lazarus, o componente <strong>CryptIni</strong> é a solução padrão para lidar com arquivos <code>.ini</code> que precisam de uma camada de proteção, garantindo que os dados gravados fiquem ilegíveis para usuários comuns ou softwares maliciosos.</p>
+
+            <h2>Segurança em Arquivos de Configuração</h2>
+            <p>Arquivos <code>.ini</code> são amplamente utilizados para guardar parâmetros de conexão com bancos de dados, chaves de API e preferências de sistema. Ao utilizar o CryptIni, você implementa uma boa prática de segurança que impede a exposição de senhas e IPs de servidores em texto claro.</p>
+
+            <p>Vale ressaltar que o CryptIni é frequentemente listado como uma dependência obrigatória para outros pacotes e componentes. Por esse motivo, sua instalação é recomendada mesmo que sua aplicação específica não tenha, inicialmente, a necessidade de criptografar configurações.</p>
+
+            <div class="info-box">
+                <p><strong>Nota Técnica:</strong> Este componente estende as funcionalidades nativas do Pascal, mantendo a compatibilidade com a estrutura clássica de arquivos de configuração, mas aplicando algoritmos de cifragem durante os processos de leitura e escrita.</p>
+            </div>
+
+            <h2>Documentação e Wiki</h2>
+            <p>Para informações detalhadas sobre as classes e métodos disponíveis neste componente, consulte a documentação técnica oficial no link abaixo:</p>
+
+            <a href="https://wiki.lazarus.freepascal.org/CryptINI" target="_blank" class="btn-link">Acessar documentação técnica: CryptINI Wiki</a>
+
+            <h2>Implementação Prática</h2>
+            <p>Para aprender como declarar, instanciar e utilizar o CryptIni em seus projetos, consulte a nossa central de exemplos técnicos:</p>
+
+            <div class="video-cta" style="background: #f9f9f9; border: 2px solid #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600;">Referência de código:</p>
+                <a href="lazarus_guia_exemplos.html" class="btn-link" style="background-color: #1a5276; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Ver Artigo: Aprendendo por Exemplos
+                </a>
+            </div>
+
+            <h2>Conclusão</h2>
+            <p>A proteção de dados locais é um pilar fundamental do desenvolvimento profissional. O CryptIni oferece uma forma transparente e robusta de elevar o nível de segurança de suas aplicações sem adicionar complexidade excessiva ao código fonte. Sua adoção garante que informações críticas de infraestrutura permaneçam protegidas no ambiente do cliente final.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

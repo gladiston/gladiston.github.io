@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeosLib - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>ZeosLib</h1>
+                <p>A principal suíte de acesso a bancos de dados para Lazarus e Delphi</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>O <strong>ZeosLib</strong> é a principal suíte de acesso a banco de dados para o ecossistema Pascal. Sua grande vantagem é a portabilidade, permitindo que o mesmo componente seja utilizado tanto no Lazarus quanto no Delphi (incluindo a Community Edition).</p>
+
+            <div class="info-box">
+                <p><strong>IMPORTANTE:</strong> Não misture a instalação do ZeosLib com outros pacotes simultâneos. Instale-o isoladamente, reinicie a IDE e só então prossiga com os demais componentes.</p>
+            </div>
+
+            <h2>Método 1: Instalação via OPM (Recomendado)</h2>
+            <p>A forma mais simples de instalar o ZeosLib é através do <strong>Online Package Manager (OPM)</strong>.</p>
+
+            <div class="img-container">
+                <img src="assets/img/zeos_instalacao_opm.png" alt="Instalação pelo Online Package Manager (OPM)">
+            </div>
+
+            <section id="video-tutorial">
+                <h2>Vídeo Tutorial</h2>
+                <p>Assista abaixo à demonstração:</p>
+                <div class="video-cta">
+                    <p>Conexão a banco de dados com Zeos no Lazarus</p>
+                    <a href="https://www.youtube.com/watch?v=pGTVIOC-TPk" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+                </div>
+            </section>
+
+            <h2>Método 2: Instalação no Linux via Script Automatizado</h2>
+            <p>Para simplificar a instalação no Linux, você pode utilizar o script <code>lpkinstall-zeos.sh</code> disponível no repositório <strong>acbr_install_linux</strong>. Este script automatiza o download e a configuração dos pacotes <code>.lpk</code> diretamente na sua IDE.</p>
+
+            <h3>Passo a passo da instalação:</h3>
+            <ol>
+                <li><strong>Clone o repositório de scripts:</strong>
+                    <pre><code>git clone https://github.com/gladiston/acbr_install_linux.git</code></pre>
+                </li>
+                <li><strong>Acesse o diretório:</strong>
+                    <pre><code>cd acbr_install_linux</code></pre>
+                </li>
+                <li><strong>Dê permissão de execução ao script:</strong>
+                    <p>Antes de rodar, é necessário informar ao Linux que o arquivo é um executável:</p>
+                    <pre><code>chmod +x lpkinstall-zeos.sh</code></pre>
+                </li>
+                <li><strong>Execute a instalação:</strong>
+                    <pre><code>./lpkinstall-zeos.sh</code></pre>
+                </li>
+            </ol>
+
+            <p>O script irá baixar os fontes do ZeosLib e realizar o registro dos pacotes na IDE Lazarus de forma silenciosa e eficiente.</p>
+
+            <h2>Método 3: Instalação Manual via GIT</h2>
+            <p>Se você precisa de uma versão específica ou de desenvolvimento, pode optar pela via manual:</p>
+
+            <pre><code>cd /caminho/desejado
+git clone https://github.com/marsupilami79/zeoslib.git
+cd zeoslib
+git switch 8.0.0-stable</code></pre>
+
+            <p>Abra o Lazarus e carregue os arquivos <code>.lpk</code> em <code>packages/lazarus</code>. Compile todos os pacotes de runtime primeiro e instale o <code>zcomponentdesign.lpk</code> por último.</p>
+
+            <div class="img-container">
+                <img src="assets/img/ide_zeos_git_palette.png" alt="Paleta do ZeosLib no Lazarus">
+            </div>
+
+            <h2>Conclusão</h2>
+            <p>Seja via script automatizado ou OPM, o ZeosLib é essencial para quem busca uma camada de dados estável. Sua compatibilidade entre versões do Delphi e Lazarus garante que o seu investimento em código dure muitos anos.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

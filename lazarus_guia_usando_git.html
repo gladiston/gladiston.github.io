@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando GIT em projetos FPC/Lazarus - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>GIT</h2>
+                <p>O Git é um dos sistemas de controle de versão mais utilizados no mundo do desenvolvimento de software. Ele permite gerenciar projetos de forma colaborativa, acompanhar alterações no código e garantir segurança e rastreabilidade em cada modificação.</p>
+                <p>No Linux, a instalação e configuração do Git são simples, mas recentes mudanças no GitHub exigem ajustes adicionais para autenticação segura. Este tutorial mostrará como preparar seu ambiente corretamente, configurar o suporte ao libsecret e utilizar tokens de acesso pessoal (PAT).</p>
+
+            </section>
+
+            <section id="config-usuario">
+                <h2>Configuração de Identidade</h2>
+                <p>Vamos ajustar nosso ambiente com o GIT com os comandos:</p>
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; font-family: 'Fira Code', monospace; border-left: 4px solid #2980b9;">
+                    <pre>
+git config --global user.name "Seu nome completo"
+git config --global user.email "seu.email@dominio.com"</pre>
+                </div>
+            </section>
+
+            <section id="interoperabilidade">
+                <h2>Lidando com Arquivos Windows/Linux</h2>
+                <p>Estes parâmetros são extremamente úteis para evitar problemas com quebras de linha e diferenciação de maiúsculas em sistemas de arquivos distintos:</p>
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; font-family: 'Fira Code', monospace; border-left: 4px solid #2980b9;">
+                    <pre>
+git config core.autocrlf false
+git config core.ignorecase true
+git config core.fileMode false</pre>
+                </div>
+            </section>
+
+            <section id="credenciais-erro">
+                <h2>Gerenciamento de Credenciais e Correção de Erros</h2>
+                <p>Recentemente, o GitHub fez alterações em seu sistema onde a instrução abaixo será ignorada ou resultará em erro:</p>
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; font-family: 'Fira Code', monospace;">
+                    <pre>git config --global credential.helper 'cache --timeout=28800'</pre>
+                </div>
+
+                <div style="background: #fff0f0; padding: 1rem; border-radius: 8px; border-left: 5px solid #ff0000; margin: 1rem 0;">
+                    <p><strong>Erro comum:</strong> <code>Fatal Authentication Failed for: site.com.br</code></p>
+                </div>
+
+                <h3>Solução por Distribuição</h3>
+
+                <p>Se você utiliza <strong>Fedora</strong>, basta instalar o pacote diretamente:</p>
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; font-family: 'Fira Code', monospace; border-left: 4px solid #c0392b;">
+                    <pre>sudo dnf install git-credential-libsecret</pre>
+                </div>
+
+                <p>Para usuários de <strong>Debian ou Ubuntu</strong>, é necessário instalar as bibliotecas e compilar o helper:</p>
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; font-family: 'Fira Code', monospace;">
+                    <pre>sudo apt install -y libsecret-1-0 libsecret-tools libsecret-1-dev</pre>
+                </div>
+
+                <p>Navegue até o código fonte e compile:</p>
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; font-family: 'Fira Code', monospace;">
+                    <pre>
+cd /usr/share/doc/git/contrib/credential/libsecret
+sudo make</pre>
+                </div>
+
+                <p>Após a instalação ou compilação, configure o helper final:</p>
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; font-family: 'Fira Code', monospace; border-left: 4px solid #27ae60;">
+                    <pre>git config --global credential.helper /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret</pre>
+                </div>
+            </section>
+
+            <section id="github-security">
+                <h2>Autenticação via Token (PAT)</h2>
+                <div style="background: #fff9db; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #fcc419; margin: 1.5rem 0;">
+                    <p>O método de autenticação mudou. Você não usa mais o "username + senha" do seu usuário, mas sim <strong>"username + token"</strong>.</p>
+                    <p><strong>Como criar o token:</strong></p>
+                    <ol>
+                        <li>No GitHub: <strong>Settings > Developer settings > Personal access tokens > Tokens (classic)</strong>.</li>
+                        <li>Gere um novo token com a permissão <code>repo</code>.</li>
+                        <li><strong>Uso:</strong> Este token será o substituto da sua senha no terminal quando o Git solicitar autenticação.</li>
+                    </ol>
+
+                </div>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>Com estas configurações e o uso correto dos tokens do GitHub, seu ambiente Lazarus estará pronto para uma colaboração eficiente, minimizando atritos de plataforma e garantindo a segurança dos seus repositórios.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

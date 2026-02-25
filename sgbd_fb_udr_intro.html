@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDR: O que são User Defined Routines - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird: UDR (User Defined Routines)</h1>
+                <p>Alta performance e integração externa com linguagens compiladas.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD</a></li>
+            <li><a href="sgbd_fb.html">Firebird</a></li>
+            <li><a href="sgbd_fb_udr.html">UDR</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>A Evolução: De UDF para UDR</h2>
+            <p>A partir da versão 3.0, o Firebird introduziu as UDRs (User Defined Routines), substituindo o antigo e inseguro conceito de UDFs (User Defined Functions). Enquanto as UDFs eram bibliotecas externas simples, as UDRs são plugins integrados que rodam dentro do motor com segurança e contexto de transação.</p>
+
+            <div style="margin: 2rem 0; padding: 1.5rem; background: #f0f4f8; border-radius: 8px; border-left: 5px solid var(--azul-principal);">
+                <p><strong>Dica de Integração:</strong> Como especialista em Pascal, utilizo frequentemente o <strong>Free Pascal</strong> ou <strong>Delphi</strong> para criar bibliotecas .so (Linux) ou .dll (Windows) que são mapeadas como UDRs, permitindo que o Firebird execute cálculos científicos ou acesse APIs externas com performance nativa.</p>
+            </div>
+
+            <h3>Possibilidades com UDR</h3>
+            <ul>
+                <li><strong>Cálculos Complexos:</strong> Processamento matemático pesado que seria lento em PSQL puro.</li>
+                <li><strong>Integração de Sistemas:</strong> Envio de notificações, consumo de Web Services ou leitura de arquivos de sistema diretamente via SQL.</li>
+                <li><strong>Criptografia Customizada:</strong> Implementação de algoritmos específicos para proteção de dados sensíveis.</li>
+            </ul>
+
+            <h2>Exemplo de Registro de UDR</h2>
+            <p>Após compilar sua biblioteca em Pascal ou C++, o registro no Firebird segue este padrão:</p>
+
+            <pre><code>CREATE FUNCTION GET_SISTEMA_INFO (
+    INFO_TYPE VARCHAR(50)
+) RETURNS VARCHAR(255)
+EXTERNAL NAME 'meu_plugin_udr!get_sys_info'
+ENGINE UDR;</code></pre>
+
+            <h2>Conclusão</h2>
+            <p>As UDRs representam o nível máximo de personalização do Firebird. Elas permitem que o desenvolvedor "ensine" novos truques ao banco de dados, utilizando todo o poder de linguagens de baixo nível como Pascal e C++.</p>
+
+            <p><a href="sgbd_fb_udr.html" class="back-link">&larr; Voltar para UDR</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

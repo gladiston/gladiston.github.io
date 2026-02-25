@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introdução e Instalação de Pacotes Básicos - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Introdução e Instalação de Pacotes Básicos</h1>
+                <p>Expandindo as funcionalidades da IDE Lazarus</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>Os pacotes estendem as funcionalidades da IDE e a programação, contendo classes de objetos e componentes visuais ou não visuais. O Lazarus disponibiliza muitos deles nativamente, mas boa parte não vem instalada por padrão. Recomenda-se instalar apenas o necessário para manter a IDE leve e estável.</p>
+
+            <p>Para gerenciar, acesse o menu <strong>Package | Install/Uninstall Packages</strong>. Você verá uma lista dividida por prefixos:</p>
+            <ul>
+                <li><strong>fp:</strong> Pertencem à biblioteca do FreePascal (FCL), mantidos junto ao compilador.</li>
+                <li><strong>laz:</strong> Pacotes dependentes diretamente da IDE Lazarus.</li>
+            </ul>
+
+            <div class="img-container">
+                <img src="assets/img/lazarus_pacotes_lista.png" alt="Interface de instalação de pacotes no Lazarus">
+            </div>
+
+            <h2>Entendendo os Indicadores Visuais</h2>
+            <p>Na interface de gerenciamento de pacotes, você encontrará letras e ícones ao lado de cada pacote que indicam seu status e tipo:</p>
+            <ul>
+                <li><strong>L</strong> (Lazarus): Indica que é um pacote específico da IDE Lazarus, geralmente relacionado a funcionalidades da interface ou ferramentas de desenvolvimento.</li>
+                <li><strong>X</strong> (marcado): Indica que o pacote está selecionado para instalação ou já está instalado. Quando marcado, o pacote será incluído na próxima recompilação da IDE.</li>
+                <li><strong>fp</strong> (Free Pascal): Indica que o pacote pertence à biblioteca do Free Pascal Compiler (FCL), sendo mantido junto ao compilador.</li>
+                <li><strong>Ícone de checkbox</strong>: Permite marcar/desmarcar pacotes para instalação ou remoção.</li>
+            </ul>
+            <p>Esses indicadores ajudam a identificar rapidamente o tipo de pacote e seu status atual na instalação, facilitando o gerenciamento dos componentes da IDE.</p>
+
+            <h2>Pacotes Básicos Recomendados</h2>
+            <p>Abaixo, listo os complementos fundamentais para uma base de desenvolvimento sólida:</p>
+
+            <div class="pacote-item">
+                <h3>imagesforlazarus</h3>
+                <p>Permite que a IDE manipule diversos formatos de imagem (PNG, JPG, BMP, TGA, etc.) e cria classes específicas como TPNGImage e TJPGImage para uso em seus componentes.</p>
+            </div>
+
+            <div class="pacote-item">
+                <h3>lazdbexport</h3>
+                <p>Fornece aos componentes de dados (TDataset) a capacidade de exportar informações para formatos como CSV, DBF e RTF. <a href="lazarus_guia_lazdbexport.html">Saiba mais aqui.</a></p>
+            </div>
+
+            <div class="pacote-item">
+                <h3>onlinepackagemanager (OPM)</h3>
+                <p>Essencial para baixar componentes de repositórios remotos via interface gráfica. <a href="lazarus_guia_opm_gpo_intro.html">Veja o artigo detalhado.</a></p>
+            </div>
+
+            <div class="pacote-item">
+                <h3>AnchorDocking e AnchorDockingDsgn</h3>
+                <p>Transformam a interface do Lazarus, permitindo que os painéis sejam "docados" (encaixados), oferecendo um visual moderno similar ao Delphi XE. <a href="lazarus_guia_interface_docked.html">Instruções de configuração.</a></p>
+            </div>
+
+            <div class="pacote-item">
+                <h3>filefindlaz</h3>
+                <p>Adiciona a unit FileFind e o componente TFileSearch, facilitando a busca de arquivos de forma recursiva no sistema.</p>
+            </div>
+
+            <div class="pacote-item">
+                <h3>lazReport</h3>
+                <p>Um motor de relatórios completo com designer e previewer integrado. Inclui suporte para exportação em PDF via <strong>LazReportPDFExport</strong>.</p>
+            </div>
+
+            <div class="pacote-item">
+                <h3>lazfpreport</h3>
+                <p>Gerador de relatórios (fpReport) que não depende da LCL, permitindo gerar PDFs diretamente em aplicações sem interface gráfica, como CGIs para servidores web.</p>
+            </div>
+
+            <p>Estes pacotes formam o alicerce mínimo para qualquer projeto profissional em Lazarus. Após selecioná-los, a IDE solicitará uma recompilação para aplicar as mudanças.</p>
+
+            <h2>Conclusão</h2>
+            <p>Os pacotes básicos recomendados — <strong>imagesforlazarus</strong>, <strong>lazdbexport</strong>, <strong>onlinepackagemanager</strong>, <strong>AnchorDocking</strong>, <strong>filefindlaz</strong>, <strong>lazReport</strong> e <strong>lazfpreport</strong> — formam uma base sólida para desenvolvimento no Lazarus. Instale apenas o que for usar e recompile a IDE quando solicitado para manter o ambiente estável e produtivo.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalando o ACBr manualmente - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Instalando o ACBr manualmente</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="pascal.html">Pascal</a></li>
+            <li><a href="python.html">Python</a></li>
+            <li><a href="bash.html">Bash</a></li>
+            <li><a href="linux.html">Linux</a></li>
+            <li><a href="sobre-mim.html">Sobre mim</a></li>
+            <li><a href="contato.html">Contato</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <article>
+            <section>
+                <h2>Introdução</h2>
+                <p>O <strong>ACBr</strong> é, indiscutivelmente, a framework de automação comercial mais robusta do ecossistema Pascal. Essencial para <em>softhouses</em>, a suite oferece uma solução completa que abrange desde a gestão bancária (boletos e extratos) até o cumprimento de obrigações governamentais complexas, como a emissão de NF-e, NFS-e e integrações com diversos hardwares fiscais.</p>
+
+                <p>Embora o projeto ofereça um instalador (Wizard), usuários de <strong>Lazarus</strong> frequentemente enfrentam desafios com permissões de administrador, o que pode fragmentar o perfil do desenvolvedor. Além disso, a instalação completa pode tornar a IDE excessivamente pesada. Por isso, a instalação manual é a estratégia ideal para manter um ambiente de desenvolvimento ágil, instalando apenas o necessário para as demandas da sua corporação.</p>
+
+                <p>Para conhecer o projeto a fundo, visite: <a href="https://projetoacbr.com.br/" target="_blank">Projeto ACBr Oficial</a>.</p>
+
+                <div class="video-cta">
+                    <p>Instalando o ACBr manualmente</p>
+                    <a href="https://www.youtube.com/watch?v=aiytLfagvXU" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+                </div>
+            </section>
+
+            <section>
+                <h2>Instalando o TortoiseSVN</h2>
+                <p>O ACBr utiliza Subversion (SVN). O primeiro passo é instalar o cliente para Windows:</p>
+                <p>1. Baixe e instale o <a href="https://tortoisesvn.net/" target="_blank">TortoiseSVN</a>.</p>
+                <p>2. Crie um diretório base, preferencialmente em <code>C:\ACBr</code>.</p>
+                <p>3. Utilize a URL do repositório <strong>Trunk2</strong>: <br><code>https://svn.code.sf.net/p/acbr/code/trunk2</code></p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_acbr-01.png" alt="Configuração de Rede TortoiseSVN">
+                </div>
+
+                <p>Se estiver em um ambiente corporativo com Proxy, ajuste as configurações em <em>TortoiseSVN -> Settings -> Network</em>:</p>
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_acbr-02.png" alt="Ajustes de Proxy no SVN">
+                </div>
+
+                <p>4. Execute o <strong>Checkout</strong> na pasta criada e aguarde o download completo dos fontes.</p>
+            </section>
+
+            <section>
+                <h2>Instalando os pacotes no Lazarus</h2>
+                <p>No diretório <code>C:\ACBr\Doctos</code>, o arquivo <em>"Bem_Vindo_ao_Trunk2.odt"</em> detalha a hierarquia de dependências. Abaixo, organizei uma ordem de instalação prática que funcionou em meus testes. Lembre-se: as linhas em <strong>negrito</strong> são fundamentais.</p>
+
+                <ul>
+                    <li><strong>1. synapse\laz_synapse.lpk</strong> (Apenas compilar)</li>
+                    <li><strong>2. ACBrComum\ACBrComum.lpk</strong></li>
+                    <li><strong>3. ACBrDiversos\ACBrDiversos.lpk</strong></li>
+                    <li><strong>4. PCNComum\PCNComum.lpk</strong> (Apenas compilar)</li>
+                    <li><strong>5. ACBrOpenSSL\ACBrOpenSSL.lpk</strong></li>
+                    <li><strong>6. ACBrSerial\ACBrSerial.lpk</strong></li>
+                    <li><strong>7. ACBrTXT\ACBrTXTComum.lpk</strong> (Apenas compilar)
+                        <ul>
+                            <li>Opcionais pós-requisito: ACBr_SPED, ACBr_Sintegra, ACBr_PAF, etc.</li>
+                        </ul>
+                    </li>
+                    <li><strong>8. ACBrTCP\ACBrTCP.lpk</strong></li>
+                    <li><strong>9. ACBrTEFD\ACBr_TEFD.lpk</strong></li>
+                    <li><strong>10. ACBrDFe\ACBrDFeComum.lpk</strong> (Apenas compilar)</li>
+                    <li>11. ACBrDFe\ACBrDFeReportRL.lpk (Requer Fortes Report)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Instalando no Linux</h2>
+                <p>Para desenvolvedores em ambiente Linux, o processo pode ser automatizado para evitar dificuldades com bibliotecas do sistema (XML, OpenSSL). Desenvolvi um repositório dedicado para isso:</p>
+                <p><a href="https://github.com/gladiston/acbr_install_linux" target="_blank">acbr_install_linux no GitHub</a></p>
+
+                <h3>Como utilizar:</h3>
+                <pre><code>git clone https://github.com/gladiston/acbr_install_linux.git
+cd acbr_install_linux
+chmod +x install_acbr.sh
+./install_acbr.sh</code></pre>
+            </section>
+
+            <section>
+                <h2>Atualizações e Manutenção</h2>
+                <p>A atualização via <strong>SVN Update</strong> é simples, mas requer atenção: sempre que atualizar os fontes, é necessário reconstruir a IDE para que as melhorias e correções entrem em vigor.</p>
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_acbr-03.png" alt="SVN Update">
+                </div>
+
+                <p>No Lazarus, utilize o menu <code>Tools -> Build Lazarus with Profile: IDE ...</code> para a recompilação total.</p>
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_acbr-04.png" alt="Build Lazarus">
+                </div>
+            </section>
+
+            <section>
+                <h2>Conclusão</h2>
+                <p>Dominar a instalação manual do ACBr é um rito de passagem para qualquer desenvolvedor que pretenda atuar com seriedade no mercado de automação comercial brasileiro. Embora a curva de aprendizado inicial pareça íngreme e a hierarquia de pacotes um tanto complexa, o resultado é um ambiente de trabalho personalizado, leve e extremamente estável.</p>
+                <p>O ACBr não é apenas um conjunto de componentes; é o coração da operação de milhares de empresas, e saber gerenciá-lo com precisão é um diferencial técnico indispensável.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salvando configuração da IDE - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Salvando configuração da IDE para reutilização</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <section id="introducao">
+                <p>A IDE do Lazarus guarda toda a sua configuração numa pasta específica que pode ser manipulada com diversos fins, mas geralmente como backup. Essa pasta guarda ajustes de nossa IDE que geralmente fazemos depois da instalação, mas guarda também templates criados, os aplicativos acrescentados em <strong>Tools</strong> e muito mais.</p>
+                <p>Embora seja muito bom fazer ajustes finos na configuração, precisamos ser práticos e não perder tempo repetindo os mesmos ajustes por qualquer que seja o motivo. É vital saber como salvar e reaproveitar as configurações da IDE feitas anteriormente.</p>
+            </section>
+
+            <section id="localizacao">
+                <h2>Localização da Pasta de Configuração</h2>
+                <p>O caminho padrão varia conforme o sistema operacional e o método de instalação utilizado:</p>
+
+                <div class="shortcut-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin: 1.5rem 0;">
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9;">
+                        <strong>Windows:</strong>
+                        <p style="font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-top: 10px;">%USERPROFILE%\AppData\Local\Lazarus</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9;">
+                        <strong>Linux (Repositório/GIT):</strong>
+                        <p style="font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-top: 10px;">$HOME/.lazarus</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9;">
+                        <strong>Linux (fpcupdeluxe):</strong>
+                        <p style="font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-top: 10px;">$HOME/fpcupdeluxe/config_lazarus/</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="flexibilidade">
+                <h2>Flexibilidade e PCP</h2>
+                <p>Se você executa o Lazarus com a opção <code>--pcp=/pasta/do/lazarus/configs</code>, a IDE utilizará exatamente esta pasta identificada para guardar a configuração. A IDE do Lazarus é bastante flexível quanto a localização de sua configuração e é sábio de nossa parte tirar proveito disso.</p>
+                <p>Isso ajuda muito a manter mais de uma instalação em diferentes pastas ou computadores, usufruindo de configurações compartilhadas ou mantendo uma configuração "linha base" para novos projetos.</p>
+            </section>
+
+            <section id="video-tutorial">
+                <h2>Vídeo Tutorial</h2>
+                <p>Acompanhe em vídeo:</p>
+                <div class="video-cta">
+                    <p>Produtividade com a IDE Lazarus: Salvando configuração para reuso</p>
+                    <a href="https://www.youtube.com/watch?v=wnGIdmtQlMc" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+                </div>
+            </section>
+
+            <section id="boas-praticas">
+                <h2>Boas Práticas</h2>
+                <p>Considero uma boa prática antes de uma série de configurações/ajustes guardar o backup de nossa configuração salvando a pasta indicada num arquivo <strong>.zip</strong>. Depois de consolidar a configuração, salve-a outra vez.</p>
+            </section>
+
+            <h2>Conclusão</h2>
+            <p>Saber onde a IDE armazena suas configurações e como reaproveitá-las — via backup em .zip ou uso do <code>--pcp</code> — economiza tempo e evita retrabalho ao trocar de máquina ou reinstalar. Use as boas práticas descritas e mantenha sempre um perfil “linha base” para novos projetos.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

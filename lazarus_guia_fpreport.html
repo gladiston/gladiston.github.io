@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios com o fpReport - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>Introdução ao fpReport</h2>
+                <p>O <strong>fpReport</strong> foi iniciado por <strong>Graeme Geldenhuys</strong> e concluído em <strong>2016</strong> como projeto da <strong>Free Pascal and Lazarus Foundation</strong>. O componente de design visual foi criado depois por <strong>Michael Van Canneyt</strong> e integrado ao repositório do Lazarus. É um gerador de relatório moderno, desenvolvido para ser parte integrante do ecossistema Free Pascal, com foco rigoroso na <strong>independência da LCL</strong>, permitindo que relatórios complexos sejam gerados em ambientes puramente textuais (headless).</p>
+                <p>Para quem está começando com Pascal, o fpReport oferece uma vantagem estratégica: por ser mantido oficialmente pela Foundation, ele não ficará sem suporte ou será descontinuado enquanto o ecossistema FPC/Lazarus existir. Para comparar com outras opções, consulte a <a href="lazarus_guia_intro_relatorios.html">Introdução aos Geradores de Relatórios</a>.</p>
+            </section>
+
+            <section id="analise-tecnica">
+                <h2>Análise para Programadores</h2>
+                <p>A grande vantagem do fpReport é a portabilidade. Se o seu programa precisa rodar como um CGI ou uma API REST em um servidor Linux sem interface gráfica, o fpReport funcionará sem falhas de renderização. Programadores sêniores preferem o fpReport pela sua leveza e ausência de memory leaks sistêmicos.</p>
+                <p><strong>Nível de dificuldade de aprendizado:</strong> <strong>Médio a Alto</strong>. O paradigma de design abstrato (baseado em JSON ou código) exige uma mudança mental em relação às ferramentas visuais tradicionais. A curva de aprendizado é mais íngreme para quem está acostumado a editores WYSIWYG; uma vez dominado, oferece controle total e flexibilidade.</p>
+                <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
+                        <strong>Pontos Positivos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Independente de Widgets: ideal para servidores headless.</li>
+                            <li>Geração nativa de PDF de alta fidelidade.</li>
+                            <li>Componente oficial do ecossistema Free Pascal; suporte da Foundation garante continuidade.</li>
+                            <li>Relatórios podem ser definidos em JSON, facilitando versionamento e manutenção.</li>
+                            <li>Funciona em servidores headless sem necessidade de display virtual.</li>
+                            <li>Permite renderização para múltiplos formatos (PDF, imagem, tela).</li>
+                        </ul>
+                    </div>
+                    <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b;">
+                        <strong>Destaques Negativos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Paradigma de construção baseado em herança de classes de dados.</li>
+                            <li>Curva de aprendizado inicial maior que motores visuais clássicos.</li>
+                            <li>Editor visual disponível, mas menos intuitivo que ferramentas comerciais.</li>
+                            <li>Documentação pode ser menos abundante que ferramentas mais antigas.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="design">
+                <h2>Design e Flexibilidade</h2>
+                <p>O design pode ser feito via código ou através do <strong>fpReport Designer</strong>, um programa externo que atua como IDE visual. O resultado é salvo em arquivos JSON ou XML, que podem ser carregados dinamicamente. Para mais detalhes, consulte a <a href="https://wiki.freepascal.org/FPReport" target="_blank">Wiki oficial do fpReport</a>.</p>
+            </section>
+
+            <section id="instalacao-windows">
+                <h2>Instalação no Windows</h2>
+                <p>No Windows, o <strong>fpReport</strong> já acompanha a instalação padrão do Lazarus, não sendo necessário baixar pacotes externos. Para ativá-lo na sua IDE, siga os passos abaixo:</p>
+                <ol>
+                    <li>Abra o Lazarus e vá ao menu <strong>Pacotes</strong> -> <strong>Instalar/Desinstalar Pacotes</strong>.</li>
+                    <li>Na lista de pacotes disponíveis (lado direito), procure por <code>fpreport</code>.</li>
+                    <li>Selecione-o e clique em <strong>Instalar Selecionados</strong>.</li>
+                    <li>Repita o processo para o pacote <code>lazidefpreport</code> para habilitar a integração visual.</li>
+                    <li>Clique em <strong>Salvar e Recompilar a IDE</strong>.</li>
+                </ol>
+            </section>
+
+            <section id="instalacao-linux">
+                <h2>Instalação no Linux</h2>
+                <p>Assim como no Windows, o componente é nativo, mas no Linux é necessário garantir que as bibliotecas de sistema para renderização de fontes e PDF estejam presentes no servidor:</p>
+
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; font-family: 'Fira Code', monospace; border-left: 4px solid #2980b9;">
+                    <pre>
+# Instalar bibliotecas de renderização (Debian/Ubuntu)
+sudo apt update
+sudo apt install libfontconfig1 libfreetype6 libpng16-16 zlib1g</pre>
+                </div>
+                <p>Após a instalação das bibliotecas, utilize o <strong>Gerenciador de Pacotes</strong> do Lazarus para instalar os pacotes <code>fpreport</code> e <code>lazidefpreport</code>, exatamente como descrito na seção de Windows.</p>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>O fpReport é a ferramenta definitiva para quem busca performance profissional e independência de janelas. Seja no Windows para ferramentas administrativas ou no Linux para serviços de backend robustos, esta é a solução técnica que garantirá a estabilidade da sua entrega. Por ser mantido pela Free Pascal and Lazarus Foundation, é uma aposta segura em termos de continuidade. Para uma visão comparativa com as demais opções, consulte a <a href="lazarus_guia_intro_relatorios.html">Introdução aos Geradores de Relatórios</a>.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

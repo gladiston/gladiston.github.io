@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Size - Firebird SQL - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Page Size</h1>
+                <p>Por que o tamanho da página é vital no momento da criação do banco de dados</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD Hub</a></li>
+            <li><a href="sgbd_fb_intro.html">Firebird</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Por que o Page Size é vital na criação do banco?</h2>
+            
+            <p>O <strong>Page Size</strong> (tamanho da página) é um dos parâmetros mais críticos na criação de um banco de dados Firebird, pois ele é <strong>irreversível</strong> após a criação do banco. Uma vez definido, não é possível alterá-lo sem recriar todo o banco de dados. Esta decisão afeta diretamente a performance, o uso de espaço em disco, os limites de índices e a capacidade de armazenamento de registros grandes.</p>
+
+            <div class="warning-box">
+                <strong>Atenção: Decisão Irreversível</strong>
+                <p>O Page Size é definido apenas no momento da criação do banco de dados e <strong>não pode ser alterado</strong> posteriormente. Para mudar o Page Size, é necessário fazer backup completo, recriar o banco com o novo tamanho e restaurar os dados.</p>
+            </div>
+
+            <h2>O que é Page Size?</h2>
+            
+            <p>O Page Size é o tamanho físico de cada página de dados no arquivo do banco Firebird. O Firebird organiza os dados em páginas, que são unidades de leitura/escrita do disco. Cada página contém uma quantidade fixa de bytes, e todos os dados (tabelas, índices, metadados) são armazenados dentro dessas páginas.</p>
+
+            <p>Os tamanhos de página disponíveis no Firebird são:</p>
+            <ul>
+                <li><strong>4096 bytes (4KB)</strong> - Padrão, menor tamanho</li>
+                <li><strong>8192 bytes (8KB)</strong> - Recomendado para a maioria dos casos</li>
+                <li><strong>16384 bytes (16KB)</strong> - Para bancos grandes e alta performance</li>
+                <li><strong>32768 bytes (32KB)</strong> - Para casos especiais (disponível desde Firebird 3.0)</li>
+            </ul>
+
+            <h2>Impactos do Page Size</h2>
+
+            <h3>1. Limites de Índices</h3>
+            
+            <p>O tamanho da página determina diretamente o tamanho máximo de uma chave de índice. No Firebird, o tamanho máximo de uma chave de índice é calculado como <strong>¼ do tamanho da página</strong>.</p>
+
+            <div class="info-box">
+                <p><strong>Fórmula do Firebird:</strong> A partir do Firebird 2.0, o comprimento máximo de uma string indexada é calculado pela fórmula:</p>
+                <pre><code>max_char_length = FLOOR((page_size / 4 - 9) / N)</code></pre>
+                <p>onde <em>N</em> é o número de bytes por caractere no charset.</p>
+            </div>
+
+            <p>Exemplos práticos:</p>
+            <ul>
+                <li><strong>Page Size 4KB:</strong> Índice máximo ≈ 1KB (1024 bytes)</li>
+                <li><strong>Page Size 8KB:</strong> Índice máximo ≈ 2KB (2048 bytes)</li>
+                <li><strong>Page Size 16KB:</strong> Índice máximo ≈ 4KB (4096 bytes)</li>
+            </ul>
+
+            <p>Se você usar UTF8 (onde cada caractere pode ocupar até 4 bytes), esses limites são ainda mais restritivos. Por exemplo, com Page Size de 8KB e UTF8, você pode ter apenas cerca de 500 caracteres em uma chave de índice composta.</p>
+
+            <h3>2. Tamanho Máximo de Registro</h3>
+            
+            <p>O Firebird limita o tamanho máximo de um registro individual. Este limite está relacionado ao Page Size:</p>
+            <ul>
+                <li><strong>Page Size 4KB:</strong> Registro máximo ≈ 1.9KB</li>
+                <li><strong>Page Size 8KB:</strong> Registro máximo ≈ 4KB</li>
+                <li><strong>Page Size 16KB:</strong> Registro máximo ≈ 8KB</li>
+            </ul>
+
+            <p>Se você precisa armazenar campos BLOB grandes ou registros com muitos campos VARCHAR grandes, um Page Size maior é essencial.</p>
+
+            <h3>3. Performance e I/O</h3>
+            
+            <p>O Page Size afeta diretamente a performance de leitura e escrita:</p>
+            <ul>
+                <li><strong>Páginas maiores (16KB, 32KB):</strong> Menos operações de I/O, melhor para leituras sequenciais e bancos grandes. Ideal para data warehouses e sistemas com muitas consultas que leem grandes volumes de dados.</li>
+                <li><strong>Páginas menores (4KB, 8KB):</strong> Mais operações de I/O, mas melhor para sistemas transacionais com muitas atualizações pequenas. Ideal para OLTP (Online Transaction Processing) com muitas transações curtas.</li>
+            </ul>
+
+            <p>Em sistemas modernos com SSDs e grandes quantidades de RAM, páginas maiores tendem a ser mais eficientes, pois reduzem o número de operações de I/O necessárias.</p>
+
+            <h3>4. Uso de Espaço em Disco</h3>
+            
+            <p>Páginas maiores podem resultar em melhor aproveitamento do espaço em disco, especialmente para tabelas com registros grandes. No entanto, se você tem muitas tabelas pequenas com poucos registros, páginas maiores podem resultar em mais desperdício de espaço (fragmentação interna).</p>
+
+            <h3>5. Fragmentação</h3>
+            
+            <p>Páginas maiores tendem a reduzir a fragmentação do banco de dados, pois mais dados cabem em uma única página, reduzindo a necessidade de split de páginas durante inserções e atualizações.</p>
+
+            <h2>Recomendações por Cenário</h2>
+
+            <h3>Page Size 4KB (4096 bytes)</h3>
+            <p><strong>Use quando:</strong></p>
+            <ul>
+                <li>Bancos de dados muito pequenos (menos de 100MB)</li>
+                <li>Sistemas embarcados com recursos limitados</li>
+                <li>Compatibilidade com versões antigas do Firebird</li>
+            </ul>
+            <p><strong>Evite se:</strong> Você precisa de índices grandes, registros grandes ou alta performance.</p>
+
+            <h3>Page Size 8KB (8192 bytes) - RECOMENDADO</h3>
+            <p><strong>Use quando:</strong></p>
+            <ul>
+                <li>A maioria dos casos de uso (padrão recomendado)</li>
+                <li>Sistemas OLTP com transações médias</li>
+                <li>Bancos de dados de tamanho médio (100MB a 10GB)</li>
+                <li>Boa relação entre performance e uso de recursos</li>
+            </ul>
+            <p><strong>Vantagens:</strong> Equilíbrio ideal entre performance, limites de índices e uso de recursos.</p>
+
+            <h3>Page Size 16KB (16384 bytes)</h3>
+            <p><strong>Use quando:</strong></p>
+            <ul>
+                <li>Bancos de dados grandes (acima de 10GB)</li>
+                <li>Sistemas com muitas consultas que leem grandes volumes de dados</li>
+                <li>Necessidade de índices muito grandes</li>
+                <li>Registros com muitos campos ou BLOBs grandes</li>
+                <li>Data warehouses e sistemas de relatórios</li>
+                <li>Hardware moderno com SSDs e muita RAM</li>
+            </ul>
+            <p><strong>Vantagens:</strong> Melhor performance para leituras grandes, índices maiores, menos fragmentação.</p>
+
+            <h3>Page Size 32KB (32768 bytes)</h3>
+            <p><strong>Use quando:</strong></p>
+            <ul>
+                <li>Casos muito específicos com bancos extremamente grandes</li>
+                <li>Necessidade de índices compostos muito grandes</li>
+                <li>Registros com BLOBs muito grandes</li>
+                <li>Hardware de alta performance dedicado</li>
+            </ul>
+            <p><strong>Atenção:</strong> Pode não ser suportado em todas as versões do Firebird (disponível desde Firebird 3.0).</p>
+
+            <h2>Interação com Charset</h2>
+
+            <p>O Page Size interage diretamente com o charset escolhido, especialmente quando se usa UTF8:</p>
+
+            <div class="warning-box">
+                <strong>UTF8 e Page Size:</strong>
+                <p>Quando você usa charset UTF8, cada caractere pode ocupar de 1 a 4 bytes. Isso significa que os limites de índices calculados com base no Page Size são ainda mais restritivos. Por exemplo:</p>
+                <ul>
+                    <li>Com Page Size 8KB e ISO8859_1 (1 byte/caractere): ~2000 caracteres em índice</li>
+                    <li>Com Page Size 8KB e UTF8 (até 4 bytes/caractere): ~500 caracteres em índice</li>
+                </ul>
+                <p>Por isso, se você planeja usar UTF8, considere usar um Page Size maior (16KB ou 32KB) para compensar essa limitação.</p>
+            </div>
+
+            <h2>Como Criar um Banco com Page Size Específico</h2>
+
+            <h3>Usando ISQL (linha de comando):</h3>
+            <pre><code>CREATE DATABASE 'C:\CAMINHO\BANCO.FDB'
+USER 'SYSDBA' PASSWORD 'masterkey'
+PAGE_SIZE 8192
+DEFAULT CHARACTER SET UTF8
+COLLATION UNICODE_CI_AI;</code></pre>
+
+            <h3>Usando IBExpert:</h3>
+            <p>No IBExpert, ao criar um novo banco de dados, você pode especificar o Page Size na janela de criação. Procure pela opção "Page Size" e selecione o tamanho desejado (4096, 8192, 16384 ou 32768).</p>
+
+            <h3>Usando FlameRobin:</h3>
+            <p>No FlameRobin, ao criar um banco, você pode especificar o Page Size no campo apropriado da janela de criação.</p>
+
+            <h2>Como Verificar o Page Size de um Banco Existente</h2>
+
+            <p>Para verificar o Page Size de um banco de dados já criado, execute a seguinte query:</p>
+
+            <pre><code>SELECT 
+    MON$PAGE_SIZE AS PAGE_SIZE_BYTES,
+    MON$PAGE_SIZE / 1024 AS PAGE_SIZE_KB
+FROM MON$DATABASE;</code></pre>
+
+            <p>Ou usando a função do sistema:</p>
+
+            <pre><code>SELECT 
+    RDB$PAGE_SIZE AS PAGE_SIZE_BYTES
+FROM RDB$DATABASE;</code></pre>
+
+            <h2>Migrando para um Page Size Diferente</h2>
+
+            <p>Como o Page Size não pode ser alterado em um banco existente, a única forma de mudá-lo é:</p>
+
+            <ol>
+                <li><strong>Fazer backup completo:</strong> Use <code>gbak</code> para fazer backup do banco atual</li>
+                <li><strong>Recriar o banco:</strong> Crie um novo banco com o Page Size desejado</li>
+                <li><strong>Restaurar os dados:</strong> Use <code>gbak</code> para restaurar o backup no novo banco</li>
+            </ol>
+
+            <p>Exemplo prático:</p>
+
+            <pre><code>-- 1. Fazer backup
+gbak -b -user SYSDBA -password masterkey 
+     localhost:C:\CAMINHO\BANCO_ANTIGO.FDB 
+     C:\BACKUP\BANCO.FBK
+
+-- 2. Criar novo banco com Page Size 16KB
+CREATE DATABASE 'C:\CAMINHO\BANCO_NOVO.FDB'
+USER 'SYSDBA' PASSWORD 'masterkey'
+PAGE_SIZE 16384
+DEFAULT CHARACTER SET UTF8;
+
+-- 3. Restaurar backup no novo banco
+gbak -c -user SYSDBA -password masterkey 
+     C:\BACKUP\BANCO.FBK 
+     localhost:C:\CAMINHO\BANCO_NOVO.FDB</code></pre>
+
+            <div class="warning-box">
+                <strong>Importante:</strong>
+                <p>Durante a migração, o banco ficará indisponível. Planeje uma janela de manutenção adequada. Além disso, certifique-se de que o charset e collation do novo banco sejam compatíveis com os dados que serão restaurados.</p>
+            </div>
+
+            <h2>Resumo e Recomendações Finais</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Page Size</th>
+                        <th>Tamanho</th>
+                        <th>Limite de Índice</th>
+                        <th>Uso Recomendado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>4KB</strong></td>
+                        <td>4096 bytes</td>
+                        <td>~1KB</td>
+                        <td>Bancos muito pequenos, sistemas embarcados</td>
+                    </tr>
+                    <tr>
+                        <td><strong>8KB</strong></td>
+                        <td>8192 bytes</td>
+                        <td>~2KB</td>
+                        <td><strong>Recomendado para maioria dos casos</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>16KB</strong></td>
+                        <td>16384 bytes</td>
+                        <td>~4KB</td>
+                        <td>Bancos grandes, data warehouses, índices grandes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>32KB</strong></td>
+                        <td>32768 bytes</td>
+                        <td>~8KB</td>
+                        <td>Casos muito específicos, Firebird 3.0+</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Recomendações práticas:</h3>
+            <ul>
+                <li><strong>Para novos projetos:</strong> Use 8KB como padrão, a menos que tenha requisitos específicos que justifiquem 16KB.</li>
+                <li><strong>Com UTF8:</strong> Considere usar 16KB para compensar os limites de índices reduzidos.</li>
+                <li><strong>Bancos grandes (&gt;10GB):</strong> Use 16KB para melhor performance.</li>
+                <li><strong>Sistemas OLTP:</strong> 8KB geralmente é o ideal.</li>
+                <li><strong>Data warehouses:</strong> 16KB oferece melhor performance.</li>
+                <li><strong>Evite 4KB:</strong> A menos que tenha restrições muito específicas de hardware ou compatibilidade.</li>
+            </ul>
+
+            <div class="info-box">
+                <p><strong>Referências oficiais:</strong></p>
+                <ul>
+                    <li><a href="https://firebirdsql.org/file/documentation/html/en/refdocs/fblangref25/fblangref25-ddl-database.html" target="_blank">FirebirdSQL - CREATE DATABASE Documentation</a></li>
+                    <li><a href="https://firebirdsql.org/file/documentation/html/en/refdocs/fblangref25/fblangref25-datatypes-chartypes.html" target="_blank">FirebirdSQL - Character Data Types and Index Limits</a></li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 3rem;"><a href="sgbd_fb_main.html" class="back-link">&larr; Voltar para o Guia Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

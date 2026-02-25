@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de qualidade básica ao projeto em Lazarus - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Introdução</h2>
+            <p>Quando terminamos um projeto, seja ele em Delphi, Lazarus ou qualquer outra linguagem compilada, precisamos definir passos para homologar o binário. Além da funcionalidade, a saúde técnica do código garante que o programa seja estável a longo prazo.</p>
+
+            <h2>Controle de qualidade básica ao projeto em Lazarus</h2>
+
+            <p>Vamos focar em dois pilares: (1) <strong>Vazamentos de memória (Memory Leaks)</strong> e (2) <strong>Variáveis inúteis (Trash Variables)</strong>. Nem mesmo um "Hello World" deve ser distribuído sem passar por esse crivo.</p>
+
+            <h3>1. Detectando vazamento de memória com Heaptrc</h3>
+            <p>O vazamento de memória acontece quando criamos objetos (<code>TObject.Create</code>) e esquecemos de liberá-los (<code>.Free</code>). No Lazarus, resolver isso é simples graças à unit <strong>Heaptrc</strong>.</p>
+
+            <p>Para ativar, vá em: <strong>Project Options -> Debugging -> Check "Use Heaptrc unit"</strong>.</p>
+
+            <div class="img-placeholder">
+                <img src="assets/img/lazarus_heaptrc_config.png" alt="Ativando Heaptrc nas opções do projeto">
+            </div>
+
+            <p>Ao fechar seu programa após um teste, se houver vazamento, o Lazarus exibirá uma janela detalhando quantos blocos de memória não foram liberados. Se a lista estiver vazia (ou retornar 0000000), seu código está limpo!</p>
+
+
+
+            <h3>2. Limpando o código: Variáveis não utilizadas</h3>
+            <p>Variáveis criadas e não usadas (trash variables) poluem o código e podem indicar erros de lógica (você criou a variável mas esqueceu de implementar a função que a usaria). O compilador do Free Pascal é seu melhor amigo aqui.</p>
+
+            <p>Sempre observe a aba <strong>Messages</strong> após compilar. Procure por:</p>
+            <ul>
+                <li><code>Hint: Local variable "X" not used</code></li>
+                <li><code>Note: Private field "Y" is never used</code></li>
+            </ul>
+
+            <p>Um projeto de qualidade deve compilar com <strong>Zero Hints</strong> e <strong>Zero Notes</strong>. Se o compilador diz que algo não é usado, apague.</p>
+
+            <h3>3. Verificação de Range e Overflow</h3>
+            <p>Outra dica de ouro é ativar as checagens de limite durante o desenvolvimento. Em <strong>Project Options -> Codegen</strong>, ative:</p>
+            <ul>
+                <li><strong>Range Checking (-Cr):</strong> Verifica se você tentou acessar um índice de array inexistente.</li>
+                <li><strong>Overflow Checking (-Co):</strong> Avisa se um cálculo matemático excedeu a capacidade do tipo da variável (ex: somar 1 a um Byte que já vale 255).</li>
+            </ul>
+
+            <div class="img-placeholder">
+                <img src="assets/img/lazarus_codegen_checks.png" alt="Configurações de Code Generation para qualidade">
+            </div>
+
+            <h3>Conclusão</h3>
+            <p>A qualidade técnica não é um "extra", é parte do desenvolvimento. Ao manter o <strong>Heaptrc</strong> ativo durante os testes e obedecer rigorosamente aos <strong>Hints</strong> do compilador, você entrega um software profissional, leve e, acima de tudo, confiável. Um bom programador Pascal não apenas faz o código funcionar; ele o faz ser impecável.</p>
+
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Em busca das janelas perdidas - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Em busca das janelas perdidas</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>Quem trabalha com o Lazarus sem docar o editor de formulários à IDE costuma ter janelas flutuantes (código, form, inspector etc.). Ao trocar de máquina ou de configuração de monitores, algumas delas podem parecer ter "sumido" — na verdade, foram restauradas em coordenadas fora da tela atual.</p>
+            <p>Se você optou por não integrar o editor de formulários com a IDE, precisa estar atento a um detalhe importante: ao fechar um projeto, o Lazarus salva as posições e dimensões exatas de todas as janelas. O problema surge quando você muda de computador ou altera a configuração de monitores.</p>
+
+            <h2>O Cenário do Problema</h2>
+            <p>Imagine que no trabalho você utiliza dois monitores: a IDE fica na esquerda e o editor de formulários na direita. Ao salvar e abrir esse mesmo projeto em casa, em um computador com apenas um monitor, os formulários podem parecer ter "desaparecido".</p>
+
+            <p>Isso acontece porque o sistema operacional trata múltiplos monitores como um desktop estendido. As janelas não sumiram; elas simplesmente foram restauradas em coordenadas espaciais que agora estão fora da sua área de visão atual.</p>
+
+
+
+            <h2>Como recuperar janelas "invisíveis"</h2>
+            <p>No Windows, você poderia usar o atalho <code>ALT + Tab</code> para selecionar a janela e depois <code>ALT + Espaço</code> para tentar movê-la com as setas do teclado. No entanto, o Lazarus oferece uma solução nativa muito mais simples.</p>
+
+            <p>Para centralizar janelas que ficaram fora do alcance visual, acesse o menu:</p>
+            <p><strong>Window | Center a lost window</strong> (Janela | Centralizar uma janela perdida)</p>
+
+            <div class="img-container">
+                <img src="assets/img/ide_janelas_perdidas1.png" alt="Menu do Lazarus para centralizar janelas perdidas">
+            </div>
+
+            <p>Esta ferramenta listará tanto as janelas de ferramentas da IDE quanto os formulários do seu projeto, permitindo que você os traga de volta para o centro da tela principal com um clique.</p>
+
+            <h2>Conclusão</h2>
+            <p>O comando <strong>Window | Center a lost window</strong> resolve o problema de janelas "perdidas" quando se troca de máquina ou de configuração de monitores. Use-o sempre que um formulário ou painel parecer ter sumido; em geral, ele está apenas fora da área visível.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

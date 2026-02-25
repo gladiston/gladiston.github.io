@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando o componente CEF4Delphi - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1 style="font-size: 1.6rem; color: white;">Usando o componente CEF4Delphi</h1>
+                <p style="font-size: 1rem; color: white;">Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="pascal.html">Pascal</a></li>
+            <li><a href="python.html">Python</a></li>
+            <li><a href="bash.html">Bash</a></li>
+            <li><a href="linux.html">Linux</a></li>
+            <li><a href="sobre-mim.html">Sobre mim</a></li>
+            <li><a href="contato.html">Contato</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section>
+                <h2>Introdução</h2>
+                <p>O Chromium é um projeto de código aberto para criar navegadores multiplataforma, servindo de base para o Chrome e o Edge. O Chromium Embedded Framework (CEF) permite incorporar essa tecnologia em aplicativos do usuário no Linux, macOS e Windows.</p>
+                <p>Neste artigo, utilizaremos o <strong>CEF4Delphi</strong>. Apesar do nome, ele possui suporte completo para Lazarus e Delphi, sendo a escolha ideal para substituir versões obsoletas como o fpCEF3.</p>
+            </section>
+
+            <section>
+                <h2>Instalando-o no Lazarus-IDE</h2>
+                <p>A instalação é feita via pacotes. Siga os passos:</p>
+                <p>1. Acesse o repositório: <a href="https://github.com/salvadordf/CEF4Delphi" target="_blank">https://github.com/salvadordf/CEF4Delphi</a></p>
+                <p>2. No terminal, execute os comandos abaixo para clonar o componente:</p>
+                <pre><code>cd C:\lazarus\components
+git clone https://github.com/salvadordf/CEF4Delphi.git
+cd CEF4Delphi</code></pre>
+
+                <p>3. No Lazarus, abra o pacote <code>cef4delphi_lazarus.lpk</code> em <em>Package | Open Package File</em>, compile e instale. Se a IDE sugerir o <strong>DCPCrypt</strong>, aceite a inclusão.</p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_cef4delphi-01.png" alt="Instalação do Pacote no Lazarus">
+                </div>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_cef4delphi-02.png" alt="Componentes CEF4 instalados na IDE">
+                </div>
+            </section>
+
+            <section>
+                <h2>Criando o Primeiro Projeto</h2>
+                <p>Recomenda-se iniciar pelo demo <strong>SimpleBrowser</strong>. Copie a pasta do demo para seu diretório de projetos e ajuste as opções de compilação para o Target desejado (ex: Win32).</p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_cef4delphi-03.png" alt="Copiando pasta do Demo">
+                </div>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_cef4delphi-04.png" alt="Configuração de Target do Compilador">
+                </div>
+
+                <p>É vital que o runtime do CEF baixado seja compatível com a arquitetura (32 ou 64 bits) do executável gerado.</p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_cef4delphi-05.png" alt="Ajuste de Compiler Options">
+                </div>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_cef4delphi-06.png" alt="Ajuste Final do Projeto">
+                </div>
+            </section>
+
+            <section>
+                <h2>Download e Preparação do Runtime</h2>
+                <p>Baixe os binários (tarballs) na página oficial. Você precisará apenas dos arquivos das pastas <code>Release</code> e <code>Resources</code>.</p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_cef4delphi-07.png" alt="Página de Download do Runtime">
+                </div>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_cef4delphi-08.png" alt="Subpastas Release e Locales">
+                </div>
+
+                <p>Copie os arquivos para a pasta do seu projeto seguindo a estrutura correta.</p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_cef4delphi-09.png" alt="Arquivos de Resources selecionados">
+                </div>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_cef4delphi-10.png" alt="Arquivos de Release selecionados">
+                </div>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_cef4delphi-11.png" alt="Estrutura final da pasta do projeto">
+                </div>
+
+                <div class="cta-video" style="margin: 2rem 0; border: 2px solid #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px;">
+                    <p><strong>Vídeo Tutorial:</strong> Assista ao procedimento de configuração externa.</p>
+                    <a href="https://www.briskbard.com/index.php?lang=en&pageid=cef" target="_blank" class="btn-video" style="background: #1a5276; color: white; padding: 10px 20px; text-decoration: none; display: inline-block; margin-top: 10px; border-radius: 4px;">Abrir Vídeo em Nova Aba</a>
+                </div>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_guia_cef4delphi-12.png" alt="Resultado Final - SimpleBrowser Rodando">
+                </div>
+            </section>
+
+            <section>
+                <h2>Exemplo de Inicialização (Pascal)</h2>
+                <p>O código do CEF exige inicialização prévia no arquivo <code>.lpi</code> para evitar erros de memória:</p>
+                <pre><code>program SimpleBrowser;
+{$I cef.inc}
+uses Forms, Interfaces, uCEFApplication;
+
+begin
+  GlobalCEFApp := TCefApplication.Create;
+  // Define pasta de locales dinamicamente
+  GlobalCEFApp.LocalesDirPath := UTF8Decode(GetCurrentDir + PathDelim + 'locales');
+
+  if GlobalCEFApp.StartMainProcess then
+    begin
+      Application.Initialize;
+      Application.CreateForm(TForm1, Form1);
+      Application.Run;
+    end;
+  GlobalCEFApp.Free;
+end.</code></pre>
+            </section>
+
+            <section>
+                <h2>Conclusão</h2>
+                <p>O CEF4Delphi é um componente robusto e moderno. Embora sua configuração inicial seja mais complexa que a do antigo TWebbrowser, ele oferece um navegador completo e atualizado para suas aplicações Pascal, sendo excelente para navegação avançada e automação de bots.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

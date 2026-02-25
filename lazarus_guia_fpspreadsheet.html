@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPSpreadsheet - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>Introdução ao fpSpreadsheet</h2>
+                <p>O <strong>fpSpreadsheet</strong> é mantido no GitHub (repositório <code>tcs-ulli/fpspreadsheet</code>) e faz parte do Lazarus Code and Component Repository (Lazarus-CCR), com contribuições de vários desenvolvedores da comunidade. O projeto tem um histórico longo e desenvolvimento ativo, com releases regulares (por exemplo, 1.12 em 2020, 1.14 em 2022, 1.16 em 2023, 2.0 em 2025), demonstrando manutenção constante e evolução contínua.</p>
+                <p>A biblioteca lê e escreve arquivos diretamente nos formatos <strong>XLS, XLSX e ODS</strong>, garantindo alta performance e total independência de Excel ou LibreOffice. Não é um "relatório bandado" clássico: é uma biblioteca para criar e manipular planilhas de forma nativa, permitindo que desenvolvedores gerem arquivos de planilha profissionais sem depender de software externo. Para comparar com outras opções de relatórios, consulte a <a href="lazarus_guia_intro_relatorios.html">Introdução aos Geradores de Relatórios</a>.</p>
+            </section>
+
+            <section id="analise-tecnica">
+                <h2>Análise para Programadores</h2>
+                <p><strong>Nível de dificuldade de aprendizado:</strong> <strong>Médio</strong>. A API é relativamente intuitiva para quem já trabalhou com planilhas, mas exige conhecimento de como estruturar dados em linhas e colunas. O conceito de células e fórmulas é familiar; a programação manual de layouts pode ser trabalhosa.</p>
+                <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
+                        <strong>Pontos Positivos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Gera planilhas reais para BI sem precisar de Excel ou LibreOffice instalados.</li>
+                            <li>Independente de GUI; funciona perfeitamente em modo console.</li>
+                            <li>Suporte a múltiplos formatos (XLS, XLSX, ODS, CSV).</li>
+                            <li>Permite criar fórmulas, formatação de células, gráficos e formatação condicional.</li>
+                            <li>Desenvolvimento ativo e bem mantido pela comunidade.</li>
+                            <li>Ideal para integração com sistemas de Business Intelligence.</li>
+                        </ul>
+                    </div>
+                    <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b;">
+                        <strong>Destaques Negativos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Manutenção onerosa para layouts fluidos devido ao uso de coordenadas de células (A1, B2).</li>
+                            <li>Não é um gerador de relatórios tradicionais; focado em planilhas.</li>
+                            <li>Alterar layouts complexos pode exigir reescrever código significativo.</li>
+                            <li>Pode ser excessivo para relatórios simples que não precisam de formato de planilha.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="relatorios-vs-planilhas">
+            <h2>Relatórios Visuais vs. Planilhas Formatadas</h2>
+            <p>Muitos desenvolvedores perdem horas configurando geradores de relatórios visuais complexos (como Fortes Report ou FastReport) para criar saídas rígidas. Considere as seguintes vantagens de entregar uma planilha bem formatada via FPSpreadsheet em vez de um relatório tradicional:</p>
+
+            <ul>
+                <li><strong>Flexibilidade para o Usuário:</strong> No Excel ou LibreOffice, o usuário pode aplicar filtros, criar tabelas dinâmicas e reordenar dados, algo impossível em um PDF.</li>
+                <li><strong>Cálculos Adicionais:</strong> O cliente pode inserir suas próprias fórmulas sobre os dados exportados sem precisar solicitar alterações no código do sistema.</li>
+                <li><strong>Layout Adaptável:</strong> Relatórios visuais costumam sofrer com quebras de página e margens. Em uma planilha, a visualização é contínua e o ajuste de impressão é controlado pelo software de escritório.</li>
+                <li><strong>Integração:</strong> Dados em planilhas são facilmente importados por outros softwares de BI (Business Intelligence) e ERPs.</li>
+            </ul>
+
+            <div class="info-box">
+                <p><strong>Dica de Desenvolvimento:</strong> Com a FPSpreadsheet, você pode definir cores de células, fontes, bordas e até fórmulas complexas, entregando um arquivo que já parece um relatório finalizado, mas com o poder de manipulação de uma planilha.</p>
+            </div>
+
+            </section>
+
+            <section id="informacoes-tecnicas">
+            <h2>Informações Técnicas</h2>
+            <p>O componente é compatível com Lazarus/FPC e também com o Delphi (incluindo a Community Edition). Para detalhes sobre a API e classes disponíveis, consulte a documentação oficial:</p>
+            <p><a href="https://wiki.lazarus.freepascal.org/FPSpreadsheet" target="_blank" rel="noopener" class="btn-link">Documentação Oficial: FPSpreadsheet Wiki</a></p>
+            </section>
+
+            <section id="video-tutorial">
+                <h2>Vídeo Tutorial</h2>
+                <p>Para uma introdução prática sobre como instalar e realizar as primeiras exportações de dados, assista ao guia detalhado abaixo:</p>
+                <div class="video-cta">
+                    <p>Aprendendo a usar FPSpreadsheet no Lazarus</p>
+                    <a href="https://www.youtube.com/watch?v=5PGFdVkL3FU" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+                </div>
+            </section>
+
+            <section id="conclusao">
+            <h2>Conclusão</h2>
+            <p>A fpSpreadsheet não é apenas uma biblioteca de exportação, mas uma alternativa estratégica para a entrega de resultados aos usuários finais. Ao trocar relatórios estáticos por planilhas profissionais e formatadas, você reduz o tempo de suporte e aumenta a percepção de valor do seu software. É uma ferramenta indispensável na maleta de qualquer desenvolvedor Pascal moderno. Para uma visão comparativa com as demais opções de relatórios, consulte a <a href="lazarus_guia_intro_relatorios.html">Introdução aos Geradores de Relatórios</a>.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

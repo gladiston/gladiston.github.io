@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arredondamento do tipo ABNT em itens de serviço NFs - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird: Linguagem PSQL</h1>
+                <p>Otimização e centralização de regras de negócio com Procedural SQL.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD</a></li>
+            <li><a href="sgbd_fb.html">Firebird</a></li>
+            <li><a href="sgbd_fb_psql.html">PSQL</a></li>
+            <li><a href="sgbd_fb_udr.html">UDR</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Arredondamento do tipo ABNT em itens de serviço NFs</h2>
+            
+            <p>Vez ou outra somos obrigados a usar a matemática de um jeito diferente. Os matemáticos e pesquisadores tratam arredondamentos de uma maneira científica, enquanto o mundo civil pode trabalhar de uma maneira diferente. Este é o caso da norma ABNT para arredondamento de preços para itens de serviço. Elas funcionam do seguinte modo:</p>
+
+            <ol>
+                <li><strong>Quando o algarismo a ser conservado for seguido de algarismo inferior a 5,</strong> o algarismo a ser conservado permanece sem alteração. Exemplo: 4,303 arredondado em duas casas decimais torna-se 4,30. Fala o teste:
+                    <pre><code>-- O arredondamento PSQL concorda com a regra ABNT retornando 4.3
+SELECT
+  CAST(4.303 AS NUMERIC(18,2))
+FROM RDB$DATABASE</code></pre>
+                </li>
+
+                <li><strong>Quando o algarismo a ser conservado for seguido de algarismo superior a 5, ou igual a 5 seguindo de um algarismo diferente de zero,</strong> soma-se uma unidade ao algarismo a ser conservado. Exemplo: 15,4875 arredondado em duas casas decimais torna-se 15,49.
+                    <pre><code>-- O arredondamento PSQL concorda com a regra ABNT retornando 15.49
+SELECT
+  CAST(15.4875 AS NUMERIC(18,2))
+FROM RDB$DATABASE</code></pre>
+                </li>
+
+                <li><strong>Quando o algarismo a ser conservado for ímpar, seguido de 5 e posteriormente de zeros,</strong> soma-se uma unidade ao algarismo a ser conservado. Exemplo: 25,7750 arredondado em duas casas decimais fica 25,78.
+                    <pre><code>-- O arredondamento PSQL concorda com a regra ABNT retornando 25.78
+SELECT
+  CAST(25.7750 AS NUMERIC(18,2))
+FROM RDB$DATABASE</code></pre>
+                </li>
+
+                <li><strong>Quando o algarismo a ser conservado for par, seguido de 5 e posteriormente de zeros,</strong> o algarismo a ser conservado permanece sem alteração. Exemplo: 31,7250 arredondado em duas casas decimais fica 31,72.
+                    <pre><code>-- No exemplo abaixo, o arredondamento PSQL FALHA COM A REGRA ABNT
+--   retornando 31,73 ao invés de 31.72 segundo a regra ABNT
+SELECT
+  CAST(31.7250 AS NUMERIC(18,2))
+FROM RDB$DATABASE</code></pre>
+                </li>
+            </ol>
+
+            <p>Então é apenas no ponto "4" que o PSQL passa a falhar segundo esta norma. É claro que arredondar desse jeito é um pouco de preciosismo, mas ao rigor da lei e da norma ABNT para itens de prestação de serviço em NFs é preciso fazê-lo. Então como? A SQL Function abaixo aplica a regra ABNT que desejamos:</p>
+
+            <pre><code>CREATE OR ALTER FUNCTION GET_ROUND_AS_ABNT (
+    P_VALOR DOUBLE PRECISION,
+    P_DECIMAIS SMALLINT)
+RETURNS DOUBLE PRECISION
+AS
+DECLARE VARIABLE CDECIMAIS VARCHAR(100);
+DECLARE VARIABLE STR_VALOR VARCHAR(100);
+DECLARE VARIABLE NSUBSEQUENTE SMALLINT;
+DECLARE VARIABLE POS_DEC SMALLINT;
+-- Constante para indicar separador de decimal, 
+--   mude para vírgula se for o seu caso.
+DECLARE VARIABLE C_CHAR_DEC VARCHAR(1)='.';
+BEGIN
+ STR_VALOR = CAST(P_VALOR AS VARCHAR(100));
+ POS_DEC = POSITION(C_CHAR_DEC,STR_VALOR);
+ CDECIMAIS = SUBSTRING(STR_VALOR FROM POS_DEC+1 FOR CHAR_LENGTH(STR_VALOR));
+ NSUBSEQUENTE = P_DECIMAIS+1;
+ IF (:P_DECIMAIS < 1) THEN
+  RETURN TRUNC(P_VALOR);
+ ELSE
+ IF (CHAR_LENGTH(CDECIMAIS) <= :P_DECIMAIS) THEN
+  RETURN P_VALOR;
+ ELSE
+  BEGIN
+   IF ((CAST(SUBSTRING(CDECIMAIS FROM NSUBSEQUENTE FOR 1) AS INTEGER) > 5) OR
+       (CAST(SUBSTRING(CDECIMAIS FROM NSUBSEQUENTE FOR 1)AS DOUBLE PRECISION)  < 5))  THEN
+    RETURN ROUND(P_VALOR,P_DECIMAIS);
+   ELSE
+   IF (CAST(SUBSTRING(CDECIMAIS FROM NSUBSEQUENTE FOR 1)AS DOUBLE PRECISION) = 5) THEN
+    IF (MOD(CAST(SUBSTRING(CDECIMAIS FROM P_DECIMAIS FOR 1)AS DOUBLE PRECISION) ,2) <> 0) THEN
+     RETURN ROUND(P_VALOR,P_DECIMAIS);
+   ELSE
+   IF (CAST(SUBSTRING(CDECIMAIS FROM NSUBSEQUENTE+1 FOR 1)AS DOUBLE PRECISION) > 0) THEN
+    RETURN ROUND(P_VALOR,P_DECIMAIS);
+   ELSE
+    RETURN TRUNC(P_VALOR,P_DECIMAIS);
+  END
+END</code></pre>
+
+            <p>Este código não é de minha autoria. Quando iria criar uma SQL Function para resolver tal problema de arredondamento ABNT, fiz o que sempre faço: procurei na internet para saber se alguém já não fez isso antes e encontrei as informações necessárias para este código que modifiquei levemente. Exemplo de uso:</p>
+
+            <pre><code>SELECT
+  GET_ROUND_AS_ABNT(31.7250, 2)
+FROM RDB$DATABASE</code></pre>
+
+            <h3>Conclusão</h3>
+            <p>Lembre-se de que este é um tipo de arredondamento especial, só é usado nas situações de arredondamento de itens de serviço em NFs. Portanto, descarte o uso dessa função para outras operações.</p>
+
+            <p>O material de referência desse artigo foi obtido em:</p>
+            <p><a href="https://documentacao.senior.com.br/goup/5.10.1/regra%5Ffuncoes/arredonda-abnt.htm#:~:text=A%20regra%20de%20arredondamento%20da%20ABNT%20prev%C3%AA%20os%20seguintes%20arredondamentos,torna%2Dse%204%2C30." target="_blank" rel="noopener">Documentação Senior - Arredondamento ABNT</a></p>
+
+            <p><a href="sgbd_fb_psql.html" class="back-link">&larr; Voltar para PSQL</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

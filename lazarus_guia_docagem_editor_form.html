@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docagem do editor de formulário - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Docagem do editor de formulário</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>Após configurar a docagem básica no Lazarus, muitos desenvolvedores, especialmente aqueles vindos do Delphi, sentem falta de uma funcionalidade específica: a capacidade de ter o editor de formulários ocupando o mesmo espaço que o editor de código, permitindo alternar rapidamente entre eles com a tecla <strong>F12</strong>. Esta é uma característica distintiva do Delphi que muitos desenvolvedores consideram essencial para seu fluxo de trabalho.</p>
+
+            <p>Embora a docagem básica organize os painéis e janelas da IDE, ela mantém o editor de formulários como uma janela separada. Para aqueles que preferem uma experiência mais próxima do Delphi, onde o formulário e o código compartilham o mesmo espaço visual, existe uma solução: o pacote <strong>dockedformeditor</strong>.</p>
+
+            <p>A extensão abaixo é ideal para quem já está acostumado ao fluxo de trabalho do Delphi, onde o editor de formulários ocupa o mesmo espaço que o editor de código, permitindo alternar rapidamente entre eles usando a tecla <strong>F12</strong>.</p>
+
+            <p>Para obter esse comportamento, instale o seguinte pacote na sua IDE:</p>
+            <p><code>dockedformeditor</code></p>
+
+            <p>O <strong>dockedformeditor</strong> trabalha em conjunto com os pacotes <strong>AnchorDocking</strong> e <strong>AnchorDockingDsgn</strong>. Juntos, eles funcionam de forma muito estável e harmoniosa, sendo uma alternativa superior ao antigo <em>sparta_dockedformeditor</em>, que apresentava diversos bugs.</p>
+
+            <div class="img-container">
+                <img src="assets/img/docagem_3.png" alt="Editor de formulário docado na área de código">
+            </div>
+
+            <p>Um recurso adicional interessante é a opção <strong>'Anchors'</strong>, que melhora a exibição do formulário ao destacar as posições e o ancoramento dos componentes:</p>
+
+            <div class="img-container">
+                <img src="assets/img/docagem_4.png" alt="Exibição de âncoras no editor docado">
+            </div>
+
+            <h2>Vantagens do Editor de Formulário Docado</h2>
+
+            <p>O uso do <code>dockedformeditor</code> oferece várias vantagens:</p>
+
+            <ul>
+                <li><strong>Experiência Delphi-like:</strong> Replica o comportamento familiar do Delphi, facilitando a transição para desenvolvedores vindos dessa IDE</li>
+                <li><strong>Alternância rápida:</strong> Use <strong>F12</strong> para alternar instantaneamente entre código e formulário</li>
+                <li><strong>Melhor uso do espaço:</strong> Aproveita melhor a área de tela, especialmente em monitores menores</li>
+                <li><strong>Fluxo de trabalho otimizado:</strong> Reduz a necessidade de gerenciar múltiplas janelas flutuantes</li>
+                <li><strong>Visualização de âncoras:</strong> Facilita o posicionamento e ancoramento de componentes</li>
+                <li><strong>Estabilidade:</strong> Solução mais estável que alternativas antigas como o sparta_dockedformeditor</li>
+            </ul>
+
+            <div class="info-box">
+                <p><strong>ALERTA:</strong> Nunca utilize estes pacotes simultaneamente com os pacotes da série <strong>Sparta</strong> (como o <em>sparta_formeditor</em>) em versões do Lazarus anteriores à 2.0. Isso causa sérias instabilidades, como janelas (ex: 'Fields Editor') que "fogem" para trás da IDE principal. O <em>Anchor Docking</em> é um fork do projeto Sparta que foi amplamente refatorado e melhorado.</p>
+            </div>
+
+            <h2>Conclusão</h2>
+
+            <p>A docagem do editor de formulário é uma funcionalidade essencial para desenvolvedores que buscam uma experiência mais próxima do Delphi ou que preferem um ambiente de trabalho mais compacto e integrado. O pacote <code>dockedformeditor</code>, trabalhando em conjunto com os pacotes de docagem básica (<code>AnchorDocking</code> e <code>AnchorDockingDsgn</code>), oferece uma solução estável e eficiente para essa necessidade.</p>
+
+            <p>A capacidade de alternar rapidamente entre o código e o formulário usando <strong>F12</strong> não é apenas uma conveniência, mas uma ferramenta que pode melhorar significativamente o fluxo de trabalho, especialmente durante o desenvolvimento de interfaces gráficas onde é comum alternar frequentemente entre o design visual e a implementação do código.</p>
+
+            <p>O recurso de visualização de âncoras é um bônus adicional que facilita o posicionamento preciso de componentes, tornando o desenvolvimento de interfaces mais intuitivo e eficiente. Esta funcionalidade, combinada com a estabilidade superior em relação às soluções antigas, torna o <code>dockedformeditor</code> uma escolha recomendada para quem busca essa experiência.</p>
+
+            <p>É importante lembrar que esta solução não deve ser usada simultaneamente com pacotes da série Sparta em versões antigas do Lazarus, pois isso pode causar instabilidades. O Anchor Docking representa uma evolução significativa do projeto original, oferecendo melhorias substanciais em termos de estabilidade e funcionalidade.</p>
+
+            <p>Se você já configurou a docagem básica e deseja completar a experiência com a docagem do editor de formulários, instalar o <code>dockedformeditor</code> é o próximo passo lógico. Esta combinação de pacotes cria um ambiente de desenvolvimento altamente organizado e produtivo, especialmente adequado para desenvolvedores que trabalham com interfaces gráficas e buscam máxima eficiência no seu fluxo de trabalho.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

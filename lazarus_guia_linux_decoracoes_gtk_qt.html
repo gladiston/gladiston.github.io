@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decorações GTK e Qt no Lazarus - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Introdução</h2>
+            <p>Ao desenvolver aplicações multiplataforma com Lazarus, especialmente para Linux, um dos maiores desafios é garantir que a interface do usuário (UI) se integre harmoniosamente ao ambiente desktop. No Linux, a aparência dos componentes é ditada pelas bibliotecas GTK (comum no GNOME e XFCE) ou Qt (padrão no KDE Plasma).</p>
+            <p>Neste artigo, discutiremos como essas "decorações" influenciam o comportamento dos seus componentes e por que tentar forçar estilos manuais pode resultar em uma experiência de usuário inconsistente.</p>
+
+            <h2>O que precisamos saber sobre decorações GTK e Qt</h2>
+
+
+
+            <h3>A Supremacia da Temática do Sistema</h3>
+            <p>Componentes visuais como botões, <em>splitters</em> (divisores) e painéis possuem propriedades de cor e estilo no Lazarus, mas no Linux, essas definições costumam ser ignoradas em favor do tema ativo do sistema (como o <em>Adwaita</em> ou <em>Breeze</em>). Isso ocorre para garantir que todos os aplicativos respeitem a escolha do usuário, permitindo que um tema <strong>Dark Mode</strong>, por exemplo, afete globalmente a interface.</p>
+
+            <p>Se você pretende desenvolver para Windows e Linux simultaneamente, a recomendação de ouro é: <strong>evite mexer em decorações manuais</strong>. O resultado nativo sempre será mais elegante e funcional do que um componente com cores "hardcoded" que não se adapta às mudanças do sistema.</p>
+
+            <h3>Quando a Customização é Necessária</h3>
+            <p>Apesar da recomendação geral, existem cenários onde sua aplicação exige uma identidade visual única que diverge do restante do sistema. Para esses casos, você deve verificar se o componente permite manipulação direta via <strong>Canvas</strong>.</p>
+
+            <p>Lembre-se do exemplo do <em>Splitter</em>: mudar sua propriedade de cor via Object Inspector geralmente não surtirá efeito no GTK. Para contornar isso, utilizamos o evento <code>OnPaint</code> para desenhar manualmente sobre o componente:</p>
+
+            <pre><code>procedure TForm1.Splitter1Paint(Sender: TObject);
+begin
+  with (Sender as TSplitter) do
+  begin
+    Canvas.Brush.Color := clBlack;
+    Canvas.FillRect(ClientRect);
+    // Adicione aqui desenhos adicionais se necessário
+  end;
+end;</code></pre>
+
+            <h3>Desenho Manual vs. Decoração Nativa</h3>
+            <p>Sobrescrever a aparência de um componente exige que o desenvolvedor procure por eventos que exponham o Canvas. Embora tecnicamente possível, isso aumenta a complexidade de manutenção e pode quebrar a acessibilidade do software (como o contraste para usuários com baixa visão).</p>
+
+
+
+            <section class="conclusao">
+                <h3>Conclusão</h3>
+                <p>Entender a diferença entre o desenho nativo do Windows e as decorações GTK/Qt no Linux é fundamental para qualquer desenvolvedor Lazarus Sênior. Respeitar o tema do usuário não é apenas uma escolha estética, mas um compromisso com a usabilidade e a integração do sistema. Utilize a manipulação via Canvas apenas como último recurso, priorizando sempre a sobriedade e a compatibilidade nativa que o compilador Free Pascal oferece tão bem.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

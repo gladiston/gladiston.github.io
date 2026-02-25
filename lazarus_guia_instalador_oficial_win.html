@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando Instalador padrão (nível fácil) - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Usando Instalador padrão (nível fácil)</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>A instalação do Lazarus para Windows via instalador oficial é o método mais direto e conhecido. Recomendo baixar a versão que suporta tanto 32 quanto 64 bits para maior flexibilidade no desenvolvimento.</p>
+
+            <p>Acesse a página oficial de downloads:</p>
+            <p><a href="https://www.lazarus-ide.org/index.php?page=downloads" target="_blank" rel="noreferrer noopener">https://www.lazarus-ide.org/index.php?page=downloads</a></p>
+
+            <div class="img-container">
+                <img src="assets/img/lazarus-download1.png" alt="Página de download oficial do Lazarus">
+            </div>
+
+            <p>Na tela seguinte, escolha os downloads na ordem recomendada:</p>
+
+            <div class="img-container">
+                <img src="assets/img/lazarus-download2.png" alt="Ordem de download dos instaladores">
+            </div>
+
+            <p>Você deve realizar a instalação na mesma ordem mostrada na imagem. O processo é o padrão do Windows: <strong>Next -> Next -> Finish</strong>. Caso você possua uma versão anterior do Lazarus instalada, lembre-se de marcar a opção de limpeza durante o processo:</p>
+
+            <div class="img-container">
+                <img src="assets/img/lazarus-download3.png" alt="Opção de instalação limpa">
+            </div>
+
+            <h2>Por que instalar 64-bits com Cross-Compile 32-bits?</h2>
+            <p>Este método permite que você utilize uma IDE de 64-bits (usufruindo de toda a memória RAM disponível no sistema) enquanto mantém a capacidade de gerar executáveis de 32-bits para seus clientes.</p>
+
+            <p><strong>Fatores para manter o suporte a 32-bits:</strong></p>
+            <ul>
+                <li>Compatibilidade com clientes que ainda utilizam Windows 32-bits.</li>
+                <li>Integração com periféricos (impressoras fiscais, leitores de cartão) cujas DLLs e drivers são apenas 32-bits.</li>
+                <li>Uso de SQL Clients específicos que operam em arquitetura 32-bits.</li>
+            </ul>
+
+            <p>A IDE 64-bits é superior para o desenvolvimento porque elimina o limite de memória RAM (que em 32-bits é inferior a 4GB), permitindo trabalhar em múltiplos projetos simultâneos com muito mais fluidez.</p>
+
+            <h2>Atenção ao Ambiente</h2>
+            <p>Lembre-se que o cross-compile não é automático. Você precisará ajustar as <strong>Configurações do Projeto > Alvo</strong> para definir o SO (Win32) e a CPU (i386) desejados.</p>
+
+            <p>Além disso, se a sua IDE é 64-bits, componentes que carregam bibliotecas externas em tempo de design (como Zeos ou SQLdb) precisarão das DLLs de 64-bits instaladas para que a conexão com o banco de dados funcione dentro do editor.</p>
+
+            <h2>Resolução de Problemas</h2>
+            <p>Se você enfrentar conflitos, a melhor prática é remover versões anteriores do Lazarus e do FPC, limpando também as variáveis de ambiente (PATH) do Windows, já que o instalador pode não detectar configurações de diretórios antigos automaticamente.</p>
+
+            <h2>Conclusão</h2>
+            <p>A instalação do Lazarus via instalador oficial no Windows é o caminho mais direto para começar a desenvolver em Pascal. Ao seguir a ordem recomendada de downloads (FPC, Lazarus) e optar pela versão que suporta 32 e 64 bits, você ganha flexibilidade para desenvolver e distribuir aplicações para ambas as arquiteturas.</p>
+            <p>Lembre-se de ajustar as configurações de cross-compile quando precisar gerar executáveis 32-bits a partir de uma IDE 64-bits, e de manter as DLLs adequadas quando usar componentes que dependem de bibliotecas externas. Com isso, você terá um ambiente estável e pronto para produção.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Como extrair apenas o texto de um conteúdo RTF - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird: Linguagem PSQL</h1>
+                <p>Otimização e centralização de regras de negócio com Procedural SQL.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD</a></li>
+            <li><a href="sgbd_fb.html">Firebird</a></li>
+            <li><a href="sgbd_fb_psql.html">PSQL</a></li>
+            <li><a href="sgbd_fb_udr.html">UDR</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Como extrair apenas o texto de um conteúdo RTF</h2>
+            
+            <p>Qualquer que seja a linguagem de programação, para ela ser considerada boa o suficiente, precisa ter os comandos necessários de estrutura de loop, condicionais, variáveis e alguns outros elementos. O mesmo vale para linguagens procedurais SQL (PSQL daqui em diante).</p>
+
+            <p>Talvez um excelente exemplo para provar o valor da linguagem PSQL do banco de dados FirebirdSQL seja como extrair de um conteúdo RTF apenas o texto. Eu fiz o exemplo abaixo alguns anos atrás, e ele continua muito eficiente.</p>
+
+            <h3>Qual o objetivo de extrair o conteúdo textual de um RTF?</h3>
+            <p>Você deve saber que no Windows, quase sempre texto rico, isto é, texto com negrito/itálico/sublinhado, alinhamentos, bullets e afins são editados e armazenados no formato RichText, também conhecido como RTF. Um problema com este formato é quando precisamos analisar as informações contidas ali dentro: os códigos de controle estão concatenados ao texto, impedindo uma leitura suave.</p>
+
+            <p>O código abaixo fará essa extração, mas ao invés de você apenas "copiar" e "colar" para suas atividades, estude-o, veja a lógica utilizada. Se entendê-lo, poderá adaptá-lo a situações diferentes, por exemplo, extrair texto de conteúdos HTML.</p>
+
+            <p>O PSQL abaixo está no formato do FirebirdSQL para SQL Functions. SQL Functions são funções que retornam apenas um tipo de informação. No exemplo abaixo, ela se chamará <code>GET_UNRTF</code> e tem um parâmetro de entrada que é um blob do tipo texto cujo formato é RTF e retorna o conteúdo deste blob em formato blob textual também, porém plaintext.</p>
+
+            <p>O script abaixo foi testado em diversas situações e é plenamente funcional e até o momento livre de bugs. No entanto, os testes foram em cima de arquivos gerados pelo MS WordPad, que como sabemos é bem mais limitado do que um RTF gerado pelo LibreOffice ou MS Word. Segue:</p>
+
+            <pre><code>CREATE OR ALTER FUNCTION GET_UNRTF (
+    P_SOURCE_RTF BLOB SUB_TYPE TEXT)
+RETURNS BLOB SUB_TYPE TEXT
+AS
+DECLARE VARIABLE TAGSTART INTEGER;
+DECLARE VARIABLE TAGFINISH INTEGER;
+DECLARE VARIABLE I INTEGER;
+DECLARE VARIABLE TAGFOUND BLOB SUB_TYPE TEXT;
+DECLARE VARIABLE RESULT_TEXT BLOB SUB_TYPE TEXT;
+DECLARE VARIABLE TAG_OPEN VARCHAR(255) = '';
+DECLARE VARIABLE TAG_CLOSE VARCHAR(255) = '';
+DECLARE VARIABLE CHAR_TEST VARCHAR(255);
+DECLARE VARIABLE CHAR_HEX VARCHAR(255);
+DECLARE VARIABLE CHAR_HEX_TO_STR VARCHAR(255);
+DECLARE VARIABLE HEXA_LEN INTEGER = 2;
+DECLARE VARIABLE C_QUOTE VARCHAR(1);
+DECLARE VARIABLE C_CRLF VARCHAR(10);
+DECLARE VARIABLE C_SPACE VARCHAR(10);
+DECLARE VARIABLE C_TAG_PAR VARCHAR(10);
+DECLARE VARIABLE C_SLASH VARCHAR(10);
+BEGIN
+  -- Essa procedure/função retorna um texto (blob) sem a porção de tags RTF, ex:
+  -- ret=GET_UNRTF(string_rtf);   // resultado: texto sem as tags RTF
+  -- Útil para tornar um texto RTF pesquisável.
+  RESULT_TEXT='';
+  P_SOURCE_RTF=TRIM(:P_SOURCE_RTF);
+  C_QUOTE='''';
+  C_CRLF= ASCII_CHAR(13)||ASCII_CHAR(10);
+  C_SPACE=ASCII_CHAR(32);
+  C_TAG_PAR='\par';
+  C_SLASH='\';
+  TAG_OPEN='{';
+  TAG_CLOSE='}';
+
+  -- Todo cabeçalho de arquivo RTF possui "{\rtf" então é possível conferir se
+  -- o parâmetro de entrada está mesmo no formato RTF. Caso não esteja, então
+  -- basta retornar o mesmo valor que o parâmetro de entrada. Isso permite
+  -- ganho de velocidade absurdo.
+  IF (POSITION('{\rtf', :P_SOURCE_RTF)<=0) THEN
+  BEGIN
+    RESULT_TEXT=P_SOURCE_RTF;
+    RETURN :RESULT_TEXT;
+    EXIT;
+  END
+
+  -- RTF é bagunçado com quebra de linhas, existe tanto o CRLF como também a tag \par 
+  -- E o pior é que tem \par seguido de CRLF que se convertido individualmente
+  --   produziria duas linhas vazias ao invés de uma
+  -- Então é preciso substituí-los por CRLF antes de remover todas as tags, e deve
+  --   ser com todo cuidado.
+  IF (POSITION(:C_TAG_PAR, :P_SOURCE_RTF)>0) THEN
+  BEGIN
+    P_SOURCE_RTF=REPLACE (:P_SOURCE_RTF, :C_TAG_PAR||C_SPACE||C_CRLF, :C_CRLF);
+    P_SOURCE_RTF=REPLACE (:P_SOURCE_RTF, :C_TAG_PAR||C_CRLF, :C_CRLF);
+    P_SOURCE_RTF=REPLACE (:P_SOURCE_RTF, :C_TAG_PAR||C_SPACE, :C_CRLF);
+    P_SOURCE_RTF=REPLACE (:P_SOURCE_RTF, :C_TAG_PAR, :C_CRLF);
+  END
+  -- Porém o primeiro caractere se começar com { ou o último caractere terminar com }
+  -- deverá ser removido
+  CHAR_TEST=LEFT(:P_SOURCE_RTF,CHAR_LENGTH(:TAG_OPEN));
+  IF (CHAR_TEST=:TAG_OPEN) THEN
+  BEGIN
+    P_SOURCE_RTF=SUBSTRING(:P_SOURCE_RTF FROM 2 FOR CHAR_LENGTH(:P_SOURCE_RTF));
+    P_SOURCE_RTF=TRIM(:P_SOURCE_RTF);
+  END
+  CHAR_TEST=RIGHT(:P_SOURCE_RTF,CHAR_LENGTH(:TAG_CLOSE));
+  IF (CHAR_TEST=:TAG_CLOSE) THEN
+  BEGIN
+    P_SOURCE_RTF=SUBSTRING(:P_SOURCE_RTF FROM 1 FOR CHAR_LENGTH(:P_SOURCE_RTF)-CHAR_LENGTH(:TAG_CLOSE));
+    P_SOURCE_RTF=TRIM(:P_SOURCE_RTF);
+  END
+
+  -- Remove tudo que estiver em {tag}
+  TAGSTART = POSITION (:TAG_OPEN, :P_SOURCE_RTF);
+  WHILE (:TAGSTART > 0) DO
+  BEGIN
+    TAGFINISH = POSITION (:TAG_CLOSE, :P_SOURCE_RTF, :TAGSTART);
+    IF (:TAGFINISH<:TAGSTART) THEN
+      TAGFINISH=CHAR_LENGTH(:P_SOURCE_RTF);
+    TAGFOUND = SUBSTRING (:P_SOURCE_RTF FROM :TAGSTART FOR ((:TAGFINISH - :TAGSTART) + 1));
+    P_SOURCE_RTF = REPLACE (:P_SOURCE_RTF, :TAGFOUND, '');
+    TAGSTART = POSITION (:TAG_OPEN, :P_SOURCE_RTF);
+  END
+
+  -- RTF tem \escape para caracteres especiais, ex: fabrica\'e7\'e3o = fabricação
+  -- É preciso localizar todos os escapes e trocá-los pelas suas referências Hexa->Ascii
+  TAG_OPEN=:C_SLASH||:C_QUOTE;
+  TAG_CLOSE=:C_SPACE;
+  TAGSTART = POSITION (:TAG_OPEN, :P_SOURCE_RTF);
+  CHAR_HEX='';
+  HEXA_LEN=2+(CHAR_LENGTH(:TAG_OPEN));
+  WHILE (:TAGSTART > 0) DO
+  BEGIN
+    CHAR_HEX=SUBSTRING(:P_SOURCE_RTF FROM :TAGSTART FOR :HEXA_LEN);
+    CHAR_HEX_TO_STR='0x'||SUBSTRING(:CHAR_HEX FROM CHAR_LENGTH(:TAG_OPEN)+1);
+    I=CAST(:CHAR_HEX_TO_STR AS INTEGER);
+    IF (I>0) THEN
+    BEGIN
+      CHAR_HEX_TO_STR=ASCII_CHAR(I);
+    END
+    ELSE
+    BEGIN
+      CHAR_HEX_TO_STR='{'||:CHAR_HEX_TO_STR||'}';
+    END
+    P_SOURCE_RTF = REPLACE (:P_SOURCE_RTF, :CHAR_HEX, :CHAR_HEX_TO_STR);
+    TAGSTART = POSITION (:TAG_OPEN, :P_SOURCE_RTF);
+  END
+  P_SOURCE_RTF=TRIM(:P_SOURCE_RTF);
+
+  -- RTF tem tags assim:
+  -- \viewkind4\uc1\pard\sa200\sl276\slmult1\lang1046\fs20 blabla bla bla
+  -- É preciso localizar essas tags e trocar por vazios
+
+  TAG_OPEN=:C_SLASH;
+  TAG_CLOSE=:C_SPACE;
+  TAGSTART = POSITION (:TAG_OPEN, :P_SOURCE_RTF);
+  WHILE (:TAGSTART > 0) DO
+  BEGIN
+    TAGFINISH = POSITION (:TAG_CLOSE, :P_SOURCE_RTF, :TAGSTART);
+    IF (:TAGFINISH<:TAGSTART) THEN
+      TAGFINISH=CHAR_LENGTH(:P_SOURCE_RTF);
+    TAGFOUND = SUBSTRING (:P_SOURCE_RTF FROM :TAGSTART FOR ((:TAGFINISH - :TAGSTART) + 1));
+    P_SOURCE_RTF = REPLACE (:P_SOURCE_RTF, :TAGFOUND, '');
+    TAGSTART = POSITION (:TAG_OPEN, :P_SOURCE_RTF);
+  END
+
+  -- Finaliza
+  RESULT_TEXT = TRIM(:P_SOURCE_RTF);
+
+  RETURN :RESULT_TEXT;
+END</code></pre>
+
+            <h3>Modo de usar</h3>
+            <pre><code>TEXTO_PURO=GET_UNRTF(STRING_RTF);</code></pre>
+
+            <h3>Conclusão</h3>
+            <p>Vale esclarecer que operações com blobs não são performáticas. Extrair um plain-text de um blob RTF leva tempo e se você precisa fazer isso num grupo de registros em loop para procurar um CPF, CNPJ ou algo do tipo, talvez esteja fazendo isso do jeito errado. Situações que requerem máxima performance, talvez seja melhor pagar um preço maior e adicionar mais um campo para armazenar a mesma versão do conteúdo RTF, porém plain-text. É certo que isso quase dobrará o armazenamento, porém em contrapartida terá uma versão RTF analisável já pronta e obterá a melhor performance possível para suas buscas ou análises. Claro que ao usar essa solução, analise se extrairá o plain-text no lado cliente ou usar essa SQL Function no lado servidor, escolha a opção que no seu contexto se encaixar melhor.</p>
+
+            <p><a href="sgbd_fb_psql.html" class="back-link">&larr; Voltar para PSQL</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

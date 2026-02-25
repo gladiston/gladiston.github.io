@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciadores de Banco de Dados Firebird - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Gerenciadores Firebird</h1>
+                <p>Ferramentas para administração e desenvolvimento de bancos de dados.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd_fb_intro.html">Voltar Firebird</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>GERENCIADORES DE BASE DE DADOS PARA FIREBIRDSQL</h2>
+            <p>Terminologias confundem muito, quando falamos em "gerenciador de banco de dados" estamos sendo muito generalistas, seria melhor não usá-la porque não está definido em lugar nenhum o que um gerenciador de banco de dados deveria fazer, mas se dissermos "Administrador de banco de dados" então concluímos que deve ser uma ferramenta criada para administrar a maioria das opções que banco de dados precisa como cópia de segurança(backup) e, restauração, administrar permissões de logins e roles, replicações, packages, etc… quando a ferramenta não oferecer recursos de administração, então procuramos uma terminologia mais correta como "Ferramenta de desenvolvimento" (Deploy de banco de dados) ou consulta à dados. É fácil sabermos quando uma ferramenta é para administrar uma base de dados ou para desenvolvimento, basta se perguntar num momento que a base de dados não estiver acessível: qual programa vou usar para restaurar a base?</p>
+
+            <h2>RDBExpert (gratuíto, multiplataforma)</h2>
+            <p>O RDBExpert é um administrador de banco de dados e ferramenta de desenvolvimento.</p>
+            <p>Ele foi renomeado recentemente, antes chamava-se RedExpert. Esse administrador foi feito para a versão comercial do Firebird chamada de RedDatabase que é um FirebirdSQL recheado de recursos novos e agradáveis. O download pode ser obtido no endereço abaixo, você precisará fazer o registro porque o software é gratuito, porém não é livre:</p>
+            <p><a href="https://rdb.red-soft.ru/en/downloads/redexpert/" target="_blank">https://rdb.red-soft.ru/en/downloads/redexpert/</a></p>
+
+            <h3>Instalação</h3>
+            <p>Sua instalação é simples, supondo que tenha baixado em ~/Downloads:</p>
+            <pre><code>cd ~/Downloads
+chmod +x ~/RedExpert-2025.05-linux-x86_64.bin
+./RedExpert-2025.05-linux-x86_64.bin</code></pre>
+            <p>O próprio instalador criará um atalho na tela, mas você pode ir no menu e digitar 'rdbexpert' para encontrá-lo. A instalação é feita no perfil do usuário em:</p>
+            <pre><code>/home/gsantana/.local/share/rdbexpert</code></pre>
+            <p>Porém, as configurações ficam em:</p>
+            <pre><code>~/.rdbexpert</code></pre>
+            <p>No Windows ele fica praticamente no mesmo lugar <code>C:\Users\perfildousuario\.rdbexpert</code>. Se tiver outra instalação do RDBExpert, poderá copiar do mesmo local para esta nova instalação e não precisará reconfigurar ou cadastrar nenhuma nova conexão onde já existia na outra instalação porque elas serão transferidas para a nova.</p>
+
+            <h3>Minhas considerações pessoais sobre ele:</h3>
+            <ul>
+                <li>Não entende domínios, tente gerar DDLs e ele os tratará como tipos normais;</li>
+                <li>Não roda scripts.</li>
+                <li>Não faz debug de psql</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>OBSERVAÇÃO:</strong> Se ele não rodar, verifique se o pacote java-devel foi instalado (<code>java-21-openjdk java-21-openjdk-devel</code>).
+            </div>
+
+            <h2>FlameRobin (opensource, multiplataforma)</h2>
+            <p>O FlameRobin é um administrador de banco de dados e ferramenta de desenvolvimento.</p>
+            <p>É uma ferramenta opensource, disponível para Mac, Windows e Linux. Com ele podemos administrar e desenvolver nosso banco de dados. É uma ferramenta com uma interface incomum com janelas soltas que às vezes podem confundir à primeira vista. Ele possui diversos assistentes visuais, mas apenas para no final construir um statement que você próprio irá executá-lo, por exemplo, ao criar uma tabela, ele vai te apresentar um <em>Wizard</em> e no final apresenta o statement do <code>CREATE TABLE</code>, daí voce pode alterar e executar. Este é o fluxo de trabalho dele, iniciantes preguiçosos vão odiá-lo, mas pessoas mais pacientes em querer aprender SQL ou os mais experientes vão gostar desse método porque não te prende a uma versão particular do firebird, funciona com qualquer versão em que o statement é reconhecido.</p>
+
+            <div class="info-box">
+                <strong>Recomendação em vídeo (CTA)</strong>
+                <p>Se você quer ver o FlameRobin em uso (e entender o fluxo de trabalho dele na prática), recomendo este vídeo:</p>
+                <p><a href="https://www.youtube.com/watch?v=6_KNxkHl53Q&amp;list=PLFwc0Ey9St0UfKFsau82yaw2duut3Zt2V" target="_blank" rel="noopener">Assistir no YouTube: FlameRobin</a></p>
+            </div>
+
+            <h3>Instalação</h3>
+            <p>Ele está no repositório da maioria das distribuições, incluindo Debian/Ubuntu, então basta instalar por lá.</p>
+            <p>No Windows, há builds noturnos e recentes, mas no Linux para ter a última versão é mandatório compilar você mesmo, caso queira fazer isso <a href="sgbd_fb_flamerobin_linux.html">clique aqui</a>.</p>
+            <p>Mas você irá encontrá-lo na sua loja de aplicativos.</p>
+
+            <h3>Minhas considerações pessoais sobre ele:</h3>
+            <ul>
+                <li>Gera um DDL não confiável. Como exemplo, temos as triggers. Além disso, tabelas com campos calculados "somem" e a estrutura não é limpa, isto é, ao invés de fazer o create e depois o alter para adicionar/modificar PK, FK e campos calculados, tenha fazer tudo no create table. Ao extrair dados para script, inclui os campos calculados no INSERT/UPDATE, evidentemente falhará.</li>
+                <li>Não entende domínios, gere DDLs e ele os tratará como tipos normais;</li>
+                <li>Não roda scripts.</li>
+                <li>Não faz debug de psql</li>
+                <li>Embora funcione perfeitamente nas mais recentes versões do FB, os wizards mostram claramente que o mesmo foi idealizado para oferecer apenas tipos usados até o FB3.</li>
+            </ul>
+
+            <h2>DBEaver (opensource, multiplataforma)</h2>
+            <p>O DBEaver é uma ferramenta de desenvolvimento (Deploy de banco de dados) ou consulta à dados, não é útil para administrar o banco, ou seja, você não vai administrar backups/restaurações, permissões, roles e coisas do tipo. Porém, é ótimo para escrever queries, gerar alguns relatórios, garimpar dados e extraí-los.</p>
+
+            <h3>Instalação</h3>
+            <p>A melhor forma de instalá-lo é via flatpak, então você irá encontrá-lo na sua loja de aplicativos, mas caso não encontre, siga as instruções que se encontram no próprio site:</p>
+            <p><a href="https://dbeaver.io" target="_blank">https://dbeaver.io</a></p>
+            <p>Mas você irá encontrá-lo na sua loja de aplicativos.</p>
+
+            <h3>Localização dos Arquivos</h3>
+            <p>A pasta DBEaverData no Linux quando instalado de repositórios nativos fica em:</p>
+            <pre><code>~/.local/share/DBeaverData</code></pre>
+            <p>No entanto, se for instalá-lo via flat-pak, seus arquivos ficam em:</p>
+            <pre><code>~/.var/app/io.dbeaver.DBeaverCommunity</code></pre>
+            <p>Enquanto no Windows pode ficar numa dessas pastas:</p>
+            <pre><code>%APPDATA%\DBeaverData\
+%APPDATA%\Roaming\DBeaverData</code></pre>
+            <p>(No Windows, geralmente o dbeaver reutiliza a pasta de configuração que ele encontra primeiro, por isso é bom manter um padrão)</p>
+            <p>Por que isso é importante? Porque você pode reaproveitar a configuração em outro computador e copiá-lo para cá e reaproveitar o que já havia na instalação em outro local.</p>
+
+            <h3>Minhas considerações pessoais sobre ele:</h3>
+            <ul>
+                <li>Não entende campos calculados e nem domínios, ao gerar um script de tabela, ele cria esses campos como campos e tipos comuns. Por isso não se deve extrair DDLs usando este programa.</li>
+                <li>Não faz debug de psql</li>
+            </ul>
+
+            <h2>IBExpert (gratuito, comercial, somente Windows ou Linux via Bottles)</h2>
+            <p>O IBExpert é um administrador de banco de dados e ferramenta de desenvolvimento.</p>
+            <p>É uma ferramenta comercial para Windows, mas que possui uma versão gratuíta com limitações. Mesmo a versão gratuíta podemos administrar e desenvolver nosso banco de dados. A versão completa faz debug de código psql, gera modelos, faz administração de permissões via roles, trace, gera dados de testes e outras coisas muito úteis para desenvolvimento. Sua interface gráfica é bastante consistente com muita tecla de atalho para reduzir o esforço de desenvolvimento.</p>
+
+            <h3>Download</h3>
+            <p>O link para download é:</p>
+            <p><a href="https://www.ibexpert.net" target="_blank">https://www.ibexpert.net</a></p>
+            <p>Se precisar fazer a instalação dele no linux, siga o link abaixo:</p>
+            <p><a href="https://github.com/gladiston/ibexpert_linux" target="_blank">https://github.com/gladiston/ibexpert_linux</a></p>
+
+            <h3>Minhas considerações pessoais sobre ele:</h3>
+            <ul>
+                <li>A versão comercial é um produto completo, atinge de A-Z todas as etapas de administração e desenvolvimento de banco de dados</li>
+                <li>A versão gratuita é autosuficiente para administrar o banco de dados</li>
+                <li>A versão comercial é completa e vai agradar desenvolvedores.</li>
+                <li>O licenciamento deles é chato, periodicamente, provavelmente uma vez por mês ela irá parar para que você obtenha a contra-chave, se você estiver conectado a internet será até fácil, de outra forma, você terá de repetir instruções a partir de uma máquina que esteja online.</li>
+            </ul>
+
+            <h2>IBManager (comercial, somente Windows)</h2>
+            <p>O IBManager é um administrador de banco de dados e ferramenta de desenvolvimento.</p>
+            <p>É uma ferramenta comercial para Windows, mas que pode ser instalado e funciona por 15 dias sem expirar para você testá-lo. Eu fiz isso e ele tem os mesmos recursos que o IBExpert, mas é mais eficiente na exportação de relatórios.</p>
+
+            <h3>Download</h3>
+            <p>O link para download é:</p>
+            <p><a href="https://www.sqlmanager.net/products/ibfb/manager" target="_blank">https://www.sqlmanager.net/products/ibfb/manager</a></p>
+
+            <h3>Minhas considerações pessoais sobre ele:</h3>
+            <ul>
+                <li>A versão comercial é um produto completo, atinge de A-Z todas as etapas de administração e desenvolvimento de banco de dados</li>
+                <li>Não tem versão gratuita</li>
+                <li>Melhores ferramentas de exportação de relatórios</li>
+            </ul>
+
+            <p style="margin-top: 3rem;"><a href="sgbd_fb_intro.html" class="back-link">&larr; Voltar para Índice Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>

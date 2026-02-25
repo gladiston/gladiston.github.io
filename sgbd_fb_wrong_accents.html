@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acentuação no Firebird: Solução de Problemas - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Acentuações Erradas</h1>
+                <p>Entenda por que os caracteres aparecem corrompidos.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd_fb_intro.html">Voltar Firebird</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>O Problema da Transliteração</h2>
+            <p>Você inseriu "João" no sistema, mas no banco aparece "JoÃ£o". Este erro ocorre devido ao descasamento entre o Charset da <strong>Conexão</strong> e o Charset da <strong>Coluna</strong> no banco de dados.</p>
+
+            <h3>A Regra de Ouro</h3>
+            <p>O Firebird realiza a conversão automática (transliteração) se você informar ao driver de conexão qual conjunto de caracteres está usando na aplicação.</p>
+
+            <div style="background: #f0f4f8; padding: 1.5rem; border-radius: 8px;">
+                <p><strong>Exemplo de cenário comum:</strong></p>
+                <ul>
+                    <li>Banco criado com <code>WIN1252</code>.</li>
+                    <li>Aplicação Delphi/Lazarus conectando com Charset <code>NONE</code>.</li>
+                    <li><strong>Resultado:</strong> O motor não sabe converter e salva os bytes brutos, causando a "salada" de caracteres.</li>
+                </ul>
+            </div>
+
+            <h2>Como Corrigir</h2>
+            <p>Sempre defina explicitamente o parâmetro de conexão <strong>LC_CTYPE</strong> ou <strong>CharSet</strong> no seu componente de acesso (Zeos, FireDAC, etc) para corresponder ao charset do banco ou para <code>UTF8</code> em aplicações modernas.</p>
+
+            <h2>Conclusão</h2>
+            <p>Problemas de acentuação não são "erros do banco", mas sim falhas de configuração na comunicação. Padronizar o ambiente para UTF8 em todas as pontas é a solução definitiva para sistemas globais.</p>
+
+            <p><a href="sgbd_fb_intro.html" class="back-link">&larr; Voltar para Índice Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>

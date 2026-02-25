@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HtmlViewer(FrameViewer) - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>HtmlViewer (FrameViewer)</h1>
+                <p>Exibição de conteúdo HTML nativo em aplicações Pascal</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>O <strong>HtmlViewer</strong> (anteriormente conhecido como THtmlPort) é uma suíte de componentes robusta para Lazarus e Delphi que permite a renderização de código HTML diretamente em formulários nativos. Diferente de soluções que utilizam motores de navegadores pesados (como Chromium ou Internet Explorer), o HtmlViewer é escrito inteiramente em Pascal, o que resulta em uma aplicação leve, sem dependências externas e com total controle sobre a exibição do conteúdo.</p>
+
+            <h2>HTML como alternativa a Relatórios Estáticos</h2>
+            <p>Muitos desenvolvedores recorrem a geradores de relatórios visuais complexos para exibir informações simples ao usuário. O uso do HtmlViewer abre uma nova perspectiva:</p>
+            <ul>
+                <li><strong>Interfaces Dinâmicas:</strong> Em vez de um PDF estático, você pode criar "dashboards" ou painéis de resumo onde partes do texto são clicáveis (hyperlinks), permitindo que o usuário navegue para outras partes do sistema.</li>
+                <li><strong>Formatação Rica com Facilidade:</strong> Tags como <code>&lt;strong&gt;</code>, <code>&lt;font color&gt;</code> e tabelas permitem destacar informações críticas (como alertas de estoque ou status de pedidos) de forma muito mais simples que manipulando objetos de desenho em um relatório visual.</li>
+                <li><strong>Versatilidade de Tamanho:</strong> O componente é extremamente comportado. Você pode usá-lo como um pequeno rótulo (TLabel) que aceita negrito e cores diferentes na mesma linha, ou como uma área central de visualização de documentos.</li>
+            </ul>
+
+            <div class="info-box">
+                <p><strong>Dica Técnica:</strong> Ao ocultar as bordas e as barras de rolagem, o HtmlViewer integra-se perfeitamente ao layout do formulário, parecendo um componente nativo de exibição de texto, mas com todo o poder de formatação do HTML.</p>
+            </div>
+
+            <h2>Exemplo de Implementação</h2>
+            <p>Abaixo, um exemplo simples de como carregar uma string HTML dinamicamente no componente:</p>
+
+<pre><code>var
+  sHtml_Code: String;
+begin
+  sHtml_Code := '&lt;h3&gt;Informação adicional&lt;/h3&gt;';
+  sHtml_Code := sHtml_Code + '&lt;p&gt;O pedido #9999 foi &lt;strong&gt;cancelado&lt;/strong&gt;&lt;/p&gt;';
+
+  // HtmlViewer1 é o nome do componente no formulário
+  HtmlViewer1.Clear;
+  HtmlViewer1.LoadFromString(sHtml_Code);
+end;</code></pre>
+
+            <h2>Documentação e Referências</h2>
+            <p>Para explorar todos os recursos, como suporte a CSS básico e manipulação de frames, consulte as fontes oficiais:</p>
+
+            <ul class="nav-links" style="display: block; background: none; padding: 0;">
+                <li><a href="https://wiki.lazarus.freepascal.org/THtmlPort" target="_blank" style="color: #1a5276; text-decoration: underline;">Wiki Oficial: THtmlPort / HtmlViewer</a></li>
+                <li><a href="https://github.com/digao-dalpiaz/DzHTMLText" target="_blank" style="color: #1a5276; text-decoration: underline;">Alternativa: DzHTMLText (GitHub)</a></li>
+            </ul>
+
+            <div class="video-cta" style="background: #f9f9f9; border: 2px solid #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600;">Procurando exemplos de código?</p>
+                <a href="lazarus_guia_exemplos.html" class="btn-link" style="background-color: #1a5276; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Ver Artigo: Aprendendo por Exemplos
+                </a>
+            </div>
+
+            <h2>Conclusão</h2>
+            <p>O HtmlViewer é uma ferramenta essencial para quem busca modernizar a interface de suas aplicações Pascal. Ao adotar o HTML para exibição de dados e pequenos relatórios internos, você ganha em agilidade de desenvolvimento e oferece ao usuário uma experiência muito mais interativa e visualmente agradável. Sua leveza e independência de DLLs externas o tornam a escolha ideal para projetos que priorizam a portabilidade.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

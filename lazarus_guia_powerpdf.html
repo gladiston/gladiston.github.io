@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerPDF - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>Introdução ao PowerPDF</h2>
+                <p>O <strong>PowerPDF</strong> foi originalmente escrito por <strong>Takeshi Kanno</strong> para Delphi, sendo uma das primeiras bibliotecas de geração de PDF disponíveis para o ecossistema Pascal. A portagem para Lazarus foi realizada por <strong>Chtk</strong> e <strong>jesusrmx</strong>, com exemplos adicionais criados por <strong>Xno</strong>, integrando-o ao Lazarus Code and Component Repository (Lazarus-CCR) sob licença LGPL.</p>
+                <p>É um conjunto de componentes visuais e não visuais para criação de documentos PDF (versão 1.2) em Free Pascal/Lazarus. Diferente de bibliotecas que apenas geram PDFs por código, o PowerPDF oferece componentes visuais que podem ser arrastados para o formulário, facilitando o design de relatórios. Os documentos gerados seguem o padrão PDF 1.2; o PowerPDF é focado exclusivamente na <strong>criação</strong> de arquivos — não lê ou edita PDFs existentes.</p>
+                <p>O PowerPDF é uma dependência comum em diversos pacotes do Lazarus (por exemplo, LazReport para exportação PDF). Recomenda-se mantê-lo instalado no ambiente de desenvolvimento para evitar problemas de compilação em projetos de terceiros. Para comparar com outras opções, consulte a <a href="lazarus_guia_intro_relatorios.html">Introdução aos Geradores de Relatórios</a>.</p>
+            </section>
+
+            <section id="analise-tecnica">
+                <h2>Análise para Programadores</h2>
+                <p><strong>Nível de dificuldade de aprendizado:</strong> <strong>Médio</strong>. A presença de componentes visuais facilita o aprendizado inicial em relação a bibliotecas puramente programáticas como FPDF. A curva de aprendizado é mais suave que FPDF, mas mais íngreme que ferramentas com editores WYSIWYG completos como Fortes Report ou FastReport.</p>
+                <div class="pros-cons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 1.5rem 0;">
+                    <div style="background: #eafaf1; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #27ae60;">
+                        <strong>Pontos Positivos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Componentes visuais que podem ser arrastados para o formulário, facilitando o design.</li>
+                            <li>Geração de PDF versão 1.2 sem dependências externas.</li>
+                            <li>Licença LGPL permite uso em projetos comerciais.</li>
+                            <li>Integrado ao Lazarus-CCR, facilitando instalação e manutenção.</li>
+                            <li>Suporte a imagens, texto formatado e elementos gráficos básicos.</li>
+                            <li>Funciona em Windows, Linux e outras plataformas suportadas pelo Lazarus.</li>
+                        </ul>
+                    </div>
+                    <div style="background: #fff5f5; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #c0392b;">
+                        <strong>Destaques Negativos:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.95rem;">
+                            <li>Gera apenas PDF versão 1.2 (formato mais antigo, pode ter limitações).</li>
+                            <li>Não permite ler ou modificar PDFs existentes; apenas criação.</li>
+                            <li>Recursos mais limitados que ferramentas comerciais ou mais modernas.</li>
+                            <li>Desenvolvimento pode estar menos ativo que outras alternativas.</li>
+                            <li>Documentação pode ser menos abundante que ferramentas mais populares.</li>
+                            <li>Editor visual menos sofisticado que FastReport ou Fortes Report.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="caracteristicas">
+                <h2>Características e Compatibilidade</h2>
+                <div class="info-box">
+                    <p><strong>Nota técnica:</strong> O PowerPDF pode ser usado tanto com componentes visuais (design no formulário) quanto de forma não visual, sendo leve e adequado para serviços de servidor ou geração de documentos em lote sem interface com o usuário.</p>
+                </div>
+
+            <section id="exemplo">
+            <h2>Exemplo Prático de Uso</h2>
+            <p>Abaixo, um exemplo simplificado de como utilizar os componentes <code>TPDFDocument</code> e <code>TPDFPage</code> para gerar um arquivo PDF via código:</p>
+
+<pre><code>procedure GerarPdfSimples;
+var
+  pdf: TPrPDFDocument;
+  pagina: TPrPdfPage;
+begin
+  pdf := TPrPDFDocument.Create(nil);
+  pagina := TPrPdfPage.Create(nil);
+  try
+    pagina.Document := pdf;
+    pdf.FileName := 'meu_documento.pdf';
+    pdf.BeginDoc;
+
+    // Define a fonte e escreve um texto na posição X=50, Y=50
+    pagina.Canvas.Font.Name := 'Helvetica';
+    pagina.Canvas.Font.Size := 12;
+    pagina.Canvas.TextOut(50, 50, 'Olá! Este é um PDF gerado com PowerPDF no Lazarus.');
+
+    pdf.EndDoc;
+  finally
+    pagina.Free;
+    pdf.Free;
+  end;
+end;</code></pre>
+            </section>
+
+            <section id="documentacao">
+            <h2>Documentação Oficial</h2>
+            <p>Para aprender sobre recursos avançados, como a inserção de imagens, tabelas e desenhos vetoriais, consulte a Wiki oficial:</p>
+
+            <p><a href="https://wiki.lazarus.freepascal.org/PowerPDF" target="_blank" rel="noopener" class="btn-link">Documentação Técnica: PowerPDF Wiki</a></p>
+            </section>
+
+            <div class="video-cta" style="background: #f9f9f9; border: 2px solid #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600;">Quer ver mais implementações?</p>
+                <a href="lazarus_guia_exemplos.html" class="btn-link" style="background-color: #1a5276; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Ver Artigo: Aprendendo por Exemplos
+                </a>
+            </div>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>O PowerPDF continua sendo uma ferramenta valiosa pela sua simplicidade e por ser totalmente "self-contained". Se o seu objetivo é gerar recibos, etiquetas ou documentos simples sem a necessidade de um motor de relatórios pesado, o PowerPDF oferece a agilidade necessária com um consumo mínimo de recursos do sistema. Para uma visão comparativa com as demais opções (Fortes Report, fpReport, fpSpreadsheet, FastReport, FPDF), consulte a <a href="lazarus_guia_intro_relatorios.html">Introdução aos Geradores de Relatórios</a>.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

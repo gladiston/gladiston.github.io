@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux: Programação e Gerência - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1 style="font-size: 1.6rem; color: #ffffff;">Linux (Unices-like)</h1>
+                <p style="font-size: 1rem; color: #ffffff;">Programação e gerência de sistemas: Instalação, configuração, Bash, Python e SSH.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="linux.html">Linux</a></li>
+            <li><a href="pascal.html">Pascal</a></li>
+            <li><a href="python.html">Python</a></li>
+            <li><a href="bash.html">Bash</a></li>
+            <li><a href="sgbd.html">Banco de dados</a></li>
+            <li><a href="sobre-mim.html">Sobre mim</a></li>
+            <li><a href="contato.html">Contato</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="experiencia">
+                <h2>Minha Jornada com Linux</h2>
+                <p>Minha jornada com o Linux começou nos anos 90. Sou de uma época em que não existia "nuvem" e tudo era resolvido compilando fontes, aplicando patches e configurando serviços manualmente.</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin: 2rem 0;">
+                    <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd;">
+                        <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">Infraestrutura de Rede</h3>
+                        <p>Implementação de serviços críticos: SAMBA (com deduplicação), Postfix, DNS (BIND), Proxy SQUID (autenticado LDAP/AD) e Firewalls robustos com IPTables.</p>
+                    </div>
+                    <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd;">
+                        <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">Segurança & Diagnóstico</h3>
+                        <p>Análise de vulnerabilidades com Nmap e Sniffers. Uso extensivo de editores hexadecimais para identificar códigos maliciosos camuflados em arquivos binários.</p>
+                    </div>
+                    <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd;">
+                        <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">Virtualização</h3>
+                        <p>Experiência em ambientes <strong>KVM (o virtualizador padrão do Linux)</strong>, Xen, VirtualBox e gestão via SSH (Screen/Tmux).</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="instalacao">
+                <h2>Instalação e Configuração de Sistemas</h2>
+                <p>Guias completos para instalação e configuração de distribuições Linux e ambientes de desenvolvimento.</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin-top: 2rem;">
+                    <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Instalação do Fedora Linux</h3>
+                            <p style="font-size: 1rem;">Guia completo para instalação e configuração do Fedora Linux, incluindo configurações do GNOME, instalação de pacotes essenciais e otimizações do sistema.</p>
+                        </div>
+                        <a href="https://github.com/gladiston/fedoralinux" target="_blank" rel="noopener" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; align-self: flex-start; font-weight: 600; margin-top: 1rem;">Acessar Guia &rarr;</a>
+                    </div>
+
+                    <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Instalação do Fedora no Acer Nitro</h3>
+                            <p style="font-size: 1rem;">Guia específico para instalação do Linux Fedora em notebooks Acer Nitro, incluindo configurações de BIOS e ajustes necessários para hardware específico.</p>
+                        </div>
+                        <a href="https://github.com/gladiston/fedorainstallonacernitro" target="_blank" rel="noopener" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; align-self: flex-start; font-weight: 600; margin-top: 1rem;">Acessar Guia &rarr;</a>
+                    </div>
+
+                    <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Usando o Fedora como ambiente de trabalho</h3>
+                            <p style="font-size: 1rem;">O Fedora é uma distribuição Linux moderna e atualizada, ideal para desenvolvedores que precisam de ferramentas recentes e um ambiente estável. Com o GNOME como ambiente desktop padrão, oferece uma experiência consistente e produtiva para desenvolvimento de sistemas.</p>
+                        </div>
+                        <a href="linux_fedora_install.html" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; align-self: flex-start; font-weight: 600; margin-top: 1rem;">Acessar Guia &rarr;</a>
+                    </div>
+
+                    <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Usando o Debian/Ubuntu como ambiente de trabalho</h3>
+                            <p style="font-size: 1rem;">Guia completo para preparar um ambiente Ubuntu sólido e funcional para desenvolvedores, administradores de sistemas e profissionais de TI. Não se trata apenas de comandos — você entenderá como e por que cada parte do sistema é configurada da maneira proposta.</p>
+                        </div>
+                        <a href="https://github.com/gladiston/debianlinux" target="_blank" rel="noopener" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; align-self: flex-start; font-weight: 600; margin-top: 1rem;">Acessar Guia &rarr;</a>
+                    </div>
+
+                    <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Virtualização com QEMU+KVM</h3>
+                            <p style="font-size: 1rem;">Preparação de um ambiente Debian-Like (Ubuntu) sólido e funcional para virtualização usando QEMU+KVM. Guia completo para desenvolvedores, administradores de sistemas e profissionais de TI.</p>
+                        </div>
+                        <a href="https://github.com/gladiston/debian-qemukvm" target="_blank" rel="noopener" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; align-self: flex-start; font-weight: 600; margin-top: 1rem;">Acessar Guia &rarr;</a>
+                    </div>
+
+                    <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">VirtualBox no Debian/Ubuntu</h3>
+                            <p style="font-size: 1rem;">Guia para instalação e configuração do VirtualBox em ambientes Debian-Like (Ubuntu), incluindo configuração de permissões, resolução de conflitos com KVM e otimizações para melhor desempenho.</p>
+                        </div>
+                        <a href="https://github.com/gladiston/debianlinux/blob/main/docs/debian_virtualbox.md" target="_blank" rel="noopener" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; align-self: flex-start; font-weight: 600; margin-top: 1rem;">Acessar Guia &rarr;</a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="servidores">
+                <h2>Servidores e Aplicações</h2>
+                <p>Configuração de servidores e aplicações avançadas no Linux.</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin-top: 2rem;">
+                    <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Zentyal no Ubuntu LTS</h3>
+                            <p style="font-size: 1rem;">Guia completo para instalação e configuração do Zentyal 8.0 no Ubuntu 22.04 LTS, incluindo configuração de controlador de domínio, servidor de arquivos e serviços de rede.</p>
+                        </div>
+                        <a href="https://github.com/gladiston/zentyal_ubuntu_lts" target="_blank" rel="noopener" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; align-self: flex-start; font-weight: 600; margin-top: 1rem;">Acessar Guia &rarr;</a>
+                    </div>
+
+                    <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Intel OpenVINO no Audacity</h3>
+                            <p style="font-size: 1rem;">Guia para compilação e instalação do módulo Intel OpenVINO no Audacity 3.7 no Ubuntu 24.04, permitindo processamento de áudio com inteligência artificial.</p>
+                        </div>
+                        <a href="https://github.com/gladiston/linux_audacity_openvino" target="_blank" rel="noopener" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; align-self: flex-start; font-weight: 600; margin-top: 1rem;">Acessar Guia &rarr;</a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="utilitarios">
+                <h2>Utilitários e Ferramentas</h2>
+                <p>Scripts e ferramentas úteis para tarefas do dia a dia no Linux.</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin-top: 2rem;">
+                    <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Water Cooler HID</h3>
+                            <p style="font-size: 1rem;">Script Linux para capturar a temperatura da CPU e exibi-la no display do Water Cooler, especialmente útil para dispositivos que possuem apenas software de controle para Windows.</p>
+                        </div>
+                        <a href="https://github.com/gladiston/water-cooler-hid" target="_blank" rel="noopener" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; align-self: flex-start; font-weight: 600; margin-top: 1rem;">Acessar Guia &rarr;</a>
+                    </div>
+
+                    <div style="padding: 2rem; border: 1px solid #ddd; border-radius: 12px; background: #fdfdfd; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h3 style="color: var(--azul-principal); margin-bottom: 0.8rem;">Doc2PDF</h3>
+                            <p style="font-size: 1rem;">Script Bash para converter documentos do LibreOffice e Microsoft Office para PDF, com opções para proteger os arquivos PDF contra cópia, impressão e modificação.</p>
+                        </div>
+                        <a href="https://github.com/gladiston/doc2pdf" target="_blank" rel="noopener" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; align-self: flex-start; font-weight: 600; margin-top: 1rem;">Acessar Guia &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

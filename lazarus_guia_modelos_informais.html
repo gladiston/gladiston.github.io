@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criando modelos informais para a IDE - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1 style="font-size: 1.6rem; color: #ffffff;">Modelos informais para a IDE</h1>
+                <p style="font-size: 1rem; color: #ffffff;">Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>A Importância da Padronização com Modelos</h2>
+                <p>Em ambientes de desenvolvimento colaborativo, a consistência visual e funcional é fundamental. Modelos (templates) são formas práticas de reutilizar formulários e estruturas lógicas em diferentes projetos, evitando que a equipe "reinvente a roda" a cada nova janela de diálogo ou módulo de sistema.</p>
+                <p>Seja para uma janela de diálogo padrão, um módulo de consulta REST ou uma estrutura de biblioteca (DLL), o uso de modelos garante que os atributos essenciais e as extensões necessárias sejam preservados, economizando tempo precioso de codificação.</p>
+            </section>
+
+            <section id="conteudo-principal">
+                <h2>Criando Modelos Informais para a IDE</h2>
+                <p>Existem duas formas de trabalhar com modelos no Lazarus: informal e formal. Neste artigo, focaremos na maneira informal, que é intuitiva e extremamente útil para bibliotecas de componentes e formulários rápidos.</p>
+
+                <h3>Como funcionam os modelos informais</h3>
+                <p>O método informal consiste em manter uma estrutura de diretórios organizada (local ou em rede) onde todos os formulários reutilizáveis são armazenados de forma centralizada.</p>
+
+
+                <img src="assets/img/laztemplates-form-dialog1.png" alt="Formulário de diálogo padrão" style="display: block; margin: 1.5rem auto; max-width: 100%; border: 1px solid #ddd;">
+
+                <p>Para utilizar, basta seguir estes passos técnicos:</p>
+                <ol>
+                    <li>Mantenha uma pasta central de modelos com seus arquivos <code>.pas</code> e <code>.lfm</code>.</li>
+                    <li>Ao iniciar um novo projeto, copie os arquivos desejados para o diretório do projeto atual.</li>
+                </ol>
+
+                <img src="assets/img/laztemplates-form-dialog2.png" alt="Pasta de modelos organizada" style="display: block; margin: 1.5rem auto; max-width: 100%;">
+
+                <img src="assets/img/explorer_YO1DSrv5uk.png" alt="Copiando modelos para a pasta do projeto" style="display: block; margin: 1.5rem auto; max-width: 100%;">
+
+                <h3>Integrando o Modelo ao Projeto</h3>
+                <p>Após copiar os arquivos fisicamente, você deve informar à IDE que eles fazem parte do projeto atual através do <strong>Project Inspector</strong>:</p>
+
+                <ol>
+                    <li>Abra o Project Inspector (Menu <strong>Project | Project Inspector</strong>).</li>
+                    <li>Clique na opção <strong>Add...</strong> e selecione o arquivo de modelo copiado.</li>
+                </ol>
+
+                <img src="assets/img/laztemplates-form-dialog3.png" alt="Adicionando arquivos no Project Inspector" style="display: block; margin: 1.5rem auto; max-width: 100%;">
+
+                <p>Uma vez adicionado, o formulário aparecerá na lista de unidades do projeto e poderá ser instanciado normalmente via código ou através do <em>Object Inspector</em>.</p>
+
+                <img src="assets/img/lazarus_fsv2ptOLTa.png" alt="Modelo integrado ao Project Inspector" style="display: block; margin: 1.5rem auto; max-width: 100%;">
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>O método informal de modelos é a porta de entrada para a produtividade no Lazarus. Ele é ideal para formulários individuais e componentes específicos que precisam de mobilidade entre projetos sem a complexidade de criar pacotes (packages) formais.</p>
+                <p>Embora eficiente para partes isoladas, para projetos inteiros que servem de base, o Lazarus oferece os "Modelos Formais", que veremos detalhadamente em nosso próximo guia técnico.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

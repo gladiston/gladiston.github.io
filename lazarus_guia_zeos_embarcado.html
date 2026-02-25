@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando Zeos – Embarcando um banco de dados com o ZConnection - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Usando Zeos – Banco de Dados Embarcado</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article class="conteudo-principal">
+            <section id="introducao">
+                <h2>Introdução</h2>
+                <p>O uso de bancos de dados embarcados (embedded) é uma excelente estratégia para desenvolvedores que desejam distribuir suas aplicações sem a necessidade de uma instalação complexa de um servidor de banco de dados no cliente. Nesta modalidade, o motor do banco de dados é integrado diretamente à aplicação através de bibliotecas locais.</p>
+                <p>Neste artigo, exploraremos como o componente <strong>ZConnection</strong> da paleta Zeos facilita esse processo, permitindo uma conexão direta e performática, focando no exemplo prático com o FirebirdSQL.</p>
+            </section>
+
+
+
+            <section id="conteudo">
+                <h2>Configurando o Acesso Embarcado</h2>
+                <p>O componente ZConnection permite configurar o acesso embarcado de forma simples. Diferente de uma conexão remota, aqui o motor do banco de dados reside em bibliotecas (como a <code>fbclient.dll</code> ou <code>fbembed.dll</code>) que devem estar presentes na pasta do seu executável.</p>
+
+                <p>Embora o exemplo abaixo utilize o FirebirdSQL, esta lógica é extensível a outros RDBMS que oferecem suporte a essa funcionalidade e são compatíveis com a ZeosLib.</p>
+            </section>
+
+            <section id="video-tutorial">
+                <h2>Vídeo Tutorial</h2>
+                <p>Assista abaixo à demonstração completa da ferramenta em funcionamento:</p>
+                <div class="video-cta">
+                    <p>Conexão ao banco de dados com Zeos: Acesso Embarcado (Embedded)</p>
+                    <a href="https://www.youtube.com/watch?v=hsicYD1XID0" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+                </div>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>A utilização de bancos de dados embarcados com o Zeos é uma solução robusta para softwares que exigem simplicidade na entrega e alta performance no acesso aos dados. Ao eliminar a dependência de um serviço de banco de dados externo, você ganha agilidade no suporte e na implantação em diversos ambientes.</p>
+                <p>Para garantir o funcionamento, certifique-se sempre de que as bibliotecas necessárias acompanham o seu binário e que os caminhos definidos no <code>ZConnection</code> apontam corretamente para os arquivos locais.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

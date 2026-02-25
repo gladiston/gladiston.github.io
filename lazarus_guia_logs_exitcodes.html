@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log e ‘exit code’, o que são, o que comem e onde vivem? - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>Comunicação com o Sistema Operacional</h2>
+                <p>Muitas vezes focamos apenas na interface visual (GUI) e esquecemos que nosso programa vive dentro de um ecossistema. Um bom software deve ser capaz de informar ao sistema operacional e a outros processos se sua execução foi bem-sucedida ou se algo deu errado no caminho.</p>
+                <p>Neste artigo, vamos desmistificar o uso de logs via terminal, entender os fluxos de saída padrão e como os códigos de saída (exit codes) são fundamentais para automação e diagnóstico.</p>
+            </section>
+
+            <section id="exit-codes">
+                <h2>O que é um 'Exit Code'?</h2>
+                <p>'Exit code' (às vezes chamado de 'exit status') é um código numérico deixado pelo programa assim que é encerrado. O padrão POSIX, seja no Windows ou Linux, espera que um <strong>exit code igual a zero</strong> signifique sucesso. Valores diferentes de zero indicam alertas ou erros fatais.</p>
+
+
+
+                <p>Exemplos comuns de códigos padrão:</p>
+                <ul>
+                    <li><strong>1:</strong> Erro genérico</li>
+                    <li><strong>2:</strong> Arquivo não encontrado (File not found)</li>
+                    <li><strong>5:</strong> Acesso negado</li>
+                </ul>
+
+                <h3>Stdout e Stderr</h3>
+                <p><strong>Stdout</strong> é a interface de tela padrão. <strong>Stderr</strong> é o canal reservado para erros de sistema. Redirecionar o Stderr para arquivos de log permite que administradores monitorem falhas sem precisar interagir com a interface visual.</p>
+            </section>
+
+            <section id="implementacao-pascal">
+                <h2>Implementação no Free Pascal</h2>
+                <p>Para enviar mensagens ao terminal (mesmo em aplicações GUI), usamos <code>WriteLn</code> direcionado ao dispositivo correto:</p>
+
+                <pre><code><span style="color: #4db8ff;">if</span> <span style="color: #4db8ff;">not</span> FileExists(<span style="color: #bbbbbb;">'configure.ini'</span>) <span style="color: #4db8ff;">then</span>
+<span style="color: #4db8ff;">begin</span>
+  <span style="color: #888888;">// Envia erro para o canal de erros do sistema</span>
+  WriteLn(stderr, <span style="color: #bbbbbb;">'Arquivo "configure.ini" não encontrado.'</span>);
+  <span style="color: #888888;">// Encerra o programa com código de erro 2 (File Not Found)</span>
+  Halt(<span style="color: #bbbbbb;">2</span>);
+<span style="color: #4db8ff;">end;</span></code></pre>
+
+                <h3>Visualizando saídas em aplicações GUI</h3>
+                <p>Por padrão, o Windows esconde o terminal em aplicações GUI. Para habilitar a visualização durante o desenvolvimento, vá em <strong>Project | Options | Compiler Options | Config and Target</strong> e desmarque a opção <strong>Win32 gui application (-WG)</strong>.</p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_project_options_gui1-1.png" alt="Opção Win32 gui application">
+                    <p><em>Desmarcar -WG permite exibir um terminal acompanhando a aplicação visual.</em></p>
+                </div>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_project_options_gui2.png" alt="Terminal exibindo mensagens">
+                    <p><em>Exemplo de mensagens WriteLn sendo capturadas pelo terminal.</em></p>
+                </div>
+            </section>
+
+            <section id="debug-exitcode">
+                <h2>Depurando o Exit Code</h2>
+                <p>No Lazarus, você pode configurar a IDE para avisar quando um programa termina com erro. Vá em <strong>Tools | Options | Debugger | General</strong> e ative <strong>Show message on stop with Error (exit Code<>0)</strong>.</p>
+
+                <div class="img-placeholder">
+                    <img src="assets/img/lazarus_project_options_gui6.png" alt="Janela de aviso de exit code">
+                </div>
+
+                <h3>Uso em Scripts</h3>
+                <p>No Windows, você verifica o resultado com <code>%ERRORLEVEL%</code>. No Linux, use <code>$?</code>. Isso permite criar automações robustas:</p>
+                <pre><code><span style="color: #888888;"># Exemplo em script Batch (Windows)</span>
+meu_app.exe
+<span style="color: #4db8ff;">if</span> %ERRORLEVEL% <span style="color: #4db8ff;">neq</span> 0 (
+   echo "Ocorreu uma falha crítica!"
+)</code></pre>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>Fazer uso de <strong>stdout/stderr</strong> e <strong>exit codes</strong> eleva o nível de profissionalismo do seu software. Isso garante que sua aplicação possa interoperar com scripts de backup, agendadores de tarefas e serviços de monitoramento de rede.</p>
+                <p>Ao desenvolver, lembre-se: se o programa falhar, não apenas feche a janela. Informe ao sistema <em>por que</em> ele falhou. Isso poupará horas de suporte e diagnóstico no futuro.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

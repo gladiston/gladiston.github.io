@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando fpcupdeluxe (nível médio) - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Usando fpcupdeluxe (nível médio)</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <p>
+            <h2>Introdução</h2>
+            <p>O <strong>fpcupdeluxe</strong> é uma ferramenta poderosa para instalação do Lazarus e Free Pascal Compiler (FPC) no Linux. Diferente da instalação via repositórios do sistema, o fpcupdeluxe permite uma instalação <em>homeuser</em>, ou seja, podemos instalar, configurar e usar sem permissões especiais de administrador. Esta abordagem oferece maior controle sobre o ambiente de desenvolvimento e permite manter múltiplas versões do Lazarus e FPC simultaneamente.</p>
+
+            <p>Esta instalação é mais simples que uma instalação manual completa, porque o fpcupdeluxe automatiza todo o processo de download, compilação e configuração. Usaremos o <strong>fpcupdeluxe</strong> para instalar o FPC e Lazarus no diretório HOME do usuário, mantendo tudo isolado e portável.</p>
+
+            <p>Primeiro tenha certeza de ter instalado o compilador e código fontes do FPC, caso não tenha, siga este link:
+               <a href="lazarus_guia_fppkg_configuration.html">Instalação no Linux: Instalar o FPC a partir dos repositórios</a>.
+            </p>
+
+            <p>Com o FPC instalado no seu sistema, você apenas baixa ou compila o Lazarus sem essa dependência monstruosa. O download e compilação no caso fpcupdeluxe será menor e, convenhamos, o FPC será algo que você não precisa modificar; deixá-lo instalado no sistema permitirá que a própria distro se encarregue de atualizá-la para você.</p>
+
+            <p>Ao executar programas construídos no Lazarus no ambiente Linux, pode surgir a seguinte mensagem de dependência no terminal:</p>
+
+            <blockquote>
+                <p>Gtk-Message: Failed to load module "pk-gtk-module"</p>
+            </blockquote>
+
+            <p>O programa executa normalmente, mas a falta dessa dependência pode indicar que algum aspecto visual não está como deveria. Para corrigir o problema, execute:</p>
+
+            <pre><code>sudo -i
+echo "/usr/lib64/gtk-2.0/modules" >> /etc/ld.so.conf.d/gtk2.conf
+ldconfig</code></pre>
+
+            <p>Outra mensagem de erro que pode ocorrer é esta:</p>
+
+            <blockquote>
+                <p>Gtk-Message: Failed to load module "canberra-gtk-module"</p>
+            </blockquote>
+
+            <p>Isso não é um erro fatal, apenas um aviso de que o módulo de sons do GTK não está instalado. Para remover este aviso em sistemas <strong>Debian-like</strong> (Ubuntu, Mint):</p>
+
+<pre><code>
+sudo apt install libpango1.0-dev libcairo2-dev libatk1.0-dev  libgdk-pixbuf-xlib-2.0-dev libcanberra-gtk-module
+</code></pre>
+<p>Caso esteja usando o ambiente KDE ou pretenda compilar a IDE usando qt5, execute também:</p>
+<pre><code>
+sudo apt install -y qtbase5-dev libqt5pas-dev
+</code></pre>
+<p>Esta usando ambiente que usa gtk(GNOME, XFCE, LXDE, Cinnamon, etc...) ou compilá tendo como alvo um programa em gtk?, então execute:</p>
+<pre><code>
+sudo apt install -y libcanberra-gtk-common-dev
+sudo apt install -y libgtk2.0-dev libpango1.0-dev libcairo2-dev libatk1.0-dev  libgdk-pixbuf-xlib-2.0-dev
+</code></pre>
+
+<p><b>ATENÇÃO:</b> O Xorg esta saindo de cena para a entrada do Wayland na maior parte das distribuições Linux e o Lazarus usa gtk2 em sua IDE que não recebe mais atualizações e isso evidentemente isso tem causado alguns bugs de posicionamento na tela aleatórios. Caso presencie este problema, recompile a IDE usando "qt5"  e solucionará este problema e configure o build de seus programas (Project|Project Options|Compiler Options|Config and Targets e mude <b>LCL widgetsets</b> para <b>GTK2</b> e assim suas aplicações ainda seriam geradas usando GTK2. Contudo saiba que usar "qt5" num ambiente GNOME causa algumas inconsistências como ancorar outras ferramentas na IDE, porém sem bugs criticos que estão na versão gtk2.</p>
+
+            <p>Em sistemas <strong>RedHat-like</strong> (Fedora):</p>
+
+            <pre><code>sudo dnf install -y qt5pas-devel qt5-qtbase-devel libQt5Pas # caso use KDE
+sudo dnf install -y libcanberra-gtk2 # caso use GNOME</code></pre>
+
+            <p>Sempre revise as dependências na <a href="https://wiki.lazarus.freepascal.org/fpcupdeluxe" target="_blank">página oficial do fpcupdeluxe</a>.</p>
+
+            <div class="img-container">
+                <img src="assets/img/instalacao_linux_fpcupdeluge1.png" alt="Baixando o fpcupdeluxe">
+            </div>
+
+            <p>O arquivo baixado é um executável. No terminal, dê permissão de execução e rode-o (exemplo para versão GTK):</p>
+
+            <pre><code>chmod +x fpcupdeluxe-x86_64-linux
+./fpcupdeluxe-x86_64-linux</code></pre>
+
+            <p>Na tela do instalador, selecione <strong>fixes</strong> para FPC e Lazarus Version, e clique em <strong>Setup+</strong> para ajustar os parâmetros:</p>
+
+            <div class="img-container">
+                <img src="assets/img/instalacao_linux_fpcupdeluge2.png" alt="Ajuste de parâmetros no fpcupdeluxe">
+            </div>
+
+            <p>Marque a opção <strong>Use system FPC for Lazarus</strong> conforme a imagem abaixo:</p>
+
+            <div class="img-container">
+                <img src="assets/img/instalacao_linux_instalador1.png" alt="Marque Use system FPC">
+            </div>
+
+            <div class="img-container">
+                <img src="assets/img/instalacao_linux_fpcupdeluge3.png" alt="Outras opções do instalador">
+            </div>
+
+            <p>Confirme com OK e clique em <strong>Install/Update FPC+Laz</strong>. A instalação é demorada. Ao final, um atalho será criado no menu do sistema e o script <code>Lazarus_fpcupdeluxe</code> estará na sua pasta HOME.</p>
+
+
+<h2>Pontos de atenção no ambiente KDE</h2>
+
+<p>
+O KDE Plasma tem muitos atalhos globais que entram em conflito direto com os atalhos
+padrão do Lazarus/Qt. O resultado típico é: você aperta o atalho no Lazarus e nada acontece,
+ou pior, outra funcionalidade do KDE é acionada.
+</p>
+
+<p>
+Isso ocorre porque o KDE captura diversos atalhos em nível global, impedindo que a IDE
+receba o evento de teclado. Esse comportamento é mais perceptível quando o Lazarus é
+compilado usando <strong>Qt</strong> e executado em ambientes KDE Plasma.
+</p>
+
+<p>Os conflitos mais comuns incluem:</p>
+
+<ul>
+    <li>
+        <strong>Ctrl + Alt + S</strong>
+        <br>
+        No Lazarus: salvar todos os arquivos.
+        <br>
+        No KDE: aciona o <em>Spectacle</em> (captura de tela).
+    </li>
+
+    <li>
+        <strong>Ctrl + Alt + ← / →</strong>
+        <br>
+        No Lazarus: navegação no editor ou em abas.
+        <br>
+        No KDE: troca de área de trabalho virtual.
+    </li>
+
+    <li>
+        <strong>Ctrl + F9</strong>
+        <br>
+        No Lazarus: compila o projeto em modo debug e executa a aplicação.
+        <br>
+        No KDE: Mostra todos os programas em mosaico.
+    </li>
+</ul>
+
+<p>
+Quando um desses atalhos está configurado globalmente no KDE, o Lazarus sequer recebe o
+evento de teclado, tornando impossível o funcionamento correto do atalho dentro da IDE.
+</p>
+
+<p><strong>Resolução:</strong></p>
+
+<ul>
+    <li>
+        <strong>Opção 1 (recomendada):</strong> alterar ou remover o atalho conflitante no KDE, acessando
+        <em>Configurações do Sistema → Atalhos → Atalhos Globais</em>.
+        Dessa forma, o Lazarus passa a receber corretamente as teclas.
+    </li>
+
+    <li>
+        <strong>Opção 2:</strong> alterar o atalho dentro do próprio Lazarus, em
+        <em>Ferramentas → Editor de Atalhos</em>, escolhendo uma combinação que não seja usada pelo KDE. Veja este exemplo em como desligar o atalho do <strong>Ctrl+F9</strong>:<br>
+            <div class="img-container">
+                <img src="assets/img/lazarus_guia_usando_fpcupdeluxe_linux01.png" alt="Desligando o atalho do Ctrl+F9">
+            </div>
+
+    </li>
+</ul>
+
+<p>
+Após ajustar os atalhos, reinicie o Lazarus para garantir que as novas configurações
+entrem em vigor.
+</p>
+
+<h2>Pontos de atenção no ambiente GNOME</h2>
+
+<p>
+No ambiente GNOME, também podem ocorrer conflitos de atalhos com o Lazarus,
+especialmente quando o sistema está rodando sob <strong>Wayland</strong>.
+Diferente do KDE, o GNOME possui menos atalhos configuráveis, porém vários deles
+são <em>reservados pelo GNOME Shell</em> e não podem ser repassados às aplicações.
+</p>
+
+<p>
+Quando um atalho é reservado pelo GNOME Shell, ele simplesmente não chega à IDE,
+fazendo com que comandos do Lazarus não funcionem ou pareçam ignorados.
+</p>
+
+<p>Os conflitos mais comuns incluem:</p>
+
+<ul>
+    <li>
+        <strong>Ctrl + Alt + ↑ / ↓</strong>
+        <br>
+        No Lazarus: navegação ou atalhos customizados.
+        <br>
+        No GNOME: visão de atividades ou alternância de workspaces.
+    </li>
+
+    <li>
+        <strong>Ctrl + F9</strong>
+        <br>
+        No Lazarus: compilar em modo debug e executar.
+        <br>
+        No GNOME: normalmente funciona, porém pode falhar se existir algum atalho
+        personalizado ou extensão que capture esta combinação.
+    </li>
+</ul>
+
+<p>
+Em sessões Wayland, algumas combinações de teclas são intencionalmente bloqueadas
+pelo compositor por razões de segurança, impossibilitando que aplicações como o Lazarus interceptem esses eventos.
+</p>
+
+<p><strong>Resolução:</strong></p>
+
+<ul>
+    <li>
+        Verifique os atalhos em
+        <em>Configurações → Teclado → Atalhos</em> e remova combinações que entrem
+        em conflito com a IDE.
+    </li>
+    <li>
+        Alternativamente, ajuste os atalhos dentro do Lazarus em
+        <em>Ferramentas → Editor de Atalhos</em>.
+    </li>
+</ul>
+
+            <section id="video-tutorial">
+                <h2>Vídeo Tutorial</h2>
+                <p>Assista abaixo à demonstração:</p>
+                <div class="video-cta">
+                    <p>Instalar o Lazarus-IDE com fpcupdeluxe no Linux</p>
+                    <a href="https://www.youtube.com/watch?v=57AIzhlKqfw" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+                </div>
+            </section>
+
+            <h2>Vantagens da Instalação Homeuser</h2>
+            <p>A instalação usando fpcupdeluxe no Linux oferece várias vantagens:</p>
+            <ul>
+                <li><strong>Sem permissões de root:</strong> Tudo é instalado no diretório HOME do usuário, sem necessidade de privilégios administrativos</li>
+                <li><strong>Isolamento do sistema:</strong> A instalação não interfere com pacotes do sistema ou outras instalações do Lazarus</li>
+                <li><strong>Múltiplas versões:</strong> Você pode ter várias versões do Lazarus e FPC instaladas simultaneamente</li>
+                <li><strong>Portabilidade:</strong> A instalação pode ser facilmente copiada ou movida para outro sistema</li>
+                <li><strong>Controle total:</strong> Você escolhe exatamente quais versões e componentes instalar</li>
+                <li><strong>Múltiplos alvos:</strong> Facilmente você pode adicionar outros alvos de compilação(cross-compiling). Por exemplo, você pode desenvolver no ambiente Linux, mas compilando seu programa para windows e apenas transportar o .exe para lá</li>
+            </ul>
+
+            <h2>Conclusão</h2>
+            <p>O fpcupdeluxe é uma excelente opção para instalar o Lazarus no Linux, especialmente para desenvolvedores que precisam de mais controle sobre o ambiente de desenvolvimento ou que trabalham com múltiplas versões do compilador. A instalação homeuser elimina a necessidade de permissões administrativas e mantém tudo isolado no diretório do usuário.</p>
+
+            <p>Ao usar o FPC do sistema em conjunto com o Lazarus compilado pelo fpcupdeluxe, você obtém o melhor dos dois mundos: um compilador mantido pela distribuição Linux e uma IDE atualizada e configurada conforme suas necessidades específicas.</p>
+
+            <p>Lembre-se sempre de usar o script <code>Lazarus_fpcupdeluxe</code> para iniciar o Lazarus, pois ele garante que todas as configurações e variáveis de ambiente estejam corretas para a instalação homeuser.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrando o editor de código com ajuda on-line (Help) - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Integrando o Editor com Ajuda On-line</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>A ajuda integrada (F1) no editor é fundamental para consultar a documentação de funções e classes. No instalador oficial do Lazarus ela já vem configurada; em instalações via GIT ou fpcupdeluxe é preciso configurá-la manualmente. Ao pressionar <strong>F1</strong> com uma função ou método em foco, uma janela abre-se com a respectiva documentação.</p>
+
+            <h2>Localizando o Utilitário de Ajuda</h2>
+            <p>Vá até a pasta:</p>
+            <pre>$(LazarusDir)\components\chmhelp\lhelp</pre>
+            <p>Lá você encontrará o executável <strong>lhelp</strong> (Linux/macOS) ou <strong>lhelp.exe</strong> (Windows). Se não o encontrar, certifique-se de que o pacote <code>chmhelppkg.lpk</code> foi compilado na IDE.</p>
+
+            <h2>Baixando os Arquivos de Documentação</h2>
+            <p>Agora, verifique a pasta:</p>
+            <pre>$(LazarusDir)\docs\chm</pre>
+            <p>Se ela estiver vazia, você precisará baixar os arquivos <code>.chm</code> oficiais. Acesse a página de documentação no SourceForge:</p>
+            <p><a href="http://sourceforge.net/projects/lazarus/files/Lazarus%20Documentation/" target="_blank">Download Lazarus Documentation</a></p>
+
+            <div class="img-container">
+                <img src="assets/img/help_sourceforge_page.png" alt="Página de Documentação no SourceForge">
+            </div>
+
+            <p>Baixe o arquivo <code>.zip</code> da versão mais recente que contém os arquivos de ajuda:</p>
+            <div class="img-container">
+                <img src="assets/img/help_download_zip.png" alt="Download do ZIP de documentação">
+            </div>
+
+            <p>Extraia todo o conteúdo para dentro de <code>$(LazarusDir)\docs\chm</code>, de forma que os arquivos fiquem organizados assim:</p>
+            <div class="img-container">
+                <img src="assets/img/help_chm_folder.png" alt="Arquivos CHM descompactados na pasta docs/chm">
+            </div>
+
+            <h2>Configuração na IDE</h2>
+            <p>Normalmente, a IDE detecta os arquivos automaticamente após a extração. Caso não funcione, acesse o menu <strong>Tools | Options | Help</strong> e selecione <strong>CHM Help Viewer</strong>:</p>
+
+            <div class="img-container">
+                <img src="assets/img/lazarus_help_options.png" alt="Configurações de ajuda na IDE Lazarus">
+            </div>
+
+            <ul>
+                <li><strong>HelpExe:</strong> Deve apontar para o <code>lhelp.exe</code>. Se vazio, a IDE busca o padrão em <code>components\chmhelp\lhelp\</code>.</li>
+                <li><strong>HelpEXEParams:</strong> Geralmente vazio. Se usar o <code>hh.exe</code> do Windows (opcional), utilize <code>"%s::%s"</code>.</li>
+                <li><strong>HelpFilesPath:</strong> Onde estão os arquivos <code>.chm</code>. O padrão é <code>$(LazarusDir)\docs\chm</code>.</li>
+            </ul>
+
+            <h2>Conclusão</h2>
+            <p>A documentação local (F1) é essencial para produtividade, especialmente ao explorar a LCL (Lazarus Component Library). Seguir estes passos garante que você tenha as definições de classes e métodos sempre à mão.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

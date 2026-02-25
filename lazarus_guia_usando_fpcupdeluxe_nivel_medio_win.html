@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando como instalador o fpcupdeluxe (nível médio) - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Usando como instalador o fpcupdeluxe (nível médio)</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <p>Se você seguiu a instalação via instalador padrão e algo deu errado, ou quer algo mais moderno e automatizado, essa é a segunda via para o Windows. O <strong>fpcupdeluxe</strong> (Free Pascal Compiler Updated Deluxe) é uma ferramenta gráfica que automatiza o download e compilação do FPC e do Lazarus.</p>
+
+            <h2>1. Vantagens do fpcupdeluxe</h2>
+            <p>Diferente do instalador oficial, o fpcupdeluxe permite que você tenha várias versões do Lazarus instaladas simultaneamente em pastas diferentes (instalações portáteis). Isso é excelente para manter um projeto antigo em uma versão estável e testar novos recursos na versão de desenvolvimento (Trunk).</p>
+
+            <h2>2. Download da ferramenta</h2>
+            <p>Baixe o executável para a sua plataforma (Windows i386 ou x86_64) no repositório oficial:</p>
+            <p><a href="https://github.com/LongDirtyAnimall/fpcupdeluxe/releases" target="_blank" rel="noreferrer noopener">https://github.com/LongDirtyAnimall/fpcupdeluxe/releases</a></p>
+
+            <div class="img-container">
+                <img src="assets/img/fpcupdeluge_download.png" alt="Download do fpcupdeluxe no GitHub">
+            </div>
+
+            <h2>3. Preparando o ambiente</h2>
+            <p>Antes de iniciar, crie uma pasta onde o Lazarus será instalado. Recomendo algo simples como <code>C:\Lazarus_Stable</code> ou <code>C:\Lazarus_Trunk</code>. <strong>Nunca instale em pastas com espaços no nome</strong>, como "Program Files", para evitar erros de compilação.</p>
+
+            <h2>4. Configuração e Instalação</h2>
+            <p>Ao abrir o programa, ele apresentará diversas opções. Siga estes passos para uma instalação padrão estável:</p>
+            <ul>
+                <li>No campo <strong>Install directory</strong>, selecione a pasta que você criou no passo anterior.</li>
+                <li>Certifique-se que o <strong>FPC version</strong> e <strong>Lazarus version</strong> estão marcados como "Stable" (ou selecione a versão específica que deseja).</li>
+                <li>Clique no botão <strong>Install/Update FPC + Lazarus</strong>.</li>
+            </ul>
+
+            <div class="img-container">
+                <img src="assets/img/fpcupdeluge_interface.png" alt="Interface do fpcupdeluxe configurada">
+            </div>
+
+            <p>O processo pode demorar, pois ele fará o download de todo o código fonte e compilará os binários em sua máquina. Acompanhe o log na janela preta (terminal) que o programa abre.</p>
+
+            <h2>5. Criando o atalho</h2>
+            <p>Ao final da instalação, o programa perguntará se deseja criar um atalho na área de trabalho. Aceite para facilitar o acesso àquela instância específica do Lazarus.</p>
+
+            <div class="info-box">
+                <p><strong>Dica:</strong> Se você precisar de cross-compiling (compilar para Linux ou Android a partir do Windows), o fpcupdeluxe facilita muito a instalação dos "Cross-Compilers" através da aba <strong>Setup Cross</strong>.</p>
+            </div>
+
+            <h2>Conclusão</h2>
+            <p>O fpcupdeluxe é uma ferramenta poderosa que retira o peso da configuração manual de caminhos, sendo ideal para quem precisa de flexibilidade e quer gerenciar múltiplas versões da IDE sem conflitos no registro do Windows.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

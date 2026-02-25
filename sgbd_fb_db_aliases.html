@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aliases para Bancos de Dados Firebird - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Aliases para Bancos de Dados</h1>
+                <p>Ocultando caminhos físicos e organizando conexões no Firebird.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd_fb_intro.html">Voltar Firebird</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>ALIASES PARA ESCONDER OS BANCOS</h2>
+            <p>Ao conectar-se ao banco de dados, geralmente usamos algo como:</p>
+            
+            <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                <thead>
+                    <tr style="background-color: #f8f9fa;">
+                        <th style="padding: 0.8rem; text-align: left; border: 1px solid #dee2e6;">String de conexão:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 0.8rem; border: 1px solid #dee2e6; font-family: 'Fira Code', monospace;">localhost/3050:/var/banco/banco.fdb</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>Qual o problema disso? Essa string revela de forma cruel onde nosso banco de dados está localizado dentro do servidor. Qual a maneira correta? A maneira correta é criar um alias e usá-lo na string de conexão do banco no lugar do caminho do banco.</p>
+
+            <h2>Configurando o Alias</h2>
+            <p>Edite o arquivo <code>/opt/firebird/databases.conf</code>, execute:</p>
+            <pre><code>sudo editor /opt/firebird/databases.conf</code></pre>
+            <p>E acrescente ao final do arquivo:</p>
+            <pre><code>banco.link = /var/fdb/banco.fdb</code></pre>
+            
+            <p>Agora, poderá usar a seguinte string de conexão:</p>
+            
+            <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                <thead>
+                    <tr style="background-color: #f8f9fa;">
+                        <th style="padding: 0.8rem; text-align: left; border: 1px solid #dee2e6;">String de conexão:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 0.8rem; border: 1px solid #dee2e6; font-family: 'Fira Code', monospace;">localhost/3050:banco.link</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>E assim, nenhum caminho para nossos arquivos de dados serão revelados, isso serve muito bem para o ambiente de produção como também o de desenvolvimento porque geralmente desenvolvimento espelha a forma de produção.</p>
+
+            <h2>Aliases com Parâmetros de Configuração</h2>
+            <p>Caso seu banco de dados precise de parâmetros de ajustes associados ao banco, o <code>/opt/firebird/databases.conf</code> deverá ser modificado como o exemplo abaixo:</p>
+            <pre><code>banco.link = /var/fdb/banco.fdb 
+{
+  RemoteAccess = true
+  DefaultDbCachePages = 131072
+  LockMemSize = 30M
+  TempCacheLimit  = 512M  
+  StatementTimeout = 0 # 0=ilimitado
+}</code></pre>
+            <p>E assim, cada banco de dados, além de possuir seu alias, terá também sua parametrização.</p>
+
+            <div class="info-box">
+                <strong>IMPORTANTE:</strong> Após modificar o arquivo <code>databases.conf</code>, é necessário reiniciar o serviço Firebird para que as alterações tenham efeito. No Linux, execute: <code>sudo systemctl restart firebird3.0</code> (ou a versão correspondente do seu servidor).
+            </div>
+
+            <h2>Vantagens dos Aliases</h2>
+            <ul>
+                <li><strong>Segurança:</strong> Oculta a estrutura de diretórios do servidor, dificultando que usuários mal-intencionados descubram a localização física dos arquivos de banco de dados.</li>
+                <li><strong>Portabilidade:</strong> Permite mover bancos de dados para diferentes localizações sem alterar as strings de conexão nas aplicações, bastando atualizar apenas o arquivo de configuração.</li>
+                <li><strong>Organização:</strong> Facilita a gestão de múltiplos bancos de dados, especialmente quando cada um requer configurações específicas de cache, locks ou timeouts.</li>
+                <li><strong>Manutenção:</strong> Simplifica a administração, pois todas as definições de aliases e parâmetros ficam centralizadas em um único arquivo.</li>
+            </ul>
+
+            <p style="margin-top: 3rem;"><a href="sgbd_fb_intro.html" class="back-link">&larr; Voltar para Índice Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando grupo de projetos - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1 style="font-size: 1.6rem; color: #ffffff;">Usando grupo de projetos</h1>
+                <p style="font-size: 1rem; color: #ffffff;">Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>O que é um Grupo de Projetos?</h2>
+                <p>Por padrão, o Lazarus abre apenas um projeto por vez. O recurso de <strong>Grupo de Projetos</strong> permite agrupar múltiplos binários (executáveis, bibliotecas, serviços) sob uma única visualização, facilitando a edição e compilação em massa.</p>
+                <p>Recomendação técnica: Utilize este recurso a partir da <strong>versão 2.2</strong> do Lazarus, onde o <em>Project Manager</em> está estável e substitui com vantagens o antigo <em>Project Inspector</em>.</p>
+            </section>
+
+            <section id="configuracao">
+                <h2>Configurando o Ambiente</h2>
+                <p>Antes de iniciar, certifique-se de ter o <a href="pacote_project_manager.html">pacote Project Manager</a> instalado. Em seguida, ajuste as preferências em <strong>Tools | Options | Environment | Project Groups</strong>:</p>
+
+                <img src="assets/img/productivity_project_group1.png" alt="Configuração do Gerenciador de Projetos no Lazarus" style="display: block; margin: 1.5rem auto; max-width: 100%;">
+
+                <p>Ative as opções <strong>Open last group on start</strong> e <strong>Compile and build compile target</strong> para máxima produtividade.</p>
+            </section>
+
+            <section id="uso-pratico">
+                <h2>Gerenciamento e Compilação</h2>
+                <p>Ao criar um novo grupo (<strong>Project | New project group</strong>), você terá acesso a um painel que pode ser docado na lateral da IDE, organizando visualmente todos os seus projetos ativos.</p>
+
+                <img src="assets/img/productivity_project_group2.png" alt="Gerenciador de Projetos docado na lateral da IDE" style="display: block; margin: 1.5rem auto; max-width: 100%;">
+
+                <p>Diferente do Project Inspector, aqui você pode executar comandos em massa para todo o grupo, como <strong>Compile</strong> (Compilar todos) e <strong>Complete Clean</strong> (Limpar resíduos de compilação de todos os projetos).</p>
+
+                <img src="assets/img/productivity_project_group3.png" alt="Opções de compilação em massa no Project Group" style="display: block; margin: 1.5rem auto; max-width: 100%;">
+            </section>
+
+            <section id="video-tutorial">
+                <h2>Vídeo Tutorial</h2>
+                <p>Assista ao vídeo abaixo para uma demonstração visual de como organizar seus projetos e otimizar o fluxo de compilação:</p>
+                <div class="video-cta">
+                    <p>Produtividade com IDE Lazarus: Usando grupo de projetos</p>
+                    <a href="https://www.youtube.com/watch?v=11PS7W3lNYk" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+                </div>
+            </section>
+
+            <section id="downloads">
+                <h2>Download para Uso Local</h2>
+                <p>Acesse o conteúdo original e assets para sincronização local:</p>
+                <div class="info-box">
+                    <ul>
+                        <li><a href="https://gladiston.github.io/hello_lazarus/index.html" target="_blank" rel="noopener">Versão Online (GitHub Pages)</a></li>
+                        <li><a href="https://github.com/gladiston/hello_lazarus/archive/refs/heads/main.zip">Download Guia Completo (.ZIP)</a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>O Project Group é a escolha ideal para desenvolvedores que precisam alternar rapidamente entre diferentes camadas de um software (como Client/Server). No Lazarus 2.2+, ele também organiza os arquivos de forma mais coerente, priorizando o arquivo do projeto e DataModules, o que torna a navegação muito mais intuitiva.</p>
+
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

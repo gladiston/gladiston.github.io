@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando o ComboBox para selecionar valores normais e complexos - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Usando o ComboBox para selecionar valores normais e complexos</h2>
+
+            <h2>Introdução</h2>
+            <p>O <code>TComboBox</code> é um componente fundamental que apresenta uma lista de vários valores onde tipicamente escolhemos um. Ele é a solução ideal quando precisamos de uma forma de escolha econômica em um formulário, ocupando pouco espaço visual mas oferecendo múltiplas opções de seleção.</p>
+            <p>Neste artigo, exploraremos desde o uso básico com strings literais até técnicas avançadas de mapeamento de objetos e pares chave/valor. Aprenderemos como desvincular o que o usuário vê do que o sistema processa internamente, permitindo o uso de IDs e estruturas de dados complexas diretamente no componente.</p>
+
+            <p>Imagine uma lista de frutas: Maracujá, Açaí, Avelã, Melão, Maçã e Mamão. Para apresentar isso de forma organizada, usamos o ComboBox:</p>
+
+            <div class="img-placeholder">
+                <video controls style="max-width: 100%; border-radius: 8px;">
+                    <source src="https://gladiston.net.br/wp-content/uploads/2022/01/UsandoCombobox1.webm" type="video/webm">
+                    Seu navegador não suporta vídeos incorporados.
+                </video>
+                <p><em>Selecionando um elemento de um ComboBox</em></p>
+            </div>
+
+            <h3>Valores Literais e Boas Práticas</h3>
+            <p>Um ComboBox pode ser alimentado com valores literais, onde o que é exibido é exatamente o que será manipulado. No entanto, usar strings diretamente no código é uma má prática. O correto é utilizar constantes na seção <code>implementation</code>:</p>
+
+            <pre><code>const
+  Maracuja = 'Maracujá';
+  Acai     = 'Açaí';
+  Avela    = 'Avelã';
+  Melao    = 'Melão';
+  Maca     = 'Maçã';
+  Mamao    = 'Mamão';
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  cbLista.Clear;
+  cbLista.Items.Add(Maracuja);
+  cbLista.Items.Add(Acai);
+  cbLista.Items.Add(Avela);
+  cbLista.Items.Add(Melao);
+  cbLista.Items.Add(Maca);
+  cbLista.Items.Add(Mamao);
+  cbLista.ItemIndex := -1;
+end;</code></pre>
+
+            <h3>Retornando Códigos Numéricos (Casting)</h3>
+            <p>Se ao selecionar "Maracujá" você quiser que o sistema retorne o código <strong>5</strong>, utilizamos o <code>AddObject</code>. Fazemos um casting de um inteiro para que ele se comporte como um objeto (ponteiro de memória):</p>
+
+            <pre><code>cbLista.Items.AddObject(Maracuja, TObject(5));
+cbLista.Items.AddObject(Acai, TObject(10));
+// ...</code></pre>
+
+            <p>Para recuperar o valor selecionado:</p>
+            <pre><code>if cbLista.ItemIndex >= 0 then
+begin
+  FrutaCodigoEscolhida := PtrUInt(cbLista.Items.Objects[cbLista.ItemIndex]);
+  Memo1.Lines.Add('Código escolhido: ' + IntToStr(FrutaCodigoEscolhida));
+end;</code></pre>
+
+            <div class="img-placeholder">
+                <video controls style="max-width: 100%; border-radius: 8px;">
+                    <source src="https://gladiston.net.br/wp-content/uploads/2022/01/demo_combobox_enum1.webm" type="video/webm">
+                </video>
+                <p><em>ComboBox retornando um código via casting</em></p>
+            </div>
+
+            <h3>Pares Chave/Valor e OwnerDraw</h3>
+            <p>Para retornar uma String diferente (ex: "cod_maracuja"), usamos <code>AddPair</code>. Para que o usuário não veja o sinal de igual (ex: Nome=Valor), mudamos o <code>Style</code> para <code>csOwnerDrawFixed</code> e tratamos o evento <code>OnDrawItem</code>:</p>
+
+            <pre><code>procedure TForm1.cbListaDrawItem(Control: TWinControl; Index: Integer; ARect: TRect; State: TOwnerDrawState);
+begin
+  with (Control as TComboBox) do
+  begin
+    Canvas.FillRect(ARect);
+    Canvas.TextOut(ARect.Left, ARect.Top, Items.Names[Index]);
+  end;
+end;</code></pre>
+
+            <div class="img-placeholder">
+                <video controls style="max-width: 100%; border-radius: 8px;">
+                    <source src="https://gladiston.net.br/wp-content/uploads/2022/01/demo_combobox_parvalor1.webm" type="video/webm">
+                </video>
+                <p><em>Exibindo apenas a chave do par no ComboBox</em></p>
+            </div>
+
+            <h3>Objetos Complexos</h3>
+            <p>Para situações onde cada item possui várias propriedades (Nome, Peso, Código), criamos uma classe <code>TFruta</code>. Isso permite acesso total aos dados do registro sem novas consultas ao banco:</p>
+
+            <pre><code>type TFruta = class(TObject)
+  Nome: string;
+  PesoGrama: Integer;
+  Codigo: Integer;
+  constructor Create(ANome: String; APeso: Integer; ACod: Integer);
+end;</code></pre>
+
+            <div class="img-placeholder">
+                <video controls style="max-width: 100%; border-radius: 8px;">
+                    <source src="https://gladiston.net.br/wp-content/uploads/2022/01/demo_combobox_objetos1.webm" type="video/webm">
+                </video>
+                <p><em>ComboBox manipulando objetos complexos</em></p>
+            </div>
+
+            <h2>Conclusão</h2>
+            <p>O <code>TComboBox</code> é muito mais do que um simples seletor de texto. Ao dominar o uso de objetos e pares chave/valor, você transforma componentes visuais em poderosos gerenciadores de dados dentro do Lazarus. Essas técnicas garantem um código mais limpo, fácil de manter e profissional. Lembre-se sempre de garantir que os objetos criados sejam destruídos adequadamente para evitar vazamentos de memória.</p>
+
+            <section id="video-tutorial">
+                <h2>Vídeo Tutorial</h2>
+                <p>Assista abaixo à demonstração:</p>
+                <div class="video-cta">
+                    <p>Aula completa sobre ComboBoxes Complexos</p>
+                    <a href="https://www.youtube.com/watch?v=JUj1Z1HUQ-M" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impedindo duplicatas do mesmo programa - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Introdução</h2>
+            <p>Em muitos cenários de desenvolvimento, é necessário garantir que apenas uma instância de um aplicativo esteja em execução por vez. Isso é especialmente importante para aplicações que acessam recursos exclusivos, como arquivos de configuração, portas de rede ou conexões de banco de dados. Neste artigo, exploraremos técnicas para impedir que múltiplas instâncias do mesmo programa sejam executadas simultaneamente.</p>
+
+            <h2>Impedindo duplicatas do mesmo programa</h2>
+
+            <section class="introducao">
+                <p>Um problema comum no desenvolvimento de aplicações desktop é evitar que o usuário carregue o mesmo programa diversas vezes simultaneamente. O carregamento de múltiplas instâncias pode levar ao consumo excessivo de memória e, principalmente, a conflitos transacionais em bancos de dados, onde operações bloqueantes de uma instância podem impedir o funcionamento da outra.</p>
+                <p>Neste artigo, exploraremos como utilizar MUTEX para garantir que apenas uma instância do seu software seja executada por usuário, respeitando ambientes multi-usuário e multi-terminal.</p>
+            </section>
+
+            <h3>Entendendo o Problema</h3>
+            <p>Muitas abordagens simples falham em ambientes modernos. Observar apenas se o processo <code>programa.exe</code> está carregado impede que outros usuários em sistemas multi-terminal (como RDS ou TS Plus) utilizem o software. O objetivo correto é bloquear a duplicata para o <strong>mesmo usuário</strong> na mesma sessão.</p>
+
+            <p>Outra técnica comum, o <code>FindWindow</code> da WinAPI, pode ser lenta e imprecisa caso existam outras janelas com nomes similares no sistema. A solução ideal reside no uso de MUTEX.</p>
+
+            <h3>Lidando com o Problema usando MUTEX</h3>
+            <p>MUTEX (Mutual Exclusion) funciona como uma constante de texto visível para o desktop do usuário enquanto o programa estiver ativo. Diferente de procurar por janelas, o teste de existência de um MUTEX é instantâneo e seguro para sessões isoladas.</p>
+
+            <h3>Exemplo Prático: Implementação no Projeto</h3>
+            <p>O código abaixo deve ser inserido no arquivo principal do projeto (<code>.dpr</code> no Delphi ou <code>.lpr</code> no Lazarus). Ele verifica o MUTEX e, caso já exista, tenta restaurar a janela anterior antes de encerrar a nova tentativa.</p>
+
+            <pre><code>program Programa;
+
+uses
+  Forms,
+  Windows,
+  UnitPrincipal in 'UnitPrincipal.pas' {fmPrincipal};
+
+var
+  MutexHnd: Cardinal;
+  Handle: HWND;
+  sTitle: String;
+begin
+  sTitle := 'Meu Titulo Unico';
+
+  // Cria o MUTEX vinculado ao título
+  MutexHnd := CreateMutex(nil, False, pChar(sTitle));
+
+  if GetLastError = ERROR_ALREADY_EXISTS then
+  begin
+    // Tenta encontrar a janela da instância anterior
+    Handle := FindWindow(nil, pChar(sTitle));
+    if Handle <> 0 then
+    begin
+      if not IsWindowVisible(Handle) then
+        ShowWindow(Handle, SW_RESTORE);
+      SetForegroundWindow(Handle);
+    end;
+    Application.Terminate;
+  end
+  else
+  begin
+    Application.Initialize;
+    Application.Title := sTitle;
+    Application.CreateForm(TfmPrincipal, fmPrincipal);
+    fmPrincipal.Caption := sTitle;
+    Application.Run;
+  end;
+end.</code></pre>
+
+            <h3>Particularidades de Ambiente</h3>
+            <p>Se estiver utilizando o Lazarus no Linux, o comportamento de janelas e processos difere do Windows. Para scripts de automação que verificam a execução, certifique-se de dar permissão ao binário:</p>
+            <pre><code>chmod +x meu_programa
+./meu_programa</code></pre>
+
+            <div style="border: 2px solid #1a5276; padding: 20px; border-radius: 8px; text-align: center; margin: 2rem 0;">
+                <p><strong>Demonstração Técnica:</strong> Confira exemplos completos de gerenciamento de instâncias e outros demos no repositório oficial.</p>
+                <a href="https://github.com/gladiston/lazdemos_gsl" target="_blank" style="background: #1a5276; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 10px;">
+                    ▶ Acessar Repositório no GitHub
+                </a>
+            </div>
+
+            <section class="conclusao">
+                <h3>Conclusão</h3>
+                <p>A implementação de um controle de instância única via MUTEX é uma marca de software profissional e bem estruturado. Além de economizar recursos do sistema, essa técnica previne corrupção de dados e melhora a experiência do usuário ao redirecioná-lo para a janela já aberta. Esta solução foi testada com sucesso em ambientes críticos multi-usuário, garantindo estabilidade onde métodos legados costumam falhar.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

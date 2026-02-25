@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docagem básica - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Docagem básica</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>A organização da interface de uma IDE pode ter um impacto significativo na produtividade do desenvolvedor. Por padrão, o Lazarus apresenta janelas independentes (flutuantes) para diferentes componentes como o Editor de Propriedades, Editor de Código e Explorador de Código. Embora essa abordagem ofereça flexibilidade, muitos desenvolvedores preferem um ambiente mais integrado e organizado.</p>
+
+            <p>A docagem (docking) é uma funcionalidade que permite ancorar painéis e janelas à interface principal da IDE, criando um ambiente mais compacto e organizado. Esta é uma das primeiras personalizações que muitos desenvolvedores fazem ao configurar o Lazarus, especialmente aqueles que vêm de outras IDEs como o Delphi, onde essa organização integrada é o padrão.</p>
+
+            <p>O padrão do Lazarus é ter janelas vazadas (independentes): o Editor de Propriedades, o Editor de Código e o Explorador de Código ficam flutuando sobre a área de trabalho. Isso pode parecer um pouco desorganizado no início. Se você prefere um ambiente integrado, podemos juntar esses painéis à IDE principal.</p>
+
+            <p>Com a docagem básica, o ambiente ficará mais organizado, embora o editor de formulários continue separado dos demais componentes, conforme ilustrado abaixo:</p>
+
+            <div class="img-container">
+                <img src="assets/img/docagem_1.png" alt="Lazarus IDE com docagem básica ativa">
+            </div>
+
+            <p>Note que o formulário ainda estará separado (vazado), o que difere um pouco da experiência padrão do Delphi.</p>
+
+            <h2>Como instalar a Docagem</h2>
+            <p>Se você gostou desse visual, acesse o menu <strong>Packages | Install/Uninstall packages</strong> (Instalar/desinstalar pacotes) e selecione os seguintes pacotes:</p>
+
+            <ul>
+                <li><code>AnchorDocking</code></li>
+                <li><code>AnchorDockingDsgn</code></li>
+            </ul>
+
+            <div class="img-container">
+                <img src="assets/img/docagem_2.png" alt="Instalação dos pacotes AnchorDocking no Lazarus">
+            </div>
+
+            <p>Após adicionar os pacotes, clique em <strong>"Salvar e reconstruir IDE"</strong>. O Lazarus será reiniciado e já aparecerá com a nova organização de painéis.</p>
+
+            <h2>Considerações sobre o Layout</h2>
+            <p>Ter a janela de design de formulário separada do editor de código é excelente para setups com dois ou mais monitores, ou telas 4K e Superwide. No entanto, se você usa apenas um monitor FullHD e está acostumado ao estilo "Delphi-like" (onde o formulário ocupa o mesmo espaço do código e você alterna entre eles com <strong>F12</strong>), trabalhar com tudo 100% docado pode ser mais produtivo.</p>
+
+            <h2>Vantagens da Docagem</h2>
+
+            <p>A docagem oferece várias vantagens para o desenvolvimento:</p>
+
+            <ul>
+                <li><strong>Organização visual:</strong> Todos os painéis ficam integrados em uma única janela, reduzindo a desordem visual</li>
+                <li><strong>Melhor uso do espaço:</strong> Aproveita melhor a área de tela disponível, especialmente em monitores menores</li>
+                <li><strong>Navegação mais rápida:</strong> Painéis sempre visíveis e acessíveis, sem precisar procurar por janelas flutuantes</li>
+                <li><strong>Experiência familiar:</strong> Para desenvolvedores vindos do Delphi, oferece uma experiência mais próxima do que estão acostumados</li>
+                <li><strong>Personalização:</strong> Permite reorganizar os painéis de acordo com suas preferências de trabalho</li>
+            </ul>
+
+            <h2>Vídeo Demonstrativo</h2>
+            <p>Ainda tem dúvidas sobre o processo? Confira este guia em vídeo:</p>
+            <div class="video-cta" style="background: #f1f1f1; border: 2px dashed #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600; color: #333;">Aprenda a configurar a docagem na prática:</p>
+                <a href="https://www.youtube.com/watch?v=khovw0YYG3E" target="_blank" class="btn-link" style="background-color: #c4302b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Assistir: Docagem básica - Lazarus
+                </a>
+            </div>
+
+            <h2>Conclusão</h2>
+
+            <p>A docagem básica é uma das primeiras personalizações que todo desenvolvedor Lazarus deveria considerar. Ela transforma a experiência de uso da IDE, criando um ambiente mais organizado e produtivo. Embora o padrão de janelas flutuantes tenha suas vantagens, especialmente para setups com múltiplos monitores, a docagem oferece uma experiência mais integrada e eficiente para a maioria dos desenvolvedores.</p>
+
+            <p>A instalação é simples e direta: basta adicionar os pacotes <code>AnchorDocking</code> e <code>AnchorDockingDsgn</code> através do menu de pacotes, salvar e reconstruir a IDE. Uma vez instalada, a docagem estará ativa e você poderá reorganizar os painéis conforme sua preferência.</p>
+
+            <p>É importante considerar seu ambiente de trabalho ao decidir sobre a docagem. Se você trabalha com múltiplos monitores ou telas grandes, manter o editor de formulários separado pode ser vantajoso. Por outro lado, se você usa um único monitor e prefere uma experiência mais compacta, a docagem completa pode ser a melhor opção.</p>
+
+            <p>Independentemente da sua escolha, experimentar a docagem é recomendado. Ela pode melhorar significativamente sua produtividade e tornar o trabalho com o Lazarus mais agradável e eficiente. Se você ainda não experimentou, reserve alguns minutos para instalá-la e ver como ela se adapta ao seu fluxo de trabalho.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

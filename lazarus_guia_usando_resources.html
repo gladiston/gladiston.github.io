@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usando resources no FPC/Lazarus - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>Usando resources no FPC/Lazarus</h2>
+                <p>Há muita diferença entre os arquivos resources no Delphi e no Lazarus.</p>
+                <p>Resources é qualquer arquivo que você deseje embutir junto com o executável. A prática comum é ter imagens, efeitos sonoros, arquivos html/dll/etc espalhados ou distribuídos no disco durante a instalação. Usar resources significa que você pode embuti-lo no executável e, ao executá-lo, usufruir desses recursos da forma que desejar.</p>
+                <p>Por exemplo, a utilização do CEF4 (Navegador Chromium) embutido em nossa aplicação irá requerer algumas DLLs no mesmo diretório do executável. Eu posso criar um instalador que distribua essas DLLs ou usar o resources para transferir essas DLLs de dentro do executável para a pasta de instalação e garantir que o programa funcione com as DLLs planejadas. Mas seu uso não é restrito para extrairmos arquivos para o disco; a forma mais comum é carregar imagens ou tocar efeitos sonoros sem precisar extrair nada.</p>
+            </section>
+
+            <section id="diferencas">
+                <h2>Diferenças Técnicas</h2>
+                <div class="shortcut-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin: 1.5rem 0;">
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #7f8c8d;">
+                        <strong>No Delphi:</strong>
+                        <p>Usa arquivos binários <code>.res</code> gerados a partir de <code>.rc</code>.</p>
+                        <code style="display: block; margin-top: 10px; color: #e22658;">{$R arquivo.res}</code>
+                    </div>
+                    <div style="background: #f2f9fd; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2980b9;">
+                        <strong>No Lazarus:</strong>
+                        <p>Usa arquivos <code>.lrs</code> (não binários). A diretiva é:</p>
+                        <code style="display: block; margin-top: 10px; color: #2980b9;">{$I arquivo.lrs}</code>
+                    </div>
+                </div>
+            </section>
+
+            <section id="geracao">
+                <h2>Gerando o arquivo .lrs com lazres</h2>
+                <p>No Lazarus, usamos a ferramenta de linha de comando <code>lazres</code> para agrupar os arquivos diretamente:</p>
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; font-family: 'Fira Code', monospace; margin: 1rem 0;">
+                    <pre>C:\Lazarus\Tools\lazres.exe arquivo.lrs image1.jpg image2.jpg minhaDLL.dll</pre>
+                </div>
+                <p>Diferente do Delphi, o arquivo gerado não é binário e pode ser versionado por ferramentas como o Git. Existe também uma GUI chamada <a href="https://sourceforge.net/projects/lrsexplorer/" target="_blank">LRS Explorer</a> que simplifica essa operação.</p>
+            </section>
+
+            <section id="implementacao">
+                <h2>Implementação no Código</h2>
+                <p>A documentação recomenda incluir a diretiva na seção <strong>initialization</strong> da primeira unit carregada no projeto:</p>
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; font-family: 'Fira Code', monospace; margin: 1rem 0;">
+                    <pre>
+uses ..., LResources;
+
+initialization
+  {$I arquivo.lrs}</pre>
+                </div>
+
+                <h3>Exemplo: Carregar Imagem Diretamente</h3>
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; font-family: 'Fira Code', monospace; margin: 1rem 0;">
+                    <pre>
+procedure TForm1.LoadResources;
+var Image: TImage;
+begin
+  Image := TImage.Create(Self);
+  // Note que não precisamos da extensão do arquivo
+  Image.Picture.LoadFromLazarusResource('image1');
+end;</pre>
+                </div>
+            </section>
+
+            <section id="extracao">
+                <h2>Extração para o Disco (DLLs e Arquivos Externos)</h2>
+                <p>Abaixo está a função <code>Extract_ResFileTo</code> para extrair recursos quando necessário (ex: dependências de componentes como CEF4):</p>
+
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; font-family: 'Fira Code', monospace; margin: 1rem 0;">
+                    <pre>
+function Extract_ResFileTo(AResName: String; ASaveFileTo: String): String;
+var
+  res: TLResource;
+  st: TLazarusResourceStream;
+begin
+  Result := '';
+  if not DirectoryExists(ExtractFilePath(ASaveFileTo)) then
+    ForceDirectories(ExtractFilePath(ASaveFileTo));
+
+  res := LazarusResources.Find(AResName);
+  if res = nil then
+    Result := 'RC com nome "' + AResName + '" não encontrada.'
+  else
+  begin
+    try
+      st := TLazarusResourceStream.Create(AResName, nil);
+      st.SaveToFile(ASaveFileTo);
+    finally
+      st.Free;
+    end;
+  end;
+end;</pre>
+                </div>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>O uso de resources no Lazarus é, na minha opinião, muito melhor e mais flexível do que no Delphi. A possibilidade de carregar recursos diretamente sem extração prévia para o disco e o suporte a arquivos versionáveis (.lrs) tornam o desenvolvimento muito mais produtivo e menos sujeito a erros de distribuição.</p>
+                <p>Créditos e Referência: <a href="https://wiki.freepascal.org/Lazarus_Resources#Adding_resources_to_your_program" target="_blank">Wiki oficial - Adding resources to your program</a>.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

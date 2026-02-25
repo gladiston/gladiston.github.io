@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bash: Automação & CGI - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1 style="font-size: 1.6rem; color: #ffffff;">Bash Scripting & Automação</h1>
+                <p style="font-size: 1rem; color: #ffffff;">Domínio do Shell para gestão de infraestrutura e ferramentas de backoffice.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="linux.html">Linux</a></li>
+            <li><a href="pascal.html">Pascal</a></li>
+            <li><a href="python.html">Python</a></li>
+            <li><a href="bash.html">Bash</a></li>
+            <li><a href="sgbd.html">Banco de dados</a></li>
+            <li><a href="sobre-mim.html">Sobre mim</a></li>
+            <li><a href="contato.html">Contato</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>O Poder do Shell</h2>
+            <p>Para um administrador de sistemas, o Bash não é apenas um interpretador de comandos, é a linguagem principal para orquestrar a saúde de um servidor Linux. Minha especialidade reside na criação de scripts resilientes para automação de backoffice e interfaces administrativas via Web.</p>
+
+            <section style="margin: 2.5rem 0; padding: 2rem; background: #f8f9fa; border-radius: 12px; border: 1px solid #ddd; border-left: 6px solid var(--azul-principal);">
+                <h3 style="color: var(--azul-principal); margin-bottom: 1rem;">Projeto em Destaque: Bash XenServer</h3>
+                <p>Este é um dos meus projetos principais mantidos no GitHub. Consiste em um conjunto de ferramentas robustas para automação e gerência de hipervisores Citrix XenServer/XCP-ng diretamente via CLI.</p>
+
+                <div style="margin-top: 1.5rem;">
+                    <a href="https://github.com/gladiston/bash-xenserver" target="_blank" style="background: var(--azul-principal); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block;">
+                        Ver Projeto no GitHub &rarr;
+                    </a>
+                </div>
+            </section>
+
+            <div class="bash-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 2rem; margin-bottom: 3rem;">
+                <div style="padding: 2rem; border: 1px solid #eee; border-radius: 12px; background: #fdfdfd;">
+                    <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">Scripts de Backoffice</h3>
+                    <p style="font-size: 1rem;">Desenvolvimento de rotinas complexas para saneamento de logs, sincronização de bases de dados (Rsync/Borg), e monitoramento proativo de serviços críticos.</p>
+                </div>
+                <div style="padding: 2rem; border: 1px solid #eee; border-radius: 12px; background: #fdfdfd;">
+                    <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">CGI para Administração</h3>
+                    <p style="font-size: 1rem;">Criação de interfaces CGI (Common Gateway Interface) puras em Shell Script para administrar servidores remotamente via navegador, sem a necessidade de frameworks pesados.</p>
+                </div>
+                <div style="padding: 2rem; border: 1px solid #eee; border-radius: 12px; background: #fdfdfd;">
+                    <h3 style="color: var(--azul-principal); margin-bottom: 1rem; font-size: 1.4rem;">Tratamento de Dados</h3>
+                    <p style="font-size: 1rem;">Uso avançado de AWK, SED e GREP para processar grandes volumes de dados textuais e converter formatos proprietários em estruturas padronizadas.</p>
+                </div>
+            </div>
+
+            <h2>Exemplo de CGI Administrativo</h2>
+            <p>Abaixo, uma estrutura básica de como utilizo Bash para gerar relatórios de sistema em tempo real via Web:</p>
+
+            <pre><code>#!/bin/bash
+echo "Content-type: text/html"
+echo ""
+echo "&lt;html&gt;&lt;body&gt;"
+echo "&lt;h1&gt;Status do Servidor&lt;/h1&gt;"
+echo "&lt;pre&gt;$(uptime)&lt;/pre&gt;"
+echo "&lt;pre&gt;$(df -h | grep '^/dev/')&lt;/pre&gt;"
+echo "&lt;/body&gt;&lt;/html&gt;"</code></pre>
+
+            <div style="margin-top: 2rem; padding: 1.5rem; background: #f0f4f8; border-radius: 8px;">
+                <p><strong>Acesse meu perfil completo:</strong> Além do bash-xenserver, mantenho diversos outros utilitários para Sysadmins:
+                <a href="http://github.com/gladiston/" target="_blank" style="color: var(--azul-principal); font-weight: 600;">github.com/gladiston</a></p>
+            </div>
+
+            <p style="margin-top: 2rem;"><a href="sobre-mim.html" class="back-link" style="color: var(--azul-principal); font-weight: 600; text-decoration: none;">&larr; Voltar para Sobre Mim</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

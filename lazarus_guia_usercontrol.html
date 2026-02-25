@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UserControl - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>UserControl</h1>
+                <p>Gestão Profissional de Permissões e Usuários no Lazarus</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>Em sistemas comerciais e ERPs, a segurança é um pilar fundamental. O <strong>UserControl</strong> é um conjunto robusto de componentes que automatiza a administração de permissões de acesso. Em vez de codificar manualmente quem pode clicar em cada botão, o UserControl integra-se aos componentes de menu e ações do Lazarus para habilitar ou desabilitar recursos com base no perfil do usuário logado.</p>
+
+            <h2>Como Funciona</h2>
+            <p>O componente trabalha diretamente com o seu banco de dados, criando tabelas auxiliares de controle automaticamente. Ele monitora componentes como <code>TMainMenu</code>, <code>TPopupMenu</code> e <code>TActionList</code>. O diferencial é que o UserControl já traz um gerenciador de usuários integrado, onde você relaciona graficamente as permissões para cada opção do sistema.</p>
+
+
+
+            <h2>Principais Recursos</h2>
+            <ul>
+                <li><strong>Criação Automática de Tabelas:</strong> Gerencia perfis, usuários e logs sem esforço extra de modelagem.</li>
+                <li><strong>Bloqueio em Tempo de Execução:</strong> Desabilita visualmente itens de menu e botões aos quais o usuário não tem direito.</li>
+                <li><strong>Suporte a Múltiplos Bancos:</strong> Compatível com as principais suítes de conexão (Zeos, SQLdb, etc).</li>
+                <li><strong>Log de Operações:</strong> Registra as ações executadas pelos usuários dentro do sistema.</li>
+            </ul>
+
+            <section id="video-tutorial">
+                <h2>Vídeo Tutorial</h2>
+                <p>Assista abaixo à demonstração:</p>
+                <div class="video-cta">
+                    <p>Entenda o funcionamento do UserControl</p>
+                    <a href="https://www.youtube.com/watch?v=ZuB2u9UscHw" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+                </div>
+            </section>
+
+            <h2>Exemplo de Configuração</h2>
+            <p>Para ativar o controle de acesso em seu formulário principal, a configuração básica via código (após o login) é extremamente simples:</p>
+
+<pre><code>// No evento de inicialização ou após o login bem-sucedido
+procedure TFormMain.InicializarSeguranca;
+begin
+  // Associa os componentes de menu ao controle
+  UserControl1.MainMenu := MainMenu1;
+  UserControl1.ActionList := ActionList1;
+
+  // Ativa o monitoramento de permissões
+  UserControl1.Execute;
+end;</code></pre>
+
+            <p>Com estas linhas, o componente varre os menus e aplica as restrições salvas no banco de dados para o usuário atual.</p>
+
+            <h2>Documentação e Repositório</h2>
+            <p>O UserControl é um projeto de código aberto e sua manutenção pode ser acompanhada diretamente no GitHub:</p>
+            <a href="https://github.com/jbsolucoes/ucp" target="_blank" class="btn-link">Acessar Repositório Oficial (GitHub)</a>
+
+            <h2>Conclusão</h2>
+            <p>Implementar um controle de acesso do zero é uma tarefa suscetível a falhas e consome muito tempo de desenvolvimento. O UserControl resolve este problema entregando uma solução "pronta para uso" que eleva o nível de segurança da sua aplicação Lazarus. Se você desenvolve sistemas multiusuário, este componente é indispensável para garantir a integridade dos processos e a proteção dos dados.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

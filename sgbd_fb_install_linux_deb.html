@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalação do FirebirdSQL em Linux (Debian/Ubuntu) - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>FirebirdSQL no Linux</h1>
+                <p>Instalação via instalador oficial (Debian/Ubuntu).</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD Hub</a></li>
+            <li><a href="sgbd_fb.html">Dicas FB</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>FirebirdSQL</h2>
+            <p>O FirebirdSQL é um banco de dados relacional open source, leve e poderoso, derivado do InterBase da
+                Borland. Ele roda em Windows, Linux, macOS e ARM, e é amplamente usado em sistemas comerciais, ERP e
+                aplicações embarcadas.</p>
+
+            <h3>Pontos positivos do FirebirdSQL</h3>
+            <ul>
+                <li><strong>Desempenho elevado</strong> — Trabalha bem com bancos grandes e muitos usuários simultâneos,
+                    mesmo em hardware modesto.</li>
+                <li><strong>Zero administração</strong> — Dispensa serviços complexos; pode funcionar como embedded, sem
+                    instalação de servidor.</li>
+                <li><strong>Segurança robusta</strong> — Autenticação e permissões integrada e suporte a criptografia.</li>
+                <li><strong>Transações completas</strong> — Suporte total a ACID, com isolamento configurável (Read
+                    Committed, Snapshot, Serializable).</li>
+                <li><strong>Portabilidade</strong> — Um único arquivo .fdb contém todo o banco, facilitando backup e
+                    migração.</li>
+                <li><strong>Ferramentas familiares</strong> — Linguagem SQL padrão, PSQL para stored procedures e
+                    triggers.</li>
+                <li><strong>Configuração simples</strong> — Fácil de instalar e manter; ideal para sistemas que exigem
+                    confiabilidade sem requerer administração constante.</li>
+            </ul>
+
+            <h2>Instalação</h2>
+            <p>O FirebirdSQL não é empacotado para Debian/Ubuntu da forma como já foi no passado. Atualmente, o
+                FirebirdSQL inclui seu próprio instalador oficial. Antes de prosseguir, instale a biblioteca
+                <code>libtommath</code>, que é uma dependência:</p>
+
+            <pre><code>sudo apt install -y libtommath-dev</code></pre>
+
+            <p>Agora vá até a página oficial do FirebirdSQL e baixe a última versão para Linux:</p>
+            <p><a href="https://firebirdsql.org/downloads" target="_blank"
+                    rel="noopener">https://firebirdsql.org/downloads</a></p>
+
+            <div class="img-container">
+                <img src="assets/img/firebird-download.png" alt="Download do Firebird (página oficial)">
+            </div>
+
+            <p>Digamos que você tenha baixado o arquivo em <code>~/Downloads</code>. Vamos descompactá-lo:</p>
+            <pre><code>cd ~/Downloads
+tar zxvf Firebird-5.0.3.1683-0-linux-x64.tar.gz</code></pre>
+
+            <p>A descompressão irá criar uma subpasta. Entre nela:</p>
+            <pre><code>cd Firebird-5.0.3.1683-0-linux-x64/</code></pre>
+
+            <p>E execute o instalador:</p>
+            <pre><code>sudo ./install.sh</code></pre>
+
+            <div class="info-box">
+                <strong>Senha do SYSDBA</strong>
+                <p>Durante a instalação, será perguntado qual será a senha do <code>SYSDBA</code>. Informe a que desejar
+                    (inclusive <code>masterkey</code> se for usar em desenvolvimento).</p>
+            </div>
+
+            <h2>Banco de dados Firebird - Grupo <code>firebird</code></h2>
+            <p>O serviço do FirebirdSQL é mantido por um usuário com permissões restritas chamado <code>firebird</code>.
+                Isso aumenta a segurança em sistemas POSIX, mas impede que outros usuários acessem bancos localmente,
+                pois somente o usuário/grupo <code>firebird</code> possui permissão nos arquivos.</p>
+
+            <p>Para contornar isso, adicione seu usuário ao grupo <code>firebird</code>:</p>
+            <pre><code>sudo usermod -aG firebird "$USER"
+newgrp firebird</code></pre>
+
+            <p>Para conferir a adesão ao grupo:</p>
+            <pre><code>getent group firebird</code></pre>
+
+            <h2>Banco de dados Firebird - SQL Client</h2>
+            <p>O “SQL Client” é a biblioteca que permite conectividade com o banco. Sem ela, aplicações externas podem
+                falhar ao tentar conectar-se ao Firebird.</p>
+
+            <p>Confira se a biblioteca está presente no sistema através do cache do carregador dinâmico:</p>
+            <pre><code>ldconfig -p | grep -i fbclient</code></pre>
+
+            <p>Caso precise localizar o arquivo manualmente:</p>
+            <pre><code>sudo find /opt/firebird -name 'libfbclient.so*' -maxdepth 3</code></pre>
+
+            <p>Se a biblioteca não estiver no PATH padrão do sistema, você pode criar um link simbólico para
+                compatibilidade:</p>
+            <pre><code>[ -f /opt/firebird/lib/libfbclient.so ] && sudo ln -s /opt/firebird/lib/libfbclient.so /lib64/libfbclient.so</code></pre>
+
+            <h2>Alterando a senha do <code>SYSDBA</code></h2>
+            <p>O <code>SYSDBA</code> possui plenos poderes sobre o SGBD. Após a instalação, você pode alterar a senha
+                utilizando o utilitário <code>isql</code> conectando-se diretamente ao banco de segurança:</p>
+
+            <pre><code>sudo /opt/firebird/bin/isql /opt/firebird/security5.fdb</code></pre>
+
+            <p>Uma vez conectado via acesso local (sem necessidade de senha inicial):</p>
+            <pre><code>alter user SYSDBA password 'sua_nova_senha';
+commit;
+quit;</code></pre>
+
+            <hr>
+
+            <section>
+                <h2>Gerenciamento de Diretórios de Dados</h2>
+
+                <h3>Opção A: Localização Padrão em /var/fdb</h3>
+                <p>Ao copiar arquivos <code>.fdb</code> para o servidor, evite o seu <code>$HOME</code>. Utilize um
+                    local global:</p>
+                <pre><code>sudo mkdir -p /var/fdb
+sudo chown firebird:firebird /var/fdb
+sudo chmod 775 /var/fdb</code></pre>
+
+                <p>Após copiar novos bancos, garanta a propriedade de forma recursiva:</p>
+                <pre><code>sudo chown -R firebird:firebird /var/fdb/
+sudo chmod -R 664 /var/fdb/</code></pre>
+
+                <h3>Opção B: Estratégia Avançada com Bind Mount (/home/fdb)</h3>
+                <p>Para quem utiliza a <code>/home</code> em partição separada, manter os bancos em
+                    <code>/home/fdb</code> garante que os dados sobrevivam a reinstalações do SO. Usaremos um <b>Bind
+                        Mount</b> para que o sistema enxergue esses arquivos em <code>/var/fdb</code>, mantendo a
+                    compatibilidade e contornando restrições de segurança.</p>
+
+                <p><strong>1. Preparação do ponto de montagem:</strong></p>
+                <pre><code>sudo mv /var/fdb /var/fdb.bak # Backup se já existir
+sudo mkdir -p /var/fdb
+sudo chmod 1777 /var/fdb     # Pasta limpa para montagem</code></pre>
+
+                <p><strong>2. Configuração da origem e Recursividade (ACLs):</strong></p>
+                <p>Usaremos ACLs para garantir que novos arquivos herdem automaticamente o dono e as permissões:</p>
+                <pre><code>sudo mkdir -p /home/fdb
+sudo chown firebird:firebird /home/fdb
+# Aplica permissões e define herança (Default)
+sudo setfacl -R -m u:firebird:rwx,g:firebird:rwx,o:rx /home/fdb
+sudo setfacl -R -d -m u:firebird:rwx,g:firebird:rwx,o:rx /home/fdb</code></pre>
+
+                <p><strong>3. Automatização via /etc/fstab:</strong></p>
+                <p>Edite o arquivo: <code>sudo editor /etc/fstab</code> e adicione a linha:</p>
+                <pre><code>/home/fdb  /var/fdb  none  bind  0  0</code></pre>
+
+                <p>Aplique as configurações:</p>
+                <pre><code>sudo systemctl daemon-reload
+sudo mount /var/fdb</code></pre>
+
+                <blockquote style="background: #f9f9f9; border-left: 10px solid #ccc; padding: 15px; margin: 20px 0;">
+                    <strong>Dica de Segurança (AppArmor):</strong><br>
+                    No Debian 13 e Ubuntu 24.04, o AppArmor protege o serviço do Firebird. Ele bloqueia o acesso através
+                    de links simbólicos (symlinks) para fora dos caminhos autorizados. O <strong>Bind Mount</strong>
+                    resolve isso de forma nativa no Kernel, sendo a solução recomendada.
+                </blockquote>
+            </section>
+
+            <h2>Variáveis de Ambiente</h2>
+            <p>Configure credenciais padrão para facilitar o uso dos utilitários de linha de comando.</p>
+
+            <h3>Configuração por Usuário (~/.bash_profile)</h3>
+            <pre><code>export FIREBIRD_MSG=/opt/firebird
+export ISC_USER=SYSDBA
+export ISC_PASSWORD=masterkey</code></pre>
+
+            <h3>Configuração Global (Systemd/Debian)</h3>
+            <p>Crie o arquivo: <code>sudo editor /etc/environment.d/999-firebird.conf</code></p>
+            <pre><code>FIREBIRD_MSG=/opt/firebird
+ISC_USER=SYSDBA
+ISC_PASSWORD=masterkey</code></pre>
+
+            <h2>Ajustando o PATH do Sistema</h2>
+            <p>Para acessar os comandos <code>isql</code>, <code>gbak</code> e <code>gfix</code> globalmente:</p>
+            <pre><code>sudo editor /etc/profile.d/999-firebird-path.sh</code></pre>
+            <p>Conteúdo:</p>
+            <pre><code>if [ -d /opt/firebird/bin ]; then
+  PATH="$PATH:/opt/firebird/bin"
+  export PATH
+fi</code></pre>
+
+            <div class="info-box">
+                <strong>Próximos passos</strong>
+                <ul>
+                    <li><a href="sgbd_fb_config_hints.html">Configurações importantes em firebird.conf</a></li>
+                    <li><a href="sgbd_fb_db_aliases.html">Use aliases para esconder o nome e local do banco</a></li>
+                    <li><a href="sgbd_fb_apps.html">Gerenciadores de Banco de Dados Firebird</a></li>
+                </ul>
+            </div>
+
+            <p><a href="sgbd_fb_main.html" class="back-link">&larr; Voltar para o Guia Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+
+</html>

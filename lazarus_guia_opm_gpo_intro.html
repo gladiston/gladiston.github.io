@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introdução ao Online Package Manager (OPM) - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Online Package Manager (OPM)</h1>
+                <p>Gerenciamento inteligente de componentes no Lazarus</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>O <strong>Online Package Manager (OPM)</strong> é uma ferramenta poderosa que facilita a vida do desenvolvedor Lazarus. Diferente da instalação manual de pacotes locais, o OPM permite baixar e instalar componentes diretamente dos repositórios oficiais dos desenvolvedores via internet.</p>
+
+            <p>A vantagem principal é a facilidade de obter sempre a versão mais estável e recente. No entanto, é importante lembrar que esses pacotes são mantidos pela comunidade, e a equipe oficial do Lazarus não se responsabiliza por eventuais bugs neles contidos.</p>
+
+            <h2>Como utilizar o OPM</h2>
+            <p>Para abrir o gerenciador, vá no menu: <strong>Package -> Online Package Manager</strong>. Ao selecionar um componente, fique atento às métricas de compatibilidade exibidas na lista.</p>
+
+
+
+            <div class="img-container">
+                <img src="assets/img/ide_opm_intro.png" alt="Tela de confirmação e testes do OPM">
+            </div>
+
+            <p>As colunas grifadas na imagem acima são fundamentais: elas indicam se o componente foi testado com sucesso na sua versão atual do compilador <strong>FPC</strong> e da <strong>IDE Lazarus</strong>.</p>
+
+            <ul>
+                <li><strong>SUCCESS:</strong> O componente é compatível e seguro para instalar.</li>
+                <li><strong>FAIL:</strong> Evite a instalação, pois causará erros de compilação.</li>
+                <li><strong>Not Tested:</strong> Significa que não há dados de telemetria suficientes para garantir a compatibilidade. Prossiga com cautela.</li>
+            </ul>
+
+            <div class="atencao-box" style="background-color: #fff4e5; border-left: 5px solid #ffa500; padding: 1.5rem; margin: 2rem 0;">
+                <h4 style="margin-top: 0; color: #cc8400;">Cuidado com Instalações em Massa</h4>
+                <p style="margin-bottom: 0;">Embora o OPM permita marcar vários pacotes de uma vez, <strong>não recomendo a instalação múltipla</strong>. Muitos componentes possuem interdependências complexas. Instale um por um, permitindo que a IDE seja recompilada a cada adição, para garantir a integridade do ambiente.</p>
+            </div>
+
+            <h2>Filtros e Busca</h2>
+            <p>Você pode usar a barra de busca para encontrar componentes rapidamente. Contudo, note que ao aplicar um filtro, a seleção de pacotes marcados anteriormente pode ser perdida. Recomenda-se buscar, marcar para instalação e processar cada item de forma isolada.</p>
+
+            <h2>Conclusão</h2>
+            <p>O Online Package Manager (OPM) simplifica a instalação de componentes no Lazarus. Use <strong>Package | Online Package Manager</strong>, verifique as métricas de compatibilidade (SUCCESS/FAIL/Not Tested) e instale um pacote por vez para manter o ambiente estável. Evite instalações em massa e confira sempre os filtros e a documentação dos pacotes.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

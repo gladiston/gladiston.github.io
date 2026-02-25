@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalar FlameRobin (versão recente) compilando no Linux - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>FlameRobin no Linux (compilando)</h1>
+                <p>Como instalar uma versão recente no Fedora e no Debian/Ubuntu.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD Hub</a></li>
+            <li><a href="sgbd_fb.html">Dicas FB</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>1. O que é o FlameRobin?</h2>
+            <p>O FlameRobin é um administrador de banco de dados e uma ferramenta de desenvolvimento open source, disponível para Mac, Windows e Linux. Com ele, podemos administrar e desenvolver bancos de dados Firebird.</p>
+            <p>Apesar da interface poder parecer “incomum” à primeira vista (com janelas soltas), o fluxo de trabalho dele é focado em SQL: ele tem assistentes visuais que geram o <em>statement</em> base, que você pode modificar e executar.</p>
+
+            <h2>2. Por que compilar? O problema dos repositórios</h2>
+            <p>Você provavelmente encontrará o FlameRobin na loja de aplicativos da sua distribuição, ou instalando pelo terminal (ex.: <code>sudo apt install flamerobin</code>).</p>
+
+            <div class="warning-box">
+                <strong>Atenção</strong>
+                <p>Esse método quase sempre instala uma versão antiga e defasada. Para melhor compatibilidade e correções de bugs, o caminho que recomendo é <strong>compilar a versão mais recente</strong> a partir do código-fonte no GitHub.</p>
+            </div>
+
+            <p>Releases oficiais: <a href="https://github.com/mariuz/flamerobin/releases" target="_blank" rel="noopener">https://github.com/mariuz/flamerobin/releases</a></p>
+
+            <h2>3. Preparando o ambiente (pré-compilação)</h2>
+            <p>O “segredo” para uma compilação fácil é usar o gerenciador de pacotes do sistema para instalar todas as <strong>dependências de compilação</strong> (wxWidgets e outras bibliotecas).</p>
+
+            <h3>A) Fedora (e derivados)</h3>
+            <p>No Fedora, usamos o <code>dnf</code> para investigar o pacote e depois o <code>dnf builddep</code> para instalar as dependências.</p>
+
+            <h4>1) Investigar o pacote (opcional)</h4>
+            <pre><code>dnf search flamerobin
+dnf info flamerobin</code></pre>
+
+            <h4>2) Instalar dependências</h4>
+            <p>No Fedora, o <code>dnf builddep</code> vem pelo pacote <code>dnf-plugins-core</code>:</p>
+            <pre><code>sudo dnf install dnf-plugins-core</code></pre>
+
+            <p>Se houver um FlameRobin instalado previamente, remova:</p>
+            <pre><code>sudo dnf remove flamerobin</code></pre>
+
+            <p>Agora puxe as dependências de compilação:</p>
+            <pre><code>sudo dnf builddep flamerobin</code></pre>
+
+            <p>Por garantia, instale ferramentas básicas:</p>
+            <pre><code>sudo dnf install git cmake gcc-c++</code></pre>
+
+            <h3>B) Debian/Ubuntu (e derivados)</h3>
+            <p>No Debian/Ubuntu, o processo é similar usando <code>apt-get build-dep</code>.</p>
+
+            <h4>0) Investigar o pacote (opcional)</h4>
+            <p>Se você quiser conferir qual versão está no repositório (normalmente é antiga), use:</p>
+            <pre><code>apt-cache search flamerobin
+apt show flamerobin</code></pre>
+            <p>Compare a versão exibida com as releases oficiais no GitHub.</p>
+
+            <h4>1) Habilitar repositórios de código-fonte (deb-src)</h4>
+            <p>O comando <code>build-dep</code> exige que os repositórios de código-fonte (<code>deb-src</code>) estejam habilitados no <code>/etc/apt/sources.list</code> (ou em arquivos dentro de <code>/etc/apt/sources.list.d/</code>).</p>
+
+            <pre><code>deb http://archive.ubuntu.com/ubuntu/ jammy main
+deb-src http://archive.ubuntu.com/ubuntu/ jammy main</code></pre>
+
+            <p>Depois, atualize a lista de pacotes:</p>
+            <pre><code>sudo apt update</code></pre>
+
+            <h4>2) Instalar dependências</h4>
+            <p>Se houver um FlameRobin instalado previamente, remova:</p>
+            <pre><code>sudo apt remove -y flamerobin</code></pre>
+
+            <p>Baixe as dependências de compilação:</p>
+            <pre><code>sudo apt-get build-dep flamerobin</code></pre>
+
+            <p>Por garantia, instale as ferramentas básicas:</p>
+            <pre><code>sudo apt install git cmake build-essential</code></pre>
+
+            <h2>4. Baixando e compilando o FlameRobin</h2>
+            <p>Com o ambiente pronto, os passos abaixo são os mesmos em qualquer distribuição. Recomendo fazer isso na sua pasta de usuário (<code>$HOME</code>).</p>
+
+            <h3>Passo 1: baixar o código-fonte (Git)</h3>
+            <pre><code>cd /usr/local/src
+sudo git clone https://github.com/mariuz/flamerobin.git
+cd flamerobin</code></pre>
+
+            <h3>Passo 2: configurar a compilação (CMake)</h3>
+            <p>Crie um diretório <code>build</code> separado, para não misturar arquivos gerados com o código-fonte:</p>
+            <pre><code>sudo mkdir build
+cd build
+sudo cmake -DCMAKE_BUILD_TYPE=Release ..</code></pre>
+
+            <h3>Passo 3: compilar (Make)</h3>
+            <pre><code>sudo make</code></pre>
+
+            <h2>5. Executando e instalando (pós-compilação)</h2>
+            <p>Neste ponto, o programa já está compilado. Você pode rodar localmente ou instalar no sistema.</p>
+
+            <h3>Vamos instalar no sistema (recomendado)</h3>
+            <p>Se você quiser instalar permanentemente (e aparecer no menu de aplicativos), use <code>make install</code>. Este é o único passo que exige <code>sudo</code>:</p>
+            <pre><code>cd /usr/local/src/flamerobin/build
+sudo make install</code></pre>
+
+            <h2>6. Configurações do FlameRobin</h2>
+            <p>As configurações são armazenadas em:</p>
+            <pre><code>~/.flamerobin</code></pre>
+            <p>Se você quiser reaproveitar configurações vindas de outro computador, basta copiar a pasta acima.</p>
+
+            <h2>7. Criando uma entrada de menu (atalho)</h2>
+            <p>Se o <code>sudo make install</code> não criar um atalho, ou se você escolheu rodar localmente, crie um arquivo <code>.desktop</code> manualmente:</p>
+            <pre><code>editor ~/.local/share/applications/flamerobin.desktop</code></pre>
+
+            <p>Cole o conteúdo abaixo:</p>
+            <pre><code>[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Name=FlameRobin
+Exec=flamerobin
+Comment=Gerenciador de banco de dados FirebirdSQL
+Icon=flamerobin
+Categories=GNOME;GTK;Develop;</code></pre>
+
+            <div class="warning-box">
+                <strong>Atenção à linha Exec=</strong>
+                <p><strong>Se você instalou via <code>sudo make install</code>:</strong> <code>Exec=flamerobin</code> está correto.</p>
+                <p><strong>Se você roda localmente (sem instalar):</strong> use o caminho completo do script. Exemplo:</p>
+                <pre><code>Exec=/home/SEU_USUARIO/flamerobin/run_flamerobin.sh</code></pre>
+                <p>(Troque <code>SEU_USUARIO</code> pelo seu nome de usuário.)</p>
+            </div>
+
+            <h2>8. Minhas considerações pessoais sobre o FlameRobin</h2>
+            <p>O fluxo de trabalho dele é focado em SQL. Iniciantes preguiçosos vão odiá-lo, mas pessoas mais pacientes em aprender os comandos (ou as mais experientes) vão gostar desse método — especialmente porque ele não te prende a uma versão particular do Firebird: funciona com qualquer versão em que o <em>statement</em> seja reconhecido.</p>
+
+            <h3>Pontos de atenção</h3>
+            <ul>
+                <li><strong>DDL não confiável:</strong> em alguns casos, gera DDL problemático (um exemplo claro são as triggers).</li>
+                <li><strong>Campos calculados:</strong> tabelas com campos calculados “somem” e o DDL gerado não é limpo; ele tenta enfiar tudo no <code>CREATE TABLE</code>.</li>
+                <li><strong>Extração de dados:</strong> ao extrair dados para script (<code>INSERT</code>/<code>UPDATE</code>), inclui campos calculados, o que falha na execução.</li>
+                <li><strong>Domínios:</strong> não entende domínios; ao gerar DDLs, trata domínios como tipos “normais”.</li>
+                <li><strong>Scripts:</strong> não roda scripts SQL complexos.</li>
+                <li><strong>Debug:</strong> não faz debug de PSQL (procedures e triggers).</li>
+                <li><strong>Wizards antigos:</strong> apesar de funcionar com versões recentes do Firebird, os assistentes parecem ter sido pensados com o “mundo do FB3” em mente.</li>
+            </ul>
+
+            <p style="margin-top: 3rem;"><a href="sgbd_fb.html" class="back-link">&larr; Voltar para o Índice Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>
+

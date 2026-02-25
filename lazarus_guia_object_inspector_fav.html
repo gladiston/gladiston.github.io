@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favoritando propriedades no inspetor de objetos - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Favoritando propriedades no inspetor de objetos</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>O <strong>Object Inspector</strong> do Lazarus exibe todas as propriedades e eventos de um componente. Com o tempo, você percebe que sempre acessa as mesmas propriedades (como <code>Name</code>, <code>Caption</code>, <code>Enabled</code>, <code>Visible</code>, etc.), mas elas ficam "perdidas" entre dezenas de outras opções.</p>
+
+            <p>A funcionalidade de <strong>favoritar propriedades</strong> permite que você marque as propriedades e métodos mais usados, fazendo com que elas apareçam no topo do Object Inspector, facilitando o acesso rápido.</p>
+
+            <h2>Como Favoritar Propriedades</h2>
+            <p>Para favoritar uma propriedade ou método no Object Inspector:</p>
+            <ol>
+                <li>Selecione um componente no formulário ou no Object Inspector.</li>
+                <li>No Object Inspector, localize a propriedade ou método que deseja favoritar.</li>
+                <li>Clique com o botão direito do mouse sobre a propriedade ou método.</li>
+                <li>No menu de contexto, selecione <strong>"Add to Favorites"</strong> ou <strong>"Adicionar aos Favoritos"</strong> (dependendo do idioma da IDE).</li>
+            </ol>
+            <img src="assets/img/lazarus_guia_object_inspector_fav01.png" alt="Favoritando propriedades no inspetor de objetos">
+
+            <p>Após favoritar, você verá um ícone de estrela (★) ao lado da propriedade, e ela será movida para a seção <strong>"Favorites"</strong> no topo do Object Inspector:</p>
+            <img src="assets/img/lazarus_guia_object_inspector_fav02.png" alt="Favoritando propriedades no inspetor de objetos">
+
+            <h2>Visualizando Propriedades Favoritadas</h2>
+            <p>As propriedades favoritadas aparecem em uma seção separada no topo do Object Inspector, acima das propriedades normais. Isso permite acesso rápido às propriedades mais usadas sem precisar rolar a lista.</p>
+
+            <p>Você pode favoritar propriedades de diferentes tipos de componentes. Por exemplo, para componentes visuais, você pode favoritar <code>Name</code>, <code>Caption</code>, <code>Left</code>, <code>Top</code>, <code>Width</code>, <code>Height</code>, <code>Enabled</code>, <code>Visible</code>, etc.</p>
+
+            <h2>Removendo dos Favoritos</h2>
+            <p>Para remover uma propriedade dos favoritos:</p>
+            <ol>
+                <li>Clique com o botão direito sobre a propriedade favoritada (que tem o ícone de estrela).</li>
+                <li>Selecione <strong>"Remove from Favorites"</strong> ou <strong>"Remover dos Favoritos"</strong>.</li>
+            </ol>
+
+            <h2>Fazendo Backup dos Favoritos</h2>
+            <p>Os favoritos do Object Inspector são salvos no arquivo <code>objectinspectorfavorites.xml</code>, localizado na pasta de configuração do Lazarus. Fazer backup desse arquivo permite restaurar seus favoritos após reinstalar a IDE ou migrar para outro computador.</p>
+
+            <h3>Localização do Arquivo</h3>
+            <p>O arquivo <code>objectinspectorfavorites.xml</code> fica na pasta de perfil de configuração do Lazarus:</p>
+
+            <ul>
+                <li><strong>Windows:</strong> Geralmente em <code>%APPDATA%\Lazarus</code> ou na pasta de instalação do Lazarus.</li>
+                <li><strong>Linux:</strong> Geralmente em <code>~/.lazarus</code> ou na pasta de configuração do Lazarus.</li>
+            </ul>
+
+            <p><strong>Importante:</strong> Se você usa o <strong>fpcupdeluxe</strong> para gerenciar suas instalações do Lazarus, o arquivo provavelmente está em:</p>
+
+            <pre><code>~/fpcupdeluxe/lazarus/config_lazarus/objectinspectorfavorites.xml</code></pre>
+
+            <p>Ou, dependendo da configuração do Lazarus:</p>
+
+            <pre><code>~/.lazarus/objectinspectorfavorites.xml</code></pre>
+
+            <h3>Como Fazer o Backup</h3>
+            <p>Para fazer backup dos seus favoritos, simplesmente copie o arquivo <code>objectinspectorfavorites.xml</code> para um local seguro (pasta de backup, nuvem, etc.).</p>
+
+            <p><strong>Exemplo no Linux:</strong></p>
+            <pre><code># Se usar fpcupdeluxe
+cp ~/fpcupdeluxe/lazarus/config_lazarus/objectinspectorfavorites.xml ~/backup/
+
+# Ou se usar instalação padrão
+cp ~/.lazarus/objectinspectorfavorites.xml ~/backup/</code></pre>
+
+            <p><strong>Exemplo no Windows:</strong></p>
+            <pre><code># Copiar para pasta de backup
+copy "%APPDATA%\Lazarus\objectinspectorfavorites.xml" "C:\Backup\Lazarus\"</code></pre>
+
+            <h3>Restaurando o Backup</h3>
+            <p>Para restaurar seus favoritos, simplesmente copie o arquivo de backup de volta para a pasta de configuração do Lazarus (substituindo o arquivo existente, se houver). Certifique-se de que o Lazarus esteja fechado antes de fazer a substituição.</p>
+
+            <h2>Dicas de Produtividade</h2>
+            <ul>
+                <li><strong>Favorite propriedades comuns:</strong> Para componentes visuais, considere favoritar <code>Name</code>, <code>Caption</code>, <code>Enabled</code>, <code>Visible</code>, <code>Font</code>, <code>Color</code>, etc.</li>
+                <li><strong>Favorite eventos frequentemente usados:</strong> Como <code>OnClick</code>, <code>OnChange</code>, <code>OnKeyPress</code>, etc.</li>
+                <li><strong>Mantenha backups regulares:</strong> Se você personalizou muitos favoritos, faça backup do arquivo periodicamente.</li>
+                <li><strong>Compartilhe com a equipe:</strong> Se trabalha em equipe, você pode compartilhar o arquivo <code>objectinspectorfavorites.xml</code> para padronizar os favoritos entre os desenvolvedores.</li>
+            </ul>
+
+            <h2>Conclusão</h2>
+            <p>A funcionalidade de favoritar propriedades no Object Inspector do Lazarus é uma excelente forma de personalizar a IDE e aumentar a produtividade. Ao marcar as propriedades mais usadas, você reduz o tempo gasto procurando por elas na lista. Lembre-se de fazer backup do arquivo <code>objectinspectorfavorites.xml</code> para preservar suas configurações, especialmente se você usa o fpcupdeluxe, onde o arquivo geralmente está em <code>~/fpcupdeluxe/lazarus/config_lazarus/</code>.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

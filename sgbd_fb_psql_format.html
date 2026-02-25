@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Como converter um número para texto formatado - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird: Linguagem PSQL</h1>
+                <p>Otimização e centralização de regras de negócio com Procedural SQL.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD</a></li>
+            <li><a href="sgbd_fb.html">Firebird</a></li>
+            <li><a href="sgbd_fb_psql.html">PSQL</a></li>
+            <li><a href="sgbd_fb_udr.html">UDR</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Como converter um número para texto formatado</h2>
+            
+            <p>Uma das coisas mais básicas que encontramos na programação é a conversão de número para texto formatado. Isto muitas vezes ocorre porque queremos mostrar ao usuário um número fácil de entender, separando-o com casas de milhar e decimal. Mas no mundo do SQL, infelizmente queries só sabem mostrar o número do jeito que ele é processado, ou seja, 123456789.0987654 não pode ser exibido assim 123.456.789,10 do lado do servidor.</p>
+
+            <p>A SQL Function abaixo resolve este problema. Ela possui quatro parâmetros de entrada, sendo três deles opcionais:</p>
+
+            <ul>
+                <li><strong>Parâmetro 1:</strong> Valor, por exemplo, 123456789.0987654</li>
+                <li><strong>Parâmetro 2:</strong> Se for usado, indica o número de casas para arredondamento, ex: <code>GET_FORMAT_FLOAT(123456789.0987654, 2)</code> retornará 123.456.789,10. Se usar número negativo, o arredondamento passará a ser feito na porção inteira do número, ex: <code>GET_FORMAT_FLOAT(123456789.0987654, -2)</code> retornará 123.456.800 (sem parte fração).</li>
+                <li><strong>Parâmetro 3:</strong> Se for usado, indicará o separador de milhar, ex: '.'.</li>
+                <li><strong>Parâmetro 4:</strong> Se for usado, indicará o separador de decimal, ex: ','.</li>
+            </ul>
+
+            <p>Se gostou dela, pode usufruir:</p>
+
+            <pre><code>CREATE OR ALTER FUNCTION GET_FORMAT_FLOAT (
+    P_VALUE DOUBLE PRECISION,
+    P_ROUND INTEGER = -255,
+    P_SEP_MILHAR VARCHAR(1)='.',
+    P_SEP_DECIMAL VARCHAR(1)=',')
+RETURNS VARCHAR(255)
+AS
+DECLARE VARIABLE LVALUE_AS_TEXT VARCHAR(255);
+DECLARE VARIABLE LTEMP_VAR VARCHAR(255);
+DECLARE VARIABLE I INTEGER;
+DECLARE VARIABLE LCHAR VARCHAR(1);
+DECLARE VARIABLE LTEXT_INT VARCHAR(255);
+DECLARE VARIABLE LTEXT_DECIMAL VARCHAR(255);
+BEGIN
+  /* Essa função retorna uma string com número formatado a partir de um valor
+     qualquer, por exemplo, 123456789.0987654 retorna '123.456.789,0987654'.
+     O segundo parâmetro P_ROUND é para indicar arredondamento de casas, ex:
+     a=GET_FORMAT_FLOAT(123456789.0987654, 2); -- retorna '123.456.789,10'
+     Se o segundo parâmetro for negativo então o arredondamento será a partir
+     dos números inteiros e não há mais fração, ex:
+     a=GET_FORMAT_FLOAT(123456789.0987654, -2); -- retorna '123.456.800'
+     Os parâmetros P_SEP_MILHAR e P_SEP_DECIMAL servem para indicar o separador
+     de milhar e decimal. Exceto o parâmetro de valor, todos os demais são opcionais
+     by gladiston.santana[em]gmail.com
+  */
+  IF (:P_ROUND<>-255) THEN
+  BEGIN
+    LVALUE_AS_TEXT=TRIM(CAST(ROUND(P_VALUE, P_ROUND) AS VARCHAR(255)));
+  END
+  ELSE
+  BEGIN
+    LVALUE_AS_TEXT=TRIM(CAST(P_VALUE AS VARCHAR(255)));
+  END
+  -- A parte decimal deve estar separada, geralmente o decimal é '.' nessas
+  -- conversões, mas hipoteticamente se não encontrar então procura por ','
+  -- antes de decidir que se trata de um número inteiro
+  LTEXT_DECIMAL='';
+  I=POSITION ('.' IN LVALUE_AS_TEXT);
+  IF (I=0) THEN
+    I=POSITION (',' IN LVALUE_AS_TEXT);
+  IF (I>0) THEN
+  BEGIN
+    -- Separando a parte fracionária
+    LTEXT_DECIMAL=RIGHT(LVALUE_AS_TEXT, CHAR_LENGTH(LVALUE_AS_TEXT)-I);
+    LVALUE_AS_TEXT=LEFT(LVALUE_AS_TEXT, I-1);
+  END
+  -- Iniciará um loop do primeiro ao último caractere na parte inteira
+  -- acrescentando a milhar a cada 3 caracteres
+  LTEXT_INT='';
+  LTEMP_VAR=REVERSE(LVALUE_AS_TEXT);
+  I=0;
+  WHILE (I<CHAR_LENGTH(LTEMP_VAR)) DO
+  BEGIN
+    I=I+1;
+    LCHAR=SUBSTRING(LTEMP_VAR FROM I FOR 1);
+    LTEXT_INT=LTEXT_INT||LCHAR;
+    IF (MOD(I,3)=0)THEN
+    BEGIN
+      -- Não coloco milhar quando coincidir com o último caractere
+      IF (I<>CHAR_LENGTH(LTEMP_VAR))
+        THEN LTEXT_INT=LTEXT_INT||P_SEP_MILHAR;
+    END
+  END
+  LVALUE_AS_TEXT=REVERSE(LTEXT_INT);
+  IF (LTEXT_DECIMAL<>'')
+    THEN LVALUE_AS_TEXT=LVALUE_AS_TEXT||P_SEP_DECIMAL||LTEXT_DECIMAL;
+
+  RETURN :LVALUE_AS_TEXT;
+END</code></pre>
+
+            <h3>Conclusão</h3>
+            <p>Com essa função você pode formatar números de forma profissional, facilitando a leitura para os usuários finais e mantendo a formatação consistente em todo o sistema.</p>
+
+            <p><a href="sgbd_fb_psql.html" class="back-link">&larr; Voltar para PSQL</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

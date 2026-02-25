@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Isolando a Aplicação do Ambiente - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Introdução</h2>
+            <p>Em sistemas Unix-like (Linux, BSD), o comportamento visual de uma aplicação é fortemente influenciado pelo Gerenciador de Janelas e pelo Ambiente Desktop (como GNOME ou KDE). Muitas vezes, um bug visual ou um comportamento inesperado não está no seu código Pascal, mas sim em como o ambiente gráfico força suas próprias diretrizes de interface (HIG) sobre o programa.</p>
+            <p>Para identificar a raiz desses problemas, a melhor técnica é isolar a aplicação em um servidor gráfico independente. Neste guia, aprenderemos a utilizar o <strong>Xephyr</strong> para criar um "display sandbox", permitindo testes puros e controlados sem a necessidade de trocar de sessão ou reiniciar o sistema.</p>
+
+            <h2>Depuração Avançada: Isolando a Aplicação do Ambiente Gráfico</h2>
+
+
+
+            <h3>O que é o Xephyr?</h3>
+            <p>O Xephyr é um servidor de exibição X11 que roda como uma janela dentro do seu ambiente atual. Ele permite executar um ambiente gráfico completo (ou apenas uma aplicação) de forma isolada. Para instalá-lo em distribuições baseadas em Debian/Ubuntu, utilize:</p>
+
+            <pre><code>sudo apt install -y xserver-xephyr</code></pre>
+
+            <h3>Preparando o Ambiente de Teste</h3>
+            <p>Você também precisará de um decorador de janelas leve para gerenciar a aplicação dentro do Xephyr. Sugiro o <code>metacity</code> ou o <code>mutter</code>:</p>
+            <pre><code>sudo apt install -y metacity mutter</code></pre>
+
+            <p>Para iniciar o servidor Xephyr em uma janela de 1024x768 no display ":10", execute:</p>
+            <pre><code>Xephyr :10 -screen 1024x768 &</code></pre>
+
+            <p><strong>Entendendo os parâmetros:</strong></p>
+            <ul>
+                <li><strong>:10</strong> - Define o número do display gráfico virtual.</li>
+                <li><strong>-screen</strong> - Define a resolução da área de teste.</li>
+                <li><strong>&</strong> - Envia o processo para o background, liberando o terminal.</li>
+            </ul>
+
+            <h3>Executando sua Aplicação no Sandbox</h3>
+            <p>Agora, você pode injetar o decorador de janelas e o seu programa compilado no Lazarus para dentro deste novo display:</p>
+            <pre><code># Inicia o decorador no display virtual
+metacity --display=:10 &
+
+# Executa sua aplicação (ex: firefox ou seu binário Lazarus)
+export DISPLAY=:10
+./meu_programa_lazarus &</code></pre>
+
+
+
+            <h3>Configurando o Debug no Lazarus</h3>
+            <p>Para que o Lazarus envie o programa diretamente para o Xephyr durante o <em>F9 (Run)</em>:</p>
+            <ol>
+                <li>Vá em <strong>Run</strong> -> <strong>Run Parameters</strong>.</li>
+                <li>Marque a opção <strong>Use Display</strong>.</li>
+                <li>Troque o valor padrão (geralmente <code>:0</code>) por <strong>:10</strong>.</li>
+            </ol>
+
+
+
+            <section class="conclusao">
+                <h3>Conclusão</h3>
+                <p>O isolamento de display via protocolo X11 é uma das ferramentas mais poderosas no arsenal de um desenvolvedor Linux. Além de facilitar a depuração de interfaces, essa técnica demonstra a flexibilidade do sistema gráfico dos Unices, onde o processamento e a exibição podem ser completamente desacoplados. Ao dominar o Xephyr, você garante que sua aplicação Lazarus seja robusta e visualmente consistente, independentemente das particularidades do desktop do usuário final.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

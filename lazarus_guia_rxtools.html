@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RxTools - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>RxTools</h1>
+                <p>Elevando o nível da Interface e Experiência do Usuário</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>O <strong>RxTools</strong> (conhecido no Delphi como RxLib) é uma das suítes de componentes mais completas e consagradas para o ecossistema Pascal. Ele expande a paleta de componentes padrão do Lazarus com controles avançados para entrada de dados, grids inteligentes e utilitários que melhoram drasticamente o UI/UX (Interface e Experiência do Usuário) da aplicação. Embora não seja estritamente essencial, uma vez que o desenvolvedor experimenta sua praticidade, ele costuma se tornar uma dependência fundamental nos projetos.</p>
+
+            <h2>Instalando no Lazarus-IDE</h2>
+            <p>A instalação é simplificada através do <strong>Gerenciador de Pacotes Online (OPM)</strong>. No menu principal, vá em <strong>Pacote | Gerenciador de Pacotes Online</strong>, procure por "rx" e selecione a árvore completa de pacotes.</p>
+
+            <div class="info-box">
+                <p><strong>Atenção:</strong> O RxTools possui dependências de outros pacotes como <strong>Zeos</strong> e <strong>LazReport</strong>. Caso o Lazarus exiba um alerta de dependência, confirme a instalação de todos os itens sugeridos.</p>
+            </div>
+
+            <img src="assets/img/ide_opm_rx1.png" alt="Instalando RxTools via OPM" class="content-img">
+            <figcaption>Janela do OPM: selecione os pacotes RX e confirme a instalação de dependências.</figcaption>
+
+            <p>O processo de compilação pode ser demorado devido à grande quantidade de componentes. O RX é compatível apenas com versões estáveis do Lazarus e exige que o ZeosLib esteja previamente instalado no ambiente.</p>
+
+            <h2>Exemplo Didático: Uso do TRxDBGrid</h2>
+            <p>Um dos maiores destaques da suíte é o <code>TRxDBGrid</code>. Diferente do grid padrão, ele permite, por exemplo, exibir ícones em colunas baseadas em valores ou realizar somatórios automáticos no rodapé sem precisar de componentes de terceiros. Abaixo, um exemplo de como formatar uma coluna em tempo de execução:</p>
+
+<pre><code>// Formatando colunas e ativando o rodapé de somatório
+procedure TForm1.ConfigurarGrid;
+begin
+  RxDBGrid1.FooterColor := clBtnFace;
+  RxDBGrid1.FooterRowCount := 1;
+
+  // Ativando somatório na coluna de "ValorTotal"
+  RxDBGrid1.Columns[2].Footer.ValueType := fvtSum;
+  RxDBGrid1.Columns[2].Footer.DisplayFormat := 'Total: ,#0.00';
+
+  // Pintura zebrada para melhor leitura
+  RxDBGrid1.OptionsRx := RxDBGrid1.OptionsRx + [rdgAllowColors];
+end;</code></pre>
+
+            <h2>Instalação no Delphi Community Edition</h2>
+            <p>Para usuários de Delphi, o pacote pode ser baixado diretamente do SourceForge. O processo envolve abrir os arquivos de projeto (<code>.dpk</code>) e realizar o <em>Install</em>. Existem mirrors não oficiais, mas recomenda-se o uso do repositório principal para garantir a compatibilidade com as versões mais recentes da IDE.</p>
+            <p><a href="https://sourceforge.net/projects/rxlib/" target="_blank" class="btn-link">Download RxLib (SourceForge)</a></p>
+
+            <h2>Conclusão</h2>
+            <p>O RxTools é uma biblioteca sensível à versão do compilador (Lazarus/FPC ou Delphi), por isso é prudente validar a compatibilidade ao atualizar sua IDE. Seus componentes são extremamente estáveis e práticos, resolvendo problemas complexos de interface com poucos cliques. No entanto, lembre-se do "vendor lock-in": ao utilizar o Rx, seu projeto passará a depender dele para sempre. Avalie se os ganhos em produtividade e visual justificam essa dependência perpétua.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

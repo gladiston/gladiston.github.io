@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trocando o fpDebug para o GDB - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Trocando o fpDebug para o GDB</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>Em situações em que o fpDebug falha ou você precisa depurar código C/C++ vinculado ao projeto, voltar ao <strong>GDB</strong> pode ser necessário. Este guia mostra como configurar o caminho do executável e selecionar o GDB como backend.</p>
+            <p>Este artigo orienta a troca do <strong>fpDebug</strong>, o debugger padrão atual do Lazarus, pelo veterano <strong>GDB (GNU Debugger)</strong>. </p>
+
+            <p>Vale lembrar que o GDB foi substituído como padrão porque o fpDebug foi criado especificamente para depurar programas em Free Pascal, sendo mais leve e integrado. O GDB é um componente multiuso para diversas linguagens, o que o torna um pouco mais pesado e, por vezes, lento. No entanto, em situações de erros inesperados ou para validar o comportamento do próprio fpDebug, voltar ao GDB pode ser necessário.</p>
+
+            <h2>Passo 1: Verificando a presença do GDB</h2>
+            <p>Antes de configurar a IDE, certifique-se de que o GDB está instalado no seu sistema. No Windows, ele geralmente acompanha a instalação do Lazarus (na pasta <code>mingw</code>). No Linux, você pode instalá-lo via terminal:</p>
+
+            <pre><code>sudo apt install gdb</code></pre>
+
+            <h2>Passo 2: Configurando o Caminho do Executável</h2>
+            <p>Acesse o menu <strong>Tools -> Options -> Debugger -> General</strong>. No campo <strong>"Debugger executable"</strong> (ou em versões mais antigas, no caminho de busca), aponte para o local do executável do GDB.</p>
+
+            <ul>
+                <li><strong>Windows:</strong> Geralmente em <code>C:\lazarus\mingw\bin\gdb.exe</code></li>
+                <li><strong>Linux:</strong> Geralmente em <code>/usr/bin/gdb</code></li>
+            </ul>
+
+            <div class="img-container">
+                <img src="assets/img/lazarus_gdb_path.png" alt="Configurando o caminho do executável GDB">
+            </div>
+
+            <h2>Passo 3: Alterando o Backend de Depuração</h2>
+            <p>Agora, vá em <strong>Tools -> Options -> Debugger -> Debugger Backend</strong>. </p>
+            <p>Clique no botão <strong>Add</strong> e selecione a opção <strong>GNU debugger (GDB)</strong>. Após adicionar, certifique-se de que ele está selecionado como o backend ativo na lista de depuradores.</p>
+
+            <div class="img-container">
+                <img src="assets/img/lazarus_gdb_backend.png" alt="Selecionando GDB como backend de depuração">
+            </div>
+
+
+
+            <h2>Por que voltar ao GDB?</h2>
+            <p>Embora o fpDebug seja o futuro, o GDB ainda possui vantagens em cenários específicos:</p>
+            <ul>
+                <li><strong>Estabilidade:</strong> Por ser um projeto de décadas, é extremamente estável.</li>
+                <li><strong>Suporte Remoto:</strong> O GDB é excelente para depuração remota através do <code>gdbserver</code>.</li>
+                <li><strong>Multi-linguagem:</strong> Se o seu projeto Lazarus faz chamadas a bibliotecas C/C++ externas, o GDB pode lidar melhor com a transição entre as linguagens durante a depuração.</li>
+            </ul>
+
+            <p>Após realizar essas trocas, reinicie o Lazarus e tente rodar seu projeto em modo Debug (F9) para garantir que a IDE está comunicando-se corretamente com o novo motor escolhido.</p>
+
+            <h2>Conclusão</h2>
+            <p>Trocar o fpDebug pelo GDB exige apontar o executável em <strong>Tools | Options | Debugger | General</strong> e adicionar o backend <strong>GNU debugger (GDB)</strong> em <strong>Debugger Backend</strong>. O GDB ainda é útil para depuração remota, multibilíngue e cenários em que o fpDebug falha. Reinicie a IDE e teste com F9 após a alteração.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

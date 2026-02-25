@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações Importantes do Firebird - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Configurações do Firebird</h1>
+                <p>Parâmetros essenciais do arquivo firebird.conf para otimização de desempenho.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd_fb_intro.html">Voltar Firebird</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>CONFIGURAÇÃO</h2>
+            <p>As configurações que irei detalhar a seguir são as rotineiras, se você usa o Firebird e não configura ele é muito provável que o rendimento do banco esteja muito subestimado, isto ocorre porque a configuração padrão do Firebird é bem minimalista guardando valores que vêm desde o Interbase quando o Windows 95 ainda era chamado de sistema operacional vigente. Recomendo fortemente que reveja suas configurações lendo os tópicos abaixo.</p>
+
+            <h2>DefaultTimeZone</h2>
+            <p>O Firebird vem configurado com o timezone, execute:</p>
+            <pre><code>sudo cat /opt/firebird/firebird.conf |ag DefaultTimeZone</code></pre>
+            <p>E observe o resultado:</p>
+            <pre><code>#DefaultTimeZone =</code></pre>
+            <p>Quando essa linha está comentada ou vazia, o Firebird usa o timezone do sistema operacional ("OS time zone") — que, no seu caso, deve ser configurado corretamente no Linux e para você saber qual o timezone que está sendo usado, execute:</p>
+            <pre><code>$ timedatectl
+               Local time: qua 2025-10-22 11:26:45 -03
+           Universal time: qua 2025-10-22 14:26:45 UTC
+                 RTC time: qua 2025-10-22 14:26:45
+                Time zone: America/Sao_Paulo (-03, -0300)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no</code></pre>
+            <p>No exemplo acima, estamos usando o timezone <strong>America/Sao_Paulo (-03, -0300)</strong>. Se estiver errado, você corrige o sistema operacional ou então faz o ajuste necessário no <code>firebird.conf</code>.</p>
+
+            <h2>TempDirectories</h2>
+            <p>Forneça uma lista de pastas separadas por ';', onde os arquivos temporários serão armazenados. Caminhos relativos são tratados em relação ao diretório raiz do Firebird. O valor padrão é determinado usando as opções de ambiente FIREBIRD_TMP, TEMP ou TMP. Quando o primeiro diretório especificado não tiver espaço disponível, o mecanismo mudará para o próximo e assim por diante.</p>
+            <p>Alguns exemplos são mostrados no arquivo de configuração, veja:</p>
+            <pre><code>sudo cat /opt/firebird/firebird.conf |ag TempDirectories</code></pre>
+            <p>E observe o resultado:</p>
+            <pre><code># TempDirectories = c:\temp
+# TempDirectories = c:\temp;d:\temp
+TempDirectories =</code></pre>
+            <p>Quando essa linha está comentada ou vazia, o Firebird usa o padrão do sistema operacional, no linux, será <strong>/tmp</strong>, se você indicar mais uma pasta ou ponto de montagem, tenha certeza de usar <code>chmod 1775</code> nela.</p>
+
+            <h2>RemoteAuxPort</h2>
+            <p>O número da porta TCP a ser usado para mensagens de notificação de eventos do servidor. O valor 0 (Zero) ou ausente significa que o servidor escolherá um número de porta aleatoriamente, e é exatamente assim que vem configurado, veja:</p>
+            <pre><code>sudo cat /opt/firebird/firebird.conf |ag RemoteAuxPort</code></pre>
+            <p>E observe o resultado:</p>
+            <pre><code>#RemoteAuxPort = 0</code></pre>
+            <p>Não é boa ideia deixar usar uma porta aleatória, recomendo que troque pelo número da porta padrão+1, se a porta padrão for <strong>3050</strong> então use <strong>3051</strong>. Usando dessa forma você sabe exatamente o que liberar no firewall.</p>
+
+            <h2>WireCrypt</h2>
+            <p>Encripta a conexão entre o lado cliente e o servidor. Ele é mandatório caso o servidor esteja numa comunicação <strong>http/https</strong>. Linguagens como php ou node requerem encriptação.</p>
+            <ul>
+                <li><strong>Required</strong> estabelece que apenas clientes com essa opção habilitada poderão se comunicar com este servidor.</li>
+                <li><strong>Enabled</strong> estabelece que haverá encriptação, mas apenas se o lado cliente também tiver essa opção.</li>
+                <li><strong>Disabled</strong> estabelece que não haverá encriptação.</li>
+            </ul>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>WireCrypt = Enabled  # (Required, Enabled or Disabled)</code></pre>
+
+            <h2>WireCompression</h2>
+            <p>O parâmetro WireCompression define se os dados transmitidos entre cliente e servidor serão compactados antes do envio pela rede. Para que a compressão funcione, ambos os lados (cliente e servidor) precisam ter essa opção ativada.</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>WireCompression = false</code></pre>
+            <p>Quando ativada (true), os pacotes de dados trafegam comprimidos, o que reduz o volume de transferência e pode melhorar o desempenho em conexões lentas ou com alta latência (como VPNs, links ADSL ou conexões remotas). Por outro lado, em redes locais rápidas (LAN), a compressão pode piorar o desempenho, pois o tempo gasto para compactar e descompactar os dados supera o ganho de velocidade na transmissão — especialmente se uma das pontas for um computador com CPU limitada.</p>
+
+            <h2>DefaultDbCachePages</h2>
+            <p>O parâmetro DefaultDbCachePages define quantas páginas de dados cada banco de dados pode manter em cache simultaneamente. Quanto maior esse valor, mais páginas o mecanismo reserva em memória RAM para acelerar o acesso aos dados.</p>
+            <p>Por padrão:</p>
+            <ul>
+                <li><strong>SuperServer</strong> → 2048 páginas de cache por banco de dados.</li>
+                <li><strong>Classic/SuperClassic</strong> → 256 páginas de cache por conexão de cliente por banco de dados.</li>
+            </ul>
+            <p>Para estimar o consumo de memória, basta multiplicar o número de páginas pelo tamanho de página configurado no banco de dados. Por exemplo, com páginas de 16 KB e cache padrão de 2048 páginas:</p>
+            <pre><code>2048 páginas × 16 KB = 32.768 KB = ~32 MB de RAM por banco</code></pre>
+            <p>Isso mesmo, o Firebird vem ajustado de fábrica com requerimentos menores que os mínimos dos dias de hoje.</p>
+            <p>Exemplo prático para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>DefaultDbCachePages = 2048</code></pre>
+            <p>Num servidor dedicado (onde só o sistema operacional e o Firebird estão rodando), podemos aumentar esse valor de forma proporcional à memória disponível. Suponha que o comando <code>free -h</code> retorne:</p>
+            <pre><code>              total       usada       livre    compart.  buff/cache  disponível
+Mem.:          1,9Gi       270Mi       1,6Gi       2,0Mi       205Mi       1,6Gi
+Swap:          974Mi          0B       974Mi</code></pre>
+            <p>Há cerca de 1,6 GB de RAM livre. Se quisermos usar 1 GB dessa memória para cache, basta calcular quantas páginas de 16 KB cabem em 1024 MB:</p>
+            <pre><code>1.048.576 KB ÷ 16 KB/página = 65.536 páginas</code></pre>
+            <p>Logo podemos ajustar assim no <code>firebird.conf</code>:</p>
+            <pre><code>DefaultDbCachePages = 65536</code></pre>
+            <div class="info-box">
+                <strong>ATENÇÃO:</strong> Se o valor configurado exigir mais memória do que o sistema pode fornecer, o serviço Firebird não iniciará. Sempre garanta uma boa margem de segurança e revise os cálculos antes de alterar esse parâmetro.
+            </div>
+
+            <h2>DatabaseGrowthIncrement</h2>
+            <p>O manual oficial do Firebird define este parâmetro da seguinte forma:</p>
+            <blockquote>
+                <p>"Define a quantidade de espaço em disco pré-alocado em bytes. A pré-alocação de espaço em disco permite reduzir a fragmentação dos arquivos físicos e evitar falhas por falta de espaço. Com a pré-alocação habilitada, o mecanismo aloca 1/16 do espaço já utilizado por vez, nunca menos que 128 KB e nunca mais que DatabaseGrowthIncrement (padrão de 128 MB). Para desabilitar a pré-alocação, defina o valor como zero. Arquivos de sombra não são pré-alocados."</p>
+            </blockquote>
+            <p>Em outras palavras, este parâmetro controla quanto espaço vazio o Firebird reserva antecipadamente dentro do arquivo de banco de dados, evitando que o sistema operacional precise expandir o arquivo em pequenos blocos, o que causaria fragmentação e perda de desempenho.</p>
+            <p>Por padrão, o valor é 128 MB, o que significa que, quando o banco estiver próximo de encher, o Firebird criará mais espaço livre — equivalente a 1/16 do tamanho atual, respeitando o limite mínimo de 128 KB e máximo de 128 MB.</p>
+            <p>Por exemplo, se o banco tiver 4 GB e crescer cerca de 100 MB por dia, ao atingir o limite ele expandirá apenas 128 MB (pois 4 GB ÷ 16 = 250 MB, mas o limite máximo é 128 MB). Isso significa que o arquivo precisará ser expandido novamente muito em breve — possivelmente todos os dias — e esse processo pode ocorrer em momentos inoportunos, impactando o desempenho.</p>
+            <p>Portanto, em ambientes de alta demanda ou crescimento contínuo, pode ser prudente aumentar o valor de DatabaseGrowthIncrement para reduzir a frequência dessas expansões. Por outro lado, se quiser permitir que o banco cresça conforme necessário, pode desabilitar a pré-alocação (definindo o valor como zero), deixando o sistema operacional gerenciar o crescimento automaticamente.</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code> (minha preferência):</p>
+            <pre><code>DatabaseGrowthIncrement = 0</code></pre>
+
+            <h2>DummyPacketInterval</h2>
+            <p>Provedores de internet (ISP) geralmente ajustam seus servidores para "queimar" conexões ociosas porque conexões abertas além de consumir recursos podem ser um risco à segurança.</p>
+            <p>Isso não é um problema para aplicações que acessam o banco de dados de forma "stateless", isto é, conectam ao servidor, consomem e desconectam. Porém, há aplicações que foram migradas do desktop para a nuvem que mantêm a conexão pelo tempo que o programa estiver em uso e aqui teremos um problema se o usuário levantar-se para ir tomar um café e ao voltar a conexão tiver sido derrubada por causa do tempo de ociosidade.</p>
+            <p>Para esse problema específico, o ideal é que aplicações desktops para a nuvem usassem "Remote Desktop Protocol" (RDP), isto é, ao invés de ter a aplicação no lado cliente, a aplicação e o banco de dados ficam numa rede remota e o lado cliente usa o RDP para usufruir do programa que está nessa rede remota. Isto pode ser feito usando programas como o Windows Terminal Server, TS Plus ou GoGlobal. Nos casos que o RDP não seja aceitável, a solução é manter as conexões ativas e impedir que artificialmente elas sejam derrubadas por tempo de ociosidade e para realizar isso você deve configurar este parâmetro <code>DummyPacketInterval</code>.</p>
+            <p>O DummyPacketInterval informa quantos segundos esperar em uma conexão de cliente silenciosa (ou dormindo) antes que o servidor envie pacotes fictícios para solicitar confirmação.</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>DummyPacketInterval = 180  # 3 minutos</code></pre>
+
+            <h2>DataTypeCompatibility</h2>
+            <p>A partir do Firebird 4.0, o mecanismo passou a oferecer novos tipos de dados, incluindo variações com fuso horário (UTC) e outros aprimoramentos de precisão. Esses tipos podem ser desconhecidos para clientes legados, causando incompatibilidade em aplicações mais antigas.</p>
+            <p>Por exemplo, no Delphi e Lazarus, o tipo TIMESTAMP até a versão 3.0 não incluía informação de fuso horário. Nas versões mais recentes do Firebird, o tipo equivalente (TIMESTAMP WITH TIME ZONE) passa a carregar essa informação, e como resultado não é mais reconhecido automaticamente como TDateTime, o que pode fazer com que componentes como TField ou TSQLQuery falhem ao ler ou converter o valor.</p>
+            <p>Esse mesmo problema pode ocorrer em outras linguagens ou drivers que ainda não implementaram suporte completo aos novos tipos do Firebird.</p>
+            <p>Para garantir compatibilidade com aplicações antigas, o parâmetro DataTypeCompatibility permite simular o comportamento de versões anteriores do Firebird, convertendo os tipos novos para formatos legados compreensíveis pelos clientes antigos.</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>DataTypeCompatibility = 3.0</code></pre>
+            <p>Atualmente, são suportados dois valores:</p>
+            <ul>
+                <li><strong>3.0</strong> → Mantém compatibilidade com o Firebird 3.0.</li>
+                <li><strong>2.5</strong> → Mantém compatibilidade com o Firebird 2.5.</li>
+            </ul>
+            <div class="info-box">
+                <strong>IMPORTANTE:</strong> Se o seu sistema foi desenvolvido em Delphi ou Lazarus e começou a apresentar erros de tipo após migrar para uma versão superior do FirebirdSQL, defina DataTypeCompatibility = 3.0 (ou 2.5) para restaurar o comportamento esperado até que o código-fonte seja atualizado para lidar com os novos tipos de dados nativos.
+            </div>
+
+            <h2>DeadLockTimeout</h2>
+            <p>O parâmetro DeadLockTimeout define o tempo máximo (em segundos) que o mecanismo aguardará antes de detectar e resolver um deadlock (impasse) entre transações. Quando duas ou mais transações estão aguardando recursos bloqueados umas pelas outras, o Firebird detecta essa situação e encerra uma das transações para desbloquear o sistema.</p>
+            <p>Valores menores fazem com que deadlocks sejam detectados mais rapidamente, mas podem causar falsos positivos em sistemas com alta concorrência. Valores maiores permitem mais tempo para que as transações se resolvam naturalmente, mas podem deixar o sistema travado por mais tempo em caso de deadlock real.</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>DeadLockTimeout = 10  # segundos</code></pre>
+
+            <h2>StatementTimeout</h2>
+            <p>O parâmetro StatementTimeout define o tempo máximo (em segundos) que uma instrução SQL pode executar antes de ser automaticamente cancelada pelo servidor. Isso ajuda a prevenir que queries malformadas ou muito pesadas consumam recursos indefinidamente.</p>
+            <p>Este timeout pode ser configurado globalmente no <code>firebird.conf</code> ou sobrescrito por conexão usando o comando SQL <code>SET STATEMENT TIMEOUT</code> ou através de propriedades de conexão.</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>StatementTimeout = 0  # 0 = desabilitado (padrão)</code></pre>
+            <p>Para habilitar com um timeout de 30 segundos:</p>
+            <pre><code>StatementTimeout = 30</code></pre>
+
+            <h2>ConnectionTimeout</h2>
+            <p>O parâmetro ConnectionTimeout controla o tempo máximo (em segundos) que o servidor aguardará durante o estabelecimento de uma nova conexão. Em sistemas com alta carga, isso ajuda a prevenir que clientes fiquem aguardando indefinidamente enquanto o servidor processa outras requisições.</p>
+            <p>Este timeout se aplica tanto a conexões TCP/IP quanto a conexões locais (XNET).</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>ConnectionTimeout = 10  # segundos</code></pre>
+
+            <h2>ConnectionIdleTimeout (Timeout de Sessão)</h2>
+            <p>O parâmetro ConnectionIdleTimeout define o tempo máximo (em minutos) que uma conexão pode permanecer ociosa antes de ser automaticamente encerrada pelo servidor. Quando o timeout é atingido, o servidor fecha a conexão, faz rollback de transações ativas e fecha cursores abertos.</p>
+            <p>O valor padrão é 0 (zero), o que significa que não há timeout configurado. Clientes recebem o erro <code>isc_att_shut_idle</code> quando uma conexão ociosa é encerrada.</p>
+            <p>Este timeout também pode ser configurado por sessão usando o comando SQL <code>SET SESSION IDLE TIMEOUT</code>, que aceita valores com unidades de tempo (SECOND, MINUTE, HOUR).</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>ConnectionIdleTimeout = 0  # 0 = desabilitado (padrão), valor em minutos</code></pre>
+            <p>Para habilitar com timeout de 30 minutos:</p>
+            <pre><code>ConnectionIdleTimeout = 30</code></pre>
+
+            <h2>ExtConnPoolSize e ExtConnPoolLifeTime</h2>
+            <p>Estes parâmetros configuram o pool de conexões externas, que gerencia conexões do servidor Firebird para outros bancos de dados ou servidores (por exemplo, em stored procedures que acessam bancos remotos).</p>
+            <ul>
+                <li><strong>ExtConnPoolSize</strong>: Define o número máximo de conexões ociosas mantidas no pool (faixa: 0-1000). O valor padrão é 0, o que desabilita o pooling. Valores maiores mantêm mais conexões prontas para reutilização, reduzindo a latência, mas consumindo mais recursos.</li>
+                <li><strong>ExtConnPoolLifeTime</strong>: Define o tempo máximo de vida (em segundos) de uma conexão ociosa no pool antes de ser encerrada. O valor mínimo é 1 segundo e o máximo é 24 horas (86400 segundos).</li>
+            </ul>
+            <p>Estes valores padrão podem ser temporariamente sobrescritos usando o comando SQL <code>ALTER EXTERNAL CONNECTIONS POOL</code>, mas as alterações não persistem após reinicialização do servidor.</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>ExtConnPoolSize = 10
+ExtConnPoolLifeTime = 3600  # 1 hora</code></pre>
+
+            <h2>MaxParallelWorkers e ParallelWorkers</h2>
+            <p>Estes parâmetros controlam a execução paralela de tarefas de manutenção como sweep e criação de índices (disponível no Firebird 5.0+).</p>
+            <ul>
+                <li><strong>ParallelWorkers</strong>: Define o número padrão de processos worker paralelos para conexões de usuário. O valor padrão é 1, o que significa que não há paralelização. Este valor pode ser sobrescrito por conexão usando a tag <code>isc_dpb_parallel_workers</code> no DPB (Database Parameter Buffer).</li>
+                <li><strong>MaxParallelWorkers</strong>: Limita o número máximo de processos worker concorrentes para um determinado banco de dados e processo Firebird. Isso previne que o sistema seja sobrecarregado com muitas operações paralelas simultâneas.</li>
+            </ul>
+            <p>As conexões worker são gerenciadas internamente pelo mecanismo. No SuperServer, elas aparecem como conexões leves do sistema, enquanto no Classic/SuperClassic aparecem como conexões regulares.</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>ParallelWorkers = 2
+MaxParallelWorkers = 4</code></pre>
+
+            <h2>LockMemSize</h2>
+            <p>O parâmetro LockMemSize define a quantidade de memória (em bytes) alocada para a tabela de hash que gerencia os locks (travamentos) do banco de dados. Cada lock consome uma quantidade fixa de memória, e este parâmetro determina quantos locks podem ser mantidos simultaneamente.</p>
+            <p>Em sistemas com alta concorrência ou muitas transações simultâneas, pode ser necessário aumentar este valor para evitar que o sistema fique sem espaço para novos locks, o que resultaria em erros de travamento.</p>
+            <p>O valor padrão geralmente é suficiente para a maioria dos casos, mas em ambientes com muitas conexões simultâneas ou transações longas, pode ser necessário ajustá-lo.</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>LockMemSize = 1048576  # 1 MB (valor em bytes)</code></pre>
+
+            <h2>LockHashSlots</h2>
+            <p>O parâmetro LockHashSlots define o número de slots na tabela de hash usada para gerenciar locks. Um número maior de slots reduz colisões na tabela de hash e pode melhorar o desempenho em sistemas com muitos locks simultâneos.</p>
+            <p>O valor ideal depende do número esperado de locks simultâneos. Valores muito baixos podem causar muitas colisões, enquanto valores muito altos podem desperdiçar memória sem benefício significativo.</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>LockHashSlots = 8191  # deve ser um número primo para melhor distribuição</code></pre>
+
+            <h2>MaxStatementCacheSize</h2>
+            <p>O parâmetro MaxStatementCacheSize define o tamanho máximo (em bytes) do cache de statements preparados. O Firebird mantém statements preparados em cache para evitar recompilação desnecessária, melhorando o desempenho de aplicações que executam as mesmas queries repetidamente com diferentes parâmetros.</p>
+            <p>Valores maiores permitem que mais statements sejam mantidos em cache, o que é benéfico para aplicações com muitas queries diferentes. No entanto, valores muito altos podem consumir memória desnecessariamente se a aplicação não reutilizar muitos statements diferentes.</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>MaxStatementCacheSize = 67108864  # 64 MB (valor em bytes)</code></pre>
+
+            <h2>OuterJoinConversion</h2>
+            <p>O parâmetro OuterJoinConversion é uma melhoria do otimizador no Firebird 5 que transforma operações OUTER JOIN em INNER JOIN quando possível. Esta otimização pode melhorar o desempenho de queries simplificando as estratégias de join.</p>
+            <p>Quando o otimizador detecta que um OUTER JOIN pode ser convertido com segurança em um INNER JOIN (por exemplo, quando há condições que garantem que não haverá linhas nulas), ele faz essa conversão automaticamente, resultando em planos de execução mais eficientes.</p>
+            <p>Este parâmetro geralmente não precisa ser configurado manualmente, pois o otimizador faz essa conversão automaticamente quando apropriado.</p>
+
+            <h2>OptimizeForFirstRows</h2>
+            <p>O parâmetro OptimizeForFirstRows faz parte das opções de estratégia do otimizador do Firebird 5, representando uma abordagem alternativa à estratégia de otimização ALL ROWS. Este parâmetro permite que o otimizador escolha entre otimizar para retornar as primeiras linhas rapidamente versus otimizar para recuperação completa do conjunto de resultados.</p>
+            <p>Quando habilitado, o otimizador prioriza planos de execução que retornam os primeiros resultados mais rapidamente, o que é útil para aplicações que exibem resultados paginados ou que precisam de feedback rápido ao usuário.</p>
+            <p>Esta otimização pode ser especificada por query usando a cláusula <code>OPTIMIZE FOR FIRST ROWS</code> ou configurada globalmente.</p>
+
+            <h2>TempCacheLimit</h2>
+            <p>O parâmetro TempCacheLimit define o limite máximo (em bytes) de memória que pode ser usado para cache de operações temporárias, como ordenações e joins complexos. Quando este limite é atingido, o Firebird começa a usar arquivos temporários em disco para completar as operações.</p>
+            <p>Valores maiores permitem que mais operações sejam completadas em memória, o que é significativamente mais rápido que usar disco. No entanto, valores muito altos podem causar pressão de memória em sistemas com recursos limitados.</p>
+            <p>O valor ideal depende da quantidade de RAM disponível e do tamanho típico das operações temporárias em seu ambiente.</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>TempCacheLimit = 67108864  # 64 MB (valor em bytes)</code></pre>
+
+            <h2>InlineSortThreshold</h2>
+            <p>O parâmetro InlineSortThreshold altera os planos de execução de queries mudando a abordagem de métodos de ordenação SORT para REFETCH. Este parâmetro representa uma adição recente às opções de configuração do Firebird e permite otimizar como as operações de ordenação são realizadas durante a execução de queries.</p>
+            <p>Quando uma ordenação é pequena o suficiente (abaixo do threshold), o Firebird pode usar uma estratégia de ordenação inline que é mais eficiente em memória. Para ordenações maiores, o mecanismo usa métodos tradicionais de ordenação.</p>
+            <p>Ajustar este parâmetro pode melhorar o desempenho de queries com ordenações, especialmente em sistemas com memória limitada ou quando há muitas queries com ordenações pequenas.</p>
+            <p>Exemplo para ajuste no <code>firebird.conf</code>:</p>
+            <pre><code>InlineSortThreshold = 1024  # valor em registros</code></pre>
+
+            <p style="margin-top: 3rem;"><a href="sgbd_fb_intro.html" class="back-link">&larr; Voltar para Índice Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>

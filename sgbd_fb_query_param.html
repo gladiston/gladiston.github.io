@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queries Parametrizadas - Firebird SQL - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Queries Parametrizadas</h1>
+                <p>Por que DBAs insistem que programadores não concatenem strings - Guia completo</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD Hub</a></li>
+            <li><a href="sgbd_fb_intro.html">Firebird</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Por que usar queries parametrizadas?</h2>
+            
+            <p>Um erro comum entre programadores é achar que parâmetros dentro de uma query são como macro-substituições, uma espécie de "Search/Replace" dentro de queries. <strong>Isso não é verdade.</strong></p>
+            
+            <p>Parâmetros são formas de identificar para o servidor SGBD os valores e seus tipos de forma organizada, segura e não sujeita a erros. Além disso, permitem a reutilização de uma mesma sentença SQL de forma mais performática.</p>
+
+            <div class="warning-box">
+                <strong>Erro comum:</strong> Muitos programadores pensam que parâmetros são apenas uma forma de substituir valores em strings. Na verdade, parâmetros são uma forma segura e eficiente de passar dados para o SGBD, com benefícios importantes de segurança e performance.
+            </div>
+
+            <h2>O problema das queries literais (concatenação de strings)</h2>
+
+            <p>Muitos programadores preferem usar queries literais, isto é, concatenando valores diretamente na string SQL. Isso pode parecer mais simples à primeira vista, mas traz sérios problemas de segurança e performance.</p>
+
+            <h3>Exemplo de query literal (ERRADO):</h3>
+
+            <pre><code>if Query1.Active then
+  Query1.Close;
+Query1.SQL.Text :=
+  'UPDATE CLIENTES SET ' +
+  '  RAZAO_SOCIAL = ''' + Trim(edtRazaoSocial.Text) + '''' +
+  ' WHERE ID_CLIENTE = ' + edtID_CLIENTE.Text;
+Query1.ExecSQL;</code></pre>
+
+            <p>Se a razão social for <strong>INTELIG S/A</strong> e o ID_CLIENTE for 666, a query resultante seria:</p>
+
+            <pre><code>UPDATE CLIENTES SET RAZAO_SOCIAL='INTELIG S/A' WHERE ID_CLIENTE=666</code></pre>
+
+            <p>Até aqui, parece inofensivo. Mas e se a razão social digitada for <strong>''--INTELIG S/A</strong> (duas aspas simples propositais)? A query resultante seria:</p>
+
+            <pre><code>UPDATE CLIENTES SET RAZAO_SOCIAL=''<strong>--INTELIG S/A' WHERE ID_CLIENTE=666</strong></code></pre>
+
+            <div class="warning-box">
+                <strong>🚨 SQL Injection:</strong> Os dois traços (<code>--</code>) em SQL indicam comentário. Isso significa que tudo após os traços será ignorado pelo SGBD. No exemplo acima, a cláusula WHERE foi comentada, fazendo com que TODOS os registros da tabela CLIENTES sejam atualizados, não apenas o registro com ID 666!
+            </div>
+
+            <h3>Por que QuotedStr() não é suficiente?</h3>
+
+            <p>Alguns programadores podem pensar: "Vou usar <code>QuotedStr()</code> para resolver o problema das aspas". Embora essa função resolva parcialmente a questão de aspas simples, ela tem limitações importantes:</p>
+
+            <ul>
+                <li><strong>Performance:</strong> É anti-performática, especialmente com textos longos. Imagine processar um código HTML, RTF ou um campo MEMO grande - a função precisa contar todas as posições das aspas e duplicá-las.</li>
+                <li><strong>Segurança incompleta:</strong> <code>QuotedStr()</code> não resolve questões envolvendo códigos Unicode, caracteres de escape e outros métodos que podem sabotar sua query.</li>
+                <li><strong>Manutenção:</strong> Código mais difícil de manter e propenso a erros.</li>
+            </ul>
+
+            <h2>A solução: Queries parametrizadas</h2>
+
+            <p>A solução correta é usar <strong>parâmetros</strong> e sinalizar o final da query. Veja o exemplo correto:</p>
+
+            <pre><code>if Query1.Active then
+  Query1.Close;
+Query1.SQL.Clear;
+Query1.SQL.Add('UPDATE CLIENTES SET ');
+Query1.SQL.Add('  RAZAO_SOCIAL = :P_RAZAO_SOCIAL');
+Query1.SQL.Add('WHERE ID_CLIENTE = :P_ID_CLIENTE');
+Query1.SQL.Add(';'); // sinalizando o fim da query
+Query1.ParamByName('P_RAZAO_SOCIAL').AsString := Trim(edtRazaoSocial.Text);
+Query1.ParamByName('P_ID_CLIENTE').AsInteger := StrToInt(edtID_CLIENTE.Text);
+Query1.ExecSQL;</code></pre>
+
+            <div class="info-box">
+                <p><strong>Por que usar SQL.Add() ao invés de SQL.Text?</strong> Se você viu artigos anteriores sobre produtividade na IDE Delphi e Lazarus, deve ter notado o uso de <strong>MultiPaste</strong> ou <strong>Column Mode</strong>. Usando esses recursos, você escreve a query dentro do editor SQL (IBExpert, FlameRobin, etc.), testa a query, e depois cola na IDE de programação. Usando MultiPaste ou Column Mode, você gera o código de forma rápida e organizada.</p>
+            </div>
+
+            <p>Com queries parametrizadas, <strong>sob nenhuma hipótese</strong> sua query poderá ser sabotada pelo tipo de dados informado num formulário. O SGBD trata os parâmetros de forma segura, separando claramente a estrutura da query dos valores que serão utilizados.</p>
+
+            <h2>Benefícios adicionais: Preparação de queries</h2>
+
+            <p>Queries parametrizadas têm ainda outra vantagem importante: caso sejam muito repetitivas em sua aplicação, você pode prepará-las uma única vez e reutilizá-las muitas vezes, otimizando o uso em rede.</p>
+
+            <h3>Como funciona a execução de uma query?</h3>
+
+            <p>Quando você executa uma query, o SGBD passa por várias etapas:</p>
+
+            <ol>
+                <li><strong>Análise sintática:</strong> Verifica se a sintaxe SQL está correta</li>
+                <li><strong>Otimização:</strong> Analisa a melhor forma de executar a query</li>
+                <li><strong>Cálculo de custo:</strong> Avalia o custo de operação com índices disponíveis</li>
+                <li><strong>Compilação:</strong> Converte para o formato BLR (Binary Language Representation)</li>
+                <li><strong>Execução:</strong> Executa a query e retorna o resultado (se aplicável)</li>
+            </ol>
+
+            <p>De todas essas etapas, a mais custosa é o <strong>PLANO (plan)</strong> para escolher o índice adequado. Quanto mais índices existirem, mais tempo levará a análise. Isso contradiz um pouco a ideia de que "quanto mais índices, melhor", não é mesmo?</p>
+
+            <h3>Exemplo sem preparação:</h3>
+
+            <p>Imagine um sistema de atendimento com mais de 400 pessoas realizando a mesma consulta, apenas com clientes diferentes:</p>
+
+            <pre><code>if Query1.Active then
+  Query1.Close;
+Query1.SQL.Clear;
+Query1.SQL.Add('SELECT status, razao_social, id_cliente FROM CLIENTES');
+Query1.SQL.Add('WHERE CNPJ = :P_CNPJ');
+Query1.ParamByName('P_CNPJ').AsString := Trim(Pesquisa.Text);
+Query1.Open();</code></pre>
+
+            <p>Essa query será executada inúmeras vezes, passando por todo o processo (análise, otimização, cálculo de custo, compilação) a cada consulta. Isso é muito ineficiente!</p>
+
+            <h3>Exemplo com preparação (CORRETO):</h3>
+
+            <p>Há uma forma de otimizar isso usando a preparação da query:</p>
+
+            <pre><code>if Query1.Active then
+  Query1.Close;
+Query1.SQL.Clear;
+Query1.SQL.Add('SELECT status, razao_social, cnpj FROM CLIENTES');
+Query1.SQL.Add('WHERE ID_CLIENTE = :P_ID_CLIENTE');
+if not Query1.Prepared then
+  Query1.Prepare;</code></pre>
+
+            <p>O método <code>Prepare</code> submete a query ao SGBD para "preparação". A query vai até a última etapa (compilação para BLR e criação do plano de execução), mas <strong>não executa</strong>. O SGBD mantém o BLR e o PLANO em memória, e nas próximas execuções repetitivas não será necessário passar por todo o processo novamente.</p>
+
+            <div class="info-box">
+                <p><strong>E se eu não usar o método Prepare?</strong> Ferramentas de programação como Delphi e Lazarus fazem inferência, isto é, acabam preparando do mesmo jeito, <strong>mas isso pode acontecer num momento inconveniente do programa e mais de uma vez</strong>. É melhor que você faça a preparação num momento bem antes da execução da query, para que o tempo de preparação não se some ao tempo da execução.</p>
+            </div>
+
+            <h3>Como o SGBD identifica queries preparadas?</h3>
+
+            <p>O servidor mantém na memória todas as queries já preparadas em forma de <strong>assinatura</strong>:</p>
+
+            <pre><code><strong>SELECT</strong> status, razao_social, cnpj <strong>FROM CLIENTES WHERE ID_CLIENTE = ?</strong></code></pre>
+
+            <p>Esta é a assinatura. Em alguns SGBDs, os nomes dos campos são irrelevantes. Qualquer query similar à assinatura será reconhecida imediatamente como uma query preparada.</p>
+
+            <p>Não importa de qual estação, programa ou parte do programa venha a query - o que importa é a assinatura. Se ela for reconhecida, o SGBD usará o que já foi preparado. Por isso podemos dizer que queries preparadas não beneficiam apenas uma conexão/programa, mas muitas conexões e muitos programas diferentes onde estatisticamente a mesma consulta acontece.</p>
+
+            <h3>Verificando se a query já está preparada:</h3>
+
+            <p>Note que fazemos um teste antes de prepará-las:</p>
+
+            <pre><code>if not Query1.Prepared then
+  Query1.Prepare;</code></pre>
+
+            <p>Por que fazemos isso? Parece óbvio, mas se prepararmos todas as vezes, não obteremos a performance que desejamos. A preparação deve ser feita uma única vez e nunca mais repetida. Mesmo que você feche o programa e abra de novo, a preparação pode estar lá em alguma parte da memória do SGBD (dependendo de como o SGBD gerencia o cache de queries preparadas).</p>
+
+            <h2>Exemplo prático: Transferências em lote</h2>
+
+            <p>A preparação também é excelente em transferências de dados em lote. Veja o exemplo:</p>
+
+            <pre><code>// Primeira query: busca clientes inativos há mais de 5 anos
+if Query1.Active then
+  Query1.Close;
+Query1.SQL.Clear;
+Query1.SQL.Add('SELECT status, razao_social, cnpj, id_cliente FROM CLIENTES');
+Query1.SQL.Add('WHERE ULTIMO_PEDIDO < DATEADD(-5 YEAR TO CURRENT_DATE)');
+Query1.Open();
+
+// Segunda query: atualiza status (será executada múltiplas vezes)
+if Query2.Active then
+  Query2.Close;
+Query2.SQL.Clear;
+Query2.SQL.Add('UPDATE CLIENTES SET STATUS = ''C'' ');
+Query2.SQL.Add('WHERE ID_CLIENTE = :P_ID_CLIENTE');
+if not Query2.Prepared then
+  Query2.Prepare;
+
+// Loop processando cada registro
+while not Query1.EOF do
+begin
+  // ... lógica de negócio ...
+  if isPrecisaCancelar then
+  begin
+    Query2.ParamByName('P_ID_CLIENTE').AsInteger := 
+      Query1.FieldByName('ID_CLIENTE').AsInteger;
+    Query2.ExecSQL;
+  end;  
+  Query1.Next;
+end;
+
+// Libera recursos quando não for mais usar
+if Query2.Prepared then
+  Query2.UnPrepare;</code></pre>
+
+            <p>No exemplo acima, a repetição da mesma query é óbvia, então realizamos a preparação e economizamos tempo significativo. Ao término do processo, quando não vamos mais usar a query preparada, executamos <code>UnPrepare</code> para liberar recursos.</p>
+
+            <h3>Quando usar UnPrepare?</h3>
+
+            <p>O <code>UnPrepare</code> faz com que a assinatura da preparação no SGBD seja eliminada, liberando recursos da memória do SGBD.</p>
+
+            <div class="info-box">
+                <p><strong>Devo fazer sempre o UnPrepare no final?</strong> Quase sempre a resposta é <strong>"nunca"</strong>. Geralmente só usamos o <code>UnPrepare</code> em situações de transferência de lote de dados, um cenário onde não há outros na rede que poderiam se beneficiar de uma query preparada. Um <code>UnPrepare</code> quando outros na rede estão se beneficiando de queries repetitivas mataria a performance.</p>
+                <p><strong>Regra simples:</strong> Quando a chance é zero de outros repetirem o mesmo procedimento depois que o mesmo já foi executado, então podemos com tranquilidade chamar o método <code>UnPrepare</code>. Nos outros cenários, você nunca irá usá-lo.</p>
+            </div>
+
+            <h2>Quando NÃO usar preparação</h2>
+
+            <p>Sentenças SQL são muito flexíveis e cada SGBD tem suas peculiaridades. Não é possível descrever todas as situações, mas quando uma sentença é ambígua para tomada de decisão, você deve evitar uma preparação.</p>
+
+            <h3>Exemplo problemático: LIKE com parâmetros</h3>
+
+            <p>Com exemplo podemos citar o <code>LIKE</code>. Quando usamos:</p>
+
+            <pre><code>SELECT * FROM CLIENTES
+WHERE RAZAO_SOCIAL LIKE 'INDUSTRIA%'</code></pre>
+
+            <p>No exemplo acima, está bem claro que se houver um índice associado à razão social, o SGBD deverá usá-lo. Mas e se a query fosse:</p>
+
+            <pre><code>SELECT * FROM CLIENTES
+WHERE RAZAO_SOCIAL LIKE '%INDUSTRIA%'</code></pre>
+
+            <p>Neste novo exemplo, o SGBD irá ignorar qualquer índice, pois não faria sentido usá-los já que todos os registros precisarão ser lidos de qualquer forma.</p>
+
+            <p>Agora imagine o que aconteceria se preparasse uma query assim:</p>
+
+            <pre><code>if Query1.Active then
+  Query1.Close;
+Query1.SQL.Clear;
+Query1.SQL.Add('SELECT * FROM CLIENTES');
+Query1.SQL.Add('WHERE RAZAO_SOCIAL LIKE :PESQUISA');
+if not Query1.Prepared then
+  Query1.Prepare;</code></pre>
+
+            <p>Como você não consegue determinar o que a pessoa digitará na barra de pesquisa, vamos imaginar que a primeira pessoa tenha pesquisado por:</p>
+
+            <pre><code>'INDUSTRIA%'</code></pre>
+
+            <p>Como ela é a primeira pessoa a fazer a preparação, nosso PLANO seria usar um índice por Razão Social, certo? Sim, isto estaria certo. Mas note que a query já foi preparada e há no SGBD a assinatura que já indicará o PLANO a ser executado.</p>
+
+            <p>Daí vem a segunda pessoa e no campo de pesquisa faz a seguinte busca:</p>
+
+            <pre><code>'%INDUSTRIA%'</code></pre>
+
+            <p>Como a query já foi preparada, as pesquisas seguintes usarão o mesmo PLANO, ou seja, você forçou o uso de um índice imprestável ao LIKE que só o fará perder tempo.</p>
+
+            <div class="warning-box">
+                <strong>Atenção:</strong> Alguns SGBDs podem detectar a situação acima através de probabilidades e estatísticas e agir de forma preditiva, mas é muito melhor quando programadores evitam situações assim. Hoje um programador pode usar um banco e amanhã outro completamente diferente que não seja tão preditivo. É melhor que o desenvolvedor seja mais esperto e não submeta armadilhas ao próprio SGBD.
+            </div>
+
+            <h3>Solução para casos ambíguos:</h3>
+
+            <p>Em situações ambíguas, evite usar parâmetro e prefira o <code>QuotedStr()</code> em seu lugar:</p>
+
+            <pre><code>if Query1.Active then
+  Query1.Close;
+Query1.SQL.Clear;
+Query1.SQL.Add('SELECT * FROM CLIENTES');
+Query1.SQL.Add('WHERE RAZAO_SOCIAL LIKE ' + QuotedStr(edtPesquisa.Text));</code></pre>
+
+            <p>Neste caso específico, como a query muda significativamente dependendo do padrão LIKE (com ou sem <code>%</code> no início), não faz sentido prepará-la. Cada execução terá um plano de execução diferente.</p>
+
+            <h2>Resumo das boas práticas</h2>
+
+            <h3>Sempre use queries parametrizadas quando:</h3>
+            <ul>
+                <li>Os valores vêm de entrada do usuário (formulários, campos de texto)</li>
+                <li>A estrutura da query é fixa e apenas os valores mudam</li>
+                <li>Você precisa de segurança contra SQL Injection</li>
+                <li>A query será executada múltiplas vezes com valores diferentes</li>
+            </ul>
+
+            <h3>Use Prepare quando:</h3>
+            <ul>
+                <li>A query será executada repetidamente na mesma sessão</li>
+                <li>Você quer otimizar performance em operações em lote</li>
+                <li>A estrutura da query é estável e não muda</li>
+            </ul>
+
+            <h3>❌ Evite parâmetros quando:</h3>
+            <ul>
+                <li>A query tem estruturas que mudam significativamente (ex: LIKE com padrões variáveis)</li>
+                <li>O plano de execução precisa ser recalculado a cada execução</li>
+                <li>A query é executada apenas uma vez e não será reutilizada</li>
+            </ul>
+
+            <h3>❌ Nunca use UnPrepare quando:</h3>
+            <ul>
+                <li>Outros programas/usuários na rede podem se beneficiar da query preparada</li>
+                <li>A query será reutilizada frequentemente</li>
+                <li>Você está em um ambiente multi-usuário</li>
+            </ul>
+
+            <h2>Conclusão</h2>
+
+            <p>Tanto os parâmetros quanto a preparação de uma query não dependem da linguagem de programação, pois este recurso está disponível em todas elas. Estes recursos servem a um propósito bem definido: <strong>melhorar segurança e agilizar pesquisas</strong>.</p>
+
+            <p>Se você notar que programadores de sua equipe não estão usando tais recursos, compartilhe este artigo com eles.</p>
+
+            <p>Cada SGBD é diferente. Alguns deles subvertem queries mal feitas, outros usam algoritmos para melhorar uma query pouco performática, mas não se engane: <strong>se programadores forem eficientes na origem da query, o banco será muito mais performático</strong>. Do contrário, o banco vai ser uma tartaruga obesa com 3 patas.</p>
+
+            <div class="info-box">
+                <p><strong>Principais benefícios das queries parametrizadas:</strong></p>
+                <ul>
+                    <li><strong>Segurança:</strong> Proteção contra SQL Injection</li>
+                    <li><strong>Performance:</strong> Possibilidade de preparação e reutilização</li>
+                    <li><strong>Manutenibilidade:</strong> Código mais limpo e fácil de manter</li>
+                    <li><strong>Tipagem:</strong> Validação automática de tipos de dados</li>
+                    <li><strong>Eficiência:</strong> Menor uso de recursos do servidor</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 3rem;"><a href="sgbd_fb_intro.html" class="back-link">&larr; Voltar para o Guia Firebird</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

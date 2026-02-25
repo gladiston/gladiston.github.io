@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A prova de balas - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>A prova de balas</h1>
+                <p>Gladiston Santana - Um site para chamar de meu</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main class="content-wrapper">
+        <article>
+            <h2>Introdução</h2>
+            <p>A instalação de pacotes ou "addons" estende as funcionalidades tanto da programação como também da IDE e isso é muito bom, contudo podem existir problemas pelo caminho. Como a IDE Lazarus foi compilada com o Free Pascal, incluir novos pacotes requererá que nossa IDE seja recompilada. Mas e se a recompilação falhar, será que perderemos nossa IDE?</p>
+
+            <p>O time do Lazarus pensou nisso também e orgulhosamente eles podem responder "não" a essa pergunta. Mas precisamos estar preparados para recuperar-se dessa situação.</p>
+
+            <p>Se ao instalar um pacote ou por qualquer outro motivo nossa IDE parar de funcionar, saiba que há no diretório de instalação do Lazarus um arquivo <code>lazarus.exe</code> que corresponde ao que está em uso e um outro backup chamado <code>lazarus.exe.old</code>.</p>
+
+            <div class="img-container">
+                <img src="assets/img/lazarus_prova_de_balas1.png" alt="Arquivos executáveis do Lazarus no diretório">
+            </div>
+
+            <p>Na hipótese da IDE deixar de funcionar, simplesmente execute o programa <strong>lazarus.old.exe</strong> (ou <code>lazarus.old</code> no Linux) e aparecerá esta mensagem:</p>
+
+            <div class="img-container">
+                <img src="assets/img/lazarus_prova_de_balas2.png" alt="Mensagem de restauração do Lazarus">
+            </div>
+
+            <p>Então clique em <strong>Update Info</strong> (Atualizar informações) e o sistema irá retornar ao estágio anterior quando as coisas funcionavam.</p>
+
+            <p>Se a IDE quebrou por causa de pacotes que tentou instalar, aproveite para ir em <strong>Packages | Install and uninstall packages</strong> para identificar os pacotes recém instalados e removê-los. Note que às vezes é possível identificá-los porque eles ficam marcados com um ícone de <strong>"+"</strong> ao lado dos nomes, indicando uma tentativa frustrada de instalação:</p>
+
+            <div class="img-container">
+                <img src="assets/img/lazarus_prova_de_balas3.png" alt="Lista de pacotes instalados e desinstalados">
+            </div>
+
+            <p>Marque os pacotes problemáticos para remoção e confirme para que a IDE seja novamente recompilada. Depois disso, não execute mais o <code>lazarus.old.exe</code> e sim o atalho atual que aponta para <code>lazarus.exe</code>.</p>
+
+            <p>Compilar a IDE pode soar estranho, mas quando você instala ou desinstala certos tipos de pacotes é isso o que acontece. Por essa razão, instale pacotes com parcimônia, instale apenas os que irá usar.</p>
+
+            <h2>Boas Práticas para Instalação de Pacotes</h2>
+
+            <p>Para evitar problemas ao instalar pacotes, siga estas recomendações:</p>
+
+            <ul>
+                <li><strong>Instale um pacote por vez:</strong> Isso facilita identificar qual pacote causou problemas caso algo dê errado</li>
+                <li><strong>Teste após cada instalação:</strong> Verifique se a IDE ainda funciona corretamente antes de instalar o próximo pacote</li>
+                <li><strong>Leia a documentação:</strong> Alguns pacotes têm requisitos específicos ou incompatibilidades conhecidas</li>
+                <li><strong>Use versões estáveis:</strong> Prefira versões testadas e estáveis em vez de versões de desenvolvimento</li>
+                <li><strong>Mantenha backups:</strong> Antes de instalar pacotes importantes, faça backup da sua configuração</li>
+            </ul>
+
+            <h2>Vídeo Demonstrativo</h2>
+            <p>Assista ao vídeo explicativo sobre este procedimento:</p>
+            <div class="video-cta" style="background: #f1f1f1; border: 2px dashed #1a5276; padding: 1.5rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+                <p style="margin-bottom: 1rem; font-weight: 600; color: #333;">Aprenda sobre recuperação da IDE na prática:</p>
+                <a href="https://www.youtube.com/watch?v=naVzwD5z8Jc" target="_blank" class="btn-link" style="background-color: #c4302b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Assistir: A prova de balas - Lazarus IDE
+                </a>
+            </div>
+
+            <h2>Conclusão</h2>
+
+            <p>O sistema de backup automático do Lazarus é uma funcionalidade essencial que garante que você nunca perca sua IDE completamente, mesmo quando algo dá errado durante a instalação de pacotes. O arquivo <code>lazarus.exe.old</code> (ou <code>lazarus.old</code> no Linux) é seu seguro contra problemas de instalação.</p>
+
+            <p>É importante entender que a recompilação da IDE é um processo normal quando se instala certos tipos de pacotes, pois eles se integram diretamente ao núcleo da IDE. Por isso, é fundamental instalar apenas os pacotes que você realmente precisa e testar a IDE após cada instalação.</p>
+
+            <p>Se você seguir as boas práticas mencionadas e souber como usar o sistema de recuperação, poderá experimentar novos pacotes com confiança, sabendo que sempre há uma forma de voltar ao estado anterior caso algo dê errado. Esta é a verdadeira "prova de balas" do Lazarus: a capacidade de se recuperar de problemas e continuar funcionando.</p>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

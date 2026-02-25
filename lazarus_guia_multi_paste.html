@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi Paste, como usar - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1 style="font-size: 1.6rem; color: #ffffff;">Multi Paste, como usar</h1>
+                <p style="font-size: 1rem; color: #ffffff;">Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <section id="introducao">
+                <h2>Introdução ao Multi Paste</h2>
+                <p>Muitos ficam tanto tempo com uma IDE que não se importam mais em saber as novidades que ela possui a cada versão nova. Isso é um erro porque ao descobrir uma novidade, se pergunta "por que não a conheci antes?".</p>
+                <p>Essa é a impressão causada em alguns quando descobrem a função <strong>Multi Paste</strong>. Muitas vezes procuramos na IDE a função chamada de <strong>column mode</strong> ou <strong>search/replace</strong> porque "colamos" (Ctrl+V) textos e desejamos depois acrescentar algo à direita e/ou à esquerda dele. O Multi paste é um jeito superior para resolver este tipo de situação, atuando como um "colar" personalizado.</p>
+            </section>
+
+            <section id="exemplo-pratico">
+                <h2>Exemplo Prático: Adaptando Queries</h2>
+                <p>Imagine que você tenha a seguinte query na sua área de clipboard e precise adaptá-la para Pascal:</p>
+
+                <div class="code-container" style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; font-family: 'Fira Code', monospace; margin: 1rem 0;">
+                    <pre>select a.razao_social, a.cnpj, a.endereco, a.end_numero, a.end_complemento,
+a.end_bairro, a.end_cidade, a.end_cep, a.end_uf, a.end_estado,
+a.end_pais, a.status, a.status_com from clientes a where a.razao_social like 'a%'</pre>
+                </div>
+
+                <p>O objetivo é transformar cada linha em um comando <code>Query1.SQL.Add('');</code>. Veja como o Multi Paste simplifica o processo:</p>
+
+                <ol>
+                    <li>Copie a query desejada para o clipboard.</li>
+                    <li>Posicione o cursor onde deseja realizar a colagem.</li>
+                    <img src="assets/img/productivity_multi_paste1.png" alt="Posicionando o cursor na IDE Lazarus" style="display: block; margin: 1.5rem auto; max-width: 100%;">
+                    <li>Acesse o menu <strong>Edit | Multi paste</strong>.</li>
+                    <li>Em <strong>Text before each line</strong>, insira: <code>Query1.SQL.Add('</code>.</li>
+                    <li>Em <strong>Text after each line</strong>, insira: <code>');</code>.</li>
+                    <li>Desmarque a opção <strong>Trim clipboards contents</strong> para preservar a indentação original.</li>
+                </ol>
+
+                <img src="assets/img/productivity_multi_paste2.png" alt="Configuração da janela Multi Paste no Lazarus" style="display: block; margin: 1.5rem auto; max-width: 100%;">
+
+            </section>
+
+            <section id="video-tutorial">
+                <h2>Vídeo Tutorial</h2>
+                <p>Assista abaixo à demonstração completa da ferramenta em funcionamento:</p>
+                <div class="video-cta">
+                    <p>Produtividade com a IDE Lazarus: Multi Paste, como usar</p>
+                    <a href="https://www.youtube.com/watch?v=7mKy2h2GD5I" target="_blank" rel="noopener" class="btn-play">ASSISTIR VÍDEO NO YOUTUBE</a>
+                </div>
+            </section>
+
+            <section id="downloads">
+                <h2>Download e Sincronização</h2>
+                <div class="info-box">
+                    <p><strong>Acesso Offline:</strong> Para manter este guia em seu ambiente local:</p>
+                    <ul>
+                        <li><a href="https://gladiston.github.io/hello_lazarus/index.html" target="_blank" rel="noopener">Versão Online (GitHub Pages)</a></li>
+                        <li><a href="https://github.com/gladiston/hello_lazarus/archive/refs/heads/main.zip">Download Repositório Completo (.ZIP)</a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="conclusao">
+                <h2>Conclusão</h2>
+                <p>O Multi Paste é uma ferramenta de produtividade ampla e poderosa. Ela elimina a necessidade de edições manuais repetitivas e garante que blocos complexos de texto (como XML, JSON ou SQL) sejam transportados para dentro do seu código Pascal com perfeição. Aproveite esse recurso para acelerar seu fluxo de trabalho.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>

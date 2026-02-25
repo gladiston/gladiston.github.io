@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uso de Threads no Lazarus - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo Gladiston Santana" class="logo-circle">
+            <div class="header-text">
+                <h1>Pascal: Delphi & Free Pascal</h1>
+                <p>Desenvolvimento robusto, compilado e de alta performance.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="lazarus_guia.html">Guia de Sobrevivência</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Introdução</h2>
+            <p>O uso de processamento paralelo através de Threads é um recurso essencial para manter a responsividade de aplicações modernas. No ecossistema Pascal (Delphi/Lazarus), a implementação de Threads é nativa, porém, o comportamento do gerenciador de memória e das bibliotecas de sistema difere significativamente entre Windows e Linux.</p>
+            <p>Enquanto no Windows o suporte é transparente, no Linux o compilador Free Pascal exige uma sinalização explícita para vincular as bibliotecas de threads do sistema (pthreads). Sem esse ajuste, qualquer tentativa de iniciar uma thread resultará no travamento imediato da aplicação.</p>
+
+            <h2>Configuração de Threads em Ambiente Linux</h2>
+
+            <h3>Ajuste Obrigatório para Linux</h3>
+            <p>Para habilitar o suporte a threads em binários Linux, você deve informar ao compilador que utilizará a <code>cthreads</code>. O método mais limpo e recomendado via IDE Lazarus é configurar as opções do projeto:</p>
+
+            <ol>
+                <li>Acesse o menu <strong>Project</strong> -> <strong>Project Options</strong>.</li>
+                <li>Navegue até <strong>Compiler Options</strong> -> <strong>Custom Options</strong>.</li>
+                <li>No campo <strong>Defines</strong>, acrescente o parâmetro: <code>-dUseCThreads</code>.</li>
+            </ol>
+
+
+
+            <p>Este ajuste é imperativo. Não importa se você está utilizando a classe <code>TThread</code> convencional, threads anônimas ou bibliotecas de terceiros; se o parâmetro <strong>UseCThreads</strong> não estiver presente, o programa será barrado pelo sistema operacional assim que a thread for acionada.</p>
+
+            <h3>Verificação no Código Fonte</h3>
+            <p>Embora a configuração via IDE seja suficiente na maioria dos casos, é uma boa prática verificar se o seu arquivo de projeto (<code>.lpr</code>) contém a diretiva condicional nas primeiras linhas da cláusula <code>uses</code>:</p>
+
+            <pre><code>program MeuProjeto;
+
+{$mode objfpc}{$H+}
+
+uses
+  {$IFDEF UNIX}
+  cthreads,
+  {$ENDIF}
+  Interfaces, // this includes the LCL widgetset
+  Forms,
+  Unit1;
+...</code></pre>
+
+            <h3>Recursos Adicionais</h3>
+            <p>Uma vez configurado o ambiente, o desenvolvedor pode focar na lógica de negócio paralela. Existem diversas formas de implementar esse recurso no Lazarus, desde as mais simples até padrões complexos de sincronização.</p>
+
+            <div style="border: 2px solid #1a5276; padding: 20px; border-radius: 8px; text-align: center; margin: 2rem 0;">
+                <p><strong>Aprofunde seu conhecimento:</strong> Para exemplos práticos de implementação, sincronização de dados e manipulação de UI a partir de threads, consulte nossa seção especializada.</p>
+                <a href="lazarus_guia_aprendendo_exemplos.html" style="background: #1a5276; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 10px;">
+                    ▶ Ver Exemplos de Código
+                </a>
+            </div>
+
+            <section class="conclusao">
+                <h3>Conclusão</h3>
+                <p>A configuração correta das threads no Linux é o primeiro passo para garantir a portabilidade real das suas aplicações Pascal. Ao entender a necessidade da <code>cthreads</code> e como configurá-la via diretivas de compilação ou opções de projeto, você evita falhas críticas de execução (Runtime Errors) e permite que seu software aproveite todo o potencial multi-core dos servidores e desktops Linux modernos.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </footer>
+
+</body>
+</html>

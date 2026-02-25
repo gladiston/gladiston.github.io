@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipos de Conexão: Remota, Local e Embarcada - Gladiston Santana</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Arquiteturas de Conexão</h1>
+                <p>Como escolher entre conexão Remota, Local ou Embedded.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">Voltar para SGBD</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Introdução</h2>
+            <p>A forma como sua aplicação "fala" com o banco de dados determina a velocidade e a segurança do sistema. Entender o protocolo de comunicação é o primeiro passo para o tunning.</p>
+
+
+
+            <h3>Diferenças Fundamentais</h3>
+            <ul>
+                <li><strong>Remota (TCP/IP):</strong> O padrão para redes. A aplicação envia pacotes SQL via rede para o servidor. Requer otimização de tráfego.</li>
+                <li><strong>Local (IPC/Shared Memory):</strong> Quando a aplicação e o banco estão na mesma máquina. É muito mais rápida que a remota por não passar pelo stack de rede.</li>
+                <li><strong>Embarcada (Embedded):</strong> O motor do banco de dados (DLL/SO) é carregado pela própria aplicação. Ideal para instaladores únicos e softwares desktop sem servidor dedicado.</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>Recomendação em vídeo (CTA)</strong>
+                <p>Se você quer uma explicação mais didática (com exemplos práticos) sobre esses cenários de conexão, recomendo este vídeo da série:</p>
+                <p><a href="https://www.youtube.com/watch?v=KT5VDXnLCFc&amp;list=PLFwc0Ey9St0U_PQxPbPYyF1CpCGhbR-0g&amp;index=1" target="_blank" rel="noopener">Assistir no YouTube: tipos de conexão (remota/local/embedded)</a></p>
+            </div>
+
+            <h2>Conclusão</h2>
+            <p>Para alta performance em servidores locais, sempre prefira conexões via memória compartilhada. Para sistemas distribuídos, o foco deve ser a redução de <em>round-trips</em> na rede.</p>
+            <p><a href="sgbd.html" class="back-link">&larr; Voltar para SGBD</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+</body>
+</html>

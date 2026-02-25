@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Como extrair apenas o texto de um conteúdo HTML - Gladiston Santana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+            <div class="header-text">
+                <h1>Firebird: Linguagem PSQL</h1>
+                <p>Otimização e centralização de regras de negócio com Procedural SQL.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="sgbd.html">SGBD</a></li>
+            <li><a href="sgbd_fb.html">Firebird</a></li>
+            <li><a href="sgbd_fb_psql.html">PSQL</a></li>
+            <li><a href="sgbd_fb_udr.html">UDR</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>Como extrair apenas o texto de um conteúdo HTML</h2>
+            
+            <p>Qualquer que seja a linguagem de programação, para ela ser considerada boa o suficiente, precisa ter os comandos necessários de estrutura de loop, condicionais, variáveis e alguns outros elementos. O mesmo vale para linguagens procedurais SQL (PSQL daqui em diante).</p>
+
+            <p>Talvez um excelente exemplo para provar o valor da linguagem PSQL do banco de dados FirebirdSQL seja como extrair de um conteúdo HTML apenas o texto. Eu fiz o exemplo abaixo alguns anos atrás com base noutro código que extraía o conteúdo de um RTF. Comparado à extração de um RTF, a extração a partir de um HTML é bem mais simples porque envolve apenas remover o que está entre os delimitadores "&lt;" e "&gt;".</p>
+
+            <p>O código abaixo fará essa extração, mas ao invés de você apenas "copiar" e "colar" para suas atividades, estude-o, veja a lógica utilizada porque se você entendê-la poderá usar a mesma lógica para extrair apenas conteúdos desejados de formulários ou até mesmo de arquivos PDF e PostScript.</p>
+
+            <p>O PSQL abaixo está no formato do FirebirdSQL para SQL Functions. SQL Functions são funções que retornam apenas 1 tipo de informação. No exemplo abaixo, ela se chamará <code>GET_UNHTML</code> e tem um parâmetro de entrada que é um blob do tipo texto e retorna o conteúdo como blob em formato blob texto também, porém plain-text.</p>
+
+            <pre><code>CREATE OR ALTER FUNCTION GET_UNHTML (
+    P_SOURCE_HTML BLOB SUB_TYPE TEXT)
+RETURNS BLOB SUB_TYPE TEXT
+AS
+DECLARE VARIABLE TAGSTART INTEGER;
+DECLARE VARIABLE TAGFINISH INTEGER;
+DECLARE VARIABLE TAGFOUND BLOB SUB_TYPE TEXT;
+DECLARE VARIABLE RESULT_TEXT BLOB SUB_TYPE TEXT;
+BEGIN
+  /* Essa procedure/função retorna um texto (blob) sem a porção de
+     código de tags HTML resultando em conteúdo texto plain-text, ex:
+     ret=GET_UNHTML(&lt;html&gt;texto&lt;b&gt; sem as tags&lt;/b&gt;&lt;/html&gt;);
+     O resultado será o texto sem os códigos de controle HTML:
+     texto puro sem as tags html
+     Portanto, plain-text!
+     Muito útil para tornar um texto HTML analisável por um programa ou outra PSQL
+     by gladiston.santana[em]gmail.com
+  */
+  RESULT_TEXT='';
+  P_SOURCE_HTML=TRIM(:P_SOURCE_HTML);
+
+  TAGSTART = POSITION ('&lt;', :P_SOURCE_HTML);
+  WHILE (:TAGSTART > 0) DO
+  BEGIN
+    TAGFINISH = POSITION ('&gt;', :P_SOURCE_HTML, :TAGSTART);
+    IF (:TAGFINISH<:TAGSTART) THEN
+      TAGFINISH=CHAR_LENGTH(:P_SOURCE_HTML);
+    TAGFOUND = SUBSTRING (:P_SOURCE_HTML FROM :TAGSTART FOR ((:TAGFINISH - :TAGSTART) + 1));
+    P_SOURCE_HTML = REPLACE (:P_SOURCE_HTML, :TAGFOUND, '');
+    TAGSTART = POSITION ('&lt;', :P_SOURCE_HTML);
+  END
+  
+  RESULT_TEXT = :P_SOURCE_HTML;
+
+  RETURN RESULT_TEXT;
+END</code></pre>
+
+            <h3>Modo de usar</h3>
+            <pre><code>TEXTO_PURO=GET_UNHTML(STRING_HTML);</code></pre>
+
+            <h3>Conclusão</h3>
+            <p>Vale esclarecer que operações com blobs não são performáticas. Extrair um plain-text de um blob HTML leva tempo e se você precisa fazer isso num grupo de registros em loop para procurar um CPF, CNPJ ou algo do tipo, talvez esteja fazendo isso do jeito errado. Situações que requerem máxima performance, talvez seja melhor pagar um preço maior e adicionar mais um campo para armazenar a mesma versão do conteúdo HTML, porém plain-text. É certo que isso quase dobrará o armazenamento, porém em contrapartida terá uma versão HTML analisável já pronta e obterá a melhor performance possível para suas buscas ou análises. Claro que ao usar essa solução, analise se extrairá o plain-text no lado cliente ou usar essa SQL Function no lado servidor, escolha a opção que no seu contexto se encaixar melhor.</p>
+
+            <p><a href="sgbd_fb_psql.html" class="back-link">&larr; Voltar para PSQL</a></p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gladiston Santana. São Paulo, Brasil.</p>
+    </footer>
+
+</body>
+</html>
