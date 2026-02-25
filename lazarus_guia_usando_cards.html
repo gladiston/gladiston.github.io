@@ -110,8 +110,8 @@
                 será levado junto quando você arrastar o TLabel. Fica como no antigo jogo dos <strong>Lemmings</strong>:
                 ao arrastar um, você arrasta todo mundo que está amarrado na fila! Além disso, se um componente crescer
                 de altura em tempo de execução, os que estão abaixo se ajustam automaticamente. No início, você achará
-                esse tipo de alinhamento mais trabalhoso de lidar, no entanto, com o passar do tempo verá que ele
-                economiza tempo na manutenção, deixa o design mais fluído e também evita que os componentes se
+                esse tipo de alinhamento mais trabalhoso de lidar; no entanto, com o passar do tempo, verá que ele
+                economiza tempo na manutenção, deixa o design mais fluido e também evita que os componentes se
                 sobreponham, mantendo a integridade visual do card independentemente do tamanho do texto carregado.
                 Veja:</p>
 
@@ -185,7 +185,7 @@
             <div class="video-container">
                 <video src="assets/videos/lazarus_guia_usando_cards06.mp4" autoplay loop muted playsinline
                     style="max-width: 100%; border-radius: 8px;"
-                    title="Demonstração de menus de ação(TPopupMenu) num TLabel"></video>
+                    title="Demonstração de menus de ação (TPopupMenu) num TLabel"></video>
             </div>
 
             <h3>Não tenha medo do unicode</h3>
@@ -211,9 +211,235 @@ begin
   end;
 end;</code></pre>
 
-            <p>Percebeu os caracteres <strong>▲</strong> e <strong>▼</strong>? Isso mesmo! Use eles e tantos outros que
+            <p>Percebeu os caracteres ▲, ▼, ◀ e▶?
+                Isso mesmo! Use-os e tantos outros que
                 conseguir. Evite poluir o seu projeto com arquivos de recursos (<code>.res</code>) ou imagens externas
-                quando sinais diacríticos, setas ou até mesmo emojis do Unicode estão disponíveis nativamente.</p>
+                quando sinais diacríticos, setas ou até mesmo emojis do Unicode estão disponíveis nativamente.
+            </p>
+
+            <p>Para facilitar o seu trabalho, aqui estão alguns caracteres Unicode que funcionam muito bem em
+                labels e botões para indicar ações de forma limpa e moderna:</p>
+
+            <div class="table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Símbolo</th>
+                            <th>Ação Sugerida</th>
+                            <th>Uso Típico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>🔍</strong> ou <strong>&#8981;</strong></td>
+                            <td>Pesquisar</td>
+                            <td>Botão de filtro ou busca rápida</td>
+                        </tr>
+                        <tr>
+                            <td><strong>📝</strong> ou <strong>&#9998;</strong></td>
+                            <td>Editar</td>
+                            <td>Abrir formulário de edição</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🗑️</strong> ou <strong>&#128465;</strong></td>
+                            <td>Excluir</td>
+                            <td>Remover registro (Cuidado: use com diálogo de confirmação)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>➕</strong> ou <strong>&#10010;</strong></td>
+                            <td>Novo</td>
+                            <td>Adicionar novo Item/Registro</td>
+                        </tr>
+                        <tr>
+                            <td><strong>💾</strong> ou <strong>&#128190;</strong></td>
+                            <td>Salvar</td>
+                            <td>Gravar alterações no banco</td>
+                        </tr>
+                        <tr>
+                            <td><strong>⚙️</strong> ou <strong>&#9881;</strong></td>
+                            <td>Configurações</td>
+                            <td>Opções do sistema ou do card</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🔄</strong> ou <strong>&#8631;</strong></td>
+                            <td>Atualizar</td>
+                            <td>Recarregar dados (Refresh)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>📅</strong> ou <strong>&#128197;</strong></td>
+                            <td>Data</td>
+                            <td>Selecionar período ou data de lançamento</td>
+                        </tr>
+                        <tr>
+                            <td><strong>📂</strong> ou <strong>&#128193;</strong></td>
+                            <td>Abrir</td>
+                            <td>Explorar arquivos ou pastas</td>
+                        </tr>
+                        <tr>
+                            <td><strong>☰</strong> ou <strong>&#9776;</strong></td>
+                            <td>Menu</td>
+                            <td>Menu hambúrguer para opções extras</td>
+                        </tr>
+                        <tr>
+                            <td><strong>👍</strong> e <strong>👎</strong></td>
+                            <td>Aprovar / Rejeitar</td>
+                            <td>Feedback positivo ou negativo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>← ↑ → ↓</strong></td>
+                            <td>Navegação</td>
+                            <td>Setas direcionais para controle de fluxo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🏠</strong> ou <strong>&#127968;</strong></td>
+                            <td>Início</td>
+                            <td>Voltar para a tela principal (Home)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🔔</strong> ou <strong>&#128276;</strong></td>
+                            <td>Avisos</td>
+                            <td>Alertas e notificações do sistema</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🔒</strong>, <strong>🔓</strong> ou <strong>&#128274;</strong></td>
+                            <td>Privacidade</td>
+                            <td>Indicar campos bloqueados/desbloqueados ou segurança</td>
+                        </tr>
+                        <tr>
+                            <td><strong>⭐</strong> ou <strong>&#11088;</strong></td>
+                            <td>Favorito</td>
+                            <td>Marcar itens de destaque</td>
+                        </tr>
+                        <tr>
+                            <td><strong>📋</strong> ou <strong>&#128203;</strong></td>
+                            <td>Copiar</td>
+                            <td>Copiar conteúdo para a área de transferência</td>
+                        </tr>
+                        <tr>
+                            <td><strong>📥</strong> ou <strong>&#128229;</strong></td>
+                            <td>Colar</td>
+                            <td>Colar conteúdo da área de transferência</td>
+                        </tr>
+                        <tr>
+                            <td><strong>▶︎</strong>, <strong>⏸︎</strong>, <strong>⏹︎</strong></td>
+                            <td>Multimídia</td>
+                            <td>Controles de Play, Pause e Stop</td>
+                        </tr>
+                        <tr>
+                            <td><strong>▲, ▼, ◀, ▶</strong></td>
+                            <td>Triângulos</td>
+                            <td>Expansão, recolhimento e navegação lateral</td>
+                        </tr>
+                        <tr>
+                            <td><strong>◄</strong> e <strong>►</strong></td>
+                            <td>Ponteiros Sólidos</td>
+                            <td>Variações mais largas para botões de navegação lateral</td>
+                        </tr>
+                        <tr>
+                            <td><strong>✓</strong>, <strong>✅</strong>, <strong>☐</strong>, <strong>❌</strong>,
+                                <strong>☑</strong>
+                            </td>
+                            <td>Seleção</td>
+                            <td>Check, Uncheck e Selecionar Tudo (Check All)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>⏳</strong>, <strong>⌛</strong>, <strong>⏱️</strong>, <strong>⏰</strong></td>
+                            <td>Tempo</td>
+                            <td>Processamentos, agendamentos e prazos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>💰</strong>, <strong>💵</strong>, <strong>�</strong></td>
+                            <td>Financeiro</td>
+                            <td>Moedas, pagamentos e valores monetários</td>
+                        </tr>
+                        <tr>
+                            <td><strong>❗</strong>, <strong>❓</strong>, <strong>⚠️</strong>, <strong>🚨</strong>,
+                                <strong>🛑</strong>
+                            </td>
+                            <td>Alertas</td>
+                            <td>Avisos, perguntas, perigo e interrupções</td>
+                        </tr>
+                        <tr>
+                            <td><strong>💀</strong>, <strong>☠️</strong>, <strong>🚫</strong></td>
+                            <td>Perigo/Proibido</td>
+                            <td>Ações críticas, erros fatais ou restrições</td>
+                        </tr>
+                        <tr>
+                            <td><strong>📧</strong>, <strong>✉️</strong>, <strong>💬</strong>, <strong>📍</strong></td>
+                            <td>Comunicação</td>
+                            <td>E-mail, mensagens, balões de fala e localização</td>
+                        </tr>
+                        <tr>
+                            <td><strong>👁️</strong>, <strong>🙈</strong></td>
+                            <td>Visualização</td>
+                            <td>Exibir senha (olho aberto) ou ocultar (olho fechado)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>○</strong> e <strong>●</strong></td>
+                            <td>Geométricos</td>
+                            <td>Círculos para estados de rádio ou indicadores cheios/vazios</td>
+                        </tr>
+                        <tr>
+                            <td><strong>♻️</strong></td>
+                            <td>Reciclagem</td>
+                            <td>Processos de atualização ou reutilização</td>
+                        </tr>
+                        <tr>
+                            <td><strong>©</strong>, <strong>®</strong>, <strong>™</strong></td>
+                            <td>Jurídico</td>
+                            <td>Copyright, Marca Registrada e Trade Mark</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🏁</strong>, <strong>🚩</strong>, <strong>🏳️</strong>, <strong>🏴</strong>,
+                                <strong>🟢</strong>, <strong>🟡</strong>
+                            </td>
+                            <td>Estados (Status)</td>
+                            <td>Bandeiras e cores para Início, Em andamento, Concluído e Alertas</td>
+                        </tr>
+                        <tr>
+                            <td><strong>📥</strong>, <strong>⬇️</strong>, <strong>⏬</strong></td>
+                            <td>Download</td>
+                            <td>Baixar arquivos ou receber dados</td>
+                        </tr>
+                        <tr>
+                            <td><strong>📤</strong>, <strong>⬆️</strong>, <strong>⏫</strong></td>
+                            <td>Upload</td>
+                            <td>Enviar arquivos ou carregar dados</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>Para uma lista completa e visual, você pode consultar a lista de emojis e símbolos em:
+                <a href="https://emojitool.com/pt" target="_blank" rel="noopener noreferrer">Emojitool</a>.
+            </p>
+
+            <h3>Dica Pro: Usando códigos Unicode no Pascal</h3>
+            <p>Se você preferir não "colar" o símbolo diretamente no seu código-fonte (para evitar problemas de
+                Encoding em editores de texto mal configurados), o Pascal permite que você use o código decimal
+                ou hexadecimal do caractere precedido pelo sinal de cerquilha (<code>#</code>).
+            </p>
+
+            <p>Veja como ficaria o exemplo do "Mostrar mais" usando essa técnica:</p>
+
+            <pre><code>// Usando códigos hexadecimais para os triângulos:
+// #$25B2 = ▲ (Triângulo para cima)
+// #$25BC = ▼ (Triângulo para baixo)
+
+if ContainsText(lblMostrarMais.Caption, 'mais') then
+begin
+  MyNextPanel.Visible := True;
+  lblMostrarMais.Caption := 'Mostrar menos informações ' + #$25B2;
+end
+else
+begin
+  MyNextPanel.Visible := False;
+  lblMostrarMais.Caption := 'Mostrar mais informações ' + #$25BC;
+end;</code></pre>
+
+            <p>Essa abordagem é extremamente robusta e garante que o caractere correto será renderizado
+                independentemente
+                do sistema operacional ou da configuração de idioma do compilador.</p>
 
             <h3>Use efeitos de hyperlink nos Labels</h3>
             <p>Podemos usar eventos nos labels para criar um efeito de hyperlink similar aos navegadores, tornando a
@@ -403,7 +629,11 @@ begin
 end;</code></pre>
 
             <h3>3. O Loop de Criação (No Formulário Principal)</h3>
-            <p>Com o Frame pronto e usando propriedades, percorremos os dados e injetamos eles no card, aplicando o efeito Zebra para que cada card se identifique como diferente do outro. Neste exemplo, não usarei Bevels para criar o efeito de sombra ou gradientes para ser apenas didático, mas depois que dominar a técnica é muito provável que faça uso deles porque realmente deixa eles muito bonitos. Por ora, quero que note a simplicidade em atribuir os valores diretamente às propriedades do Frame criado:</p>
+            <p>Com o Frame pronto e usando propriedades, percorremos os dados e injetamo-los no card, aplicando o
+                efeito Zebra para que cada card se identifique como diferente do outro. Neste exemplo, não usarei Bevels
+                para criar o efeito de sombra ou gradientes para ser apenas didático, mas depois que dominar a técnica é
+                muito provável que faça uso deles porque realmente deixa os cards muito bonitos. Por ora, quero que note
+                a simplicidade em atribuir os valores diretamente às propriedades do Frame criado:</p>
 
             <pre><code>
 procedure TFormPrincipal.CarregarCards;
@@ -457,13 +687,13 @@ end;
             <p><strong>Dica de Arquitetura:</strong> Note que vinculamos o <code>PopupMenu</code> (ou qualquer outro
                 evento de botão) que tenha implicações nos dados — como consultas ou alterações — diretamente no loop de
                 criação. Isto é fundamental: a <strong>Tela Principal</strong> (que conhece o contexto do banco de
-                dados)
-                deve gerenciar as ações de negócio. Deixe para o <strong>Frame</strong> apenas os eventos de
+                dados) deve gerenciar as ações de negócio. Deixe para o <strong>Frame</strong> apenas os eventos de
                 interatividade puramente visual, como o <em>revelamento progressivo</em>, os <em>efeitos de
                     hyperlink</em> ou animações internas.</p>
 
-            <p>Se você assinou um evento de clique para um botão do card (como o <code>btnAplicar</code> no exemplo
-                acima), você precisará saber de qual card veio o clique para obter os dados corretos. Você faz isso
+            <p>Se você assinalou um evento de clique para um botão dentro do card (como o <code>btnAplicar</code> no
+                exemplo acima), você precisará saber de qual card veio o clique para obter os dados corretos. Você faz
+                isso
                 fazendo um <em>cast</em> (conversão de tipo) do parâmetro <code>Sender</code> ou acessando o
                 <code>Parent</code> do botão clicado:
             </p>
@@ -538,13 +768,14 @@ end;</code></pre>
 
             <p>Note que neste exemplo, a alteração de cada card é <strong>individual</strong>. Para deixar isso claro,
                 criei um botão "Aplicar" que apenas se habilita quando algo é alterado no card; ao clicar nele, a
-                informação é gravada de forma indelével. Então, se você alterar dois ou mais cards simultaneamente apenas os "Aplicar" destes cards estarão ligados ou disponiveis.</p>
-            <p>Caso queira o exemplo completo para testar en seu próprio computador, poderá baixá-lo do repositório:
+                informação é gravada de forma indelével. Então, se você alterar dois ou mais cards simultaneamente,
+                apenas os botões "Aplicar" destes cards estarão ligados ou disponíveis.</p>
+            <p>Caso queira o exemplo completo para testar em seu próprio computador, poderá baixá-lo do repositório:
                 <a href="https://github.com/gladiston/lazdemos_gsl/tree/main/lazdemo_cards" target="_blank"
                     rel="noopener noreferrer">lazdemo_cards no GitHub</a>.
             </p>
 
-            <h2>O Resultado Final: Da Planilha Estática ao Design Fluído</h2>
+            <h2>O Resultado Final: Da Planilha Estática ao Design Fluido</h2>
             <p>Compare agora o impacto visual. Aquele <code>TDBGrid</code> denso e limitado que vimos no início deu
                 lugar a uma interface baseada em cartões. Note que, mesmo mantendo uma estética limpa e sem bibliotecas
                 externas de terceiros, o ganho em clareza é imediato.</p>
@@ -568,10 +799,12 @@ end;</code></pre>
                 mas sem a complicação toda de programar os eventos OnDrawColumnCell, rolagens laterais, etc.</p>
 
             <h2>Conclusão</h2>
-            <p>Abandonar o DBGrid não é apenas estética, é usabilidade profissional. Usando <strong>Frames e
-                    FlowPanels</strong>, você pode até entregar a aparência de um DBGrid mas sem a complexidade do
-                mesmo, além disso, entrega uma interface moderna sem sacrificar a robustez do Pascal. O seu "eu" daqui a
-                6 meses agradecerá por não ter feito uma gambiarra!</p>
+            <p>Abandonar o DBGrid não é apenas uma questão de estética, é usabilidade profissional. Usando
+                <strong>Frames e FlowPanels</strong>, você pode até entregar a aparência de um DBGrid, mas sem a
+                complexidade dele,
+                além disso, entrega uma interface moderna sem sacrificar a robustez do Pascal. O seu "eu" daqui a
+                6 meses agradecerá por não ter feito uma gambiarra!
+            </p>
 
         </article>
     </main>
