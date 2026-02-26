@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compilando seu próprio 'libqtNpas-dev' - Gladiston Santana</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+
+  <header class="main-header">
+    <div class="header-container">
+      <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+      <div class="header-text">
+        <h1>Compilando seu próprio 'libqtNpas-dev'</h1>
+        <p>Gladiston Santana - Um site para chamar de meu</p>
+      </div>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <ul class="nav-links">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="pascal.html">Pascal</a></li>
+      <li><a href="python.html">Python</a></li>
+      <li><a href="bash.html">Bash</a></li>
+      <li><a href="linux.html">Linux</a></li>
+      <li><a href="sobre-mim.html">Sobre mim</a></li>
+      <li><a href="contato.html">Contato</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <article>
+      <section>
+        <h2>A Ponte Entre Dois Mundos</h2>
+        <p>Sabe aquela sensação de tentar conversar com alguém que fala um idioma completamente diferente e você precisa
+          de um intérprete? Pois é, o <strong>Lazarus</strong> e o <strong>Qt</strong> vivem exatamente esse dilema
+          romântico. O Lazarus (usando a LCL) não "fala" Qt nativamente; ele precisa de um tradutor oficial, e esse
+          tradutor é a biblioteca <code>libqt5pas</code> (para o Qt5) ou a <code>libqt6pas</code> (para o moderno Qt6).
+        </p>
+
+        <p>Essas bibliotecas são o que chamamos de <strong>bindings</strong>. Elas pegam as chamadas do Free Pascal e as
+          traduzem para a API do Qt em C++. Sem elas, o Lazarus no Linux fica "mudo" se você tentar usar o toolkit Qt.
+        </p>
+      </section>
+
+      <section>
+        <h2>Por que Compilar se Posso Instalar?</h2>
+        <p>Você deve estar pensando: <em>"Gladiston, por que eu perderia meu precioso tempo compilando isso se o
+            repositório da minha distro já tem o pacote?"</em>.</p>
+        <p>Primeiro, nem sempre a versão do repositório é a que você precisa — especialmente se você estiver usando uma
+          versão muito nova (ou muito específica) do Lazarus. Segundo, ao compilar no seu próprio hardware, o compilador
+          otimiza o código para as instruções específicas do seu processador. Em alguns casos, isso se traduz em uma
+          performance mais "lisinha" e responsiva na IDE e nos seus programas.</p>
+        <p>É como comprar um terno: você pode comprar um pronto no shopping (repositório) ou ir ao alfaiate (compilar).
+          O do alfaiate sempre cai melhor!</p>
+      </section>
+
+      <section>
+        <h2>Antes de Começar: As Ferramentas</h2>
+        <p>Não dá para construir uma casa sem ferramentas, certo? Para compilar esses bindings, seu Linux precisa de
+          alguns pacotes essenciais de desenvolvimento e, claro, do próprio toolkit do Qt6.</p>
+
+        <p>No <strong>Ubuntu/Debian</strong>, resolva isso com:</p>
+        <pre><code>sudo apt install qt6-base-dev qt6-base-dev-tools build-essential</code></pre>
+
+        <p>Se você estiver no <strong>Fedora</strong>, o caminho é este:</p>
+        <pre><code>sudo dnf groupinstall "Development Tools"
+sudo dnf install qt6-qtbase-devel</code></pre>
+      </section>
+
+      <section>
+        <h2>Mãos à Obra: O Passo a Passo</h2>
+        <p>Primeiro, precisamos localizar onde o Lazarus está instalado no seu sistema. Dentro da pasta do Lazarus,
+          existe um caminho sagrado onde os fontes dos bindings residem. Siga os comandos abaixo com fé e coragem:</p>
+
+        <pre><code># Entre na toca do coelho (ajuste o caminho se necessário)
+cd lazarus/lcl/interfaces/qt6/cbindings
+
+# Prepare o terreno para a compilação
+# Dica: em alguns sistemas pode ser qmake-qt6
+qmake6
+
+# Inicie a forja!
+make
+
+# Instale no sistema (no Debian/Ubuntu use o PREFIX abaixo)
+sudo make install PREFIX=/usr/lib/x86_64-linux-gnu</code></pre>
+<p>No final da compilação, você receberá uma saída como essa:</p>
+<pre><code>/usr/bin/qmake6 -install qinstall -exe libQt6Pas.so.6.2.10 /usr/lib/x86_64-linux-gnu/libQt6Pas.so.6.2.10
+strip --strip-unneeded /usr/lib/x86_64-linux-gnu/libQt6Pas.so.6.2.10
+ln -f -s libQt6Pas.so.6.2.10 /usr/lib/x86_64-linux-gnu/libQt6Pas.so
+ln -f -s libQt6Pas.so.6.2.10 /usr/lib/x86_64-linux-gnu/libQt6Pas.so.6
+ln -f -s libQt6Pas.so.6.2.10 /usr/lib/x86_64-linux-gnu/libQt6Pas.so.6.2
+</code></pre>
+<p>Isso indica que as bibliotecas estão instaladas em <b>/usr/lib/x86_64-linux-gnu</b>.</p>
+        <p><strong>Dica de Sobrevivência:</strong> Se você estiver usando o Qt5, o caminho mudará para
+          <code>.../interfaces/qt5/...</code> e o comando será <code>qmake</code> ou <code>qmake-qt5</code>. Mas o
+          espírito é o mesmo!
+        </p>
+      </section>
+
+      <section>
+        <h2>O Grande Teste: Verificação de Versão</h2>
+        <p>Depois de todo esse trabalho, não queremos apenas <em>acreditar</em> que funcionou. Queremos <em>ter
+            certeza</em>. O Linux tem uma ferramenta chamada <code>ldconfig</code> que gerencia as bibliotecas
+          compartilhadas. Vamos perguntar a ela se o nosso novo tradutor está pronto para o serviço:</p>
+
+        <pre><code>sudo ldconfig -v | grep libQt6Pas</code></pre>
+
+        <p>Note agora:</p>
+          <pre><code>/sbin/ldconfig.real: Não foi possível obter estado de /usr/lib64/gtk-2.0/modules: Arquivo ou diretório inexistente
+/sbin/ldconfig.real: Não foi possível obter estado de /usr/local/lib/x86_64-linux-gnu: Arquivo ou diretório inexistente
+/sbin/ldconfig.real: Caminho “/usr/lib/x86_64-linux-gnu” fornecido mais de uma vez
+(de /etc/ld.so.conf.d/x86_64-linux-gnu.conf:4 e /etc/ld.so.conf.d/x86_64-linux-gnu.conf:3)
+/sbin/ldconfig.real: Caminho “/lib/x86_64-linux-gnu” fornecido mais de uma vez
+(de <builtin>:0 e /etc/ld.so.conf.d/x86_64-linux-gnu.conf:3)
+/sbin/ldconfig.real: Caminho “/usr/lib/x86_64-linux-gnu” fornecido mais de uma vez
+(de <builtin>:0 e /etc/ld.so.conf.d/x86_64-linux-gnu.conf:3)
+/sbin/ldconfig.real: Caminho “/usr/lib” fornecido mais de uma vez
+(de <builtin>:0 e <builtin>:0)
+        libQt6Pas.so.6 -> libQt6Pas.so.6.2.10
+/sbin/ldconfig.real: /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 is the dynamic linker, ignoring</code></pre>
+        <p>Tem muito ruído na mensagem acima, mas note a linha <code>libQt6Pas.so.6 -> libQt6Pas.so.6.2.10</code>. Isso
+        confirma que o sistema agora enxerga a biblioteca. O ldconfig leu o arquivo e criou o link simbólico necessário no
+        cache. O restante das mensagens são apenas "ruídos" comuns em sistemas Debian/Ubuntu que passaram por atualizações ou
+        têm arquivos de configuração de biblioteca (.conf) levemente redundantes.</p>
+      </section>
+
+      <section>
+        <h2>Conclusão</h2>
+        <p>Compilar seus próprios bindings não é apenas uma necessidade técnica às vezes; é um rito de passagem para
+          quem quer ter controle total sobre o ambiente de desenvolvimento. O Lazarus é flexível, e saber como montar
+          essas peças do quebra-cabeça é o que separa o "clicador de botões" do verdadeiro desenvolvedor Pascal.</p>
+        <p>Agora vá lá e aproveite a elegância do Qt com a rapidez do Pascal!</p>
+      </section>
+    </article>
+  </main>
+
+  <footer class="main-footer">
+    <div class="footer-container">
+      <p>&copy; 2026 Gladiston Santana - São Paulo, Brasil</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>
