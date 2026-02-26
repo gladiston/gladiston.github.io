@@ -738,13 +738,25 @@ end;</code></pre>
                     seu Frame e repasse o comando para o ScrollBox pai:
                     <pre><code>procedure TfrItemCard.FrameMouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
+var
+  P: TWinControl;
+  SB: TScrollBox;
 begin
-  // Repassa o movimento para o ScrollBox pai através do TFlowPanel
-  if (Parent is TFlowPanel) and (TFlowPanel(Parent).Parent is TScrollBox) then
-    TScrollBox(TFlowPanel(Parent).Parent).VertScrollBar.Position :=
-      TScrollBox(TFlowPanel(Parent).Parent).VertScrollBar.Position - WheelDelta;
-  Handled := True;
+  // Repassa o scroll para o ScrollBox pai (evita foco preso nos cards)
+  P := Parent;
+  while Assigned(P) do
+  begin
+    if P is TScrollBox then
+    begin
+      SB := TScrollBox(P);
+      SB.VertScrollBar.Position := SB.VertScrollBar.Position - WheelDelta;
+      Handled := True;
+      Exit;
+    end;
+    P := P.Parent;
+  end;
 end;</code></pre>
+<p><strong>Um ponto de atenção:</strong> O exemplo acima considera que a rodinha do mouse vai rolar sobre um TFrame, mas se dentro do TFrame voce colocal um painel(TPanel) e ingressar os componentes visuais dentro dele, então o codigo acima ao inves de usar o evento <strong>OnMouseWheel</strong> do TFrame, ele deve usar o evento <strong>OnMouseWheel</strong> do painel (TPanel).</p>
                 </li>
                 <li><strong>Constraints:</strong> No Frame, defina <code>Constraints.MinWidth</code> para impedir
                     deformações visuais indesejadas.</li>
