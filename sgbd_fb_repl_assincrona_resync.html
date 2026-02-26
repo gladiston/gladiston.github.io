@@ -78,7 +78,18 @@ sudo rm -rfv /var/db-repl/archive/correios/*</code></pre>
       <h3>4. O Transplante (A Cópia "Fresquinha")</h3>
       <p>Copie os arquivos <code>.fdb</code> originais do Publicador para o Leitor (em <code>/var/db/</code>). Como a
         publicação está desativada e o serviço parado, os arquivos estão estáveis e prontos para a viagem.</p>
-      <pre><code># No Linux, após a cópia, ajuste o dono dos arquivos:
+
+      <p>Vamos montar a unidade de rede do Windows temporariamente:</p>
+      <pre><code>sudo mkdir -p /mnt/publicador
+sudo mount -t cifs //IP_DO_WINDOWS/C$ /mnt/publicador -o credentials=/etc/cifs-credentials.agente_firebird,iocharset=utf8,vers=2.0,uid=firebird,gid=firebird,file_mode=0660,dir_mode=0770</code></pre>
+
+      <p>Agora, realize a cópia dos novos arquivos "mestre":</p>
+      <pre><code># Origem (Windows) -> Destino (Linux)
+cp /mnt/publicador/db/acme.fdb /var/db/acme.fdb
+cp /mnt/publicador/db/correios.fdb /var/db/correios.fdb</code></pre>
+
+      <p>Após a cópia, desmonte a unidade e ajuste o dono dos arquivos no Linux:</p>
+      <pre><code>sudo umount /mnt/publicador
 sudo chown -v firebird:firebird /var/db/*.fdb
 sudo chmod -v 660 /var/db/*.fdb</code></pre>
 
@@ -104,7 +115,10 @@ COMMIT;</code></pre>
 
       <h3>7. A Prova dos Nove (Verificação)</h3>
       <p>Acompanhe o log para ver se o Leitor começou a "mastigar" as novas notas:</p>
-      <pre><code>tail -f /opt/firebird/replication.log</code></pre>
+      <pre><code>sudo mv /opt/firebird/replication.log /opt/firebird/replication.log.$(date +%Y%m%d_%H%M%S)
+sudo touch /opt/firebird/replication.log
+sudo chown firebird:firebird /opt/firebird/replication.log
+tail -f /opt/firebird/replication.log</code></pre>
       <p>E valide se as tabelas estão na lista de transmissão:</p>
       <pre><code>-- No Publicador:
 SELECT RDB$TABLE_NAME FROM RDB$PUBLICATION_TABLES;</code></pre>
