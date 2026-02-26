@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ressuscitar Replicação Assíncrona: O Desfibrilador do DBA - Gladiston Santana</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+
+  <header class="main-header">
+    <div class="header-container">
+      <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+      <div class="header-text">
+        <h1>Firebird SQL</h1>
+        <p>Troubleshooting: Quando a réplica entra em coma.</p>
+      </div>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <ul class="nav-links">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="sgbd_fb.html">Voltar para Firebird</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <article>
+      <h2>"Código Vermelho: A Replicação Parou!"</h2>
+      <p>Às vezes, a vida de um DBA não é fácil. Uma queda de luz, um disco cheio ou um cabo de rede mastigado pelo gato
+        pode fazer com que a replicação perca o compasso. Quando isso acontece, o <code>replication.log</code> começa a
+        gritar e a sua réplica fica lá, parada no tempo, enquanto o mundo (o Publicador) continua girando.</p>
+      <p>Se as notas acumuladas ficaram confusas demais ou se o "delay" ficou maior que a paciência do seu chefe, é hora
+        de aplicar o protocolo de <strong>Ressincronização Total</strong>.</p>
+
+      <div class="warning-box">
+        <strong>AVISO DE EMERGÊNCIA:</strong>
+        Este processo vai substituir a base de dados do Leitor por uma nova. Se você tinha dados lá que não estavam no
+        Publicador (o que não deveria acontecer numa réplica), eles vão para o limbo dos dados esquecidos.
+      </div>
+
+      <h2>Protocolo de Ressuscitação (Passo a Passo)</h2>
+      <p>Siga esta ordem rigorosamente. Pular um passo aqui é como esquecer de ligar o oxigênio antes da cirurgia.</p>
+
+      <h3>1. O Grande Botão de Pausa (No Leitor)</h3>
+      <p>O primeiro passo é silenciar o servidor <strong>LEITOR (Linux)</strong>. Não podemos trocar as rodas de um
+        carro
+        em movimento. Pare o serviço do Firebird:</p>
+      <pre><code>sudo systemctl stop firebird</code></pre>
+
+      <h3>2. Desativando a Publicação (No Publicador)</h3>
+      <p>Precisamos que o <strong>PUBLICADOR (Windows)</strong> pare de gerar "folhas de diário" novas enquanto fazemos
+        o transplante. Primeiro, pare o serviço no Windows (pelo CMD ou <code>services.msc</code>):</p>
+      <pre><code>net stop FirebirdServerDefaultInstance</code></pre>
+      <p>Agora, conecte-se a <strong>cada um</strong> dos bancos de dados e desative a publicação via SQL:</p>
+      <pre><code>-- Execute via isql ou sua ferramenta SQL favorita
+ALTER DATABASE DISABLE PUBLICATION;
+COMMIT;</code></pre>
+
+      <h3>3. Limpando os Rastros (Clean Slate)</h3>
+      <p>Apague todos os arquivos antigos de journal e archive. Isso garante que a réplica não tente processar notas do
+        "passado" que não batem com o novo banco que vamos copiar:</p>
+      <pre><code># No Windows (Publicador) - Limpe as subpastas de cada banco:
+del /q c:\db-repl\journal\acme\*
+del /q c:\db-repl\journal\correios\*
+del /q c:\db-repl\archive\acme\*
+del /q c:\db-repl\archive\correios\*
+
+# No Linux (Leitor) - Limpe a zona de pouso:
+sudo rm -rfv /var/db-repl/archive/acme/*
+sudo rm -rfv /var/db-repl/archive/correios/*</code></pre>
+
+      <h3>4. O Transplante (A Cópia "Fresquinha")</h3>
+      <p>Copie os arquivos <code>.fdb</code> originais do Publicador para o Leitor (em <code>/var/db/</code>). Como a
+        publicação está desativada e o serviço parado, os arquivos estão estáveis e prontos para a viagem.</p>
+      <pre><code># No Linux, após a cópia, ajuste o dono dos arquivos:
+sudo chown -v firebird:firebird /var/db/*.fdb
+sudo chmod -v 660 /var/db/*.fdb</code></pre>
+
+      <h3>5. Resetando o Coração (gfix)</h3>
+      <p>Este passo é vital: precisamos "exorcizar" qualquer estado de réplica antigo do banco e marcá-lo como uma nova
+        réplica somente leitura:</p>
+      <pre><code># No Linux (Leitor), para cada banco:
+# 1. Remove qualquer configuração de réplica anterior
+sudo /opt/firebird/bin/gfix -replica none /var/db/acme.fdb
+# 2. Define o banco como uma nova réplica em modo Somente Leitura
+sudo /opt/firebird/bin/gfix -replica read_only /var/db/acme.fdb</code></pre>
+
+      <h3>6. Choque de Vida (Religando Tudo)</h3>
+      <p>Primeiro, inicie o serviço no <strong>PUBLICADOR (Windows)</strong>:</p>
+      <pre><code>net start FirebirdServerDefaultInstance</code></pre>
+      <p>Agora, conecte-se aos bancos no Publicador e reative a "fábrica de logs":</p>
+      <pre><code>-- Execute para cada banco (ex: acme.fdb)
+ALTER DATABASE ENABLE PUBLICATION;
+ALTER DATABASE INCLUDE ALL TO PUBLICATION;
+COMMIT;</code></pre>
+      <p>Por fim, inicie o serviço no <strong>LEITOR (Linux)</strong>:</p>
+      <pre><code>sudo systemctl start firebird</code></pre>
+
+      <h3>7. A Prova dos Nove (Verificação)</h3>
+      <p>Acompanhe o log para ver se o Leitor começou a "mastigar" as novas notas:</p>
+      <pre><code>tail -f /opt/firebird/replication.log</code></pre>
+      <p>E valide se as tabelas estão na lista de transmissão:</p>
+      <pre><code>-- No Publicador:
+SELECT RDB$TABLE_NAME FROM RDB$PUBLICATION_TABLES;</code></pre>
+
+      <div class="success-box">
+        <strong>SINAL VERDE:</strong> Se o log mostrar o processamento de novos segmentos e o <code>SELECT</code> acima
+        listar suas tabelas, sua réplica ressuscitou com sucesso!
+      </div>
+
+      <p><a href="sgbd_fb.html" class="back-link">&larr; Voltar para Firebird</a></p>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Gladiston Santana. Especialista em Primeiros Socorros para Bancos de Dados.</p>
+  </footer>
+
+</body>
+
+</html>

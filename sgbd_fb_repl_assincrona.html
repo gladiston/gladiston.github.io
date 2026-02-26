@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Replicação Assíncrona no Firebird: O Guia da Paciência - Gladiston Santana</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+
+  <header class="main-header">
+    <div class="header-container">
+      <img src="assets/img/logo.jpg" alt="Logo" class="logo-circle">
+      <div class="header-text">
+        <h1>Firebird SQL</h1>
+        <p>Replicação Assíncrona: Porque nem tudo precisa ser pra ontem.</p>
+      </div>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <ul class="nav-links">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="sgbd_fb.html">Voltar para Firebird</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <article>
+      <h2>Definindo nosso Ambiente</h2>
+      <p>Para este guia, vamos assumir o seguinte cenário de "campo de batalha":</p>
+      <ul>
+        <li><strong>Servidor Publicador:</strong> Um Windows Server com Firebird 5 instalado em <code>c:\fb5</code>.
+          O diretório dos bancos de dados é <code>c:\db</code>. O proprietário desta pasta é o usuário
+          <code>LocalSystem</code>, o mesmo processo que gerencia o serviço do Firebird no Windows.
+        </li>
+        <li><strong>Servidor Leitor:</strong> Um Linux (Debian/Ubuntu) pronto para receber os dados em
+          <code>/var/db</code>.
+        </li>
+        <li><strong>Os Bancos de Dados:</strong>
+          <ul>
+            <li><code>acme.fdb</code>: Nosso banco principal de vendas e bigornas.</li>
+            <li><code>correios.fdb</code>: Nosso banco auxiliar com CEPs e endereços.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="note-box">
+        <strong>NOTA IMPORTANTE:</strong>
+        Não se prenda ao Sistema Operacional! A lógica de replicação do Firebird é agnóstica. O que funciona no Windows
+        funciona no Linux e vice-versa. A única coisa que muda de verdade é <b>onde os arquivos moram</b> (o
+        caminho das pastas) e o nome dos serviços. De resto, é tudo igual!
+      </div>
+
+      <h2>O QUE É (E porque você deveria se importar)</h2>
+      <p>Imagine que você tem um banco de dados e quer um "dublê" dele em outro servidor. A <strong>replicação
+          assíncrona</strong> é exatamente isso: o servidor principal (Publicador) anota tudo o que aconteceu e, de
+        tempos em tempos, manda essas notas para o servidor secundário (Leitor) aplicar. É como se o Publicador enviasse
+        cartas e o Leitor as lesse para atualizar o seu próprio diário.</p>
+      <p><strong>A vantagem?</strong> Se o servidor principal explodir (metaforicamente, esperamos), você tem um reserva
+        quase idêntico. <strong>A desvantagem?</strong> "Quase" porque, como é assíncrono, pode haver um pequeno atraso
+        (delay). Nada é perfeito, nem mesmo o café.</p>
+
+      <div class="tip-box">
+        <strong>REGRAS DE OURO (Ou você vai chorar depois):</strong>
+        <ul>
+          <li><strong>Versões iguais:</strong> Não tente replicar do Firebird 4.0 para o 5.0. É como tentar rodar fita
+            VHS num PlayStation 5. Mantenha os servidores na mesma versão (ou muito próximas).</li>
+          <li><strong>Chaves Primárias:</strong> Sem PK, sem replicação. O Firebird precisa saber exatamente *qual*
+            registro mudar. Sem identidade, ele se perde.</li>
+        </ul>
+      </div>
+
+      <hr>
+
+      <h2>Lado PUBLICADOR: O Chefe que anota tudo</h2>
+
+      <div class="tip-box">
+        <strong>Preparação Recomendada:</strong>
+        <p>No Windows, crie um usuário local chamado <code>firebird</code>. Ele será nosso "operário padrão" para
+          permissões de arquivos e acessos de rede. Não precisa de privilégios de administrador, apenas uma senha forte.
+        </p>
+      </div>
+
+      <h3>1. Momento de Preparação (Parando o Serviço)</h3>
+      <p>Antes de mexermos nas configurações internas do Firebird, precisamos garantir que o motor esteja desligado. No
+        Windows, abra o <strong>Prompt de Comando (CMD)</strong> como <strong>Administrador</strong> e execute:</p>
+      <pre><code>net stop FirebirdServerDefaultInstance</code></pre>
+      <p>Ou, se preferir o caminho visual, abra o <code>services.msc</code> (Serviços), localize o <strong>Firebird
+          Server</strong> e mande-o parar por lá.</p>
+      <div class="note-box">
+        <strong>DICA:</strong> Se você estiver usando uma instância nomeada, troque
+        <code>FirebirdServerDefaultInstance</code> pelo nome da sua instância.
+      </div>
+
+      <h3>2. Configurando o Diário (replication.conf)</h3>
+      <p>Vá até <code>c:\fb5\replication.conf</code>. Procure por <em>"(for the primary side)"</em>. No final dele,
+        vamos dizer onde ele deve guardar as anotações (o "Journal"). Abra o arquivo com um editor de texto o arquivo
+        c:\fb5\replication.conf e então acrescente ao seu final o que deve ser replicado, a saber:</p>
+      <pre><code>#
+# Minha replicação - O DIÁRIO DO CHEFE
+#
+database = c:\db\acme.fdb
+{
+  # Pasta onde os rascunhos são criados (Journal)
+  journal_directory = c:\db-repl\journal\vidy15
+  
+  # Pasta onde as notas prontas são arquivadas para o Leitor buscar
+  journal_archive_directory = c:\db-repl\archive\vidy15 
+  
+  # Tempo para fechar a nota e mandar pro arquivo (60=1m; 900=15m; 1800=30m; 3600=60m)
+  journal_archive_timeout = 60  # em segundos (60=1m; 900=15m; 1800=30m; 3600=60m)
+  
+  verbose_logging = true 
+}
+
+database = c:\db\correios.fdb
+{
+  journal_directory = c:\db-repl\journal\correios
+  journal_archive_directory = c:\db-repl\archive\correios
+  journal_archive_timeout = 3600  # em segundos (900=15m; 1800=30m; 3600=60m)
+  verbose_logging = false 
+}</code></pre>
+
+      <div class="tip-box">
+        <strong>Entendendo os Parâmetros:</strong>
+        <ul>
+          <li><strong>database:</strong> Caminho físico completo do banco de dados no servidor Publicador.</li>
+          <li><strong>journal_directory:</strong> O "rascunho" em tempo real. É aqui que o Firebird anota cada INSERT,
+            UPDATE e DELETE no momento em que acontecem.</li>
+          <li><strong>journal_archive_directory:</strong> O "centro de expedição". Quando o rascunho é fechado, ele vem
+            para cá para ser coletado pela réplica.</li>
+          <li><strong>journal_archive_timeout:</strong> O tempo máximo (em segundos) que um rascunho fica aberto antes
+            de
+            ser "lacrado" e movido para o arquivo.</li>
+          <li><strong>verbose_logging:</strong> Se <code>true</code>, o Firebird detalha cada passo da replicação no
+            arquivo <code>firebird.log</code>. Útil para debug.</li>
+        </ul>
+      </div>
+
+
+
+
+      <p>Supondo que seu banco de dados esteja em <code>c:\db</code>, vamos criar uma nova pasta centralizadora de
+        nossas replicações. Vamos chamá-la de <code>C:\db-repl</code>.</p>
+
+      <div class="note-box">
+        <strong>DICA DE ARQUITETURA:</strong>
+        Por que usar <code>C:\db-repl</code> e não uma subpasta dentro de <code>C:\db</code>?
+        <ul>
+          <li><strong>Isolamento de Permissões:</strong> Fica muito mais fácil (e seguro) dar permissões de rede apenas
+            para a pasta de logs, sem correr o risco de expor seus arquivos <code>.fdb</code> originais.</li>
+          <li><strong>Performance:</strong> Em servidores de alta carga, você pode colocar a pasta de logs em um disco
+            físico diferente, evitando que a gravação dos logs "brigue" com a leitura dos dados pelo cabeçote do HD.
+          </li>
+          <li><strong>Organização:</strong> Facilita backups, monitoramento de cotas de disco e limpezas periódicas sem
+            misturar "arquivos vivos" com "logs temporários".</li>
+        </ul>
+      </div>
+
+      <h3>3. Segurança Máxima (Permissões e Herança)</h3>
+      <p>Tanto para a pasta dos seus bancos (<code>c:\db</code>) quanto para a de replicação
+        (<code>c:\db-repl</code>), precisamos de uma configuração profissional para evitar bisbilhoteiros:</p>
+      <p>Clique com o botão direito na pasta, depois em <b>Propriedades</b>, depois em <b>Segurança</b>, depois em
+        <b>Avançadas</b>. Clique em <b>Desabilitar Herança</b> e escolha "Remover todas as permissões herdadas deste
+        objeto". Agora adicione apenas estes usuários com <b>Controle Total</b>:
+      </p>
+      <ul>
+        <li><code>firebird</code> (o usuário que sugerimos criar)</li>
+        <li><code>Administradores</code></li>
+        <li><code>Serviço Local</code> (SYSTEM)</li>
+        <li><code>Proprietário Criador</code> (Creator Owner)</li>
+      </ul>
+      <p>Lembre-se: Sem o motor do Firebird (LocalSystem/firebird) ter acesso total aqui, nada funciona.</p>
+      <img src="assets/img/sgbd_fb_repl_assincrona01.png" alt="Configuração de Permissões no Windows"
+        class="content-img">
+      <p><strong>Nota para Linux:</strong> No pinguim basta garantir que as pastas tenham o usuário
+        <code>firebird:firebird</code> como dono. Ex: <code>sudo chown -R firebird:firebird /var/db-repl</code>
+      </p>
+
+
+
+      <h3>4. Estrutura Física das Pastas</h3>
+      <p>Dentro dessa pasta <code>db-repl</code>, o Firebird precisa de duas pastas para trabalhar:</p>
+      <ul>
+        <li><strong><code>journal</code>:</strong> Este é o <strong>espaço de trabalho imediato</strong>. Sempre que
+          ocorre uma mudança no banco, o Firebird anota aqui em "tempo real". Pense nisso como o rascunho de um diário
+          que nunca para de ser escrito.</li>
+        <li><strong><code>archive</code>:</strong> Este é o <strong>centro de expedição</strong>. Quando o rascunho
+          (journal) atinge um certo tamanho ou tempo, o Firebird o "fecha", lacra o pacote e o move para cá. É desta
+          pasta que os logs serão lidos para serem enviados ou buscados pela réplica.</li>
+      </ul>
+
+      <p>No final, sua estrutura física de pastas deve ficar exatamente assim:</p>
+      <pre><code># Estrutura completa para nossos dois bancos de exemplo:
+c:\db-repl\journal\acme
+c:\db-repl\journal\correios
+c:\db-repl\archive\acme
+c:\db-repl\archive\correios</code></pre>
+
+      <h3>5. Compartilhando a pasta db-repl</h3>
+      <p>A pasta <code>c:\db-repl</code> precisa ser visível para o Linux para que a ponte funcione. Vamos criar
+        um compartilhamento seguro:</p>
+      <ul>
+        <li>Compartilhe a pasta <code>c:\db-repl</code> com o nome de rede <code>db-repl</code>.</li>
+        <li>Nas permissões de <strong>Compartilhamento</strong> e <strong>Segurança (NTFS)</strong>, remova o grupo
+          "Todos" (Everyone).</li>
+        <li>Dê acesso de <strong>Leitura</strong> (e Controle Total no NTFS) para os mesmos usuários de antes:
+          <code>firebird</code> e <code>Administradores</code>.
+        </li>
+      </ul>
+      <img src="assets/img/sgbd_fb_repl_assincrona02.png" alt="Configuração de Compartilhamento no Windows"
+        class="content-img">
+
+      <hr>
+
+      <h2>Lado LEITOR: O Nó de Réplica</h2>
+      <p>Aqui o servidor vai apenas "ouvir" e aplicar o que vier do Publicador. Vamos supor que seja um Linux, porque é
+        mais elegante (e provável).</p>
+
+      <h3>1. Momento de Preparação (Parando o Serviço)</h3>
+      <p>Antes de configurar o Leitor, precisamos garantir que o motor esteja desligado para que possamos mexer nas
+        engrenagens com segurança. No Linux, pare o serviço do Firebird:</p>
+      <pre><code>sudo systemctl stop firebird</code></pre>
+
+      <h3>2. Criando o quartinho das notas (Landing Zone)</h3>
+      <p>O servidor Leitor precisa de um diretório físico para receber os arquivos de journal vindos do Publicador.
+        Vamos criar a estrutura em <code>/var/db-repl</code>. Esta será a nossa "zona de pouso" (Landing Zone):</p>
+      <pre><code>sudo mkdir -p /var/db-repl
+
+# Garanta que o Firebird consiga ler e escrever aqui:
+sudo chown -vR firebird:firebird /var/db-repl
+sudo chmod -vR 770 /var/db-repl</code></pre>
+      <p><strong>Por que?</strong> Porque o Firebird Leitor vai ficar "vigiando" estas pastas. Nós iremos montá-la
+        ligando-a à <code>c:\db-repl</code> que criamos no servidor Windows. Assim que o lado PUBLICADOR criar um
+        arquivo
+        dentro de <code>c:\db-repl\archive\&lt;nome_do_banco&gt;</code>, ele aparecerá aqui e o Firebird Leitor o
+        processa
+        imediatamente. Se ele não tiver permissão para ler ou apagar o arquivo depois de processado, a replicação vai
+        engasgar, e foi por isso que criamos o usuário <code>firebird</code> e demos permissão total a ele.</p>
+      <h3>3. Ligação com o Windows</h3>
+      <p>Agora precisamos fazer com que o Linux enxergue a pasta <code>c:\db-repl</code> do Windows. Vamos usar o
+        <code>mount.cifs</code> para isso. Crie um arquivo de credenciais para não expor a senha no terminal:
+      </p>
+      <pre><code># Crie o arquivo de credenciais
+sudo nano /etc/cifs-credentials.agente_firebird
+# Cole dentro dele e informe as credenciais usadas pelo usuário firebird no Windows:
+username=firebird
+password=sua_senha_forte_aqui
+domain=
+</code></pre>
+      <p>Salve e saia (Ctrl+O, Enter, Ctrl+X)</p>
+      <p>Dê permissão apenas para o root ler (segurança):</p>
+      <pre><code>sudo chmod 600 /etc/cifs-credentials.agente_firebird</code></pre>
+      <p>Antes de montar a pasta, precisamos nos certificar de que temos as ferramentas necessárias:</p>
+      <pre><code>sudo apt-get install cifs-utils</code></pre>
+      <p>Agora, vamos montar a pasta:</p>
+      <pre><code># Monte a pasta (usando vers=2.0 que é mais seguro/rápido, ou 1.0 se o Windows for muito antigo)
+sudo mount -t cifs //IP_DO_WINDOWS/db-repl /var/db-repl -o credentials=/etc/cifs-credentials.agente_firebird,iocharset=utf8,vers=2.0,uid=firebird,gid=firebird,file_mode=0660,dir_mode=0770</code></pre>
+
+      <p>Verifique se funcionou, execute:</p>
+      <pre><code>ls -l /var/db-repl</code></pre>
+      <p>Se aparecerem os arquivos do Windows, perfeito! Se der erro, verifique o IP e as permissões no Windows.</p>
+      <p>Visto que a montagem deve ser permanente (para sobreviver a reboots), vamos adicioná-la ao arquivo de
+        configuração de partições do Linux:</p>
+      <pre><code>sudo nano /etc/fstab</code></pre>
+      <p>Vá até o final do arquivo e adicione a seguinte linha:</p>
+      <pre><code># Montando o compartilhamento //IP_DO_WINDOWS/db-repl em /var/db-repl
+//IP_DO_WINDOWS/db-repl /var/db-repl cifs credentials=/etc/cifs-credentials.agente_firebird,iocharset=utf8,vers=2.0,uid=firebird,gid=firebird,file_mode=0660,dir_mode=0770 0 0</code></pre>
+      <p>Salve e saia (Ctrl+O, Enter, Ctrl+X). Agora, para testar se a configuração está correta sem reiniciar o
+        servidor, execute:</p>
+      <pre><code># Desmonte o que montamos manualmente antes
+sudo umount /var/db-repl
+
+# Tente montar tudo o que está no fstab
+sudo mount -a
+
+# Verifique se a pasta voltou a aparecer
+ls -l /var/db-repl</code></pre>
+      <p>Se a listagem de arquivos aparecer, sua "ponte" agora é indestrutível e resistirá a reinicializações!</p>
+
+      <h3>4. O Diário de Erros (Importante!)</h3>
+      <p>Se algo der errado, você vai querer saber. Crie o log:</p>
+      <pre><code>sudo mv /opt/firebird/replication.log /opt/firebird/replication.log.$(date +%Y%m%d_%H%M%S)
+sudo touch /opt/firebird/replication.log
+sudo chown firebird:firebird /opt/firebird/replication.log</code></pre>
+
+      <h3>5. Automatizando a Autenticação</h3>
+      <p>Para que o motor de replicação consiga "conversar" com os bancos de dados sem interrupções e sem pedir senha a
+        todo momento, utilizaremos um recurso do Linux chamado <strong>variáveis de ambiente globais</strong>. Ao
+        configurar o <code>SYSDBA</code> no arquivo <code>/etc/environment</code>, o serviço do Firebird ganha um "passe
+        livre" para ler e aplicar os logs de forma automática, silenciosa e totalmente transparente. Execute</p>
+      <pre><code>sudo nano /etc/environment</code></pre>
+      <p>Adicione as seguintes linhas ao arquivo:</p>
+      <pre><code>ISC_USER=SYSDBA
+ISC_PASSWORD=masterkey
+FIREBIRD_MSG=/opt/firebird</code></pre>
+      <p>Salve e saia (Ctrl+O, Enter, Ctrl+X). Para efetivar estas instruções sem reiniciar o servidor, execute:</p>
+      <pre><code>source /etc/environment</code></pre>
+
+      <h3>6. A Primeira Cópia</h3>
+      <p>Chegou a hora do transplante. Mas antes de prosseguir, o serviço do Firebird deve estar desligado
+        <strong>tanto no Publicador quanto no Leitor</strong>. Após garantir o desligamento, faça a cópia.
+      </p>
+      <p>No <strong>Publicador (Windows)</strong>, execute no terminal:</p>
+      <pre><code>net stop FirebirdServerDefaultInstance</code></pre>
+      <p>Dica: Você também pode fazer isso visualmente pelo <code>services.msc</code>.</p>
+      <p>No <strong>Leitor (Linux)</strong>, execute no terminal:</p>
+      <pre><code>sudo systemctl stop firebird</code></pre>
+      <p>Agora, realize a cópia dos bancos. Lembre-se: eles precisam começar a vida exatamente <strong>IGUAIS</strong>.
+      </p>
+      <p>Vamos montar a unidade de rede do Windows no Linux para facilitar o processo:</p>
+      <pre><code>sudo mkdir -p /mnt/publicador
+sudo mount -t cifs //IP_DO_WINDOWS/C$ /mnt/publicador -o credentials=/etc/cifs-credentials.agente_firebird,iocharset=utf8,vers=2.0,uid=firebird,gid=firebird,file_mode=0660,dir_mode=0770</code></pre>
+      <p>Certifique-se de que a montagem foi realizada com sucesso:</p>
+      <pre><code>ls -l /mnt/publicador</code></pre>
+      <p>Onde <strong>C$</strong> corresponde ao drive <code>C:\</code> do Windows (unidade administrativa oculta).
+        Então, no Linux, execute a cópia:</p>
+      <pre><code># Origem (Windows) -> Destino (Linux)
+cp /mnt/publicador/db/acme.fdb /var/db/acme.fdb
+cp /mnt/publicador/db/correios.fdb /var/db/correios.fdb
+
+# Após a cópia, ajuste a posse dos arquivos no Linux:
+sudo chown -vR firebird:firebird /var/db</code></pre>
+      <p>Depois disso, podemos desmontar a pasta, execute:</p>
+      <pre><code>sudo umount /mnt/publicador</code></pre>
+      <p>Agora, vamos configurar o Leitor (replication.conf no Linux). Execute:</p>
+      <pre><code>sudo nano /opt/firebird/replication.conf</code></pre>
+      <p>Em <code>/opt/firebird/replication.conf</code>, adicione um bloco para cada banco:</p>
+      <pre><code>database = /var/db/acme.fdb
+{
+  # Onde o Leitor deve buscar as "notas" (arquivos de journal) que o Publicador enviou
+  journal_source_directory = /var/db-repl/archive/acme  
+  
+  # Ativa o log detalhado em replication.log. Ótimo para saber o que está acontecendo por baixo do capô.
+  verbose_logging = true
+  
+  # Tempo (em segundos) que o Leitor descansa quando não há notas novas para processar
+  apply_idle_timeout = 60  
+  
+  # Tempo (em segundos) de espera antes de tentar novamente após um erro de processamento
+  apply_error_timeout = 60
+}
+
+database = /var/db/correios.fdb
+{
+  # Landing Zone para o segundo banco
+  journal_source_directory = /var/db-repl/archive/correios
+  verbose_logging = true
+  
+  # Intervalo de verificação quando ocioso
+  apply_idle_timeout = 60  
+  
+  # Intervalo de recuperação após erros
+  apply_error_timeout = 60
+}</code></pre>
+
+      <hr>
+
+      <h2>Dica de Segurança: Protegendo a Integridade (Read Only)</h2>
+      <p>Uma réplica, por definição, não deve ser alterada manualmente — senão ela perde a sincronia com o Publicador.
+        Para evitar acidentes (ou aquele "sysadmin" criativo), vamos colocar os bancos da réplica em modo
+        <strong>Somente
+          Leitura</strong>. O Firebird continuará aplicando os logs de replicação normalmente, mas rejeitará qualquer
+        comando de INSERT/UPDATE vindo de conexões externas.
+      </p>
+
+      <p>Use o utilitário <code>gfix</code> para alterar o cabeçalho do banco de dados:</p>
+      <pre><code># Para o banco acme
+sudo /opt/firebird/bin/gfix -replica read_only /var/db/acme.fdb
+
+# Para o banco correios
+sudo /opt/firebird/bin/gfix -replica read_only /var/db/correios.fdb</code></pre>
+
+      <hr>
+
+      <h2>A HORA DA VERDADE: Ativando a Replicação</h2>
+      <p>Agora que o palco está montado, os atores estão em seus lugares e o ponto de transporte (CIFS) está operante,
+        chegou a hora de apertar o botão "ON".</p>
+
+      <h3>1. Acordando o PUBLICADOR</h3>
+      <p>Como paramos tudo para a cópia inicial, a primeira coisa é religar os motores do <strong>PUBLICADOR
+          (Windows)</strong>, execute no CMD:</p>
+      <pre><code>net start FirebirdServerDefaultInstance</code></pre>
+      <p>Ou use o <code>services.msc</code> para fazê-lo visualmente.</p>
+
+      <h3>2. Habilitando os bancos</h3>
+      <p>Use uma ferramenta de acesso SQL (como <strong>IbExpert</strong>, <strong>FlameRobin</strong> ou
+        <strong>isql</strong>) apenas no servidor <strong>Publicador</strong>. Conecte-se a <strong>cada um</strong> dos
+        seus bancos de dados individualmente e execute estes comandos para despertar a replicação:
+      </p>
+
+      <pre><code>-- Execute no acme.fdb
+ALTER DATABASE ENABLE PUBLICATION;
+
+-- Execute no correios.fdb
+ALTER DATABASE ENABLE PUBLICATION;</code></pre>
+
+      <h3>3. Escolhendo o que será replicado</h3>
+      <p>Este é o "pulo do gato": o comando de <code>ENABLE PUBLICATION</code> que rodamos no passo anterior apenas liga
+        o motor de replicação, mas ele ainda não sabe o que deve observar. É como ligar uma câmera sem apontar para
+        lugar nenhum. Você precisa dizer explicitamente quais tabelas devem ser monitoradas:</p>
+
+      <p><strong>Todas as tabelas:</strong></p>
+      <pre><code>ALTER DATABASE INCLUDE ALL TO PUBLICATION;</code></pre>
+
+      <p><strong>Apenas o essencial (Seletivo):</strong></p>
+      <pre><code>ALTER DATABASE INCLUDE TABLE CLIENTES, VENDAS TO PUBLICATION;</code></pre>
+
+      <div class="note-box">
+        <strong>COMO CONFERIR?</strong>
+        Para ter certeza de quais tabelas o Firebird aceitou na "lista de transmissão", execute este comando no banco do
+        Publicador:
+        <pre><code>SELECT RDB$TABLE_NAME FROM RDB$PUBLICATION_TABLES;</code></pre>
+      </div>
+
+      <h3>4. Acordando o LEITOR</h3>
+      <p>Agora é a vez do <strong>LEITOR (Linux)</strong>. Certifique-se de que o motor dele também esteja rodando para
+        que ele possa começar a processar os arquivos que o Publicador vai enviar:</p>
+      <pre><code>sudo systemctl start firebird</code></pre>
+
+      <h3>5. O Teste de DNA (Verificação)</h3>
+      <p>Como saber se a "mágica" realmente aconteceu? Vamos criar um rastro deliberado no <strong>Publicador</strong>:
+      </p>
+      <pre><code>-- No Publicador (acme.fdb)
+CREATE TABLE TESTE_REPLICA (ID INT PRIMARY KEY);
+COMMIT;</code></pre>
+      <p>Ainda no Publicador (Windows), observe a pasta <code>c:\db-repl\journal\acme\</code> e veja se surgem novos
+        arquivos de <i>journaling</i>. Se sim, vá até o <strong>Leitor</strong> e tente dar um SELECT nessa tabela. Se
+        ela aparecer lá, parabéns: seu motor de replicação está em perfeito estado!</p>
+      <p><strong>Mas e se não aparecer?</strong> Calma, vamos verificar o que está acontecendo. Execute no Leitor:</p>
+      <pre><code>tail -f /opt/firebird/replication.log</code></pre>
+      <p>Se o log mostrar o processamento de novos segmentos, você salvou o dia!</p>
+      <p>Lembre-se também de que no <code>replication.conf</code> você configurou o tempo de espera quando ocioso
+        (<code>apply_idle_timeout</code>) e o tempo de espera após um erro (<code>apply_error_timeout</code>). Portanto,
+        você deve aguardar o tempo configurado (em nosso exemplo, <strong>1 minuto ou 60 segundos</strong>).</p>
+
+      <div class="success-box">
+        <strong>DICA DE OURO:</strong> Assim que você rodar os comandos de ativação, o Firebird começará a gerar os
+        arquivos em <code>c:\db-repl\journal</code>. Se o transporte estiver OK, eles aparecerão em
+        <code>/var/db-repl</code> no Linux e o Leitor começará a trabalhar sozinho. É mágico!
+      </div>
+
+      <h2>Vídeos para quem prefere pipoca</h2>
+      <ul>
+        <li><a href="https://www.youtube.com/watch?v=v6L_exonTys" target="_blank">Replicação SÍNCRONA
+            (Apressadinha)</a></li>
+        <li><a href="https://www.youtube.com/watch?v=COdWtRn4hgs" target="_blank">Replicação ASSÍNCRONA (De boa)</a>
+        </li>
+      </ul>
+
+      <p><a href="sgbd_fb.html" class="back-link">&larr; Voltar para Firebird</a></p>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Gladiston Santana. Mantendo seus dados vivos e refrescados.</p>
+  </footer>
+
+</body>
+
+</html>
