@@ -176,7 +176,8 @@
                     base/direita. O valor padrão é <code>tlTop</code>.</li>
                 <li><code>Wrap := True</code>: Determina se os componentes filhos são automaticamente "quebrados" para
                     uma nova linha quando necessário. O valor padrão para esta propriedade no <code>TFlowPanel</code> é
-                    <code>True</code>.</li>
+                    <code>True</code>.
+                </li>
             </ul>
             <p>Outras propriedades importantes são <code>Padding</code> e <code>Spacing</code>, que definem o
                 espaçamento
@@ -217,12 +218,16 @@
                     title="Demonstração de menus de ação (TPopupMenu) num TLabel"></video>
             </div>
 
-            <h3>Não tenha medo do unicode</h3>
-            <p>Diferente do Delphi, onde muitas vezes o editor da IDE vem configurado com o charset ANSI, o editor do
-                Lazarus é
-                puramente <strong>Unicode (UTF-8)</strong> por padrão. Isso significa que você pode usar caracteres
-                especiais diretamente no seu código-fonte e nas propriedades dos componentes sem medo de "quebrar" o
-                binário.</p>
+            binário.</p>
+
+            <p><strong>Nota para usuários Delphi:</strong> Diferente do Lazarus, a IDE do Delphi tradicionalmente
+                utiliza
+                ANSI como padrão no editor de código. Embora o programador possa alterar o encoding do arquivo para
+                Unicode (UTF-8), em projetos legados essa mudança deve ser feita com cautela. Alterar o encoding de
+                arquivos de código-fonte antigos pode causar problemas comuns, como a corrupção de caracteres especiais
+                ou acentuados já existentes no arquivo, conflitos em ferramentas de controle de versão (Git/SVN) e
+                possíveis erros de interpretação pelo compilador em versões mais antigas que não esperam arquivos
+                gravados em UTF-8.</p>
 
             <p>Veja como você pode usar labels para criar interfaces mais ricas sem precisar de arquivos de imagem
                 adicionais:</p>
