@@ -31,7 +31,7 @@
 
     <main>
         <article>
-            <h2>Migrando de DBGrid para Cards: Modernizando o Visual no Lazarus</h2>
+            <h2>Usando Cards: Modernizando o Visual de sua aplicação</h2>
 
             <h2>Introdução</h2>
             <p>O <code>TDBGrid</code> é o herói cansado do ecossistema Pascal. Ele nos serviu bem por décadas, mas
@@ -150,7 +150,8 @@
                     title="Demonstração de Expansão Vertical (Efeito Accordion)"></video>
             </div>
 
-            <p>Como o Frame e o FlowPanel externo estão configurados com <code>AutoSize := True</code>, o Lazarus irá
+            <p>Como o Frame e o FlowPanel externo estão configurados com <code>AutoSize := True</code>, sua aplicação
+                irá
                 reorganizar todos os outros cards automaticamente quando um deles "esticar" para revelar os detalhes. É
                 um efeito extremamente moderno e funcional.</p>
 
@@ -158,7 +159,35 @@
 
             <p>O <strong>TFlowPanel</strong> é um componente de layout "inteligente". Ao contrário de um
                 <code>TPanel</code> comum, onde você solta um componente e ele fica numa posição fixa, o FlowPanel
-                organiza os seus filhos automaticamente em fila.
+                organiza os seus filhos automaticamente em fila. Há uma propriedade nele chamada <code>FlowStyle</code>
+                que permite que você defina a direção da fila, seja horizontal ou vertical, o padrão é horizontal
+                <code>fsLeftRightTopBottom</code>. Geralmente, você vai usar os seguintes parametros definidos assim:
+            </p>
+            <ul>
+                <li><code>AutoSize := True</code>: Permite o ajuste automático do tamanho do controle de acordo com o
+                    seu conteúdo. Por exemplo, um card pode aumentar ou diminuir para acomodar uma descrição mais longa
+                    ou mais curta. Por padrão, esta propriedade é <code>False</code>.</li>
+                <li><code>FlowStyle := fsLeftRightTopBottom</code>: Define a direção do fluxo usada para posicionar os
+                    controles no painel. O valor padrão organiza os itens da esquerda para a direita e de cima para
+                    baixo.</li>
+                <li><code>FlowLayout := tlTop</code>: Define o alinhamento para a coordenada de "não-fluxo" (o eixo
+                    perpendicular à direção do fluxo). Por exemplo, em um fluxo horizontal, <code>tlTop</code> alinha os
+                    itens pelo topo/esquerda; <code>tlCenter</code> centraliza e <code>tlBottom</code> alinha pela
+                    base/direita. O valor padrão é <code>tlTop</code>.</li>
+                <li><code>Wrap := True</code>: Determina se os componentes filhos são automaticamente "quebrados" para
+                    uma nova linha quando necessário. O valor padrão para esta propriedade no <code>TFlowPanel</code> é
+                    <code>True</code>.</li>
+            </ul>
+            <p>Outras propriedades importantes são <code>Padding</code> e <code>Spacing</code>, que definem o
+                espaçamento
+                entre os cards e entre os componentes dentro do card. Por exemplo, se você quiser que os cards fiquem
+                alinhados à direita, você pode usar a propriedade <code>Align := alRight</code>.</p>
+            <p>Tem também propriedades puramente estéticas e já conhecidas como <code>BevelEdges</code>,
+                <code>BevelInner</code>,
+                <code>BevelOuter</code>, <code>BevelKind</code>, <code>BevelWidth</code>, <code>BorderWidth</code>,
+                <code>BorderStyle</code>, <code>Color</code>, <code>Width</code> e
+                <code>Height</code>. É importante notar que as propriedades <code>Width</code> e <code>Height</code>
+                são definidas automaticamente pelo FlowPanel quando <code>AutoSize := True</code>.
             </p>
 
             <p><strong>Como configurar o FlowPanel:</strong></p>
@@ -189,10 +218,11 @@
             </div>
 
             <h3>Não tenha medo do unicode</h3>
-            <p>Diferente do Delphi, onde muitas vezes o editor vem configurado com o charset ANSI (especialmente em
-                versões mais antigas), o editor do Lazarus é puramente <strong>Unicode (UTF-8)</strong> por padrão. Isso
-                significa que você pode usar caracteres especiais diretamente no seu código-fonte e nas propriedades
-                dos componentes sem medo de "quebrar" o binário.</p>
+            <p>Diferente do Delphi, onde muitas vezes o editor da IDE vem configurado com o charset ANSI, o editor do
+                Lazarus é
+                puramente <strong>Unicode (UTF-8)</strong> por padrão. Isso significa que você pode usar caracteres
+                especiais diretamente no seu código-fonte e nas propriedades dos componentes sem medo de "quebrar" o
+                binário.</p>
 
             <p>Veja como você pode usar labels para criar interfaces mais ricas sem precisar de arquivos de imagem
                 adicionais:</p>
@@ -731,10 +761,12 @@ begin
   end;
 end;</code></pre>
 
-            <h2>Dicas de "Pulo do Gato" no Lazarus</h2>
+            <h2>Dicas de "Pulo do Gato"</h2>
             <ul>
                 <li><strong>Scroll Automático:</strong> Quando o FlowPanel está cheio de Frames, o foco pode ficar
-                    "preso" nos componentes internos. Para resolver, implemente o evento <code>OnMouseWheel</code> no
+                    "preso" nos componentes internos e daí, você tenta rolar a tela com a rodinha do mouse e nada
+                    acontece.
+                    Para resolver, implemente o evento <code>OnMouseWheel</code> no
                     seu Frame e repasse o comando para o ScrollBox pai:
                     <pre><code>procedure TfrItemCard.FrameMouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
@@ -756,7 +788,12 @@ begin
     P := P.Parent;
   end;
 end;</code></pre>
-<p><strong>Um ponto de atenção:</strong> O exemplo acima considera que a rodinha do mouse vai rolar sobre um TFrame, mas se dentro do TFrame voce colocal um painel(TPanel) e ingressar os componentes visuais dentro dele, então o codigo acima ao inves de usar o evento <strong>OnMouseWheel</strong> do TFrame, ele deve usar o evento <strong>OnMouseWheel</strong> do painel (TPanel).</p>
+                    <p><strong>Um ponto de atenção:</strong> O exemplo acima considera que a rodinha do mouse vai rolar
+                        sobre um TFrame, mas se dentro do TFrame voce colocal um painel(TPanel) e ingressar os
+                        componentes visuais dentro dele, então o codigo acima ao inves de usar o evento
+                        <strong>OnMouseWheel</strong> do TFrame, ele deve usar o evento <strong>OnMouseWheel</strong> do
+                        painel (TPanel).
+                    </p>
                 </li>
                 <li><strong>Constraints:</strong> No Frame, defina <code>Constraints.MinWidth</code> para impedir
                     deformações visuais indesejadas.</li>
