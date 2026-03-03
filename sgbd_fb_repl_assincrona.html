@@ -183,14 +183,15 @@ database = c:\fdb\correios.fdb
         <li><code>Serviço Local</code> (SYSTEM)</li>
         <li><code>Proprietário Criador</code> (Creator Owner)</li>
       </ul>
-      <p>Lembre-se: Sem o motor do Firebird (LocalSystem/firebird) ter acesso total aqui, nada funciona.</p>
+      <p>Lembre-se: Sem o motor do Firebird (LocalSystem/firebird) ter acesso total aqui, nada funcionará.</p>
       <img src="assets/img/sgbd_fb_repl_assincrona01.png" alt="Configuração de Permissões no Windows"
         class="content-img">
       <p><strong>Nota para Linux:</strong> No pinguim basta garantir que as pastas tenham o usuário
-        <code>firebird:firebird</code> como dono. Ex: <code>sudo chown -R firebird:firebird /var/fdb-repl</code>
-      </p>
-
-
+        <code>firebird:firebird</code> como dono. Ex:</p>
+      <pre><code>sudo chown -R firebird:firebird /var/fdb-repl
+sudo chmod 770 /var/fdb-repl
+sudo chown -R firebird:firebird /var/fdb
+sudo chmod 770 /var/fdb</code></pre>
 
       <h3>4. Estrutura Física das Pastas</h3>
       <p>Dentro dessa pasta <code>fdb-repl</code>, o Firebird precisa de duas pastas para trabalhar:</p>
@@ -211,10 +212,9 @@ c:\fdb-repl\archive\acme
 c:\fdb-repl\archive\correios</code></pre>
 
       <h3>5. Compartilhando as pastas fdb-repl e fdb</h3>
-      <p>A pasta <code>c:\fdb-repl</code> precisa ser visível para o Linux para que a ponte funcione. Vamos criar
-        um compartilhamento seguro:</p>
-      <p>Agora precisamos fazer com que o Linux enxergue a pasta <code>c:\fdb-repl</code> do Windows. Vamos usar o nome
-        de rede <code>fdb-repl</code>.</p>
+      <p>As pastas <code>c:\fdb-repl</code> e <code>c:\fdb</code> precisam  ser visíveis para o Linux para que a ponte funcione. Vamos criar
+        um compartilhamento seguro para ambas as pastas:</p>
+      <p>Vamos começar com a pasta <code>c:\fdb-repl</code>, precisamos fazer com que o Linux enxergue-a. Vamos compartilhá-la pela rede com o nome <code>fdb-repl</code>. Usando o Explorer do Windows, clique com o botão direito na pasta <code>c:\fdb-repl</code>, depois:</p>
       <ul>
         <li>Nas permissões de <strong>Compartilhamento</strong> e <strong>Segurança (NTFS)</strong>, remova o grupo
           "Todos" (Everyone).</li>
@@ -490,8 +490,7 @@ COMMIT;</code></pre>
       <p>Observar este arquivo de log da replicação mostrará o que está acontecendo.</p>
       <p>Se mostrar algo como:
       <pre><code>Database: /var/fdb/acme.fdb
-VERBOSE: No new segments found, suspending
-</code></pre>
+VERBOSE: No new segments found, suspending</code></pre>
       <p>Significa que o Leitor não encontrou novos segmentos para processar, portanto ele suspende a operação e tentará
         novamente em 60 segundos. Mas se houver falhas de operações com arquivos, ele também as mostrará e por isso é
         tão importante
