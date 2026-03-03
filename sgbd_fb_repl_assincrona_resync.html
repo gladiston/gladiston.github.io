@@ -36,7 +36,9 @@
         pode fazer com que a replicação perca o compasso. Quando isso acontece, o <code>replication.log</code> começa a
         gritar e a sua réplica fica lá, parada no tempo, enquanto o mundo (o Publicador) continua girando.</p>
       <p>Se as notas acumuladas ficaram confusas demais ou se o "delay" ficou maior que a paciência do seu chefe, é hora
-        de aplicar o protocolo de <strong>Ressincronização Total</strong>.</p>
+        de aplicar o protocolo de <strong>Ressincronização Total</strong>. Pense nisso como um "reset" de fábrica para
+        alinhar os dois servidores novamente.</p>
+      </p>
 
       <div class="warning-box">
         <strong>AVISO DE EMERGÊNCIA:</strong>
@@ -45,7 +47,11 @@
       </div>
 
       <h2>Protocolo de Ressuscitação (Passo a Passo)</h2>
-      <p>Siga esta ordem rigorosamente. Pular um passo aqui é como esquecer de ligar o oxigênio antes da cirurgia.</p>
+      <p>Este processo é uma coreografia entre dois servidores. Siga a ordem rigorosamente, intercalando as ações entre
+        o
+        <strong>Publicador</strong> e o <strong>Leitor</strong> como descrito abaixo. Pular um passo aqui é como
+        esquecer de ligar o oxigênio antes da cirurgia.
+      </p>
 
       <h3>1. O Grande Botão de Pausa (No Leitor)</h3>
       <p>O primeiro passo é silenciar o servidor <strong>LEITOR (Linux)</strong>. Não podemos trocar as rodas de um
@@ -54,79 +60,115 @@
       <pre><code>sudo systemctl stop firebird</code></pre>
 
       <h3>2. Desativando a Publicação (No Publicador)</h3>
-      <p>Precisamos que o <strong>PUBLICADOR (Windows)</strong> pare de gerar "folhas de diário" novas enquanto fazemos
-        o transplante. Primeiro, pare o serviço no Windows (pelo CMD ou <code>services.msc</code>):</p>
-      <pre><code>net stop FirebirdServerDefaultInstance</code></pre>
       <p>Agora, conecte-se a <strong>cada um</strong> dos bancos de dados e desative a publicação via SQL:</p>
       <pre><code>-- Execute via isql ou sua ferramenta SQL favorita
-ALTER DATABASE DISABLE PUBLICATION;
-COMMIT;</code></pre>
+      ALTER DATABASE DISABLE PUBLICATION;
+      COMMIT;</code></pre>
+
+      <p>Agora que desativamos a replicação no lado <strong>PUBLICADOR (Windows)</strong>, pare o serviço no Windows (pelo
+        CMD ou <code>services.msc</code>):</p>
+      <pre><code>net stop FirebirdServerDefaultInstance</code></pre>
+
 
       <h3>3. Limpando os Rastros (Clean Slate)</h3>
-      <p>Apague todos os arquivos antigos de journal e archive. Isso garante que a réplica não tente processar notas do
-        "passado" que não batem com o novo banco que vamos copiar:</p>
+      <p>Apague todos os arquivos de journal e archive. Isso garante que a réplica não tente processar notas do
+        "passado" que não batem com o novo banco que vamos copiar, então usando o Explorer ou o terminal no lado <strong>Publicador (Windows)</strong>, execute a limpeza dessas pastas:</p>
       <pre><code># No Windows (Publicador) - Limpe as subpastas de cada banco:
-del /q c:\db-repl\journal\acme\*
-del /q c:\db-repl\journal\correios\*
-del /q c:\db-repl\archive\acme\*
-del /q c:\db-repl\archive\correios\*
-
-# No Linux (Leitor) - Limpe a zona de pouso:
-sudo rm -rfv /var/db-repl/archive/acme/*
-sudo rm -rfv /var/db-repl/archive/correios/*</code></pre>
+del /q c:\fdb-repl\journal\acme\*
+del /q c:\fdb-repl\archive\acme\*
+del /q c:\fdb-repl\journal\correios\*
+del /q c:\fdb-repl\archive\correios\*</code></pre>
+      <p>Só prossiga se as pastas indicadas acima estiverem vazias.</p>
 
       <h3>4. O Transplante (A Cópia "Fresquinha")</h3>
-      <p>Copie os arquivos <code>.fdb</code> originais do Publicador para o Leitor (em <code>/var/db/</code>). Como a
-        publicação está desativada e o serviço parado, os arquivos estão estáveis e prontos para a viagem.</p>
-
-      <p>Vamos montar a unidade de rede do Windows temporariamente:</p>
+      <p>Para copiar os arquivos de dados do lado publicador para o lado leitor, a pasta <code>c:\fdb</code> do
+        publicador deve estar compartilhada com o nome <code>fdb</code> para <code>Administradores</code> e também o
+        usuário <code>firebird</code> cujas credenciais serão usadas para montar a unidade de rede no Linux.</p>
+      <p>Se você seguiu o artigo <a href="sgbd_fb_repl_assincrona.html">Configurando Replicação Assíncrona</a>, você já
+        deve ter um arquivo <code>/etc/cifs-credentials.agente_firebird</code> no lado leitor, vamos agora usá-lo para
+        montar a unidade de rede do Windows temporariamente:</p>
       <pre><code>sudo mkdir -p /mnt/publicador
-sudo mount -t cifs //IP_DO_WINDOWS/C$ /mnt/publicador -o credentials=/etc/cifs-credentials.agente_firebird,iocharset=utf8,vers=2.0,uid=firebird,gid=firebird,file_mode=0660,dir_mode=0770</code></pre>
+sudo mount -t cifs //IP_DO_WINDOWS/fdb /mnt/publicador -o credentials=/etc/cifs-credentials.agente_firebird,iocharset=utf8,vers=2.0,uid=firebird,gid=firebird,file_mode=0660,dir_mode=0770</code></pre>
 
       <p>Agora, realize a cópia dos novos arquivos "mestre":</p>
-      <pre><code># Origem (Windows) -> Destino (Linux)
-cp /mnt/publicador/db/acme.fdb /var/db/acme.fdb
-cp /mnt/publicador/db/correios.fdb /var/db/correios.fdb</code></pre>
+      <pre><code>cp /mnt/publicador/acme.fdb /var/fdb/acme.fdb
+cp /mnt/publicador/correios.fdb /var/fdb/correios.fdb</code></pre>
 
       <p>Após a cópia, desmonte a unidade e ajuste o dono dos arquivos no Linux:</p>
       <pre><code>sudo umount /mnt/publicador
-sudo chown -v firebird:firebird /var/db/*.fdb
-sudo chmod -v 660 /var/db/*.fdb</code></pre>
+sudo chown -v firebird:firebird /var/fdb/*.fdb
+sudo chmod -v 660 /var/fdb/*.fdb</code></pre>
 
       <h3>5. Resetando o Coração (gfix)</h3>
-      <p>Este passo é vital: precisamos "exorcizar" qualquer estado de réplica antigo do banco e marcá-lo como uma nova
-        réplica somente leitura:</p>
-      <pre><code># No Linux (Leitor), para cada banco:
-# 1. Remove qualquer configuração de réplica anterior
-sudo /opt/firebird/bin/gfix -replica none /var/db/acme.fdb
-# 2. Define o banco como uma nova réplica em modo Somente Leitura
-sudo /opt/firebird/bin/gfix -replica read_only /var/db/acme.fdb</code></pre>
+      <p>Os bancos que foram copiados precisam ser marcados como <code>réplica somente leitura</code>. No lado <strong>Leitor (Linux)</strong>, execute:</p>
+      <pre><code>sudo /opt/firebird/bin/gfix -replica read_only /var/fdb/acme.fdb
+sudo /opt/firebird/bin/gfix -replica read_only /var/fdb/correios.fdb</code></pre>
 
       <h3>6. Choque de Vida (Religando Tudo)</h3>
-      <p>Primeiro, inicie o serviço no <strong>PUBLICADOR (Windows)</strong>:</p>
+      <p>Primeiro, inicie o serviço no <strong>PUBLICADOR (Windows)</strong>, use o <code>services.msc</code> ou execute pelo <code>cmd</code>:</p>
       <pre><code>net start FirebirdServerDefaultInstance</code></pre>
-      <p>Agora, conecte-se aos bancos no Publicador e reative a "fábrica de logs":</p>
+      <p>Use uma ferramenta de acesso SQL (como <strong>IbExpert</strong>, <strong>FlameRobin</strong> ou
+        <strong>isql</strong>) apenas no servidor <strong>Publicador</strong>. Conecte-se a <strong>cada um</strong> dos
+        seus bancos de dados individualmente e execute estes comandos para despertar a replicação:
+      </p>
       <pre><code>-- Execute para cada banco (ex: acme.fdb)
 ALTER DATABASE ENABLE PUBLICATION;
 ALTER DATABASE INCLUDE ALL TO PUBLICATION;
 COMMIT;</code></pre>
-      <p>Por fim, inicie o serviço no <strong>LEITOR (Linux)</strong>:</p>
-      <pre><code>sudo systemctl start firebird</code></pre>
-
-      <h3>7. A Prova dos Nove (Verificação)</h3>
-      <p>Acompanhe o log para ver se o Leitor começou a "mastigar" as novas notas:</p>
+      <p>Se precisar remover algumas tabelas da replicação, acrescente também o comando(exemplo):</p>
+      <pre><code>ALTER DATABASE EXCLUDE TABLE PLG$PROF_SESSIONS, PLG$PROF_STATEMENTS, PLG$PROF_CURSORS, PLG$PROF_RECORD_SOURCES, PLG$PROF_REQUESTS, PLG$PROF_PSQL_STATS, PLG$PROF_RECORD_SOURCE_STATS FROM PUBLICATION;</code></pre>
+      <h3>7. Reiniciando os logs do lado leitor</h3>
+      <p>No lado <strong>LEITOR (Linux)</strong>, renomeie o arquivo de log atual e crie um novo:</p>
       <pre><code>sudo mv /opt/firebird/replication.log /opt/firebird/replication.log.$(date +%Y%m%d_%H%M%S)
 sudo touch /opt/firebird/replication.log
-sudo chown firebird:firebird /opt/firebird/replication.log
-tail -f /opt/firebird/replication.log</code></pre>
-      <p>E valide se as tabelas estão na lista de transmissão:</p>
-      <pre><code>-- No Publicador:
-SELECT RDB$TABLE_NAME FROM RDB$PUBLICATION_TABLES;</code></pre>
-
-      <div class="success-box">
-        <strong>SINAL VERDE:</strong> Se o log mostrar o processamento de novos segmentos e o <code>SELECT</code> acima
-        listar suas tabelas, sua réplica ressuscitou com sucesso!
-      </div>
+sudo chown firebird:firebird /opt/firebird/replication.log</code></pre>
+      <p>Quando o servidor do lado leitor for iniciado, nosso log estará vazio e com isso, qualquer erro de replicação
+        será facilmente identificado.</p>
+      <h3>8. Iniciando o lado leitor</h3>
+      <p>No lado <strong>LEITOR (Linux)</strong>, inicie o serviço do Firebird:</p>
+      <pre><code>sudo systemctl start firebird</code></pre>
+      <h3>9. A Prova dos Nove (Verificação)</h3>
+      <p>Como saber se a replicação está realmente funcionando? Vamos criar um rastro deliberado no lado do
+        <strong>Publicador</strong>. Via qualquer programa de acesso a banco de dados, como FlameRobin ou IBExpert,
+        execute:
+      </p>
+      <pre><code>CREATE TABLE TESTE_REPLICA (ID INT PRIMARY KEY);
+COMMIT;</code></pre>
+      <p>Este comando cria uma tabela chamada <code>TESTE_REPLICA</code> com uma coluna <code>ID</code> do tipo
+        <code>INT</code> e define ela como a chave primária. Mas apenas a criação da tabela não é suficiente para que a
+        replicação funcione. O Firebird precisa saber que essa tabela deve ser publicada na lista de replicação, então
+        execute o seguinte comando SQL no banco do Publicador:
+      </p>
+      <pre><code>ALTER DATABASE INCLUDE TABLE TESTE_REPLICA TO PUBLICATION;</code></pre>
+      <p>Feche o gerenciador de banco de dados, abra o Explorer e aponte-o para a pasta
+        <code>c:\fdb-repl\journal\acme</code> e veja se surgem novos arquivos de <i>journaling</i> a medida que
+        alterações são feitas no banco de dados. Notará que alguns deles, depois de 60 segundos vão sumindo, na
+        realidade, estão sendo processados e seguindo para nossa área de expedição <code>c:\fdb-repl\archive\acme</code>
+        que você também poderá observar usando o Explorer. Conseguindo enxergar essa movimentação de arquivos de lá
+        para cá, você entenderá que o processo de replicação já está funcionando no lado <b>PUBLICADOR</b>. </p>
+      <p>Mas se você precisa de mais provas, poderá usar um gerenciador de banco de dados de sua preferência e conectá-lo a base <code>acme</code>
+        no lado do <strong>Leitor</strong> e observar se a tabela <code>TESTE_REPLICA</code> apareceu por lá, se sim,
+        parabéns: seu motor de replicação está em perfeito estado!</p>
+      <p><strong>Mas e se não apareceu?</strong> Calma, vamos verificar o que está acontecendo. Execute no lado
+        <b>Leitor (Linux)</b> o comando:</p>
+      <pre><code>tail -f /opt/firebird/replication.log</code></pre>
+      <p>Observe o log da replicação, pois mostrará o que está acontecendo.</p>
+      <p>Se mostrar algo como:
+      <pre><code>Database: /var/fdb/acme.fdb
+VERBOSE: No new segments found, suspending</code></pre>
+      <p>Significa que o Leitor não encontrou novos segmentos para processar, portanto ele suspende a operação e tentará
+        novamente em 60 segundos. Falhas de manipulação de arquivos também aparecem no log. Se você tem a certeza que o
+        banco do lado PUBLICADOR está sendo modificado, mas o LEITOR não está recebendo as modificações(No new segments
+        found, suspending), então o problema provavelmente está no lado PUBLICADOR, que não está fazendo o journaling
+        corretamente. No lado Publicador, verifique se o serviço do Firebird está rodando, se o usuário que está executando
+        o serviço tem permissão de escrita na pasta de journaling e se o arquivo <code>replication.conf</code> está
+        configurado corretamente. O arquivo <code>c:\fb5\replication.log</code> do lado PUBLICADOR deve conter mensagens
+        de erro que indicarão o problema.</p>
+      
+      <p>Lembre-se de que no <code>replication.conf</code> você configurou o parametro <code>apply_idle_timeout</code>
+        que define o tempo de espera quando ocioso e o parametro <code>apply_error_timeout</code> que define o tempo de espera após
+        um erro. Portanto, você deve aguardar o tempo configurado (em nosso exemplo, <strong>60 segundos</strong>) 
+        para depois testar se a replicação está funcionando.</p>
 
       <p><a href="sgbd_fb.html" class="back-link">&larr; Voltar para Firebird</a></p>
     </article>
