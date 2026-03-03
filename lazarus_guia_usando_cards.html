@@ -218,7 +218,11 @@
                     title="Demonstração de menus de ação (TPopupMenu) num TLabel"></video>
             </div>
 
-            binário.</p>
+            <h3>Não tenha medo do unicode</h3>
+            <p>Diferente do Delphi, onde muitas vezes o editor da IDE vem configurado com o charset ANSI, o editor do
+                Lazarus é puramente <strong>Unicode (UTF-8)</strong> por padrão. Isso significa que você pode usar
+                caracteres especiais diretamente no seu código-fonte e nas propriedades dos componentes sem medo de
+                "quebrar" o binário.</p>
 
             <p><strong>Nota para usuários Delphi:</strong> Diferente do Lazarus, a IDE do Delphi tradicionalmente
                 utiliza
@@ -482,7 +486,6 @@ end;</code></pre>
                 passa por cima do label), você pode torná-lo azul, sublinhado e negrito, além de trocar o ponteiro do
                 mouse para a "mãozinha" (<code>Cursor := crHandPoint</code>). Veja este código genérico que
                 serve para qualquer <code>TLabel</code>: </p>
-            </p>
 
             <pre><code>if (Sender is TLabel) then
 begin
@@ -583,11 +586,16 @@ end;</code></pre>
                 os exibe.
             </p>
 
-            <p>Vale lembrar que componentes do tipo <strong>MemTable</strong> como TBufDataset, TZMemtable, TFDMemTable, etc., 
-                possuem métodos poderosos para clonar outros datasets, seja apenas a estrutura ou a estrutura completa com os dados 
-                (como o <code>CopyFromDataset</code>). Não é necessário — e nem produtivo — ficar populando registro a registro
-                via código manual para passar dados de um lado para o outro; afinal, isso seria como estar no jardim de infância 
-                na escola de programação. Além disso, ao usar memória, a atualização da tela torna-se instantânea, sem estressar 
+            <p>Vale lembrar que componentes do tipo <strong>MemTable</strong> como TBufDataset, TZMemtable, TFDMemTable,
+                etc.,
+                possuem métodos poderosos para clonar outros datasets, seja apenas a estrutura ou a estrutura completa
+                com os dados
+                (como o <code>CopyFromDataset</code>). Não é necessário — e nem produtivo — ficar populando registro a
+                registro
+                via código manual para passar dados de um lado para o outro; afinal, isso seria como estar no jardim de
+                infância
+                na escola de programação. Além disso, ao usar memória, a atualização da tela torna-se instantânea, sem
+                estressar
                 a rede a cada refresh.
             </p>
 
@@ -669,7 +677,7 @@ begin
 end;</code></pre>
 
             <h3>3. O Loop de Criação (No Formulário Principal)</h3>
-            <p>Com o Frame pronto e usando propriedades, percorremos os dados e injetamo-los no card, aplicando o
+            <p>Com o Frame pronto e usando getters e setters, percorremos os dados e injetamo-los no card, aplicando o
                 efeito Zebra para que cada card se identifique como diferente do outro. Neste exemplo, não usarei Bevels
                 para criar o efeito de sombra ou gradientes para ser apenas didático, mas depois que dominar a técnica é
                 muito provável que faça uso deles porque realmente deixa os cards muito bonitos. Por ora, quero que note
@@ -729,7 +737,8 @@ end;
                 criação. Isto é fundamental: a <strong>Tela Principal</strong> (que conhece o contexto do banco de
                 dados) deve gerenciar as ações de negócio. Deixe para o <strong>Frame</strong> apenas os eventos de
                 interatividade puramente visual, como o <em>revelamento progressivo</em>, os <em>efeitos de
-                    hyperlink</em> ou animações internas.</p>
+                    hyperlink</em> ou animações internas enquanto eventos de ações devem ser "linkados" para serem
+                executados na tela principal onde supostamente temos os componentes de acesso ao banco de dados.</p>
 
             <p>Se você assinalou um evento de clique para um botão dentro do card (como o <code>btnAplicar</code> no
                 exemplo acima), você precisará saber de qual card veio o clique para obter os dados corretos. Você faz
@@ -799,8 +808,8 @@ begin
   end;
 end;</code></pre>
                     <p><strong>Um ponto de atenção:</strong> O exemplo acima considera que a rodinha do mouse vai rolar
-                        sobre um TFrame, mas se dentro do TFrame voce colocal um painel(TPanel) e ingressar os
-                        componentes visuais dentro dele, então o codigo acima ao inves de usar o evento
+                        sobre um TFrame, mas se dentro do TFrame você colocar um painel (TPanel) e ingressar os
+                        componentes visuais dentro dele, então o código acima ao invés de usar o evento
                         <strong>OnMouseWheel</strong> do TFrame, ele deve usar o evento <strong>OnMouseWheel</strong> do
                         painel (TPanel).
                     </p>
@@ -808,11 +817,15 @@ end;</code></pre>
                 <li><strong>Constraints:</strong> No Frame, defina <code>Constraints.MinWidth</code> para impedir
                     deformações visuais indesejadas.</li>
                 <li><strong>Eventos de Clique:</strong> Lembre-se que o usuário clica nos Labels. Reatribua o
-                    <code>OnClick</code> dos componentes internos para o evento do Painel principal do Frame para o card
-                    todo ser clicável.
+                    <code>OnClick</code> dos componentes internos para o evento no form principal que recebe o
+                    Frame. Como dito antes, se vocÊ colocar as ações dentro do frame, você irá perder a flexibilidade
+                    usar o mesmo frame em outros forms que poderiam exibi-lo sem as mesmas ações de negócio.
                 </li>
-                <li><strong>Estilo Visual:</strong> Use a propriedade <code>BevelOuter</code> ou um <code>TShape</code>
-                    ao fundo para criar efeito de profundidade.</li>
+                <li><strong>Estilo Visual:</strong> Use a propriedade <code>BevelEdges</code>,
+                    <code>BevelInner</code>, <code>BevelOuter</code>, <code>BevelKind</code>,
+                    <code>BevelWidth</code>, <code>BorderWidth</code>, <code>BorderStyle</code>, <code>Color</code>
+                    e/ou um <code>TShape</code> ao fundo para criar efeito de profundidade.
+                </li>
             </ul>
 
             <h2>Como fica nosso exemplo?</h2>
