@@ -583,14 +583,15 @@ end;</code></pre>
                 os exibe.
             </p>
 
-            <p>Vale lembrar que componentes como o <strong>TMemTable</strong> possuem métodos poderosos para clonar
-                outros datasets, seja apenas a estrutura ou a estrutura completa com os dados (como o
-                <code>CopyFromDataset</code>). Não é necessário — e nem produtivo — ficar populando registro a registro
-                via código manual; afinal, isso seria como estar no jardim de infância na escola de programação. Além
-                disso, ao usar memória, a atualização da tela torna-se instantânea, sem estressar a rede a cada refresh.
+            <p>Vale lembrar que componentes do tipo <strong>MemTable</strong> como TBufDataset, TZMemtable, TFDMemTable, etc., 
+                possuem métodos poderosos para clonar outros datasets, seja apenas a estrutura ou a estrutura completa com os dados 
+                (como o <code>CopyFromDataset</code>). Não é necessário — e nem produtivo — ficar populando registro a registro
+                via código manual para passar dados de um lado para o outro; afinal, isso seria como estar no jardim de infância 
+                na escola de programação. Além disso, ao usar memória, a atualização da tela torna-se instantânea, sem estressar 
+                a rede a cada refresh.
             </p>
 
-            <h3>2. Implementando a Lógica Interna do Frame (usando Propriedades)</h3>
+            <h3>2. Implementando a Lógica Interna do Frame (usando getters e setters)</h3>
             <p>Para um código profissional, a abordagem mais limpa e orientada a objetos é usar <strong>Propriedades
                     (Properties)</strong> com <strong>getters</strong> e <strong>setters</strong> diretamente no Frame
                 para receber os dados que o Card precisa exibir. Isso
