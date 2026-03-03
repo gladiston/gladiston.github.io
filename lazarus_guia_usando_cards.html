@@ -479,8 +479,10 @@ end;</code></pre>
             <h3>Use efeitos de hyperlink nos Labels</h3>
             <p>Podemos usar eventos nos labels para criar um efeito de hyperlink similar aos navegadores, tornando a
                 interface mais intuitiva para ações. Por exemplo, no evento <code>OnMouseEnter</code> (quando o mouse
-                passa por cima do label), você pode torná-lo azul, sublinhado e negrito. Veja este código genérico que
-                serve para qualquer <code>TLabel</code>:</p>
+                passa por cima do label), você pode torná-lo azul, sublinhado e negrito, além de trocar o ponteiro do
+                mouse para a "mãozinha" (<code>Cursor := crHandPoint</code>). Veja este código genérico que
+                serve para qualquer <code>TLabel</code>: </p>
+            </p>
 
             <pre><code>if (Sender is TLabel) then
 begin
@@ -488,6 +490,7 @@ begin
   begin
     Font.Style := Font.Style + [fsBold, fsUnderline];
     Font.Color := clBlue;
+    Cursor     := crHandPoint;
   end;
 end;</code></pre>
 
@@ -500,6 +503,7 @@ begin
   begin
     Font.Style := Font.Style - [fsBold, fsUnderline];
     Font.Color := clDefault;
+    Cursor     := crDefault;
   end;
 end;</code></pre>
             <p>Veja como fica o efeito de hyperlink em labels:</p>
